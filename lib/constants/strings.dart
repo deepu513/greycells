@@ -10,4 +10,5 @@ class Strings {
   static const register = "Don't have an account? Sign up";
   static const sound = "Sound";
   static const mind = "Mind";
+  static const subtitle = "Your first step towards self-care";
 }

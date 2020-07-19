@@ -36,7 +36,7 @@ class _MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Grocery',
+      title: 'SoundMind',
       theme: ThemeData(
         snackBarTheme: SnackBarThemeData(
           behavior: SnackBarBehavior.floating

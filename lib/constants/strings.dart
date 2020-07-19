@@ -8,4 +8,6 @@ class Strings {
   static const signIn = "Sign In";
   static const signUp = "Sign Up";
   static const register = "Don't have an account? Sign up";
+  static const sound = "sound";
+  static const mind = "mind";
 }

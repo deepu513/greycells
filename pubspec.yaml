@@ -51,16 +51,28 @@ flutter:
   uses-material-design: true
 
   fonts:
-    - family: Lato
+    - family: Rubik
       fonts:
-        - asset: fonts/Lato-Regular.ttf
-          weight: 400
-        - asset: fonts/Lato-Bold.ttf
-          weight: 700
-        - asset: fonts/Lato-Italic.ttf
-          style: italic
-        - asset: fonts/Lato-Light.ttf
+        - asset: fonts/Rubik-Light.ttf
           weight: 300
+        - asset: fonts/Rubik-LightItalic.ttf
+          weight: 300
+          style: italic
+        - asset: fonts/Rubik-Regular.ttf
+          weight: 400
+        - asset: fonts/Rubik-Italic.ttf
+          weight: 400
+          style: italic
+        - asset: fonts/Rubik-Medium.ttf
+          weight: 500
+        - asset: fonts/MediumItalic.ttf
+          weight: 500
+          style: italic
+        - asset: fonts/Rubik-Bold.ttf
+          weight: 700
+        - asset: fonts/Rubik-BoldItalid.ttf
+          weight: 700
+          style: italic
 
   # To add assets to your application, add an assets section, like this:
   # assets:

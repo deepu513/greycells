@@ -9,6 +9,7 @@ import 'package:mental_health/simple_bloc_delegate.dart';
 import 'package:mental_health/view/pages/home_page.dart';
 import 'package:mental_health/view/pages/sign_in_page.dart';
 import 'package:mental_health/view/pages/splash_page.dart';
+import 'package:mental_health/view/pages/welcome_page.dart';
 import 'package:provider/provider.dart';
 
 class MentalHealthApp extends StatelessWidget {
@@ -42,12 +43,7 @@ class _MyApp extends StatelessWidget {
           behavior: SnackBarBehavior.floating
         ),
         scaffoldBackgroundColor: Colors.white,
-        brightness: Brightness.light,
-        primaryColorDark: Colors.grey[800],
-        primaryColor: Colors.grey[400],
-        cursorColor: Colors.grey[700],
-        accentColorBrightness: Brightness.light,
-        fontFamily: 'Lato',
+        fontFamily: 'Rubik',
         canvasColor: Colors.transparent,
         bottomSheetTheme:
             BottomSheetThemeData(modalBackgroundColor: Colors.white),
@@ -68,12 +64,12 @@ class _MyApp extends StatelessWidget {
                   if good then remove this
                   else create a good looking splash page
                */
-              return SplashPage();
+              //return SplashPage();
             }
 
             /// User is not logged in
             if (authenticationState is AuthenticationUnauthenticated) {
-              return SignInPage();
+              return WelcomePage();
             }
 
             /// User is logged in
@@ -91,7 +87,7 @@ class _MyApp extends StatelessWidget {
             }
 
             // TODO: Handle this/failure, show error or let user login again
-            return SignInPage();
+            return WelcomePage();
           },
         ),
       ),

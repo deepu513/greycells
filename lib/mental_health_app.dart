@@ -7,8 +7,6 @@ import 'package:mental_health/models/user/user.dart';
 import 'package:mental_health/route/route_generator.dart';
 import 'package:mental_health/simple_bloc_delegate.dart';
 import 'package:mental_health/view/pages/home_page.dart';
-import 'package:mental_health/view/pages/sign_in_page.dart';
-import 'package:mental_health/view/pages/splash_page.dart';
 import 'package:mental_health/view/pages/welcome_page.dart';
 import 'package:provider/provider.dart';
 

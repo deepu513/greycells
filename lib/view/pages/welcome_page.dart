@@ -59,7 +59,7 @@ class _WelcomePageState extends State<WelcomePage>
   Widget build(BuildContext context) {
     return Scaffold(
         body: SafeArea(
-      minimum: EdgeInsets.fromLTRB(24.0, 72.0, 24.0, 24.0),
+      minimum: EdgeInsets.fromLTRB(32.0, 72.0, 32.0, 36.0),
       child: Stack(children: <Widget>[
         AlignTransition(
           alignment: _translateAnimation,
@@ -111,6 +111,49 @@ class _WelcomePageState extends State<WelcomePage>
               child: SvgPicture.asset(
                 "images/self_care_illustration.svg",
               ),
+            ),
+          ),
+        ),
+        Align(
+          alignment: Alignment.bottomCenter,
+          child: FadeTransition(
+            opacity: _contentFadeAnimation,
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: <Widget>[
+                ButtonTheme(
+                  minWidth: double.infinity,
+                  height: 48.0,
+                  child: RaisedButton(
+                    onPressed: () => {},
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(8.0)),
+                    textColor: Colors.black,
+                    color: Colors.white,
+                    child: Text(
+                      Strings.login,
+                      style: Theme.of(context).textTheme.button,
+                    ),
+                  ),
+                ),
+                SizedBox(height: 24.0),
+                ButtonTheme(
+                  minWidth: double.infinity,
+                  height: 48.0,
+                  child: RaisedButton(
+                    onPressed: () => {},
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(8.0)),
+                    color: Color(0xFFFCC34F),
+                    child: Text(
+                      Strings.register,
+                      style: Theme.of(context).textTheme.button.copyWith(
+                        color: Colors.white
+                      ),
+                    ),
+                  ),
+                )
+              ],
             ),
           ),
         )

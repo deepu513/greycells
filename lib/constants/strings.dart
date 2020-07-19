@@ -5,9 +5,8 @@ class Strings {
   static const email = "Email";
   static const password = "Password";
   static const forgotPassword = "Forgot Password?";
-  static const signIn = "Sign In";
-  static const signUp = "Sign Up";
-  static const register = "Don't have an account? Sign up";
+  static const login = "Login";
+  static const register = "Register";
   static const sound = "Sound";
   static const mind = "Mind";
   static const subtitle = "Your first step towards self-care";

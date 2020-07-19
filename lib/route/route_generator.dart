@@ -2,7 +2,7 @@ import 'package:animations/animations.dart';
 import 'package:flutter/material.dart';
 import 'package:mental_health/constants/route_name.dart';
 import 'package:mental_health/view/pages/home_page.dart';
-import 'package:mental_health/view/pages/sign_in_page.dart';
+import 'package:mental_health/view/pages/welcome_page.dart';
 
 class RouteGenerator {
   static const double kDefaultDuration = .30;
@@ -15,7 +15,7 @@ class RouteGenerator {
 
     switch (settings.name) {
       case RouteName.INITIAL:
-        return MaterialPageRoute(builder: (_) => SignInPage());
+        return MaterialPageRoute(builder: (_) => WelcomePage());
       case RouteName.HOME:
         return fadeThrough(HomePage());
 

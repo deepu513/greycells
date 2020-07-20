@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:mental_health/constants/colors.dart';
+import 'package:mental_health/constants/route_name.dart';
 import 'package:mental_health/constants/strings.dart';
 
 class WelcomePage extends StatefulWidget {
@@ -109,7 +111,7 @@ class _WelcomePageState extends State<WelcomePage>
             child: FadeTransition(
               opacity: _contentFadeAnimation,
               child: SvgPicture.asset(
-                "images/self_care_illustration.svg",
+                "images/sci_blue.svg",
               ),
             ),
           ),
@@ -125,7 +127,9 @@ class _WelcomePageState extends State<WelcomePage>
                   minWidth: double.infinity,
                   height: 48.0,
                   child: RaisedButton(
-                    onPressed: () => {},
+                    onPressed: () => {
+                      Navigator.pushNamed(context, RouteName.LOGIN)
+                    },
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(8.0)),
                     textColor: Colors.black,
@@ -141,10 +145,11 @@ class _WelcomePageState extends State<WelcomePage>
                   minWidth: double.infinity,
                   height: 48.0,
                   child: RaisedButton(
-                    onPressed: () => {},
+                    onPressed: () => {
+
+                    },
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(8.0)),
-                    color: Color(0xFFFCC34F),
                     child: Text(
                       Strings.register,
                       style: Theme.of(context).textTheme.button.copyWith(
@@ -152,7 +157,7 @@ class _WelcomePageState extends State<WelcomePage>
                       ),
                     ),
                   ),
-                )
+                ),
               ],
             ),
           ),

@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mental_health/bloc/authentication/bloc.dart';
 import 'package:mental_health/bloc/validation/validation_bloc.dart';
+import 'package:mental_health/constants/colors.dart';
 import 'package:mental_health/models/user/user.dart';
 import 'package:mental_health/route/route_generator.dart';
 import 'package:mental_health/simple_bloc_delegate.dart';
@@ -42,6 +43,9 @@ class _MyApp extends StatelessWidget {
         ),
         scaffoldBackgroundColor: Colors.white,
         fontFamily: 'Rubik',
+        primaryColor: AppColors.primaryColor,
+        accentColor: AppColors.accentColor,
+        accentColorBrightness: Brightness.dark,
         canvasColor: Colors.transparent,
         bottomSheetTheme:
             BottomSheetThemeData(modalBackgroundColor: Colors.white),

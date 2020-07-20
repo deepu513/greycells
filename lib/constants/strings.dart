@@ -4,7 +4,7 @@ class Strings {
   static const welcome = "Welcome to eSuperMalls";
   static const email = "Email";
   static const password = "Password";
-  static const forgotPassword = "Forgot Password?";
+  static const forgotPassword = "Forgot your password?";
   static const login = "Login";
   static const register = "Register";
   static const sound = "Sound";

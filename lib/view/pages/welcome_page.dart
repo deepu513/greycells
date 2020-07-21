@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:mental_health/constants/colors.dart';
-import 'package:mental_health/constants/route_name.dart';
+import 'package:mental_health/route/route_name.dart';
 import 'package:mental_health/constants/strings.dart';
 
 class WelcomePage extends StatefulWidget {

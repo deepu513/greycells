@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mental_health/constants/strings.dart';
-import 'package:mental_health/route/route_name.dart';
 
-class LoginPage extends StatelessWidget {
+class ForgotPasswordPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -18,11 +17,20 @@ class LoginPage extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             Text(
-              Strings.login,
+              Strings.forgotPasswordTitle,
               style: Theme.of(context)
                   .textTheme
                   .headline4
                   .copyWith(color: Colors.black, fontWeight: FontWeight.w400),
+            ),
+            SizedBox(
+              height: 16.0,
+            ),
+            Text(
+              Strings.resetPasswordMessage,
+              style: Theme.of(context)
+                  .textTheme
+                  .subtitle1
             ),
             SizedBox(
               height: 56.0,
@@ -36,21 +44,6 @@ class LoginPage extends StatelessWidget {
               keyboardType: TextInputType.emailAddress,
             ),
             SizedBox(
-              height: 24.0,
-            ),
-            TextField(
-              maxLines: 1,
-              style: TextStyle(fontSize: 18.0),
-              decoration: InputDecoration(
-                  labelText: Strings.password,
-                  suffixIcon: Icon(
-                    Icons.visibility,
-                  )),
-              autofocus: false,
-              obscureText: true,
-              keyboardType: TextInputType.text,
-            ),
-            SizedBox(
               height: 48.0,
             ),
             ButtonTheme(
@@ -61,7 +54,7 @@ class LoginPage extends StatelessWidget {
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(8.0)),
                 child: Text(
-                  Strings.login,
+                  Strings.confirm,
                   style: Theme.of(context)
                       .textTheme
                       .button
@@ -69,17 +62,6 @@ class LoginPage extends StatelessWidget {
                 ),
               ),
             ),
-            SizedBox(height: 16.0),
-            Align(
-              alignment: Alignment.bottomRight,
-              child: FlatButton(
-                onPressed: () {
-                  Navigator.pushNamed(context, RouteName.FORGOT_PASSWORD);
-                },
-                child: Text(Strings.forgotPassword,
-                    style: Theme.of(context).textTheme.caption),
-              ),
-            )
           ],
         ),
       ),

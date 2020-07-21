@@ -14,4 +14,7 @@ class Strings {
   static const lastName = "Last name";
   static const mobileNumber = "Mobile number";
   static const confirmPassword = "Confirm password";
+  static const forgotPasswordTitle = "Forgot Password";
+  static const resetPasswordMessage = "Enter your email and we will send you reset instructions.";
+  static const confirm = "Confirm";
 }

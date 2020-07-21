@@ -1,6 +1,7 @@
 import 'package:animations/animations.dart';
 import 'package:flutter/material.dart';
-import 'package:mental_health/constants/route_name.dart';
+import 'package:mental_health/route/route_name.dart';
+import 'package:mental_health/view/pages/forgot_password_page.dart';
 import 'package:mental_health/view/pages/home_page.dart';
 import 'package:mental_health/view/pages/login_page.dart';
 import 'package:mental_health/view/pages/register_page.dart';
@@ -24,6 +25,8 @@ class RouteGenerator {
         return fadeThrough(RegisterPage());
       case RouteName.HOME:
         return fadeThrough(HomePage());
+      case RouteName.FORGOT_PASSWORD:
+        return fadeThrough(ForgotPasswordPage());
 
       default:
         // If there is no such named route in the switch statement, e.g. /third

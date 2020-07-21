@@ -146,7 +146,7 @@ class _WelcomePageState extends State<WelcomePage>
                   height: 48.0,
                   child: RaisedButton(
                     onPressed: () => {
-
+                      Navigator.pushNamed(context, RouteName.REGISTER)
                     },
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(8.0)),

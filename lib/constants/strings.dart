@@ -10,4 +10,8 @@ class Strings {
   static const sound = "Sound";
   static const mind = "Mind";
   static const subtitle = "Your first step towards self-care";
+  static const firstName = "First name";
+  static const lastName = "Last name";
+  static const mobileNumber = "Mobile number";
+  static const confirmPassword = "Confirm password";
 }

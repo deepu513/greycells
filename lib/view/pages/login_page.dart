@@ -30,7 +30,6 @@ class LoginPage extends StatelessWidget {
               maxLines: 1,
               decoration: InputDecoration(
                 labelText: Strings.email,
-                labelStyle: TextStyle(fontSize: 16.0),
               ),
               autofocus: false,
               keyboardType: TextInputType.emailAddress,
@@ -43,7 +42,6 @@ class LoginPage extends StatelessWidget {
               style: TextStyle(fontSize: 18.0),
               decoration: InputDecoration(
                   labelText: Strings.password,
-                  labelStyle: TextStyle(fontSize: 16.0),
                   suffixIcon: Icon(
                     Icons.visibility,
                   )),

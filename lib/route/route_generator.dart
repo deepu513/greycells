@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:mental_health/constants/route_name.dart';
 import 'package:mental_health/view/pages/home_page.dart';
 import 'package:mental_health/view/pages/login_page.dart';
+import 'package:mental_health/view/pages/register_page.dart';
 import 'package:mental_health/view/pages/welcome_page.dart';
 
 class RouteGenerator {
@@ -19,6 +20,8 @@ class RouteGenerator {
         return MaterialPageRoute(builder: (_) => WelcomePage());
       case RouteName.LOGIN:
         return fadeThrough(LoginPage());
+      case RouteName.REGISTER:
+        return fadeThrough(RegisterPage());
       case RouteName.HOME:
         return fadeThrough(HomePage());
 

@@ -99,7 +99,7 @@ class RegisterPage extends StatelessWidget {
                 keyboardType: TextInputType.text,
               ),
               SizedBox(
-                height: 24.0,
+                height: 48.0,
               ),
               ButtonTheme(
                 minWidth: double.infinity,

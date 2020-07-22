@@ -110,7 +110,7 @@ class _WelcomePageState extends State<WelcomePage>
             child: FadeTransition(
               opacity: _contentFadeAnimation,
               child: SvgPicture.asset(
-                "images/sci_blue.svg",
+                "images/self_care_illustration.svg",
               ),
             ),
           ),
@@ -135,7 +135,9 @@ class _WelcomePageState extends State<WelcomePage>
                     color: Colors.white,
                     child: Text(
                       Strings.login,
-                      style: Theme.of(context).textTheme.button,
+                      style: Theme.of(context).textTheme.button.copyWith(
+                        color: Colors.grey[800]
+                      ),
                     ),
                   ),
                 ),
@@ -152,7 +154,7 @@ class _WelcomePageState extends State<WelcomePage>
                     child: Text(
                       Strings.register,
                       style: Theme.of(context).textTheme.button.copyWith(
-                        color: Colors.white
+                        color: Colors.grey[800]
                       ),
                     ),
                   ),

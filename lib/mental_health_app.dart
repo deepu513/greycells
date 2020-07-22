@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:mental_health/app_theme.dart';
 import 'package:mental_health/bloc/authentication/bloc.dart';
 import 'package:mental_health/bloc/validation/validation_bloc.dart';
-import 'package:mental_health/constants/colors.dart';
 import 'package:mental_health/models/user/user.dart';
 import 'package:mental_health/route/route_generator.dart';
 import 'package:mental_health/simple_bloc_delegate.dart';
@@ -37,21 +37,7 @@ class _MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'SoundMind',
-      theme: ThemeData(
-        snackBarTheme: SnackBarThemeData(
-          behavior: SnackBarBehavior.floating
-        ),
-        scaffoldBackgroundColor: Colors.white,
-        fontFamily: 'Rubik',
-        primaryColor: AppColors.primaryColor,
-        accentColor: AppColors.accentColor,
-        accentColorBrightness: Brightness.dark,
-        canvasColor: Colors.transparent,
-        bottomSheetTheme:
-            BottomSheetThemeData(modalBackgroundColor: Colors.white),
-        splashFactory: InkRipple.splashFactory,
-        visualDensity: VisualDensity.adaptivePlatformDensity,
-      ),
+      theme: AppTheme.lightTheme,
       home: AnnotatedRegion<SystemUiOverlayStyle>(
         value: SystemUiOverlayStyle.light.copyWith(
             statusBarColor: Colors.white,
@@ -70,9 +56,9 @@ class _MyApp extends StatelessWidget {
             }
 
             /// User is not logged in
-            if (authenticationState is AuthenticationUnauthenticated) {
-              return WelcomePage();
-            }
+//            if (authenticationState is AuthenticationUnauthenticated) {
+//              return WelcomePage();
+//            }
 
             /// User is logged in
             if (authenticationState is AuthenticationAuthenticated) {

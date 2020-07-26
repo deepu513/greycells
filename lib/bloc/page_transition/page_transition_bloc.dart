@@ -1,17 +1,19 @@
 import 'dart:async';
 
 import 'package:bloc/bloc.dart';
+import 'package:flutter/foundation.dart';
 
 import './bloc.dart';
 
 class PageTransitionBloc
     extends Bloc<PageTransitionEvent, PageTransitionState> {
+  /// Number of pages start from zero.
   final int numberOfPages;
   final int initialPageNumber;
 
   int _currentPageNumber;
 
-  PageTransitionBloc({this.numberOfPages, this.initialPageNumber = 0}) {
+  PageTransitionBloc({@required this.numberOfPages, this.initialPageNumber = 0}) {
     _currentPageNumber = initialPageNumber;
   }
 

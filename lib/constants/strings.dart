@@ -20,4 +20,8 @@ class Strings {
   static const personalDetails = "Personal Details";
   static const healthDetails = "Health Details";
   static const medicalRecords = "Medical Records";
+  static const profilePicPickerMessage = "Click to add a cool profile picture!\n(or skip it if you want)";
+  static const dateOfBirthMessage = "Please enter your date of birth";
+  static const timeOfBirthMessage = "Time of birth";
+  static const optionalMessage = "(if you remember)";
 }

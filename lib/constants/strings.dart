@@ -19,8 +19,10 @@ class Strings {
   static const confirm = "Confirm";
   static const personalDetails = "Personal Details";
   static const healthDetails = "Health Details";
+  static const guardianDetails = "Guardian Details";
+  static const birthDetails = "Birth Details";
   static const medicalRecords = "Medical Records";
-  static const profilePicPickerMessage = "Click to add a cool profile picture!\n(or skip it if you want)";
+  static const profilePicPickerMessage = "Click to add a profile picture!\n(click 'Next' to skip)";
   static const dateOfBirthMessage = "Please enter your date of birth";
   static const timeOfBirthMessage = "Time of birth";
   static const optionalMessage = "(if you remember)";

@@ -27,4 +27,5 @@ class Strings {
   static const dateOfBirthMessage = "Please enter your date of birth";
   static const timeOfBirthMessage = "Time of birth";
   static const optionalMessage = "(if you remember)";
+  static const relationshipWithGuardian = "Specify relationship";
 }

@@ -19,8 +19,8 @@ class PatientDetailInput extends StatelessWidget {
         )
       ],
       child: Scaffold(
-        appBar: AppBar(),
         body: SafeArea(
+          minimum: EdgeInsets.only(top: 56.0),
           child: BlocBuilder<PageTransitionBloc, PageTransitionState>(
             condition: (previous, current) {
               return current is PageTransitionInitial ||
@@ -30,16 +30,6 @@ class PatientDetailInput extends StatelessWidget {
             builder: (context, transitionState) {
               return Column(
                 children: <Widget>[
-                  SizedBox(
-                    height: 2.0,
-                    child: LinearProgressIndicator(
-                      // TODO: Animate this
-                      value: (transitionState.currentPageNumber) / 3,
-                    ),
-                  ),
-                  SizedBox(
-                    height: 8.0,
-                  ),
                   Expanded(
                     child: PageTransitionSwitcher(
                       duration: const Duration(milliseconds: 300),
@@ -56,6 +46,13 @@ class PatientDetailInput extends StatelessWidget {
                         );
                       },
                       child: _getPage(context, transitionState),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 2.0,
+                    child: LinearProgressIndicator(
+                      // TODO: Animate this
+                      value: (transitionState.currentPageNumber) / 3,
                     ),
                   ),
                   Padding(

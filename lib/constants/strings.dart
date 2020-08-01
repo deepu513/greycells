@@ -21,6 +21,7 @@ class Strings {
   static const healthDetails = "Health Details";
   static const guardianDetails = "Guardian Details";
   static const birthDetails = "Birth Details";
+  static const addressDetails = "Address Details";
   static const medicalRecords = "Medical Records";
   static const profilePicPickerMessage = "Click to add a profile picture!\n(click 'Next' to skip)";
   static const placeOfBirth = "Place of birth";

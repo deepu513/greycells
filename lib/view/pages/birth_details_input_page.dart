@@ -20,7 +20,8 @@ class BirthDetailsInputPage extends StatelessWidget {
           SizedBox(
             height: 36.0,
           ),
-          Expanded(child: Padding(
+          Expanded(
+              child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 8.0),
             child: PlaceOfBirthInput(),
           )),
@@ -59,8 +60,11 @@ class DateOfBirthInput extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
-        Text("Date of birth", style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.w400)),
-        SizedBox(height: 16.0,),
+        Text("Date of birth",
+            style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.w400)),
+        SizedBox(
+          height: 16.0,
+        ),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 8.0),
           child: Row(
@@ -75,29 +79,8 @@ class DateOfBirthInput extends StatelessWidget {
                   style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.w400),
                   decoration: InputDecoration(
                       labelText: "dd",
-                      labelStyle: TextStyle(color: Theme.of(context).accentColor),
-                      contentPadding: EdgeInsets.zero,
-                      border: InputBorder.none),
-                  keyboardType: TextInputType.number,
-                  buildCounter: (BuildContext context,
-                          {int currentLength, int maxLength, bool isFocused}) =>
-                      null,
-                ),
-              ),
-              Expanded(
-                flex: 1,
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 8.0),
-                    child: Text("/", style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.w400)),
-                  )),
-              Expanded(
-                flex: 2,
-                child: TextField(
-                  maxLength: 2,
-                  style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.w400),
-                  decoration: InputDecoration(
-                      labelText: "mm",
-                      labelStyle: TextStyle(color: Theme.of(context).accentColor),
+                      labelStyle:
+                          TextStyle(color: Theme.of(context).accentColor),
                       contentPadding: EdgeInsets.zero,
                       border: InputBorder.none),
                   keyboardType: TextInputType.number,
@@ -110,7 +93,34 @@ class DateOfBirthInput extends StatelessWidget {
                   flex: 1,
                   child: Padding(
                     padding: const EdgeInsets.symmetric(vertical: 8.0),
-                    child: Text("/", style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.w400)),
+                    child: Text("/",
+                        style: TextStyle(
+                            fontSize: 18.0, fontWeight: FontWeight.w400)),
+                  )),
+              Expanded(
+                flex: 2,
+                child: TextField(
+                  maxLength: 2,
+                  style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.w400),
+                  decoration: InputDecoration(
+                      labelText: "mm",
+                      labelStyle:
+                          TextStyle(color: Theme.of(context).accentColor),
+                      contentPadding: EdgeInsets.zero,
+                      border: InputBorder.none),
+                  keyboardType: TextInputType.number,
+                  buildCounter: (BuildContext context,
+                          {int currentLength, int maxLength, bool isFocused}) =>
+                      null,
+                ),
+              ),
+              Expanded(
+                  flex: 1,
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 8.0),
+                    child: Text("/",
+                        style: TextStyle(
+                            fontSize: 18.0, fontWeight: FontWeight.w400)),
                   )),
               Expanded(
                 flex: 2,
@@ -119,7 +129,8 @@ class DateOfBirthInput extends StatelessWidget {
                   style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.w400),
                   decoration: InputDecoration(
                       labelText: "yyyy",
-                      labelStyle: TextStyle(color: Theme.of(context).accentColor),
+                      labelStyle:
+                          TextStyle(color: Theme.of(context).accentColor),
                       contentPadding: EdgeInsets.zero,
                       border: InputBorder.none),
                   keyboardType: TextInputType.number,
@@ -146,8 +157,11 @@ class TimeOfBirthWidget extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
-        Text("Time of birth", style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.w400)),
-        SizedBox(height: 16.0,),
+        Text("Time of birth",
+            style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.w400)),
+        SizedBox(
+          height: 16.0,
+        ),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 8.0),
           child: Row(
@@ -162,20 +176,23 @@ class TimeOfBirthWidget extends StatelessWidget {
                   style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.w400),
                   decoration: InputDecoration(
                       labelText: "hrs",
-                      labelStyle: TextStyle(color: Theme.of(context).accentColor),
+                      labelStyle:
+                          TextStyle(color: Theme.of(context).accentColor),
                       contentPadding: EdgeInsets.zero,
                       border: InputBorder.none),
                   keyboardType: TextInputType.number,
                   buildCounter: (BuildContext context,
-                      {int currentLength, int maxLength, bool isFocused}) =>
-                  null,
+                          {int currentLength, int maxLength, bool isFocused}) =>
+                      null,
                 ),
               ),
               Expanded(
                   flex: 1,
                   child: Padding(
                     padding: const EdgeInsets.symmetric(vertical: 8.0),
-                    child: Text(":", style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.w400)),
+                    child: Text(":",
+                        style: TextStyle(
+                            fontSize: 18.0, fontWeight: FontWeight.w400)),
                   )),
               Expanded(
                 flex: 2,
@@ -184,13 +201,14 @@ class TimeOfBirthWidget extends StatelessWidget {
                   style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.w400),
                   decoration: InputDecoration(
                       labelText: "min",
-                      labelStyle: TextStyle(color: Theme.of(context).accentColor),
+                      labelStyle:
+                          TextStyle(color: Theme.of(context).accentColor),
                       contentPadding: EdgeInsets.zero,
                       border: InputBorder.none),
                   keyboardType: TextInputType.number,
                   buildCounter: (BuildContext context,
-                      {int currentLength, int maxLength, bool isFocused}) =>
-                  null,
+                          {int currentLength, int maxLength, bool isFocused}) =>
+                      null,
                 ),
               ),
               SizedBox(width: 8.0),

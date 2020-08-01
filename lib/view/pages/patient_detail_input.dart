@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mental_health/bloc/page_transition/bloc.dart';
 import 'package:mental_health/bloc/page_transition/page_transition_bloc.dart';
+import 'package:mental_health/view/pages/address_details_input_page.dart';
 import 'package:mental_health/view/pages/birth_details_input_page.dart';
 import 'package:mental_health/view/pages/guardian_details_input_page.dart';
 import 'package:mental_health/view/pages/profile_pic_input_page.dart';
@@ -15,7 +16,7 @@ class PatientDetailInput extends StatelessWidget {
       providers: [
         BlocProvider(
           create: (context) =>
-              PageTransitionBloc(numberOfPages: 3, initialPageNumber: 1),
+              PageTransitionBloc(numberOfPages: 4, initialPageNumber: 1),
         )
       ],
       child: Scaffold(
@@ -52,7 +53,9 @@ class PatientDetailInput extends StatelessWidget {
                     height: 2.0,
                     child: LinearProgressIndicator(
                       // TODO: Animate this
-                      value: (transitionState.currentPageNumber) / 3,
+                      value: (transitionState.currentPageNumber) /
+                          BlocProvider.of<PageTransitionBloc>(context)
+                              .numberOfPages,
                     ),
                   ),
                   Padding(
@@ -79,8 +82,10 @@ class PatientDetailInput extends StatelessWidget {
       return BirthDetailsInputPage();
     else if (transitionState.currentPageNumber == 3)
       return GuardianDetailsInputPage();
+    else if (transitionState.currentPageNumber == 4)
+      return AddressDetailInputPage();
 
-    return null; // Should never happen
+    return Container(); // Should never happen
   }
 
   void _handleBackPressed(BuildContext context) {

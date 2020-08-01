@@ -15,7 +15,7 @@ class PatientDetailInput extends StatelessWidget {
       providers: [
         BlocProvider(
           create: (context) =>
-              PageTransitionBloc(numberOfPages: 2, initialPageNumber: 0),
+              PageTransitionBloc(numberOfPages: 3, initialPageNumber: 1),
         )
       ],
       child: Scaffold(
@@ -33,8 +33,8 @@ class PatientDetailInput extends StatelessWidget {
                   SizedBox(
                     height: 2.0,
                     child: LinearProgressIndicator(
-                      backgroundColor: Colors.white,
-                      value: transitionState.currentPageNumber / 2,
+                      // TODO: Animate this
+                      value: (transitionState.currentPageNumber) / 3,
                     ),
                   ),
                   SizedBox(
@@ -44,7 +44,7 @@ class PatientDetailInput extends StatelessWidget {
                     child: PageTransitionSwitcher(
                       duration: const Duration(milliseconds: 300),
                       reverse:
-                          transitionState.currentPageNumber == 0 ? true : false,
+                          transitionState.currentPageNumber == 1 ? true : false,
                       transitionBuilder: (Widget child,
                           Animation<double> animation,
                           Animation<double> secondaryAnimation) {
@@ -76,11 +76,11 @@ class PatientDetailInput extends StatelessWidget {
   }
 
   Widget _getPage(BuildContext context, PageTransitionState transitionState) {
-    if (transitionState.currentPageNumber == 0)
+    if (transitionState.currentPageNumber == 1)
       return ProfilePicInputPage();
-    else if (transitionState.currentPageNumber == 1)
-      return BirthDetailsInputPage();
     else if (transitionState.currentPageNumber == 2)
+      return BirthDetailsInputPage();
+    else if (transitionState.currentPageNumber == 3)
       return GuardianDetailsInputPage();
 
     return null; // Should never happen

@@ -13,7 +13,7 @@ class PageTransitionBloc
 
   int _currentPageNumber;
 
-  PageTransitionBloc({@required this.numberOfPages, this.initialPageNumber = 0}) {
+  PageTransitionBloc({@required this.numberOfPages, this.initialPageNumber = 1}) {
     _currentPageNumber = initialPageNumber;
   }
 
@@ -35,7 +35,7 @@ class PageTransitionBloc
     }
 
     if (event is TransitionToPreviousPage) {
-      if (_currentPageNumber == 0)
+      if (_currentPageNumber == 1)
         yield PageTransitionReachedLowerLimit(_currentPageNumber);
       else {
         --_currentPageNumber;

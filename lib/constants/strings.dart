@@ -23,6 +23,7 @@ class Strings {
   static const birthDetails = "Birth Details";
   static const medicalRecords = "Medical Records";
   static const profilePicPickerMessage = "Click to add a profile picture!\n(click 'Next' to skip)";
+  static const placeOfBirth = "Place of birth";
   static const dateOfBirthMessage = "Please enter your date of birth";
   static const timeOfBirthMessage = "Time of birth";
   static const optionalMessage = "(if you remember)";

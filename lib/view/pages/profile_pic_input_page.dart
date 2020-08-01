@@ -49,10 +49,10 @@ class _ProfilePicSelector extends StatelessWidget {
         IconButton(
           onPressed: onSelectionRequested,
           icon: Icon(Icons.add_a_photo),
-          iconSize: 32.0,
+          iconSize: 36.0,
         ),
         SizedBox(
-          height: 16.0,
+          height: 36.0,
         ),
         Text(
           Strings.profilePicPickerMessage,

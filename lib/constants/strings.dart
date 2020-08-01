@@ -28,4 +28,10 @@ class Strings {
   static const timeOfBirthMessage = "Time of birth";
   static const optionalMessage = "(if you remember)";
   static const relationshipWithGuardian = "Specify relationship";
+  static const houseNumber = "House no. or Building name";
+  static const roadName = "Road name, Area, Colony";
+  static const city = "City";
+  static const state = "State";
+  static const country = "Country";
+  static const pincode = "Pincode";
 }

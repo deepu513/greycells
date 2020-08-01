@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:mental_health/constants/strings.dart';
+import 'package:mental_health/view/pages/address_details_input_page.dart';
 import 'package:mental_health/view/widgets/no_glow_scroll_behaviour.dart';
 
 class GuardianDetailsInputPage extends StatelessWidget {
@@ -39,7 +40,19 @@ class GuardianDetailsInputPage extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 24.0),
             child: GuardianMobileNumberInput(),
-          )
+          ),
+          SizedBox(height: 8.0,),
+          Divider(),
+          SizedBox(height: 8.0,),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16.0),
+            child: Text("Guardian Address", style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.w400)),
+          ),
+          SizedBox(height: 16.0,),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 24.0),
+            child: GuardianAddressInput(),
+          ),
         ],
       ),
     );
@@ -114,6 +127,7 @@ class _GuardianRelationshipInputState extends State<GuardianRelationshipInput> {
   }
 }
 
+// TODO: Optimize it and DRY when integrating bloc
 class GuardianMobileNumberInput extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -153,6 +167,106 @@ class GuardianMobileNumberInput extends StatelessWidget {
 class GuardianAddressInput extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        TextField(
+          maxLines: 1,
+          decoration: InputDecoration(
+            border: InputBorder.none,
+            helperText: "tap to enter",
+            labelText: Strings.houseNumber,
+            contentPadding: EdgeInsets.zero,
+          ),
+          autofocus: false,
+          keyboardType: TextInputType.text,
+          textCapitalization: TextCapitalization.words,
+        ),
+        SizedBox(
+          height: 16.0,
+        ),
+        TextField(
+          maxLines: 1,
+          decoration: InputDecoration(
+            border: InputBorder.none,
+            helperText: "tap to enter",
+            labelText: Strings.roadName,
+            contentPadding: EdgeInsets.zero,
+          ),
+          autofocus: false,
+          keyboardType: TextInputType.text,
+          textCapitalization: TextCapitalization.words,
+        ),
+        SizedBox(
+          height: 16.0,
+        ),
+        TextField(
+          maxLines: 1,
+          decoration: InputDecoration(
+            border: InputBorder.none,
+            helperText: "tap to enter",
+            labelText: Strings.city,
+            contentPadding: EdgeInsets.zero,
+          ),
+          autofocus: false,
+          keyboardType: TextInputType.text,
+          textCapitalization: TextCapitalization.words,
+        ),
+        SizedBox(
+          height: 16.0,
+        ),
+        TextField(
+          maxLines: 1,
+          decoration: InputDecoration(
+            border: InputBorder.none,
+            helperText: "tap to enter",
+            labelText: Strings.state,
+            contentPadding: EdgeInsets.zero,
+          ),
+          autofocus: false,
+          keyboardType: TextInputType.text,
+          textCapitalization: TextCapitalization.words,
+        ),
+        SizedBox(
+          height: 16.0,
+        ),
+        TextField(
+          maxLines: 1,
+          decoration: InputDecoration(
+            border: InputBorder.none,
+            helperText: "tap to enter",
+            labelText: Strings.country,
+            contentPadding: EdgeInsets.zero,
+          ),
+          autofocus: false,
+          keyboardType: TextInputType.text,
+          textCapitalization: TextCapitalization.words,
+        ),
+        SizedBox(
+          height: 16.0,
+        ),
+        TextField(
+          maxLines: 1,
+          maxLength: 10,
+          decoration: InputDecoration(
+            border: InputBorder.none,
+            helperText: "tap to enter",
+            labelText: Strings.pincode,
+            contentPadding: EdgeInsets.zero,
+          ),
+          autofocus: false,
+          keyboardType: TextInputType.number,
+          buildCounter: (BuildContext context,
+              {int currentLength, int maxLength, bool isFocused}) =>
+          null,
+          inputFormatters: <TextInputFormatter>[
+            WhitelistingTextInputFormatter.digitsOnly
+          ],
+        ),
+        SizedBox(
+          height: 16.0,
+        ),
+      ],
+    );
   }
 }

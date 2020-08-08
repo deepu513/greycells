@@ -35,6 +35,7 @@ class _WeightCardState extends State<WeightCard> {
             );
           },
         ),
+        Positioned(bottom: 24.0,child: Text("kgs", style: TextStyle(color: Colors.grey, fontSize: 14.0),)),
         Icon(Icons.arrow_drop_up, size: 24.0,)
       ],
     );

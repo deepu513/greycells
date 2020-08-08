@@ -6,6 +6,7 @@ import 'package:mental_health/bloc/page_transition/page_transition_bloc.dart';
 import 'package:mental_health/view/pages/address_details_input_page.dart';
 import 'package:mental_health/view/pages/birth_details_input_page.dart';
 import 'package:mental_health/view/pages/guardian_details_input_page.dart';
+import 'package:mental_health/view/pages/health_details_input_page.dart';
 import 'package:mental_health/view/pages/profile_pic_input_page.dart';
 import 'package:mental_health/view/widgets/navigation_button_row.dart';
 
@@ -16,7 +17,7 @@ class PatientDetailInput extends StatelessWidget {
       providers: [
         BlocProvider(
           create: (context) =>
-              PageTransitionBloc(numberOfPages: 4, initialPageNumber: 1),
+              PageTransitionBloc(numberOfPages: 5, initialPageNumber: 1),
         )
       ],
       child: Scaffold(
@@ -84,6 +85,8 @@ class PatientDetailInput extends StatelessWidget {
       return GuardianDetailsInputPage();
     else if (transitionState.currentPageNumber == 4)
       return AddressDetailInputPage();
+    else if (transitionState. currentPageNumber == 5)
+      return HealthDetailsInputPage();
 
     return Container(); // Should never happen
   }

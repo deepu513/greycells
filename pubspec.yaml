@@ -28,7 +28,7 @@ dependencies:
   shared_preferences: '>=0.5.7+1 <2.0.0'
   http: ^0.12.1
   json_annotation: ^3.0.1
-  flutter_svg: ^0.17.4
+  flutter_svg: ^0.18.0
 
   flutter_localizations:
     sdk: flutter
@@ -79,3 +79,5 @@ flutter:
   assets:
     - images/self_care_illustration.svg
     - images/sci_blue.svg
+    - images/gender-male.svg
+    - images/gender-female.svg

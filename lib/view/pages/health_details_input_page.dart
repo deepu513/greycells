@@ -2,38 +2,45 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:mental_health/constants/strings.dart';
-import 'package:mental_health/view/widgets/no_glow_scroll_behaviour.dart';
+import 'package:mental_health/view/widgets/weight_card.dart';
 
 class HealthDetailsInputPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return ScrollConfiguration(
-      behavior: NoGlowScrollBehaviour(),
-      child: ListView(
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 16.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
-          Padding(
-            padding: const EdgeInsets.fromLTRB(16.0, 8.0, 16.0, 8.0),
-            child: Row(
-              children: <Widget>[
-                Text(
-                  Strings.healthDetails,
-                  style: Theme.of(context).textTheme.headline5.copyWith(
-                      color: Colors.black, fontWeight: FontWeight.w400),
-                ),
-                Spacer(),
-                IconButton(
-                  onPressed: () {},
-                  icon: Icon(Icons.info_outline),
-                )
-              ],
-            ),
+          Row(
+            children: <Widget>[
+              Text(
+                Strings.healthDetails,
+                style: Theme.of(context).textTheme.headline5.copyWith(
+                    color: Colors.black, fontWeight: FontWeight.w400),
+              ),
+              Spacer(),
+              IconButton(
+                onPressed: () {},
+                icon: Icon(Icons.info_outline),
+              )
+            ],
           ),
           SizedBox(
             height: 36.0,
           ),
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 24.0),
+            padding: const EdgeInsets.symmetric(horizontal: 8.0),
             child: GenderSelector(),
+          ),
+          SizedBox(
+            height: 36.0,
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 8.0),
+            child: SizedBox(
+              height: 100.0,
+                child: WeightCard()),
           ),
         ],
       ),

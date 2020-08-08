@@ -1,0 +1,42 @@
+import 'package:flutter/material.dart';
+import 'package:mental_health/view/widgets/weight_slider.dart';
+
+class WeightCard extends StatefulWidget {
+  final int initialWeight;
+
+  const WeightCard({Key key, this.initialWeight}) : super(key: key);
+
+  @override
+  _WeightCardState createState() => _WeightCardState();
+}
+
+class _WeightCardState extends State<WeightCard> {
+  int weight;
+
+  @override
+  void initState() {
+    super.initState();
+    weight = widget.initialWeight ?? 70;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Stack(
+      alignment: Alignment.bottomCenter,
+      children: [
+        LayoutBuilder(
+          builder: (context, constraints) {
+            return WeightSlider(
+              minValue: 30,
+              maxValue: 110,
+              value: weight,
+              onChanged: (val) => setState(() => weight = val),
+              width: constraints.maxWidth,
+            );
+          },
+        ),
+        Icon(Icons.arrow_drop_up, size: 24.0,)
+      ],
+    );
+  }
+}

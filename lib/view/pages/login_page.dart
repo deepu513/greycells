@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:mental_health/constants/strings.dart';
 import 'package:mental_health/route/route_name.dart';
 
@@ -25,30 +26,42 @@ class LoginPage extends StatelessWidget {
                   .copyWith(color: Colors.black, fontWeight: FontWeight.w400),
             ),
             SizedBox(
-              height: 56.0,
-            ),
-            TextField(
-              maxLines: 1,
-              decoration: InputDecoration(
-                labelText: Strings.email,
-              ),
-              autofocus: false,
-              keyboardType: TextInputType.emailAddress,
-            ),
-            SizedBox(
-              height: 24.0,
+              height: 48.0,
             ),
             TextField(
               maxLines: 1,
               style: TextStyle(fontSize: 18.0),
               decoration: InputDecoration(
-                  labelText: Strings.password,
-                  suffixIcon: Icon(
-                    Icons.visibility,
-                  )),
+                border: InputBorder.none,
+                icon: Icon(Icons.alternate_email, size: 20.0,),
+                helperText: "tap to enter",
+                labelText: Strings.email,
+                contentPadding: EdgeInsets.zero,
+              ),
               autofocus: false,
-              obscureText: true,
+              keyboardType: TextInputType.emailAddress,
+            ),
+            SizedBox(
+              height: 36.0,
+            ),
+            TextField(
+              maxLines: 1,
+              style: TextStyle(fontSize: 18.0, ),
+              decoration: InputDecoration(
+                border: InputBorder.none,
+                icon: Icon(Icons.vpn_key, size: 20.0),
+                suffixIcon: Icon(
+                  Icons.visibility,
+                  size: 20.0,
+                ),
+                helperText: "tap to enter",
+                labelText: Strings.password,
+                contentPadding: EdgeInsets.zero,
+              ),
+              autofocus: false,
               keyboardType: TextInputType.text,
+              obscureText: true,
+              textCapitalization: TextCapitalization.words,
             ),
             SizedBox(
               height: 48.0,

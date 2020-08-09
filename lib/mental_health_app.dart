@@ -8,6 +8,7 @@ import 'package:mental_health/models/user/user.dart';
 import 'package:mental_health/route/route_generator.dart';
 import 'package:mental_health/simple_bloc_delegate.dart';
 import 'package:mental_health/view/pages/home_page.dart';
+import 'package:mental_health/view/pages/login_page.dart';
 import 'package:mental_health/view/pages/patient_detail_input.dart';
 import 'package:mental_health/view/pages/welcome_page.dart';
 import 'package:provider/provider.dart';
@@ -76,7 +77,7 @@ class _MyApp extends StatelessWidget {
             }
 
             // TODO: Handle this/failure, show error or let user login again
-            return PatientDetailInput();
+            return LoginPage();
           },
         ),
       ),

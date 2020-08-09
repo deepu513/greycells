@@ -40,18 +40,6 @@ class GuardianDetailsInputPage extends StatelessWidget {
             padding: const EdgeInsets.symmetric(horizontal: 24.0),
             child: GuardianMobileNumberInput(),
           ),
-//          SizedBox(height: 8.0,),
-//          Divider(),
-//          SizedBox(height: 8.0,),
-//          Padding(
-//            padding: const EdgeInsets.symmetric(horizontal: 16.0),
-//            child: Text("Guardian Address", style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.w400)),
-//          ),
-//          SizedBox(height: 16.0,),
-//          Padding(
-//            padding: const EdgeInsets.symmetric(horizontal: 24.0),
-//            child: GuardianAddressInput(),
-//          ),
         ],
       ),
     );

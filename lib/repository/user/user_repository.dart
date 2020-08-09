@@ -1,3 +1,4 @@
+import 'package:mental_health/models/login/login_request.dart';
 import 'package:meta/meta.dart';
 import 'package:mental_health/models/user/user.dart';
 import 'package:mental_health/models/user/user_serializable.dart';
@@ -21,7 +22,7 @@ class UserRepository {
     return _userHttpService.post("/user", user);
   }
 
-  Future<User> authenticate({@required String contactNumber}) async {
-    return _userHttpService.get("/user?mobile_number=$contactNumber");
+  Future<User> authenticate({@required LoginRequest loginRequest}) async {
+    return _userHttpService.get("/user?mobile_number=$loginRequest");
   }
 }

@@ -1,26 +1,33 @@
 import 'package:flutter/foundation.dart';
-import 'package:mental_health/models/user/user.dart';
+import 'package:mental_health/bloc/validation/validation_field.dart';
+import 'package:mental_health/models/address/address.dart';
+import 'package:mental_health/models/login/login_request.dart';
+import 'package:mental_health/models/registration/registration.dart';
 
 abstract class ValidationState {}
 
 class ValidationStateInitial extends ValidationState {}
 
-class ValidationUserValid extends ValidationState {
-  final User user;
+class ValidationLoginFieldsValid extends ValidationState {
+  final LoginRequest loginRequest;
 
-  ValidationUserValid({this.user});
+  ValidationLoginFieldsValid({this.loginRequest});
 }
 
-class ValidationContactNumberValid extends ValidationState {
-  final String contactNumber;
+class ValidationRegistrationFieldsValid extends ValidationState {
+  final Registration registration;
 
-  ValidationContactNumberValid({this.contactNumber});
+  ValidationRegistrationFieldsValid({this.registration});
 }
 
-class ValidationFailed extends ValidationState {
+class ValidationAddressFieldsValid extends ValidationState {
+  final Address address;
+
+  ValidationAddressFieldsValid({this.address});
+}
+
+class ValidationInvalidField extends ValidationState {
   final ValidationField field;
 
-  ValidationFailed({@required this.field});
+  ValidationInvalidField({@required this.field});
 }
-
-enum ValidationField { NONE, NAME, CONTACT_NUMBER, CITY }

@@ -1,6 +1,5 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter/foundation.dart';
-import 'package:mental_health/models/user/user.dart';
 
 abstract class RegistrationState extends Equatable {
   const RegistrationState();

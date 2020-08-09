@@ -5,7 +5,6 @@ import 'package:mental_health/bloc/validation/validation_bloc.dart';
 import 'package:mental_health/bloc/validation/validation_event.dart';
 import 'package:mental_health/bloc/validation/validation_state.dart';
 import 'package:mental_health/constants/setting_key.dart';
-import 'package:mental_health/models/user/user.dart';
 import 'package:mental_health/networking/http_exceptions.dart';
 import 'package:mental_health/repository/settings/settings_repository.dart';
 import 'package:mental_health/repository/user/user_repository.dart';
@@ -23,8 +22,8 @@ class AuthenticationBloc
   AuthenticationBloc(this.validationBloc) : assert(validationBloc != null) {
     _userRepository = UserRepository();
     _validationSubscription = validationBloc.listen((state) {
-      if (state is ValidationContactNumberValid) {
-        add(LoginInitiated(contactNumber: state.contactNumber, valid: true));
+      if (state is ValidationLoginFieldsValid) {
+        add(LoginInitiated(loginRequest: state.loginRequest, valid: true));
       }
     });
   }
@@ -71,14 +70,14 @@ class AuthenticationBloc
 
     if (event is LoginInitiated) {
       if (!event.valid) {
-        validationBloc.add(ValidationValidateContactNumber(
-            contactNumber: event.contactNumber));
+        validationBloc.add(ValidationValidateLoginFields(
+            loginRequest: event.loginRequest));
       } else if (event.valid) {
         yield AuthenticationLoading();
 
         try {
           User user = await _userRepository.authenticate(
-              contactNumber: event.contactNumber);
+              loginRequest: event.loginRequest);
 
           if (user != null) {
             _settingsRepository = await SettingsRepository.getInstance();

@@ -1,16 +1,25 @@
-import 'package:mental_health/models/user/user.dart';
+
+
+import 'package:mental_health/models/address/address.dart';
+import 'package:mental_health/models/login/login_request.dart';
+import 'package:mental_health/models/registration/registration.dart';
 
 abstract class ValidationEvent {}
 
-class ValidationValidateUser extends ValidationEvent {
-  final User user;
+class ValidationValidateLoginFields extends ValidationEvent {
+  final LoginRequest loginRequest;
 
-  ValidationValidateUser({this.user});
+  ValidationValidateLoginFields({this.loginRequest});
 }
 
-class ValidationValidateContactNumber extends ValidationEvent {
-  final String contactNumber;
+class ValidationValidateRegistrationFields extends ValidationEvent {
+  final Registration registration;
 
-  ValidationValidateContactNumber({this.contactNumber});
+  ValidationValidateRegistrationFields({this.registration});
+}
 
+class ValidationValidateAddressFields extends ValidationEvent {
+  final Address address;
+
+  ValidationValidateAddressFields(this.address);
 }

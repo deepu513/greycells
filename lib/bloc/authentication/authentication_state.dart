@@ -1,6 +1,5 @@
 import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
-import 'package:mental_health/models/user/user.dart';
 
 abstract class AuthenticationState extends Equatable {
   const AuthenticationState();

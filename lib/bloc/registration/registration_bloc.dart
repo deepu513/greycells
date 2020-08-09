@@ -5,7 +5,6 @@ import 'package:mental_health/bloc/validation/validation_bloc.dart';
 import 'package:mental_health/bloc/validation/validation_event.dart';
 import 'package:mental_health/bloc/validation/validation_state.dart';
 import 'package:mental_health/constants/setting_key.dart';
-import 'package:mental_health/models/user/user.dart';
 import 'package:mental_health/repository/settings/settings_repository.dart';
 import 'package:mental_health/repository/user/user_repository.dart';
 
@@ -21,8 +20,9 @@ class RegistrationBloc extends Bloc<RegistrationEvent, RegistrationState> {
   RegistrationBloc(this.validationBloc) : assert(validationBloc != null) {
     _userRepository = UserRepository();
     _validationSubscription = validationBloc.listen((state) {
-      if (state is ValidationUserValid) {
-        add(RegistrationCreateUser(user: state.user, validated: true));
+      if (state is ValidationRegistrationFieldsValid) {
+        add(RegistrationCreateUser(
+            registration: state.registration, validated: true));
       }
     });
   }
@@ -36,7 +36,8 @@ class RegistrationBloc extends Bloc<RegistrationEvent, RegistrationState> {
   ) async* {
     if (event is RegistrationCreateUser) {
       if (!event.validated)
-        validationBloc.add(ValidationValidateUser(user: event.user));
+        validationBloc
+            .add(ValidationValidateRegistrationFields(registration: event.registration));
       else if (event.validated) {
         yield RegistrationInProgress();
 

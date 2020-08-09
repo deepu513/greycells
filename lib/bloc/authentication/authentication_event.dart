@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import 'package:mental_health/models/login/login_request.dart';
 import 'package:meta/meta.dart';
 
 abstract class AuthenticationEvent extends Equatable {
@@ -11,13 +12,13 @@ abstract class AuthenticationEvent extends Equatable {
 class AppStarted extends AuthenticationEvent {}
 
 class LoginInitiated extends AuthenticationEvent {
-  final String contactNumber;
+  final LoginRequest loginRequest;
   final bool valid;
 
-  const LoginInitiated({@required this.contactNumber, this.valid = false});
+  const LoginInitiated({@required this.loginRequest, this.valid = false});
 
   @override
-  List<Object> get props => [contactNumber];
+  List<Object> get props => [loginRequest];
 
   @override
   bool get stringify => true;

@@ -12,13 +12,12 @@ abstract class AuthenticationEvent extends Equatable {
 class AppStarted extends AuthenticationEvent {}
 
 class LoginInitiated extends AuthenticationEvent {
-  final LoginRequest loginRequest;
   final bool valid;
 
-  const LoginInitiated({@required this.loginRequest, this.valid = false});
+  const LoginInitiated({this.valid = false});
 
   @override
-  List<Object> get props => [loginRequest];
+  List<Object> get props => [valid];
 
   @override
   bool get stringify => true;

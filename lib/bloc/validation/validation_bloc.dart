@@ -62,7 +62,7 @@ class ValidationBloc extends Bloc<ValidationEvent, ValidationState> {
 
   ValidationField _validateLoginFields(LoginRequest request) {
     if (Utils.isNullOrEmpty(request.email))
-      return ValidationField.CONTACT_NUMBER;
+      return ValidationField.EMAIL;
     else if (Utils.isNullOrEmpty(request.password))
       return ValidationField.PASSWORD;
     return ValidationField.NONE;

@@ -30,5 +30,5 @@ class ValidationInvalidField extends ValidationState {
   final ValidationField field;
   final String errorMessage;
 
-  ValidationInvalidField({@required this.field, this.errorMessage});
+  ValidationInvalidField({@required this.field, @required this.errorMessage});
 }

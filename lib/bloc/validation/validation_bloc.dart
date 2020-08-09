@@ -48,14 +48,13 @@ class ValidationBloc extends Bloc<ValidationEvent, ValidationState> {
       return ValidationField.FIRST_NAME;
     if (Utils.isNullOrEmpty(registration.lastName))
       return ValidationField.LAST_NAME;
-    if (Utils.isNullOrEmpty(registration.email)) return ValidationField.EMAIL;
     if (Utils.isNullOrEmpty(registration.mobileNumber))
       return ValidationField.CONTACT_NUMBER;
+    if (Utils.isNullOrEmpty(registration.email)) return ValidationField.EMAIL;
     if (Utils.isNullOrEmpty(registration.password))
       return ValidationField.PASSWORD;
-    if (Utils.isNullOrEmpty(registration.confirmPassword))
-      return ValidationField.CONFIRM_PASSWORD;
-    if (registration.password != registration.confirmPassword)
+    if (Utils.isNullOrEmpty(registration.confirmPassword) ||
+        registration.password != registration.confirmPassword)
       return ValidationField.CONFIRM_PASSWORD;
     return ValidationField.NONE;
   }

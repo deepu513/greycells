@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:mental_health/bloc/registration/bloc.dart';
+import 'package:mental_health/bloc/validation/bloc.dart';
 import 'package:mental_health/route/route_name.dart';
 import 'package:mental_health/view/pages/forgot_password_page.dart';
 import 'package:mental_health/view/pages/home_page.dart';
@@ -21,7 +24,10 @@ class RouteGenerator {
       case RouteName.LOGIN:
         return MaterialPageRoute(builder: (_) => LoginPage());
       case RouteName.REGISTER:
-        return MaterialPageRoute(builder: (_) => RegisterPage());
+        return MaterialPageRoute(
+            builder: (context) => BlocProvider<RegistrationBloc>(
+                create: (_) => RegistrationBloc(ValidationBloc()),
+                child: RegisterPage()));
       case RouteName.HOME:
         return MaterialPageRoute(builder: (_) => HomePage());
       case RouteName.FORGOT_PASSWORD:

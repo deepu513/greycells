@@ -11,13 +11,12 @@ abstract class RegistrationEvent extends Equatable {
 }
 
 class RegistrationCreateUser extends RegistrationEvent {
-  final Registration registration;
   final bool validated;
 
-  const RegistrationCreateUser({@required this.registration, this.validated = false});
+  const RegistrationCreateUser({this.validated = false});
 
   @override
-  List<Object> get props => [registration, validated];
+  List<Object> get props => [validated];
 
   @override
   bool get stringify => true;

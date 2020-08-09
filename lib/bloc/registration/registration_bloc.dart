@@ -5,12 +5,14 @@ import 'package:mental_health/bloc/validation/validation_bloc.dart';
 import 'package:mental_health/bloc/validation/validation_event.dart';
 import 'package:mental_health/bloc/validation/validation_state.dart';
 import 'package:mental_health/constants/setting_key.dart';
+import 'package:mental_health/models/registration/registration.dart';
 import 'package:mental_health/repository/settings/settings_repository.dart';
 import 'package:mental_health/repository/user/user_repository.dart';
 
 import './bloc.dart';
 
 class RegistrationBloc extends Bloc<RegistrationEvent, RegistrationState> {
+  Registration registration;
   UserRepository _userRepository;
   SettingsRepository _settingsRepository;
 
@@ -18,11 +20,11 @@ class RegistrationBloc extends Bloc<RegistrationEvent, RegistrationState> {
   StreamSubscription _validationSubscription;
 
   RegistrationBloc(this.validationBloc) : assert(validationBloc != null) {
+    registration = Registration();
     _userRepository = UserRepository();
     _validationSubscription = validationBloc.listen((state) {
       if (state is ValidationRegistrationFieldsValid) {
-        add(RegistrationCreateUser(
-            registration: state.registration, validated: true));
+        add(RegistrationCreateUser(validated: true));
       }
     });
   }
@@ -36,18 +38,18 @@ class RegistrationBloc extends Bloc<RegistrationEvent, RegistrationState> {
   ) async* {
     if (event is RegistrationCreateUser) {
       if (!event.validated)
-        validationBloc
-            .add(ValidationValidateRegistrationFields(registration: event.registration));
+        validationBloc.add(
+            ValidationValidateRegistrationFields(registration: registration));
       else if (event.validated) {
         yield RegistrationInProgress();
 
         try {
           /*User user = await _userRepository.post(event.user);
           if (user != null) {*/
-            _settingsRepository = await SettingsRepository.getInstance();
-            await _settingsRepository.saveValue(
-                SettingKey.KEY_IS_LOGGED_IN, true);
-            yield RegistrationSuccessful(/*user: user*/);
+          _settingsRepository = await SettingsRepository.getInstance();
+          await _settingsRepository.saveValue(
+              SettingKey.KEY_IS_LOGGED_IN, true);
+          yield RegistrationSuccessful(/*user: user*/);
           //}
         } catch (error) {
           yield RegistrationUnsuccessful(error: error.toString());

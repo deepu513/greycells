@@ -52,7 +52,7 @@ class AddressInputControls extends StatelessWidget {
             decoration: InputDecoration(
               border: InputBorder.none,
               icon: Icon(Icons.home),
-              helperText: "tap to enter",
+              helperText: Strings.tapToEnter,
               labelText: Strings.houseNumber,
               contentPadding: EdgeInsets.zero,
             ),
@@ -68,7 +68,7 @@ class AddressInputControls extends StatelessWidget {
             decoration: InputDecoration(
               icon: Icon(Icons.nature),
               border: InputBorder.none,
-              helperText: "tap to enter",
+              helperText: Strings.tapToEnter,
               labelText: Strings.roadName,
               contentPadding: EdgeInsets.zero,
             ),
@@ -84,7 +84,7 @@ class AddressInputControls extends StatelessWidget {
             decoration: InputDecoration(
               icon: Icon(Icons.location_city),
               border: InputBorder.none,
-              helperText: "tap to enter",
+              helperText: Strings.tapToEnter,
               labelText: Strings.city,
               contentPadding: EdgeInsets.zero,
             ),
@@ -100,7 +100,7 @@ class AddressInputControls extends StatelessWidget {
             decoration: InputDecoration(
               icon: Icon(Icons.my_location),
               border: InputBorder.none,
-              helperText: "tap to enter",
+              helperText: Strings.tapToEnter,
               labelText: Strings.state,
               contentPadding: EdgeInsets.zero,
             ),
@@ -116,7 +116,7 @@ class AddressInputControls extends StatelessWidget {
             decoration: InputDecoration(
               icon: Icon(Icons.map),
               border: InputBorder.none,
-              helperText: "tap to enter",
+              helperText: Strings.tapToEnter,
               labelText: Strings.country,
               contentPadding: EdgeInsets.zero,
             ),
@@ -133,7 +133,7 @@ class AddressInputControls extends StatelessWidget {
             decoration: InputDecoration(
               icon: Icon(Icons.pin_drop),
               border: InputBorder.none,
-              helperText: "tap to enter",
+              helperText: Strings.tapToEnter,
               labelText: Strings.pincode,
               contentPadding: EdgeInsets.zero,
             ),

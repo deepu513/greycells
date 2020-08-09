@@ -41,7 +41,7 @@ class PlaceOfBirthInput extends StatelessWidget {
       style: TextStyle(fontSize: 24.0, fontWeight: FontWeight.w400),
       decoration: InputDecoration(
         border: InputBorder.none,
-        helperText: "tap to enter",
+        helperText: Strings.tapToEnter,
         helperStyle: TextStyle(fontSize: 14.0),
         labelText: Strings.placeOfBirth,
         contentPadding: EdgeInsets.zero,

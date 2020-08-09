@@ -33,7 +33,7 @@ class RegisterPage extends StatelessWidget {
                 decoration: InputDecoration(
                   border: InputBorder.none,
                   icon: Icon(Icons.person, size: 20.0,),
-                  helperText: "tap to enter",
+                  helperText: Strings.tapToEnter,
                   labelText: Strings.firstName,
                   contentPadding: EdgeInsets.zero,
                 ),
@@ -49,7 +49,7 @@ class RegisterPage extends StatelessWidget {
                 decoration: InputDecoration(
                   border: InputBorder.none,
                   icon:  Icon(Icons.brightness_1, size: 20.0,color: Colors.transparent,),
-                  helperText: "tap to enter",
+                  helperText: Strings.tapToEnter,
                   labelText: Strings.lastName,
                   contentPadding: EdgeInsets.zero,
                 ),
@@ -65,7 +65,7 @@ class RegisterPage extends StatelessWidget {
                 decoration: InputDecoration(
                   border: InputBorder.none,
                   icon: Icon(Icons.phone, size: 20.0,),
-                  helperText: "tap to enter",
+                  helperText: Strings.tapToEnter,
                   labelText: Strings.mobileNumber,
                   contentPadding: EdgeInsets.zero,
                 ),
@@ -81,7 +81,7 @@ class RegisterPage extends StatelessWidget {
                 decoration: InputDecoration(
                   border: InputBorder.none,
                   icon: Icon(Icons.email, size: 20.0,),
-                  helperText: "tap to enter",
+                  helperText: Strings.tapToEnter,
                   labelText: Strings.email,
                   contentPadding: EdgeInsets.zero,
                 ),
@@ -101,7 +101,7 @@ class RegisterPage extends StatelessWidget {
                     Icons.visibility,
                     size: 20.0,
                   ),
-                  helperText: "tap to enter",
+                  helperText: Strings.tapToEnter,
                   labelText: Strings.password,
                   contentPadding: EdgeInsets.zero,
                 ),
@@ -118,7 +118,7 @@ class RegisterPage extends StatelessWidget {
                 decoration: InputDecoration(
                   border: InputBorder.none,
                   icon: Icon(Icons.brightness_1, size: 20.0, color: Colors.transparent,),
-                  helperText: "tap to enter",
+                  helperText: Strings.tapToEnter,
                   suffixIcon: Icon(
                     Icons.visibility,
                     size: 20.0,

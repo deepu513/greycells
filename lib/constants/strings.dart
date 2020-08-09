@@ -38,14 +38,21 @@ class Strings {
   static const state = "State";
   static const country = "Country";
   static const pincode = "Pincode";
+  static const tapToEnter = "tap to enter";
 }
 
 /// This should contain strings which signify an error message
 class ErrorMessages {
   static const EMAIL_ERROR_MESSAGE = "Please enter a valid email";
   static const PASSWORD_ERROR_MESSAGE = "Please enter your password";
-  static const FIRST_NAME_MESSAGE = "Please enter your first name";
-  static const LAST_NAME_MESSAGE = "Please enter your last name";
+  static const FIRST_NAME_ERROR_MESSAGE = "Please enter your first name";
+  static const LAST_NAME_ERROR_MESSAGE = "Please enter your last name";
   static const MOBILE_ERROR_MESSAGE = "Please enter a valid mobile number";
   static const CONFIRM_PASSWORD_ERROR_MESSAGE = "Passwords do not match";
+  static const HOUSE_NUMBER_ERROR_MESSAGE = "Passwords do not match";
+  static const ROAD_NAME_ERROR_MESSAGE = "Passwords do not match";
+  static const CITY_ERROR_MESSAGE = "Passwords do not match";
+  static const STATE_ERROR_MESSAGE = "Passwords do not match";
+  static const COUNTRY_ERROR_MESSAGE = "Passwords do not match";
+  static const PINCODE_ERROR_MESSAGE = "Passwords do not match";
 }

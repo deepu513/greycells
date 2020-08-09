@@ -98,7 +98,7 @@ class _GuardianRelationshipInputState extends State<GuardianRelationshipInput> {
             maxLines: 1,
             decoration: InputDecoration(
               border: InputBorder.none,
-              helperText: "tap to enter",
+              helperText: Strings.tapToEnter,
               labelText: Strings.relationshipWithGuardian,
               contentPadding: EdgeInsets.zero,
               labelStyle: TextStyle(color: Theme.of(context).accentColor),
@@ -129,7 +129,7 @@ class GuardianMobileNumberInput extends StatelessWidget {
           decoration: InputDecoration(
             border: InputBorder.none,
             hintText:
-            "tap to enter",
+            Strings.tapToEnter,
             hintStyle: TextStyle(fontSize: 20.0, fontWeight: FontWeight.w400),
             icon: Text(
               "+91",
@@ -161,7 +161,7 @@ class GuardianAddressInput extends StatelessWidget {
           maxLines: 1,
           decoration: InputDecoration(
             border: InputBorder.none,
-            helperText: "tap to enter",
+            helperText: Strings.tapToEnter,
             labelText: Strings.houseNumber,
             contentPadding: EdgeInsets.zero,
           ),
@@ -176,7 +176,7 @@ class GuardianAddressInput extends StatelessWidget {
           maxLines: 1,
           decoration: InputDecoration(
             border: InputBorder.none,
-            helperText: "tap to enter",
+            helperText: Strings.tapToEnter,
             labelText: Strings.roadName,
             contentPadding: EdgeInsets.zero,
           ),
@@ -191,7 +191,7 @@ class GuardianAddressInput extends StatelessWidget {
           maxLines: 1,
           decoration: InputDecoration(
             border: InputBorder.none,
-            helperText: "tap to enter",
+            helperText: Strings.tapToEnter,
             labelText: Strings.city,
             contentPadding: EdgeInsets.zero,
           ),
@@ -206,7 +206,7 @@ class GuardianAddressInput extends StatelessWidget {
           maxLines: 1,
           decoration: InputDecoration(
             border: InputBorder.none,
-            helperText: "tap to enter",
+            helperText: Strings.tapToEnter,
             labelText: Strings.state,
             contentPadding: EdgeInsets.zero,
           ),
@@ -221,7 +221,7 @@ class GuardianAddressInput extends StatelessWidget {
           maxLines: 1,
           decoration: InputDecoration(
             border: InputBorder.none,
-            helperText: "tap to enter",
+            helperText: Strings.tapToEnter,
             labelText: Strings.country,
             contentPadding: EdgeInsets.zero,
           ),
@@ -237,7 +237,7 @@ class GuardianAddressInput extends StatelessWidget {
           maxLength: 10,
           decoration: InputDecoration(
             border: InputBorder.none,
-            helperText: "tap to enter",
+            helperText: Strings.tapToEnter,
             labelText: Strings.pincode,
             contentPadding: EdgeInsets.zero,
           ),

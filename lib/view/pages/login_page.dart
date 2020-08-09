@@ -54,12 +54,12 @@ class LoginPage extends StatelessWidget {
                             Icons.alternate_email,
                             size: 20.0,
                           ),
-                          helperText: "tap to enter",
+                          helperText: Strings.tapToEnter,
                           labelText: Strings.email,
                           contentPadding: EdgeInsets.zero,
                           errorText: validationState
                                   .isFieldInvalid(ValidationField.EMAIL)
-                              ? validationState.getErrorMessage()
+                              ? ValidationField.EMAIL.errorMessage()
                               : null,
                         ),
                         autofocus: false,
@@ -86,12 +86,12 @@ class LoginPage extends StatelessWidget {
                             Icons.visibility,
                             size: 20.0,
                           ),
-                          helperText: "tap to enter",
+                          helperText: Strings.tapToEnter,
                           labelText: Strings.password,
                           contentPadding: EdgeInsets.zero,
                           errorText: validationState
                                   .isFieldInvalid(ValidationField.PASSWORD)
-                              ? validationState.getErrorMessage()
+                              ? ValidationField.PASSWORD.errorMessage()
                               : null,
                         ),
                         autofocus: false,

@@ -43,54 +43,40 @@ class AuthenticationBloc
       _settingsRepository = await SettingsRepository.getInstance();
 
       if (_settingsRepository.get(SettingKey.KEY_IS_LOGGED_IN,
-          defaultValue: false)) {
-        var userId =
-            _settingsRepository.get(SettingKey.KEY_USER_ID, defaultValue: -1);
-
-        if (userId != -1) {
-          User user = await _userRepository.get(userId);
-          if (user != null)
-            yield AuthenticationAuthenticated(user);
-
-          /// This should never happen. Added for safety.
-          else {
-            yield AuthenticationFailure(
-                error: "Something went wrong! Please try again.");
-          }
-        }
-
-        /// This should never happen. Added for safety.
-        else {
-          yield AuthenticationFailure(
-              error: "Something went wrong! Please try again.");
-        }
+              defaultValue: false) &&
+          _settingsRepository
+              .get(SettingKey.KEY_TOKEN, defaultValue: "")
+              .isNotEmpty) {
+        yield AuthenticationAuthenticated(/*user*/);
       } else
         yield AuthenticationUnauthenticated();
     }
 
     if (event is LoginInitiated) {
       if (!event.valid) {
-        validationBloc.add(ValidationValidateLoginFields(
-            loginRequest: event.loginRequest));
+        validationBloc.add(
+            ValidationValidateLoginFields(loginRequest: event.loginRequest));
       } else if (event.valid) {
         yield AuthenticationLoading();
 
         try {
-          User user = await _userRepository.authenticate(
-              loginRequest: event.loginRequest);
+          /*User user = await _userRepository.authenticate(
+              loginRequest: event.loginRequest);*/
 
-          if (user != null) {
+          //if (user != null) {
             _settingsRepository = await SettingsRepository.getInstance();
             await _settingsRepository.saveValue(
                 SettingKey.KEY_IS_LOGGED_IN, true);
-            yield AuthenticationAuthenticated(user);
-          }
+            /*await _settingsRepository.saveValue(
+                SettingKey.KEY_TOKEN, data.JWTToken);*/
+            yield AuthenticationAuthenticated(/*user*/);
+         // }
 
           /// This should never happen. Added for safety.
-          else {
-            yield AuthenticationFailure(
-                error: "Something went wrong! Please try again.");
-          }
+//          else {
+//            yield AuthenticationFailure(
+//                error: "Something went wrong! Please try again.");
+//          }
         } on ResourceNotFoundException {
           yield AuthenticationUserNotFound();
         } catch (error) {

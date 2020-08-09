@@ -13,12 +13,12 @@ class RegistrationStateInitial extends RegistrationState {}
 class RegistrationInProgress extends RegistrationState {}
 
 class RegistrationSuccessful extends RegistrationState {
-  final User user;
+//  final User user;
 
-  const RegistrationSuccessful({@required this.user});
+  const RegistrationSuccessful(/*{@required this.user}*/);
 
   @override
-  List<Object> get props => [user];
+  List<Object> get props => [/*user*/];
 
   @override
   bool get stringify => true;

@@ -1,5 +1,3 @@
-
-
 import 'package:mental_health/models/address/address.dart';
 import 'package:mental_health/models/login/login_request.dart';
 import 'package:mental_health/models/registration/registration.dart';

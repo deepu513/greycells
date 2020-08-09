@@ -19,12 +19,12 @@ class AuthenticationLoading extends AuthenticationState {}
 /// This state indicates that user is successfully authenticated,
 /// when in this state, we can show user home screen.
 class AuthenticationAuthenticated extends AuthenticationState {
-  final User user;
+  //final User user;
 
-  AuthenticationAuthenticated(this.user);
+  AuthenticationAuthenticated(/*this.user*/);
 
   @override
-  List<Object> get props => [user];
+  List<Object> get props => [/*user*/];
 
   @override
   bool get stringify => true;

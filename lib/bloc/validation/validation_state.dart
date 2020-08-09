@@ -28,6 +28,7 @@ class ValidationAddressFieldsValid extends ValidationState {
 
 class ValidationInvalidField extends ValidationState {
   final ValidationField field;
+  final String errorMessage;
 
-  ValidationInvalidField({@required this.field});
+  ValidationInvalidField({@required this.field, this.errorMessage});
 }

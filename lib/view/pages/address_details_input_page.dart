@@ -165,15 +165,15 @@ class GuardianAddressInput extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.all(16.0),
           child: Text(
-            "Guardian Address",
+            Strings.guardianAddress,
             style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.w400),
           ),
         ),
         CheckboxListTile(
           value: false,
           onChanged: (value) {},
-          title: Text("Same as above", style: Theme.of(context).textTheme.subtitle1,),
-          subtitle: Text("You live with your guardian"),
+          title: Text(Strings.sameAsAbove, style: Theme.of(context).textTheme.subtitle1,),
+          subtitle: Text(Strings.liveWithGuardian),
         ),
         SizedBox(
           height: 8.0,

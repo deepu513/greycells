@@ -59,6 +59,7 @@ class _GuardianRelationshipInputState extends State<GuardianRelationshipInput> {
 
   @override
   void initState() {
+    super.initState();
     relationShipList = List<String>()
       ..add("Father")
       ..add("Mother")
@@ -68,7 +69,6 @@ class _GuardianRelationshipInputState extends State<GuardianRelationshipInput> {
 
     toggleStateList = <bool>[true, false, false, false, false];
     _selectedIndex = 1;
-    super.initState();
   }
 
   @override

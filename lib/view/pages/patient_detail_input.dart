@@ -10,66 +10,103 @@ import 'package:mental_health/view/pages/health_details_input_page.dart';
 import 'package:mental_health/view/pages/profile_pic_input_page.dart';
 import 'package:mental_health/view/widgets/navigation_button_row.dart';
 
-class PatientDetailInput extends StatelessWidget {
+class PatientDetailInput extends StatefulWidget {
+  @override
+  _PatientDetailInputState createState() => _PatientDetailInputState();
+}
+
+class _PatientDetailInputState extends State<PatientDetailInput>
+    with SingleTickerProviderStateMixin {
+  AnimationController _controller;
+  Animation<double> _progressAnimation;
+  final animationDuration = 500;
+
+  final initialPageNumber = 1;
+  final numberOfPages = 5;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = AnimationController(vsync: this);
+
+    _progressAnimation = Tween(begin: 0.0, end: 1.0).animate(CurvedAnimation(
+      parent: _controller,
+      curve: Curves.linear,
+    ));
+
+    _controller.animateTo(initialPageNumber / numberOfPages, duration: Duration(milliseconds: animationDuration));
+  }
+
   @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
         BlocProvider(
           create: (context) =>
-              PageTransitionBloc(numberOfPages: 5, initialPageNumber: 1),
+              PageTransitionBloc(numberOfPages: numberOfPages, initialPageNumber: initialPageNumber),
         )
       ],
       child: Scaffold(
         body: SafeArea(
           minimum: EdgeInsets.only(top: 56.0),
-          child: BlocBuilder<PageTransitionBloc, PageTransitionState>(
-            condition: (previous, current) {
-              return current is PageTransitionInitial ||
-                  current is PageTransitionToNextPage ||
-                  current is PageTransitionToPreviousPage;
+          child: BlocListener<PageTransitionBloc, PageTransitionState>(
+            listener: (previous, current) {
+              _controller.animateBack(
+                  (current.currentPageNumber) /
+                      numberOfPages,
+                  duration: Duration(milliseconds: animationDuration));
             },
-            builder: (context, transitionState) {
-              return Column(
-                children: <Widget>[
-                  Expanded(
-                    child: PageTransitionSwitcher(
-                      duration: const Duration(milliseconds: 300),
-                      reverse:
-                          transitionState.currentPageNumber == 1 ? true : false,
-                      transitionBuilder: (Widget child,
-                          Animation<double> animation,
-                          Animation<double> secondaryAnimation) {
-                        return SharedAxisTransition(
-                          child: child,
-                          animation: animation,
-                          secondaryAnimation: secondaryAnimation,
-                          transitionType: SharedAxisTransitionType.horizontal,
-                        );
-                      },
-                      child: _getPage(context, transitionState),
+            child: BlocBuilder<PageTransitionBloc, PageTransitionState>(
+              condition: (previous, current) {
+                return current is PageTransitionInitial ||
+                    current is PageTransitionToNextPage ||
+                    current is PageTransitionToPreviousPage;
+              },
+              builder: (context, transitionState) {
+                return Column(
+                  children: <Widget>[
+                    Expanded(
+                      child: PageTransitionSwitcher(
+                        duration: const Duration(milliseconds: 300),
+                        reverse:
+                            transitionState.currentPageNumber == 1 ? true : false,
+                        transitionBuilder: (Widget child,
+                            Animation<double> animation,
+                            Animation<double> secondaryAnimation) {
+                          return SharedAxisTransition(
+                            child: child,
+                            animation: animation,
+                            secondaryAnimation: secondaryAnimation,
+                            transitionType: SharedAxisTransitionType.horizontal,
+                          );
+                        },
+                        child: _getPage(context, transitionState),
+                      ),
                     ),
-                  ),
-                  SizedBox(
-                    height: 2.0,
-                    child: LinearProgressIndicator(
-                      // TODO: Animate this
-                      value: (transitionState.currentPageNumber) /
-                          BlocProvider.of<PageTransitionBloc>(context)
-                              .numberOfPages,
+                    SizedBox(
+                      height: 2.0,
+                      child: AnimatedBuilder(
+                        animation: _progressAnimation,
+                        builder: (context, child) {
+                          return LinearProgressIndicator(
+                            value: _progressAnimation.value,
+                            backgroundColor: Colors.blue.shade100,
+                          );
+                        },
+                      ),
                     ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(16.0),
-                    child: NavigationButtonRow(
-                      onBackPressed: () => _handleBackPressed(context),
-                      onNextPressed: () =>
-                          _handleNextPressed(context, transitionState),
+                    Padding(
+                      padding: const EdgeInsets.all(16.0),
+                      child: NavigationButtonRow(
+                        onBackPressed: () => _handleBackPressed(context),
+                        onNextPressed: () =>
+                            _handleNextPressed(context, transitionState),
+                      ),
                     ),
-                  ),
-                ],
-              );
-            },
+                  ],
+                );
+              },
+            ),
           ),
         ),
       ),
@@ -85,7 +122,7 @@ class PatientDetailInput extends StatelessWidget {
       return GuardianDetailsInputPage();
     else if (transitionState.currentPageNumber == 4)
       return AddressDetailInputPage();
-    else if (transitionState. currentPageNumber == 5)
+    else if (transitionState.currentPageNumber == 5)
       return HealthDetailsInputPage();
 
     return Container(); // Should never happen

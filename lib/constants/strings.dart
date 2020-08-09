@@ -39,6 +39,9 @@ class Strings {
   static const country = "Country";
   static const pincode = "Pincode";
   static const tapToEnter = "tap to enter";
+  static const guardianAddress = "Guardian Address";
+  static const sameAsAbove = "Same as above";
+  static const liveWithGuardian = "Select this if you live with your guardian";
 }
 
 /// This should contain strings which signify an error message

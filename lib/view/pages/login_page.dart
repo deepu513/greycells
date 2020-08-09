@@ -65,6 +65,10 @@ class LoginPage extends StatelessWidget {
                         autofocus: false,
                         enabled: authenticationState is! AuthenticationLoading,
                         keyboardType: TextInputType.emailAddress,
+                        onChanged: (value) =>
+                        BlocProvider.of<AuthenticationBloc>(context)
+                            .loginRequest
+                            .email = value,
                       ),
                       SizedBox(
                         height: 36.0,
@@ -99,6 +103,10 @@ class LoginPage extends StatelessWidget {
                         obscureText: true,
                         enabled: authenticationState is! AuthenticationLoading,
                         textCapitalization: TextCapitalization.words,
+                          onChanged: (value) =>
+                          BlocProvider.of<AuthenticationBloc>(context)
+                              .loginRequest
+                              .password = value
                       ),
                       SizedBox(
                         height: 48.0,

@@ -37,8 +37,16 @@ class ForgotPasswordPage extends StatelessWidget {
             ),
             TextField(
               maxLines: 1,
+              style: TextStyle(fontSize: 18.0),
               decoration: InputDecoration(
+                border: InputBorder.none,
+                icon: Icon(
+                  Icons.alternate_email,
+                  size: 20.0,
+                ),
+                helperText: Strings.tapToEnter,
                 labelText: Strings.email,
+                contentPadding: EdgeInsets.zero,
               ),
               autofocus: false,
               keyboardType: TextInputType.emailAddress,

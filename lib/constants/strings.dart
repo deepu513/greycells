@@ -49,10 +49,10 @@ class ErrorMessages {
   static const LAST_NAME_ERROR_MESSAGE = "Please enter your last name";
   static const MOBILE_ERROR_MESSAGE = "Please enter a valid mobile number";
   static const CONFIRM_PASSWORD_ERROR_MESSAGE = "Passwords do not match";
-  static const HOUSE_NUMBER_ERROR_MESSAGE = "Passwords do not match";
-  static const ROAD_NAME_ERROR_MESSAGE = "Passwords do not match";
-  static const CITY_ERROR_MESSAGE = "Passwords do not match";
-  static const STATE_ERROR_MESSAGE = "Passwords do not match";
-  static const COUNTRY_ERROR_MESSAGE = "Passwords do not match";
-  static const PINCODE_ERROR_MESSAGE = "Passwords do not match";
+  static const HOUSE_NUMBER_ERROR_MESSAGE = "Please enter a value";
+  static const ROAD_NAME_ERROR_MESSAGE = "Please enter a value";
+  static const CITY_ERROR_MESSAGE = "Please enter your city";
+  static const STATE_ERROR_MESSAGE = "Please enter your state";
+  static const COUNTRY_ERROR_MESSAGE = "Please enter your country";
+  static const PINCODE_ERROR_MESSAGE = "Please enter a value";
 }

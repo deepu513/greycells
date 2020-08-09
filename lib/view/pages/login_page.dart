@@ -14,7 +14,7 @@ class LoginPage extends StatelessWidget {
         brightness: Brightness.light,
       ),
       body: SafeArea(
-        minimum: EdgeInsets.fromLTRB(24.0, 16.0, 24.0, 16.0),
+        minimum: EdgeInsets.fromLTRB(24.0, 8.0, 24.0, 16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[

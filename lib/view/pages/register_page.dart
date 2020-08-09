@@ -13,7 +13,7 @@ class RegisterPage extends StatelessWidget {
       ),
       body: SafeArea(
         child: SingleChildScrollView(
-          padding: EdgeInsets.fromLTRB(24.0, 16.0, 24.0, 16.0),
+          padding: EdgeInsets.fromLTRB(24.0, 8.0, 24.0, 16.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
@@ -25,12 +25,17 @@ class RegisterPage extends StatelessWidget {
                     .copyWith(color: Colors.black, fontWeight: FontWeight.w400),
               ),
               SizedBox(
-                height: 56.0,
+                height: 48.0,
               ),
               TextField(
                 maxLines: 1,
+                style: TextStyle(fontSize: 18.0),
                 decoration: InputDecoration(
+                  border: InputBorder.none,
+                  icon: Icon(Icons.person, size: 20.0,),
+                  helperText: "tap to enter",
                   labelText: Strings.firstName,
+                  contentPadding: EdgeInsets.zero,
                 ),
                 autofocus: false,
                 keyboardType: TextInputType.text,
@@ -40,8 +45,13 @@ class RegisterPage extends StatelessWidget {
               ),
               TextField(
                 maxLines: 1,
+                style: TextStyle(fontSize: 18.0),
                 decoration: InputDecoration(
+                  border: InputBorder.none,
+                  icon:  Icon(Icons.brightness_1, size: 20.0,color: Colors.transparent,),
+                  helperText: "tap to enter",
                   labelText: Strings.lastName,
+                  contentPadding: EdgeInsets.zero,
                 ),
                 autofocus: false,
                 keyboardType: TextInputType.text,
@@ -51,8 +61,13 @@ class RegisterPage extends StatelessWidget {
               ),
               TextField(
                 maxLines: 1,
+                style: TextStyle(fontSize: 18.0),
                 decoration: InputDecoration(
+                  border: InputBorder.none,
+                  icon: Icon(Icons.phone, size: 20.0,),
+                  helperText: "tap to enter",
                   labelText: Strings.mobileNumber,
+                  contentPadding: EdgeInsets.zero,
                 ),
                 autofocus: false,
                 keyboardType: TextInputType.phone,
@@ -62,8 +77,13 @@ class RegisterPage extends StatelessWidget {
               ),
               TextField(
                 maxLines: 1,
+                style: TextStyle(fontSize: 18.0),
                 decoration: InputDecoration(
+                  border: InputBorder.none,
+                  icon: Icon(Icons.email, size: 20.0,),
+                  helperText: "tap to enter",
                   labelText: Strings.email,
+                  contentPadding: EdgeInsets.zero,
                 ),
                 autofocus: false,
                 keyboardType: TextInputType.emailAddress,
@@ -75,10 +95,16 @@ class RegisterPage extends StatelessWidget {
                 maxLines: 1,
                 style: TextStyle(fontSize: 18.0),
                 decoration: InputDecoration(
-                    labelText: Strings.password,
-                    suffixIcon: Icon(
-                      Icons.visibility,
-                    )),
+                  border: InputBorder.none,
+                  icon: Icon(Icons.lock, size: 20.0,),
+                  suffixIcon: Icon(
+                    Icons.visibility,
+                    size: 20.0,
+                  ),
+                  helperText: "tap to enter",
+                  labelText: Strings.password,
+                  contentPadding: EdgeInsets.zero,
+                ),
                 autofocus: false,
                 obscureText: true,
                 keyboardType: TextInputType.text,
@@ -88,11 +114,17 @@ class RegisterPage extends StatelessWidget {
               ),
               TextField(
                 maxLines: 1,
+                style: TextStyle(fontSize: 18.0),
                 decoration: InputDecoration(
+                  border: InputBorder.none,
+                  icon: Icon(Icons.brightness_1, size: 20.0, color: Colors.transparent,),
+                  helperText: "tap to enter",
+                  suffixIcon: Icon(
+                    Icons.visibility,
+                    size: 20.0,
+                  ),
                   labelText: Strings.confirmPassword,
-                    suffixIcon: Icon(
-                      Icons.visibility,
-                    ),
+                  contentPadding: EdgeInsets.zero,
                 ),
                 autofocus: false,
                 obscureText: true,

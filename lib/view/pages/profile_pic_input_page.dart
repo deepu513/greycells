@@ -1,3 +1,6 @@
+import 'dart:io';
+
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:mental_health/constants/strings.dart';
 
@@ -8,6 +11,7 @@ class ProfilePicInputPage extends StatefulWidget {
 
 class _ProfilePicInputPageState extends State<ProfilePicInputPage> {
   bool selected;
+  File file;
 
   @override
   void initState() {
@@ -19,17 +23,20 @@ class _ProfilePicInputPageState extends State<ProfilePicInputPage> {
   Widget build(BuildContext context) {
     if (selected) {
       return CircleAvatar(
-        radius: 50,
-        backgroundImage: NetworkImage(
-            "https://via.placeholder.com/150"),
-      );
+          radius: 50,
+          backgroundImage: file == null
+              ? NetworkImage("https://via.placeholder.com/150")
+              : FileImage(
+                  file,
+                ));
     } else
       return _ProfilePicSelector(
-        onSelectionRequested: () {
-          setState(() {
-            // TODO: This should be done from bloc
-            selected = true;
-          });
+        onSelectionRequested: () async {
+          file = await FilePicker.getFile(type: FileType.image);
+          if (file != null)
+            setState(() {
+              selected = true;
+            });
         },
       );
   }

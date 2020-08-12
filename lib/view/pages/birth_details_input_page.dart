@@ -6,16 +6,23 @@ class BirthDetailsInputPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 16.0),
+      padding: const EdgeInsets.symmetric(horizontal: 16.0),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          Text(
-            Strings.birthDetails,
-            style: Theme.of(context)
-                .textTheme
-                .headline5
-                .copyWith(color: Colors.black, fontWeight: FontWeight.w400),
+          Row(
+            children: <Widget>[
+              Text(
+                Strings.birthDetails,
+                style: Theme.of(context).textTheme.headline5.copyWith(
+                    color: Colors.black, fontWeight: FontWeight.w400),
+              ),
+              Spacer(),
+              IconButton(
+                onPressed: () {},
+                icon: Icon(Icons.info_outline),
+              )
+            ],
           ),
           SizedBox(
             height: 36.0,

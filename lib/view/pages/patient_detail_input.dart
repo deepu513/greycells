@@ -7,6 +7,8 @@ import 'package:mental_health/view/pages/address_details_input_page.dart';
 import 'package:mental_health/view/pages/birth_details_input_page.dart';
 import 'package:mental_health/view/pages/guardian_details_input_page.dart';
 import 'package:mental_health/view/pages/health_details_input_page.dart';
+import 'package:mental_health/view/pages/medical_records_input_page.dart';
+import 'package:mental_health/view/pages/medical_records_input_page.dart';
 import 'package:mental_health/view/pages/profile_pic_input_page.dart';
 import 'package:mental_health/view/widgets/navigation_button_row.dart';
 
@@ -22,7 +24,7 @@ class _PatientDetailInputState extends State<PatientDetailInput>
   final animationDuration = 500;
 
   final initialPageNumber = 1;
-  final numberOfPages = 5;
+  final numberOfPages = 6;
 
   @override
   void initState() {
@@ -124,6 +126,8 @@ class _PatientDetailInputState extends State<PatientDetailInput>
       return GuardianDetailsInputPage();
     else if (transitionState.currentPageNumber == 5)
       return AddressDetailInputPage();
+    else if (transitionState.currentPageNumber == 6)
+      return MedicalRecordsInputPage();
 
     return Container(); // Should never happen
   }

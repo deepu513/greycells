@@ -11,7 +11,7 @@ class AddressDetailInputPage extends StatelessWidget {
       child: ListView(
         children: <Widget>[
           Padding(
-            padding: const EdgeInsets.fromLTRB(16.0, 8.0, 16.0, 8.0),
+            padding: const EdgeInsets.symmetric(horizontal: 16.0),
             child: Row(
               children: <Widget>[
                 Text(

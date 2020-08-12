@@ -119,11 +119,11 @@ class _PatientDetailInputState extends State<PatientDetailInput>
     else if (transitionState.currentPageNumber == 2)
       return BirthDetailsInputPage();
     else if (transitionState.currentPageNumber == 3)
-      return GuardianDetailsInputPage();
-    else if (transitionState.currentPageNumber == 4)
-      return AddressDetailInputPage();
-    else if (transitionState.currentPageNumber == 5)
       return HealthDetailsInputPage();
+    else if (transitionState.currentPageNumber == 4)
+      return GuardianDetailsInputPage();
+    else if (transitionState.currentPageNumber == 5)
+      return AddressDetailInputPage();
 
     return Container(); // Should never happen
   }

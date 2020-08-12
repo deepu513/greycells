@@ -15,13 +15,7 @@ class HealthDetailsInputPage extends StatelessWidget {
         children: <Widget>[
           Row(
             children: <Widget>[
-              Text(
-                Strings.healthDetails,
-                style: Theme.of(context)
-                    .textTheme
-                    .headline5
-                    .copyWith(color: Colors.black, fontWeight: FontWeight.w400),
-              ),
+              Text(""),
               Spacer(),
               IconButton(
                 onPressed: () {},
@@ -29,23 +23,24 @@ class HealthDetailsInputPage extends StatelessWidget {
               )
             ],
           ),
-          SizedBox(
-            height: 36.0,
-          ),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 8.0),
             child: Text("Gender",
                 style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.w400)),
           ),
           SizedBox(
-            height: 16.0,
+            height: 20.0,
           ),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 8.0),
             child: GenderSelector(),
           ),
           SizedBox(
-            height: 36.0,
+            height: 16.0,
+          ),
+          Divider(),
+          SizedBox(
+            height: 16.0,
           ),
           Padding(
               padding: const EdgeInsets.symmetric(horizontal: 8.0),
@@ -57,7 +52,11 @@ class HealthDetailsInputPage extends StatelessWidget {
             child: Container(height: 124.0, child: WeightCard()),
           ),
           SizedBox(
-            height: 36.0,
+            height: 16.0,
+          ),
+          Divider(),
+          SizedBox(
+            height: 16.0,
           ),
           Padding(
               padding: const EdgeInsets.symmetric(horizontal: 8.0),

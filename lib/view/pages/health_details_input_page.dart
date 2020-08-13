@@ -5,19 +5,19 @@ import 'package:mental_health/view/widgets/height_card.dart';
 import 'package:mental_health/view/widgets/weight_card.dart';
 
 class HealthDetailsInputPage extends StatefulWidget {
-  final int initialHeight = 150;
-
   @override
   _HealthDetailsInputPageState createState() => _HealthDetailsInputPageState();
 }
 
 class _HealthDetailsInputPageState extends State<HealthDetailsInputPage> {
   int selectedHeight;
+  int selectedWeight;
 
   @override
   void initState() {
     super.initState();
-    selectedHeight = widget.initialHeight;
+    selectedHeight = 150;
+    selectedWeight = 70;
   }
 
   @override
@@ -58,12 +58,44 @@ class _HealthDetailsInputPageState extends State<HealthDetailsInputPage> {
           ),
           Padding(
               padding: const EdgeInsets.symmetric(horizontal: 8.0),
-              child: Text("Weight",
-                  style:
-                      TextStyle(fontSize: 20.0, fontWeight: FontWeight.w400))),
+              child: Row(
+                children: [
+                  Text("Weight",
+                      style: TextStyle(
+                          fontSize: 20.0, fontWeight: FontWeight.w400)),
+                  Spacer(),
+                  FittedBox(
+                    child: RichText(
+                      text: TextSpan(
+                          text:
+                              "${(selectedWeight * 2.205).toStringAsFixed(2)}",
+                          style: TextStyle(
+                              fontSize: 18.0,
+                              fontWeight: FontWeight.w500,
+                              color: Colors.black54),
+                          children: [
+                            TextSpan(
+                                text: " pounds ",
+                                style: TextStyle(
+                                    fontSize: 16.0,
+                                    color: Colors.grey,
+                                    fontWeight: FontWeight.w400)),
+                          ]),
+                    ),
+                    fit: BoxFit.contain,
+                  )
+                ],
+              )),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 8.0),
-            child: Container(height: 124.0, child: WeightCard()),
+            child: Container(
+                height: 124.0,
+                child: WeightCard(
+                  initialWeight: selectedWeight,
+                  onWeightChanged: (val) => setState(() {
+                    selectedWeight = val;
+                  }),
+                )),
           ),
           SizedBox(
             height: 16.0,
@@ -89,7 +121,7 @@ class _HealthDetailsInputPageState extends State<HealthDetailsInputPage> {
             child: Container(
                 height: 124.0,
                 child: HeightCard(
-                  initialHeight: 150,
+                  initialHeight: selectedHeight,
                   onHeightChanged: (val) => setState(() {
                     selectedHeight = val;
                   }),

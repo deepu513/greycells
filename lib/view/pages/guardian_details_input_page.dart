@@ -27,8 +27,16 @@ class GuardianDetailsInputPage extends StatelessWidget {
               ],
             ),
           ),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16.0),
+            child: Text(
+                Strings.mandatoryFields,
+                style: Theme.of(context).textTheme.subtitle1.copyWith(
+                    color: Colors.grey[600], fontSize: 14.0
+                )),
+          ),
           SizedBox(
-            height: 24.0,
+            height: 36.0,
           ),
           // Relationship, guardian name, guardian mobile number, guardian address
           Padding(

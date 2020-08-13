@@ -42,7 +42,8 @@ class Strings {
   static const guardianAddress = "Guardian Address";
   static const sameAsAbove = "Same as above";
   static const liveWithGuardian = "Select this if you live with your guardian";
-  static const emptyListMessage = "Click on + to select a file";
+  static const emptyListMessage = "Click on + to select a file\n(click 'Next' to skip)";
+  static const mandatoryFields = "All fields are mandatory";
 }
 
 /// This should contain strings which signify an error message

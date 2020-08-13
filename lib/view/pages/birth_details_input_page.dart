@@ -24,6 +24,11 @@ class BirthDetailsInputPage extends StatelessWidget {
               )
             ],
           ),
+          Text(
+            Strings.mandatoryFields,
+            style: Theme.of(context).textTheme.subtitle1.copyWith(
+              color: Colors.grey[600], fontSize: 14.0
+            )),
           SizedBox(
             height: 36.0,
           ),
@@ -32,8 +37,14 @@ class BirthDetailsInputPage extends StatelessWidget {
             padding: const EdgeInsets.symmetric(horizontal: 8.0),
             child: PlaceOfBirthInput(),
           )),
-          Expanded(child: DateOfBirthInput()),
-          Expanded(child: TimeOfBirthWidget()),
+          Expanded(child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 8.0),
+            child: DateOfBirthInput(),
+          )),
+          Expanded(child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 8.0),
+            child: TimeOfBirthWidget(),
+          )),
         ],
       ),
     );

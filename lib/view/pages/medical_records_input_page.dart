@@ -15,7 +15,7 @@ class MedicalRecordsInputPage extends StatelessWidget {
         child: Icon(Icons.add),
       ),
       body: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16.0),
@@ -112,11 +112,18 @@ class FileList extends StatelessWidget {
 class ListEmptyWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Container(
-      alignment: Alignment.center,
-      child: Text(
-        Strings.emptyListMessage,
-        style: Theme.of(context).textTheme.subtitle1,
+    return Center(
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Icon(Icons.insert_drive_file, size: 56.0,),
+          SizedBox(height: 16.0),
+          Text(
+            Strings.emptyListMessage,
+            style: Theme.of(context).textTheme.subtitle1,
+            textAlign: TextAlign.center,
+          ),
+        ],
       ),
     );
   }

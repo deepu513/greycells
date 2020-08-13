@@ -16,7 +16,7 @@ class AddressDetailInputPage extends StatelessWidget {
               children: <Widget>[
                 Text(
                   Strings.addressDetails,
-                  style: Theme.of(context).textTheme.headline5.copyWith(
+                  style: Theme.of(context).textTheme.headline6.copyWith(
                       color: Colors.black, fontWeight: FontWeight.w400),
                 ),
                 Spacer(),

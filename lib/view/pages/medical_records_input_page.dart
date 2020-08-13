@@ -1,3 +1,6 @@
+import 'dart:io';
+
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:mental_health/constants/strings.dart';
 
@@ -9,8 +12,8 @@ class MedicalRecordsInputPage extends StatelessWidget {
     return Scaffold(
       floatingActionButton: FloatingActionButton(
         onPressed: () async {
-          String result = await showAlertDialog(context);
-          print(result);
+          File result = await showAlertDialog(context);
+          print(result.path);
         },
         child: Icon(Icons.add),
       ),
@@ -23,7 +26,7 @@ class MedicalRecordsInputPage extends StatelessWidget {
               children: <Widget>[
                 Text(
                   Strings.medicalRecords,
-                  style: Theme.of(context).textTheme.headline5.copyWith(
+                  style: Theme.of(context).textTheme.headline6.copyWith(
                       color: Colors.black, fontWeight: FontWeight.w400),
                 ),
                 Spacer(),
@@ -34,8 +37,13 @@ class MedicalRecordsInputPage extends StatelessWidget {
               ],
             ),
           ),
-          SizedBox(
-            height: 16.0,
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16.0),
+            child: Text("${list.length} files selected",
+                style: Theme.of(context)
+                    .textTheme
+                    .subtitle1
+                    .copyWith(color: Colors.grey[600], fontSize: 14.0)),
           ),
           Expanded(child: list.isEmpty ? ListEmptyWidget() : FileList(list)),
         ],
@@ -55,8 +63,9 @@ class MedicalRecordsInputPage extends StatelessWidget {
           Text('Image'),
         ],
       ),
-      onPressed: () {
-        Navigator.of(context).pop("Image");
+      onPressed: () async {
+        File file = await FilePicker.getFile(type: FileType.image);
+        Navigator.of(context).pop(file);
       },
     );
     Widget optionTwo = SimpleDialogOption(
@@ -69,8 +78,10 @@ class MedicalRecordsInputPage extends StatelessWidget {
           Text('PDF'),
         ],
       ),
-      onPressed: () {
-        Navigator.of(context).pop("PDF");
+      onPressed: () async {
+        File file = await FilePicker.getFile(
+            type: FileType.custom, allowedExtensions: ["pdf"]);
+        Navigator.of(context).pop(file);
       },
     );
 
@@ -84,7 +95,7 @@ class MedicalRecordsInputPage extends StatelessWidget {
     );
 
     // show the dialog
-    return await showDialog<String>(
+    return await showDialog<File>(
       context: context,
       builder: (BuildContext context) {
         return dialog;
@@ -116,7 +127,10 @@ class ListEmptyWidget extends StatelessWidget {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Icon(Icons.insert_drive_file, size: 56.0,),
+          Icon(
+            Icons.insert_drive_file,
+            size: 56.0,
+          ),
           SizedBox(height: 16.0),
           Text(
             Strings.emptyListMessage,

@@ -1,8 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:mental_health/view/widgets/height_card.dart';
-import 'package:mental_health/view/widgets/weight_card.dart';
+import 'package:mental_health/view/widgets/number_slider.dart';
 
 class HealthDetailsInputPage extends StatefulWidget {
   @override
@@ -22,12 +21,12 @@ class _HealthDetailsInputPageState extends State<HealthDetailsInputPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16.0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: <Widget>[
-          Row(
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: <Widget>[
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16.0),
+          child: Row(
             children: <Widget>[
               Text(""),
               Spacer(),
@@ -37,98 +36,108 @@ class _HealthDetailsInputPageState extends State<HealthDetailsInputPage> {
               )
             ],
           ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 8.0),
-            child: Text("Gender",
-                style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.w400)),
-          ),
-          SizedBox(
-            height: 20.0,
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 8.0),
-            child: GenderSelector(),
-          ),
-          SizedBox(
-            height: 16.0,
-          ),
-          Divider(),
-          SizedBox(
-            height: 16.0,
-          ),
-          Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 8.0),
-              child: Row(
-                children: [
-                  Text("Weight",
-                      style: TextStyle(
-                          fontSize: 20.0, fontWeight: FontWeight.w400)),
-                  Spacer(),
-                  FittedBox(
-                    child: RichText(
-                      text: TextSpan(
-                          text:
-                              "${(selectedWeight * 2.205).toStringAsFixed(2)}",
-                          style: TextStyle(
-                              fontSize: 18.0,
-                              fontWeight: FontWeight.w500,
-                              color: Colors.black54),
-                          children: [
-                            TextSpan(
-                                text: " pounds ",
-                                style: TextStyle(
-                                    fontSize: 16.0,
-                                    color: Colors.grey,
-                                    fontWeight: FontWeight.w400)),
-                          ]),
-                    ),
-                    fit: BoxFit.contain,
-                  )
-                ],
-              )),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 8.0),
-            child: Container(
-                height: 124.0,
-                child: WeightCard(
-                  initialWeight: selectedWeight,
-                  onWeightChanged: (val) => setState(() {
-                    selectedWeight = val;
-                  }),
-                )),
-          ),
-          SizedBox(
-            height: 16.0,
-          ),
-          Divider(),
-          SizedBox(
-            height: 16.0,
-          ),
-          Padding(
-              padding: const EdgeInsets.only(left: 8.0, right: 16.0),
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.end,
-                children: [
-                  Text("Height",
-                      style: TextStyle(
-                          fontSize: 20.0, fontWeight: FontWeight.w400)),
-                  Spacer(),
-                  cmToFeetInches(selectedHeight)
-                ],
-              )),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 8.0),
-            child: Container(
-                height: 124.0,
-                child: HeightCard(
-                  initialHeight: selectedHeight,
-                  onHeightChanged: (val) => setState(() {
-                    selectedHeight = val;
-                  }),
-                )),
-          ),
-        ],
-      ),
+        ),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16.0),
+          child: Text("Gender",
+              style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.w400)),
+        ),
+        SizedBox(
+          height: 20.0,
+        ),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16.0),
+          child: GenderSelector(),
+        ),
+        SizedBox(
+          height: 20.0,
+        ),
+        Divider(
+          indent: 16.0,
+          endIndent: 16.0,
+        ),
+        SizedBox(
+          height: 20.0,
+        ),
+        Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16.0),
+            child: Row(
+              children: [
+                Text("Weight",
+                    style: TextStyle(
+                        fontSize: 20.0, fontWeight: FontWeight.w400)),
+                Spacer(),
+                FittedBox(
+                  child: RichText(
+                    text: TextSpan(
+                        text:
+                            "${(selectedWeight * 2.205).toStringAsFixed(2)}",
+                        style: TextStyle(
+                            fontSize: 18.0,
+                            fontWeight: FontWeight.w500,
+                            color: Colors.black54),
+                        children: [
+                          TextSpan(
+                              text: " pounds ",
+                              style: TextStyle(
+                                  fontSize: 16.0,
+                                  color: Colors.grey,
+                                  fontWeight: FontWeight.w400)),
+                        ]),
+                  ),
+                  fit: BoxFit.contain,
+                )
+              ],
+            )),
+        SizedBox(
+          height: 16.0,
+        ),
+        NumberSlider(
+          minValue: 30,
+          maxValue: 200,
+          value: selectedWeight,
+          indicatorText: "kgs",
+          width: MediaQuery.of(context).size.width,
+          onChanged: (val) => setState(() {
+            selectedWeight = val;
+          }),
+        ),
+        SizedBox(
+          height: 20.0,
+        ),
+        Divider(
+          indent: 16.0,
+          endIndent: 16.0,
+        ),
+        SizedBox(
+          height: 20.0,
+        ),
+        Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16.0),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: [
+                Text("Height",
+                    style: TextStyle(
+                        fontSize: 20.0, fontWeight: FontWeight.w400)),
+                Spacer(),
+                cmToFeetInches(selectedHeight)
+              ],
+            )),
+        SizedBox(
+          height: 16.0,
+        ),
+        NumberSlider(
+          minValue: 30,
+          maxValue: 200,
+          value: selectedHeight,
+          indicatorText: "cms",
+          width: MediaQuery.of(context).size.width,
+          onChanged: (val) => setState(() {
+            selectedHeight = val;
+          }),
+        ),
+      ],
     );
   }
 

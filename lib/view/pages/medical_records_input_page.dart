@@ -2,18 +2,39 @@ import 'dart:io';
 
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart';
 import 'package:mental_health/constants/strings.dart';
+import 'package:path/path.dart';
+import 'package:filesize/filesize.dart';
 
-class MedicalRecordsInputPage extends StatelessWidget {
-  final List<String> list = List<String>();
+class MedicalRecordsInputPage extends StatefulWidget {
+  @override
+  _MedicalRecordsInputPageState createState() => _MedicalRecordsInputPageState();
+}
+
+class _MedicalRecordsInputPageState extends State<MedicalRecordsInputPage> {
+  final List<File> list = List();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       floatingActionButton: FloatingActionButton(
         onPressed: () async {
-          File result = await showAlertDialog(context);
-          print(result.path);
+          File pickedFile = await FilePicker.getFile(
+              type: FileType.custom,
+              allowedExtensions: ["pdf", "jpg", "jpeg", "png"]);
+
+          if (pickedFile != null) {
+            if (extension(pickedFile.path) == ".pdf" ||
+                extension(pickedFile.path) == ".jpg" ||
+                extension(pickedFile.path) == ".jpeg" ||
+                extension(pickedFile.path) == ".png")
+
+            setState(() {
+              list.add(pickedFile);
+            });
+          }
+
         },
         child: Icon(Icons.add),
       ),
@@ -26,7 +47,11 @@ class MedicalRecordsInputPage extends StatelessWidget {
               children: <Widget>[
                 Text(
                   Strings.medicalRecords,
-                  style: Theme.of(context).textTheme.headline6.copyWith(
+                  style: Theme
+                      .of(context)
+                      .textTheme
+                      .headline6
+                      .copyWith(
                       color: Colors.black, fontWeight: FontWeight.w400),
                 ),
                 Spacer(),
@@ -38,9 +63,10 @@ class MedicalRecordsInputPage extends StatelessWidget {
             ),
           ),
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16.0),
+            padding: const EdgeInsets.fromLTRB(16.0, 0.0, 16.0, 16.0),
             child: Text("${list.length} files selected",
-                style: Theme.of(context)
+                style: Theme
+                    .of(context)
                     .textTheme
                     .subtitle1
                     .copyWith(color: Colors.grey[600], fontSize: 14.0)),
@@ -50,62 +76,10 @@ class MedicalRecordsInputPage extends StatelessWidget {
       ),
     );
   }
-
-  showAlertDialog(BuildContext context) async {
-    // set up the list options
-    Widget optionOne = SimpleDialogOption(
-      child: Row(
-        children: [
-          Icon(Icons.image),
-          SizedBox(
-            width: 16.0,
-          ),
-          Text('Image'),
-        ],
-      ),
-      onPressed: () async {
-        File file = await FilePicker.getFile(type: FileType.image);
-        Navigator.of(context).pop(file);
-      },
-    );
-    Widget optionTwo = SimpleDialogOption(
-      child: Row(
-        children: [
-          Icon(Icons.picture_as_pdf),
-          SizedBox(
-            width: 16.0,
-          ),
-          Text('PDF'),
-        ],
-      ),
-      onPressed: () async {
-        File file = await FilePicker.getFile(
-            type: FileType.custom, allowedExtensions: ["pdf"]);
-        Navigator.of(context).pop(file);
-      },
-    );
-
-    // set up the SimpleDialog
-    SimpleDialog dialog = SimpleDialog(
-      title: const Text('Choose file as'),
-      children: <Widget>[
-        optionOne,
-        optionTwo,
-      ],
-    );
-
-    // show the dialog
-    return await showDialog<File>(
-      context: context,
-      builder: (BuildContext context) {
-        return dialog;
-      },
-    );
-  }
 }
 
 class FileList extends StatelessWidget {
-  final List<String> list;
+  final List<File> list;
 
   FileList(this.list);
 
@@ -113,9 +87,12 @@ class FileList extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListView.separated(
         itemBuilder: (context, index) {
-          return Container();
+          return ListTile(
+            title: Text(basename(list[index].path)),
+            subtitle: Text(filesize(list[index].lengthSync())),
+          );
         },
-        separatorBuilder: (context, index) => Divider(),
+        separatorBuilder: (context, index) => Divider(indent: 16.0, endIndent: 16.0,),
         itemCount: list.length);
   }
 }
@@ -134,7 +111,10 @@ class ListEmptyWidget extends StatelessWidget {
           SizedBox(height: 16.0),
           Text(
             Strings.emptyListMessage,
-            style: Theme.of(context).textTheme.subtitle1,
+            style: Theme
+                .of(context)
+                .textTheme
+                .subtitle1,
             textAlign: TextAlign.center,
           ),
         ],

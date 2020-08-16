@@ -2,6 +2,7 @@
 class Strings {
   static const back = "back";
   static const next = "next";
+  static const saveAndNext = "Save & next";
   static const welcome = "Welcome to eSuperMalls";
   static const email = "Email";
   static const password = "Password";

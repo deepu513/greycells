@@ -37,9 +37,6 @@ class QuestionOptionPageContent extends StatelessWidget {
           padding: const EdgeInsets.fromLTRB(16.0, 24.0, 16.0, 16.0),
           child: QuestionSection(),
         ),
-        SizedBox(
-          height: 16.0,
-        ),
         Expanded(child: OptionSection()),
         Padding(
           padding: const EdgeInsets.all(16.0),
@@ -56,7 +53,6 @@ class QuestionSection extends StatelessWidget {
     return Text(
       "I tend to join social organisations when I have an opportunity",
       style: Theme.of(context).textTheme.headline6.copyWith(
-            fontSize: 24.0,
             height: 1.2,
             letterSpacing: 0.7,
           ),
@@ -82,23 +78,10 @@ class _OptionSectionState extends State<OptionSection> {
 
   @override
   Widget build(BuildContext context) {
-    var size = MediaQuery.of(context).size;
-
-    /*24 is for notification bar on Android*/
-    final double itemHeight = (size.height - kToolbarHeight - 24) / 8;
-    final double itemWidth = size.width / 2;
-
-    return GridView.builder(
-      shrinkWrap: true,
-      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: 2,
-        mainAxisSpacing: 16.0,
-        crossAxisSpacing: 8.0,
-        childAspectRatio: (itemWidth / itemHeight),
-      ),
+    return ListView.builder(
       itemBuilder: (context, index) {
         return Padding(
-          padding: EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
+          padding: EdgeInsets.symmetric(vertical: 16.0, horizontal: 24.0),
           child: GestureDetector(
             onTap: () {
               setState(() {
@@ -106,24 +89,21 @@ class _OptionSectionState extends State<OptionSection> {
               });
             },
             child: AnimatedContainer(
-              alignment: Alignment.centerLeft,
               duration: Duration(milliseconds: 300),
               padding: EdgeInsets.all(16.0),
               decoration: BoxDecoration(
-                  color: index == selectedIndex
-                      ? Colors.blueAccent.shade100
-                      : Colors.white,
+                color: index == selectedIndex ? Colors.blueAccent.shade100 : Colors.white,
                   border: Border.all(
                       width: selectedIndex >= 0 ? 0.0 : 0.0,
                       color: index == selectedIndex
                           ? Colors.blueAccent.shade100
-                          : Colors.black),
+                          : Colors.transparent),
                   borderRadius: BorderRadius.circular(16.0)),
               child: Text(
                 options[index],
                 style: Theme.of(context).textTheme.subtitle1.copyWith(
-                    color:
-                        index == selectedIndex ? Colors.white : Colors.black),
+                  color: index == selectedIndex? Colors.white : Colors.black
+                ),
               ),
             ),
           ),

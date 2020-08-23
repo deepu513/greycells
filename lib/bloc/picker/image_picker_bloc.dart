@@ -18,15 +18,17 @@ class ImagePickerBloc extends Bloc<ImagePickerEvent, ImagePickerState> {
     ImagePickerEvent event,
   ) async* {
     if (event is PickImage) {
-      yield StateImagePickInProgress();
-
       final picker = ImagePicker();
       final pickedFile = await picker.getImage(
         source: event.source,
         imageQuality: 30,
       );
 
-      yield StateImagePicked(File(pickedFile.path));
+      if (pickedFile != null) yield StateImagePicked(File(pickedFile.path));
+      else yield StateImagePickCancelled();
     }
+
+    if(event is RemoveSelectedImage)
+      yield StateImageRemoved();
   }
 }

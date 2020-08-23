@@ -28,6 +28,10 @@ class Strings {
   static const medicalRecords = "Medical Records";
   static const profilePicPickerMessage =
       "Click to add a profile picture!\n(click 'Next' to skip)";
+  static const nice = "Nice!";
+  static const removeImage = "Remove selected image";
+  static const nextToProceed = "Click 'Next' to proceed";
+  static const or = "or";
   static const placeOfBirth = "Place of birth";
   static const dateOfBirthMessage = "Please enter your date of birth";
   static const timeOfBirthMessage = "Time of birth";

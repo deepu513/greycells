@@ -5,29 +5,21 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:mental_health/bloc/picker/image_picker_bloc.dart';
 import 'package:mental_health/constants/strings.dart';
-import 'package:mental_health/view/widgets/centered_circular_loading.dart';
 
 class ProfilePicInputPage extends StatelessWidget {
-
   const ProfilePicInputPage();
 
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<ImagePickerBloc, ImagePickerState>(
       builder: (context, imagePickerState) {
-        if (imagePickerState is ImagePickerInitial) {
-          return _ProfilePicSelector(
-            onSelectionRequested: () => _pickImage(context),
-          );
-        } else if (imagePickerState is StateImagePicked) {
-          return CircleAvatarWidget(
-            imagePickerState.pickedImageFile,
-            onSelectionRequested: () => _pickImage(context),
-          );
-        } else if (imagePickerState is StateImagePickInProgress) {
-          return CenteredCircularLoadingIndicator();
+        if (imagePickerState is StateImagePicked) {
+          return CircleAvatarWidget(imagePickerState.pickedImageFile,
+              onSelectionRequested: () => _pickImage(context),
+              onRemoveRequested: () => _removeImage(context));
         } else
-          return Container();
+          return _ProfilePicSelector(
+              onSelectionRequested: () => _pickImage(context));
       },
     );
   }
@@ -36,29 +28,73 @@ class ProfilePicInputPage extends StatelessWidget {
     return BlocProvider.of<ImagePickerBloc>(context)
         .add(PickImage(ImageSource.gallery));
   }
+
+  void _removeImage(BuildContext context) {
+    return BlocProvider.of<ImagePickerBloc>(context)
+        .add(RemoveSelectedImage());
+  }
 }
 
 class CircleAvatarWidget extends StatelessWidget {
   final VoidCallback onSelectionRequested;
+  final VoidCallback onRemoveRequested;
 
   final File imageFile;
 
-  CircleAvatarWidget(this.imageFile, {this.onSelectionRequested});
+  const CircleAvatarWidget(this.imageFile,
+      {this.onSelectionRequested, this.onRemoveRequested});
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
-      onTap: onSelectionRequested,
-      child: CircleAvatar(
-        radius: 100,
-        backgroundImage: FileImage(imageFile),
-        onBackgroundImageError: (exception, stackTrace) {
-          Scaffold.of(context).showSnackBar(SnackBar(
-            content: Text(Strings.imageError),
-            duration: Duration(milliseconds: 2000),
-          ));
-        },
-      ),
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        InkWell(
+          onTap: onSelectionRequested,
+          child: CircleAvatar(
+            radius: 100,
+            backgroundImage: FileImage(imageFile),
+            onBackgroundImageError: (exception, stackTrace) {
+              Scaffold.of(context).showSnackBar(SnackBar(
+                content: Text(Strings.imageError),
+                duration: Duration(milliseconds: 2000),
+              ));
+            },
+          ),
+        ),
+        SizedBox(
+          height: 24.0,
+        ),
+        FlatButton(
+          onPressed: onRemoveRequested,
+          child: Text(
+            Strings.removeImage.toUpperCase(),
+            style: Theme.of(context).textTheme.button.copyWith(
+                color: Theme.of(context).accentColor, letterSpacing: 0.7),
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.symmetric(vertical: 16.0),
+          child: Text(
+            Strings.or.toUpperCase(),
+            style: Theme.of(context)
+                .textTheme
+                .subtitle1
+                .copyWith(letterSpacing: 0.8),
+          ),
+        ),
+        SizedBox(
+          height: 8.0,
+        ),
+        Text(
+          Strings.nextToProceed,
+          style: Theme.of(context)
+              .textTheme
+              .subtitle1
+              .copyWith(color: Colors.grey[600], letterSpacing: 0.8),
+        ),
+      ],
     );
   }
 }
@@ -66,7 +102,7 @@ class CircleAvatarWidget extends StatelessWidget {
 class _ProfilePicSelector extends StatelessWidget {
   final VoidCallback onSelectionRequested;
 
-  _ProfilePicSelector({Key key, this.onSelectionRequested});
+  const _ProfilePicSelector({Key key, this.onSelectionRequested});
 
   @override
   Widget build(BuildContext context) {
@@ -81,7 +117,7 @@ class _ProfilePicSelector extends StatelessWidget {
           splashRadius: 56.0,
         ),
         SizedBox(
-          height: 36.0,
+          height: 24.0,
         ),
         Text(
           Strings.profilePicPickerMessage,

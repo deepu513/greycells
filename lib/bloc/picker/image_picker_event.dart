@@ -8,3 +8,5 @@ class PickImage extends ImagePickerEvent {
 
   PickImage(this.source);
 }
+
+class RemoveSelectedImage extends ImagePickerEvent {}

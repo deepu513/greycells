@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:mental_health/constants/strings.dart';
 import 'package:mental_health/view/widgets/number_slider.dart';
 
 class HealthDetailsInputPage extends StatefulWidget {
@@ -31,7 +32,7 @@ class _HealthDetailsInputPageState extends State<HealthDetailsInputPage> {
               Text(""),
               Spacer(),
               IconButton(
-                onPressed: () {},
+                onPressed: () => showInfoDialog(context),
                 icon: Icon(Icons.info_outline),
               )
             ],
@@ -139,6 +140,32 @@ class _HealthDetailsInputPageState extends State<HealthDetailsInputPage> {
         ),
       ],
     );
+  }
+
+  void showInfoDialog(BuildContext context) {
+    showDialog<void>(
+        context: context,
+        barrierDismissible: true,
+        builder: (context) {
+          return AlertDialog(
+            title: Text(Strings.info),
+            content: SingleChildScrollView(
+              child: ListBody(
+                children: <Widget>[
+                  Text(Strings.healthRecordsInfo),
+                ],
+              ),
+            ),
+            actions: [
+              FlatButton(
+                child: Text('OK'),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              )
+            ],
+          );
+        });
   }
 
   Widget cmToFeetInches(int cms) {

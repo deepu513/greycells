@@ -21,7 +21,7 @@ class AddressDetailInputPage extends StatelessWidget {
                 ),
                 Spacer(),
                 IconButton(
-                  onPressed: () {},
+                  onPressed: () => showInfoDialog(context),
                   icon: Icon(Icons.info_outline),
                 )
               ],
@@ -36,6 +36,32 @@ class AddressDetailInputPage extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  void showInfoDialog(BuildContext context) {
+    showDialog<void>(
+        context: context,
+        barrierDismissible: true,
+        builder: (context) {
+          return AlertDialog(
+            title: Text(Strings.info),
+            content: SingleChildScrollView(
+              child: ListBody(
+                children: <Widget>[
+                  Text(Strings.addressDetailsInfo),
+                ],
+              ),
+            ),
+            actions: [
+              FlatButton(
+                child: Text('OK'),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              )
+            ],
+          );
+        });
   }
 }
 

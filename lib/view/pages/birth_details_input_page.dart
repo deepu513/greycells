@@ -14,21 +14,23 @@ class BirthDetailsInputPage extends StatelessWidget {
             children: <Widget>[
               Text(
                 Strings.birthDetails,
-                style: Theme.of(context).textTheme.headline6.copyWith(
-                    color: Colors.black, fontWeight: FontWeight.w400),
+                style: Theme.of(context)
+                    .textTheme
+                    .headline6
+                    .copyWith(color: Colors.black, fontWeight: FontWeight.w400),
               ),
               Spacer(),
               IconButton(
-                onPressed: () {},
+                onPressed: () => showInfoDialog(context),
                 icon: Icon(Icons.info_outline),
               )
             ],
           ),
-          Text(
-            Strings.mandatoryFields,
-            style: Theme.of(context).textTheme.subtitle1.copyWith(
-              color: Colors.grey[600], fontSize: 14.0
-            )),
+          Text(Strings.mandatoryFields,
+              style: Theme.of(context)
+                  .textTheme
+                  .subtitle1
+                  .copyWith(color: Colors.grey[600], fontSize: 14.0)),
           SizedBox(
             height: 36.0,
           ),
@@ -37,17 +39,45 @@ class BirthDetailsInputPage extends StatelessWidget {
             padding: const EdgeInsets.symmetric(horizontal: 8.0),
             child: PlaceOfBirthInput(),
           )),
-          Expanded(child: Padding(
+          Expanded(
+              child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 8.0),
             child: DateOfBirthInput(),
           )),
-          Expanded(child: Padding(
+          Expanded(
+              child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 8.0),
             child: TimeOfBirthWidget(),
           )),
         ],
       ),
     );
+  }
+
+  void showInfoDialog(BuildContext context) {
+    showDialog<void>(
+        context: context,
+        barrierDismissible: true,
+        builder: (context) {
+          return AlertDialog(
+            title: Text(Strings.info),
+            content: SingleChildScrollView(
+              child: ListBody(
+                children: <Widget>[
+                  Text(Strings.birthDetailsInfo),
+                ],
+              ),
+            ),
+            actions: [
+              FlatButton(
+                child: Text('OK'),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              )
+            ],
+          );
+        });
   }
 }
 

@@ -58,6 +58,8 @@ class Strings {
   static const birthDetailsInfo = "Details about why we are asking birth information should go in this section";
   static const assessmentHelp = "Any helpful message which a user can see in middle of test should go here";
   static const imageError = "Couldn't pick image. Try to pick again or a different one";
+  static const dateOfBirth = "Date of birth";
+  static const timeOfBirth = "Time of birth";
 }
 
 /// This should contain strings which signify an error message

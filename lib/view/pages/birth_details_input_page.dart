@@ -3,7 +3,7 @@ import 'package:mental_health/constants/strings.dart';
 
 class BirthDetailsInputPage extends StatelessWidget {
   const BirthDetailsInputPage();
-  // TODO: Change label color when not in focus and adjust font sizes
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -33,7 +33,7 @@ class BirthDetailsInputPage extends StatelessWidget {
                   .subtitle1
                   .copyWith(color: Colors.grey[600], fontSize: 14.0)),
           SizedBox(
-            height: 36.0,
+            height: 32.0,
           ),
           Expanded(
               child: Padding(
@@ -87,14 +87,17 @@ class PlaceOfBirthInput extends StatelessWidget {
   Widget build(BuildContext context) {
     return TextField(
       maxLines: 1,
-      style: TextStyle(fontSize: 24.0, fontWeight: FontWeight.w400),
+      style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.w400),
       decoration: InputDecoration(
         border: InputBorder.none,
+        icon: Icon(
+          Icons.add_location,
+          size: 20.0,
+        ),
         helperText: Strings.tapToEnter,
-        helperStyle: TextStyle(fontSize: 14.0),
+        helperStyle: TextStyle(fontSize: 14.0, color: Colors.grey),
         labelText: Strings.placeOfBirth,
         contentPadding: EdgeInsets.zero,
-        labelStyle: TextStyle(color: Theme.of(context).accentColor),
       ),
       autofocus: false,
       keyboardType: TextInputType.text,
@@ -109,8 +112,17 @@ class DateOfBirthInput extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
-        Text("Date of birth",
-            style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.w400)),
+        Row(
+          children: [
+            Icon(Icons.event, color: Colors.black54,size: 20.0,),
+            SizedBox(width: 16.0,),
+            Text(Strings.dateOfBirth,
+                style: TextStyle(
+                    fontSize: 20.0,
+                    fontWeight: FontWeight.w400,
+                    color: Colors.black54)),
+          ],
+        ),
         SizedBox(
           height: 16.0,
         ),
@@ -206,8 +218,17 @@ class TimeOfBirthWidget extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
-        Text("Time of birth",
-            style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.w400)),
+        Row(
+          children: [
+            Icon(Icons.access_time, color: Colors.black54,size: 20.0,),
+            SizedBox(width: 16.0,),
+            Text(Strings.timeOfBirth,
+                style: TextStyle(
+                    fontSize: 20.0,
+                    fontWeight: FontWeight.w400,
+                    color: Colors.black54)),
+          ],
+        ),
         SizedBox(
           height: 16.0,
         ),

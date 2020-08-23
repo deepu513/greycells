@@ -87,6 +87,8 @@ class PlaceOfBirthInput extends StatelessWidget {
   Widget build(BuildContext context) {
     return TextField(
       maxLines: 1,
+      maxLength: 50,
+      textInputAction: TextInputAction.next,
       style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.w400),
       decoration: InputDecoration(
         border: InputBorder.none,
@@ -102,6 +104,10 @@ class PlaceOfBirthInput extends StatelessWidget {
       autofocus: false,
       keyboardType: TextInputType.text,
       textCapitalization: TextCapitalization.words,
+      buildCounter: (BuildContext context,
+          {int currentLength, int maxLength, bool isFocused}) =>
+      null,
+      onSubmitted: (_) => FocusScope.of(context).nextFocus(),
     );
   }
 }
@@ -114,8 +120,14 @@ class DateOfBirthInput extends StatelessWidget {
       children: <Widget>[
         Row(
           children: [
-            Icon(Icons.event, color: Colors.black54,size: 20.0,),
-            SizedBox(width: 16.0,),
+            Icon(
+              Icons.event,
+              color: Colors.black54,
+              size: 20.0,
+            ),
+            SizedBox(
+              width: 16.0,
+            ),
             Text(Strings.dateOfBirth,
                 style: TextStyle(
                     fontSize: 20.0,
@@ -137,6 +149,7 @@ class DateOfBirthInput extends StatelessWidget {
                 flex: 2,
                 child: TextField(
                   maxLength: 2,
+                  textInputAction: TextInputAction.next,
                   style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.w400),
                   decoration: InputDecoration(
                       labelText: "dd",
@@ -148,6 +161,10 @@ class DateOfBirthInput extends StatelessWidget {
                   buildCounter: (BuildContext context,
                           {int currentLength, int maxLength, bool isFocused}) =>
                       null,
+                    onChanged: (value) {
+                      if(value.length == 2) FocusScope.of(context).nextFocus();
+                    },
+                    onSubmitted: (_) => FocusScope.of(context).nextFocus()
                 ),
               ),
               Expanded(
@@ -162,6 +179,7 @@ class DateOfBirthInput extends StatelessWidget {
                 flex: 2,
                 child: TextField(
                   maxLength: 2,
+                  textInputAction: TextInputAction.next,
                   style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.w400),
                   decoration: InputDecoration(
                       labelText: "mm",
@@ -173,6 +191,10 @@ class DateOfBirthInput extends StatelessWidget {
                   buildCounter: (BuildContext context,
                           {int currentLength, int maxLength, bool isFocused}) =>
                       null,
+                    onChanged: (value) {
+                      if(value.length == 2) FocusScope.of(context).nextFocus();
+                    },
+                    onSubmitted: (_) => FocusScope.of(context).nextFocus()
                 ),
               ),
               Expanded(
@@ -187,6 +209,7 @@ class DateOfBirthInput extends StatelessWidget {
                 flex: 2,
                 child: TextField(
                   maxLength: 4,
+                  textInputAction: TextInputAction.next,
                   style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.w400),
                   decoration: InputDecoration(
                       labelText: "yyyy",
@@ -198,6 +221,10 @@ class DateOfBirthInput extends StatelessWidget {
                   buildCounter: (BuildContext context,
                           {int currentLength, int maxLength, bool isFocused}) =>
                       null,
+                    onChanged: (value) {
+                      if(value.length == 4) FocusScope.of(context).nextFocus();
+                    },
+                    onSubmitted: (_) => FocusScope.of(context).nextFocus()
                 ),
               ),
               Expanded(
@@ -220,8 +247,14 @@ class TimeOfBirthWidget extends StatelessWidget {
       children: <Widget>[
         Row(
           children: [
-            Icon(Icons.access_time, color: Colors.black54,size: 20.0,),
-            SizedBox(width: 16.0,),
+            Icon(
+              Icons.access_time,
+              color: Colors.black54,
+              size: 20.0,
+            ),
+            SizedBox(
+              width: 16.0,
+            ),
             Text(Strings.timeOfBirth,
                 style: TextStyle(
                     fontSize: 20.0,
@@ -243,6 +276,7 @@ class TimeOfBirthWidget extends StatelessWidget {
                 flex: 2,
                 child: TextField(
                   maxLength: 2,
+                  textInputAction: TextInputAction.next,
                   style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.w400),
                   decoration: InputDecoration(
                       labelText: "hrs",
@@ -254,6 +288,10 @@ class TimeOfBirthWidget extends StatelessWidget {
                   buildCounter: (BuildContext context,
                           {int currentLength, int maxLength, bool isFocused}) =>
                       null,
+                    onChanged: (value) {
+                      if(value.length == 2) FocusScope.of(context).nextFocus();
+                    },
+                    onSubmitted: (_) => FocusScope.of(context).nextFocus()
                 ),
               ),
               Expanded(
@@ -268,6 +306,7 @@ class TimeOfBirthWidget extends StatelessWidget {
                 flex: 2,
                 child: TextField(
                   maxLength: 2,
+                  textInputAction: TextInputAction.done,
                   style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.w400),
                   decoration: InputDecoration(
                       labelText: "min",
@@ -279,6 +318,10 @@ class TimeOfBirthWidget extends StatelessWidget {
                   buildCounter: (BuildContext context,
                           {int currentLength, int maxLength, bool isFocused}) =>
                       null,
+                    onChanged: (value) {
+                      if(value.length == 2) FocusScope.of(context).unfocus();
+                    },
+                    onSubmitted: (_) => FocusScope.of(context).nextFocus()
                 ),
               ),
               SizedBox(width: 8.0),

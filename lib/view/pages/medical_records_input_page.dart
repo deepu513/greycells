@@ -7,6 +7,8 @@ import 'package:mental_health/constants/strings.dart';
 import 'package:path/path.dart';
 
 class MedicalRecordsInputPage extends StatefulWidget {
+  const MedicalRecordsInputPage();
+
   @override
   _MedicalRecordsInputPageState createState() =>
       _MedicalRecordsInputPageState();

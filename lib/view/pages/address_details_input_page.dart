@@ -4,6 +4,7 @@ import 'package:mental_health/constants/strings.dart';
 import 'package:mental_health/view/widgets/no_glow_scroll_behaviour.dart';
 
 class AddressDetailInputPage extends StatelessWidget {
+  const AddressDetailInputPage();
   @override
   Widget build(BuildContext context) {
     return ScrollConfiguration(

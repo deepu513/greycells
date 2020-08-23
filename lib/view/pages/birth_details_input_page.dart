@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:mental_health/constants/strings.dart';
 
 class BirthDetailsInputPage extends StatelessWidget {
+  const BirthDetailsInputPage();
   // TODO: Change label color when not in focus and adjust font sizes
   @override
   Widget build(BuildContext context) {

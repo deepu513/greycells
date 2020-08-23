@@ -5,6 +5,8 @@ import 'package:mental_health/constants/strings.dart';
 import 'package:mental_health/view/widgets/number_slider.dart';
 
 class HealthDetailsInputPage extends StatefulWidget {
+  const HealthDetailsInputPage();
+
   @override
   _HealthDetailsInputPageState createState() => _HealthDetailsInputPageState();
 }

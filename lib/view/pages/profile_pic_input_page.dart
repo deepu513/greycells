@@ -8,31 +8,27 @@ import 'package:mental_health/constants/strings.dart';
 import 'package:mental_health/view/widgets/centered_circular_loading.dart';
 
 class ProfilePicInputPage extends StatelessWidget {
+
+  const ProfilePicInputPage();
+
   @override
   Widget build(BuildContext context) {
-    return BlocProvider<ImagePickerBloc>(
-      create: (_) => ImagePickerBloc(),
-      child: Builder(
-        builder: (context) {
-          return BlocBuilder<ImagePickerBloc, ImagePickerState>(
-            builder: (context, imagePickerState) {
-              if (imagePickerState is ImagePickerInitial) {
-                return _ProfilePicSelector(
-                  onSelectionRequested: () => _pickImage(context),
-                );
-              } else if (imagePickerState is StateImagePicked) {
-                return CircleAvatarWidget(
-                  imagePickerState.pickedImageFile,
-                  onSelectionRequested: () => _pickImage(context),
-                );
-              } else if (imagePickerState is StateImagePickInProgress) {
-                return CenteredCircularLoadingIndicator();
-              } else
-                return Container();
-            },
+    return BlocBuilder<ImagePickerBloc, ImagePickerState>(
+      builder: (context, imagePickerState) {
+        if (imagePickerState is ImagePickerInitial) {
+          return _ProfilePicSelector(
+            onSelectionRequested: () => _pickImage(context),
           );
-        },
-      ),
+        } else if (imagePickerState is StateImagePicked) {
+          return CircleAvatarWidget(
+            imagePickerState.pickedImageFile,
+            onSelectionRequested: () => _pickImage(context),
+          );
+        } else if (imagePickerState is StateImagePickInProgress) {
+          return CenteredCircularLoadingIndicator();
+        } else
+          return Container();
+      },
     );
   }
 

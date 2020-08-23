@@ -1,47 +1,69 @@
 import 'dart:io';
 
-import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:mental_health/bloc/picker/image_picker_bloc.dart';
 import 'package:mental_health/constants/strings.dart';
+import 'package:mental_health/view/widgets/centered_circular_loading.dart';
 
-class ProfilePicInputPage extends StatefulWidget {
+class ProfilePicInputPage extends StatelessWidget {
   @override
-  _ProfilePicInputPageState createState() => _ProfilePicInputPageState();
+  Widget build(BuildContext context) {
+    return BlocProvider<ImagePickerBloc>(
+      create: (_) => ImagePickerBloc(),
+      child: Builder(
+        builder: (context) {
+          return BlocBuilder<ImagePickerBloc, ImagePickerState>(
+            builder: (context, imagePickerState) {
+              if (imagePickerState is ImagePickerInitial) {
+                return _ProfilePicSelector(
+                  onSelectionRequested: () => _pickImage(context),
+                );
+              } else if (imagePickerState is StateImagePicked) {
+                return CircleAvatarWidget(
+                  imagePickerState.pickedImageFile,
+                  onSelectionRequested: () => _pickImage(context),
+                );
+              } else if (imagePickerState is StateImagePickInProgress) {
+                return CenteredCircularLoadingIndicator();
+              } else
+                return Container();
+            },
+          );
+        },
+      ),
+    );
+  }
+
+  void _pickImage(BuildContext context) {
+    return BlocProvider.of<ImagePickerBloc>(context)
+        .add(PickImage(ImageSource.gallery));
+  }
 }
 
-class _ProfilePicInputPageState extends State<ProfilePicInputPage> {
-  bool selected;
-  File file;
+class CircleAvatarWidget extends StatelessWidget {
+  final VoidCallback onSelectionRequested;
 
-  @override
-  void initState() {
-    super.initState();
-    selected = false;
-  }
+  final File imageFile;
+
+  CircleAvatarWidget(this.imageFile, {this.onSelectionRequested});
 
   @override
   Widget build(BuildContext context) {
-    if (selected) {
-      return CircleAvatar(
+    return InkWell(
+      onTap: onSelectionRequested,
+      child: CircleAvatar(
         radius: 100,
-        backgroundImage: FileImage(file),
+        backgroundImage: FileImage(imageFile),
         onBackgroundImageError: (exception, stackTrace) {
           Scaffold.of(context).showSnackBar(SnackBar(
             content: Text(Strings.imageError),
             duration: Duration(milliseconds: 2000),
           ));
         },
-      );
-    } else
-      return _ProfilePicSelector(
-        onSelectionRequested: () async {
-          file = await FilePicker.getFile(type: FileType.image);
-          if (file != null)
-            setState(() {
-              selected = true;
-            });
-        },
-      );
+      ),
+    );
   }
 }
 
@@ -59,7 +81,8 @@ class _ProfilePicSelector extends StatelessWidget {
         IconButton(
           onPressed: onSelectionRequested,
           icon: Icon(Icons.add_a_photo),
-          iconSize: 36.0,
+          iconSize: 40.0,
+          splashRadius: 56.0,
         ),
         SizedBox(
           height: 36.0,

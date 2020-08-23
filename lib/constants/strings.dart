@@ -46,11 +46,13 @@ class Strings {
   static const emptyListMessage = "Click on + to select a file\n(click 'Next' to skip)";
   static const mandatoryFields = "All fields are mandatory";
   static const info = "Info";
+  static const help = "Help";
   static const medicalRecordsInfo = "Details about why we are asking medical records and what medical records you can add should go in this section";
   static const addressDetailsInfo = "Details about why we are asking address should go in this section";
   static const guardianDetailsInfo = "Details about why we are asking information related to guardian should go in this section";
   static const healthRecordsInfo = "Details about why we are asking health details should go in this section";
   static const birthDetailsInfo = "Details about why we are asking birth information should go in this section";
+  static const assessmentHelp = "Any helpful message which a user can see in middle of test should go here";
 }
 
 /// This should contain strings which signify an error message

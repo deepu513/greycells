@@ -17,13 +17,39 @@ class QuestionOptionPage extends StatelessWidget {
         ),
         actions: [
           IconButton(
-            onPressed: () {},
+            onPressed: () => showHelpDialog(context),
             icon: Icon(Icons.help_outline),
           )
         ],
       ),
       body: QuestionOptionPageContent(),
     );
+  }
+
+  void showHelpDialog(BuildContext context) {
+    showDialog<void>(
+        context: context,
+        barrierDismissible: true,
+        builder: (context) {
+          return AlertDialog(
+            title: Text(Strings.help),
+            content: SingleChildScrollView(
+              child: ListBody(
+                children: <Widget>[
+                  Text(Strings.assessmentHelp),
+                ],
+              ),
+            ),
+            actions: [
+              FlatButton(
+                child: Text('OK'),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              )
+            ],
+          );
+        });
   }
 }
 

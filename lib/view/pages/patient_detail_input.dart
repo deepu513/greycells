@@ -21,7 +21,7 @@ class _PatientDetailInputState extends State<PatientDetailInput>
     with SingleTickerProviderStateMixin {
   AnimationController _controller;
   Animation<double> _progressAnimation;
-  final animationDuration = 500;
+  final animationDuration = 400;
 
   final initialPageNumber = 1;
   final numberOfPages = 6;

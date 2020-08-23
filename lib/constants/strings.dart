@@ -53,6 +53,7 @@ class Strings {
   static const healthRecordsInfo = "Details about why we are asking health details should go in this section";
   static const birthDetailsInfo = "Details about why we are asking birth information should go in this section";
   static const assessmentHelp = "Any helpful message which a user can see in middle of test should go here";
+  static const imageError = "Couldn't pick image. Try to pick again or a different one";
 }
 
 /// This should contain strings which signify an error message

@@ -23,12 +23,15 @@ class _ProfilePicInputPageState extends State<ProfilePicInputPage> {
   Widget build(BuildContext context) {
     if (selected) {
       return CircleAvatar(
-          radius: 50,
-          backgroundImage: file == null
-              ? NetworkImage("https://via.placeholder.com/150")
-              : FileImage(
-                  file,
-                ));
+        radius: 100,
+        backgroundImage: FileImage(file),
+        onBackgroundImageError: (exception, stackTrace) {
+          Scaffold.of(context).showSnackBar(SnackBar(
+            content: Text(Strings.imageError),
+            duration: Duration(milliseconds: 2000),
+          ));
+        },
+      );
     } else
       return _ProfilePicSelector(
         onSelectionRequested: () async {

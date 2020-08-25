@@ -21,3 +21,7 @@ class ValidationValidateAddressFields extends ValidationEvent {
 
   ValidationValidateAddressFields(this.address);
 }
+
+class ValidationValidateBirthDetailsFields extends ValidationEvent {
+
+}

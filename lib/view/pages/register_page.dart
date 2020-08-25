@@ -39,137 +39,148 @@ class RegisterPage extends StatelessWidget {
                           height: 48.0,
                         ),
                         TextField(
-                          controller: TextEditingController(
-                              text: BlocProvider.of<RegistrationBloc>(context)
-                                      .registration
-                                      .firstName ??
-                                  ""),
-                          maxLines: 1,
-                          style: TextStyle(fontSize: 18.0),
-                          decoration: InputDecoration(
-                            border: InputBorder.none,
-                            icon: Icon(
-                              Icons.person,
-                              size: 20.0,
+                            controller: TextEditingController(
+                                text: BlocProvider.of<RegistrationBloc>(context)
+                                        .registration
+                                        .firstName ??
+                                    ""),
+                            maxLines: 1,
+                            textInputAction: TextInputAction.next,
+                            style: TextStyle(fontSize: 18.0),
+                            decoration: InputDecoration(
+                              border: InputBorder.none,
+                              icon: Icon(
+                                Icons.person,
+                                size: 20.0,
+                              ),
+                              helperText: Strings.tapToEnter,
+                              labelText: Strings.firstName,
+                              contentPadding: EdgeInsets.zero,
+                              errorText: validationState.isFieldInvalid(
+                                      ValidationField.FIRST_NAME)
+                                  ? ValidationField.FIRST_NAME.errorMessage()
+                                  : null,
                             ),
-                            helperText: Strings.tapToEnter,
-                            labelText: Strings.firstName,
-                            contentPadding: EdgeInsets.zero,
-                            errorText: validationState
-                                    .isFieldInvalid(ValidationField.FIRST_NAME)
-                                ? ValidationField.FIRST_NAME.errorMessage()
-                                : null,
-                          ),
-                          autofocus: false,
-                          keyboardType: TextInputType.text,
-                          enabled: registrationState is! RegistrationInProgress,
-                          onChanged: (value) =>
-                              BlocProvider.of<RegistrationBloc>(context)
-                                  .registration
-                                  .firstName = value,
+                            autofocus: false,
+                            keyboardType: TextInputType.text,
+                            enabled:
+                                registrationState is! RegistrationInProgress,
+                            onChanged: (value) =>
+                                BlocProvider.of<RegistrationBloc>(context)
+                                    .registration
+                                    .firstName = value,
+                            onSubmitted: (_) =>
+                                FocusScope.of(context).nextFocus()),
+                        SizedBox(
+                          height: 24.0,
                         ),
+                        TextField(
+                            maxLines: 1,
+                            style: TextStyle(fontSize: 18.0),
+                            textInputAction: TextInputAction.next,
+                            decoration: InputDecoration(
+                              border: InputBorder.none,
+                              icon: Icon(
+                                Icons.brightness_1,
+                                size: 20.0,
+                                color: Colors.transparent,
+                              ),
+                              helperText: Strings.tapToEnter,
+                              labelText: Strings.lastName,
+                              contentPadding: EdgeInsets.zero,
+                              errorText: validationState
+                                      .isFieldInvalid(ValidationField.LAST_NAME)
+                                  ? ValidationField.LAST_NAME.errorMessage()
+                                  : null,
+                            ),
+                            autofocus: false,
+                            keyboardType: TextInputType.text,
+                            controller: TextEditingController(
+                                text: BlocProvider.of<RegistrationBloc>(context)
+                                        .registration
+                                        .lastName ??
+                                    ""),
+                            onChanged: (value) =>
+                                BlocProvider.of<RegistrationBloc>(context)
+                                    .registration
+                                    .lastName = value,
+                            onSubmitted: (_) =>
+                                FocusScope.of(context).nextFocus()),
+                        SizedBox(
+                          height: 24.0,
+                        ),
+                        TextField(
+                            maxLines: 1,
+                            textInputAction: TextInputAction.next,
+                            style: TextStyle(fontSize: 18.0),
+                            decoration: InputDecoration(
+                              border: InputBorder.none,
+                              icon: Icon(
+                                Icons.phone,
+                                size: 20.0,
+                              ),
+                              helperText: Strings.tapToEnter,
+                              labelText: Strings.mobileNumber,
+                              contentPadding: EdgeInsets.zero,
+                              errorText: validationState.isFieldInvalid(
+                                      ValidationField.CONTACT_NUMBER)
+                                  ? ValidationField.CONTACT_NUMBER
+                                      .errorMessage()
+                                  : null,
+                            ),
+                            autofocus: false,
+                            keyboardType: TextInputType.phone,
+                            controller: TextEditingController(
+                                text: BlocProvider.of<RegistrationBloc>(context)
+                                        .registration
+                                        .mobileNumber ??
+                                    ""),
+                            onChanged: (value) =>
+                                BlocProvider.of<RegistrationBloc>(context)
+                                    .registration
+                                    .mobileNumber = value,
+                            onSubmitted: (_) =>
+                                FocusScope.of(context).nextFocus()),
+                        SizedBox(
+                          height: 24.0,
+                        ),
+                        TextField(
+                            maxLines: 1,
+                            textInputAction: TextInputAction.next,
+                            style: TextStyle(fontSize: 18.0),
+                            decoration: InputDecoration(
+                              border: InputBorder.none,
+                              icon: Icon(
+                                Icons.email,
+                                size: 20.0,
+                              ),
+                              helperText: Strings.tapToEnter,
+                              labelText: Strings.email,
+                              contentPadding: EdgeInsets.zero,
+                              errorText: validationState
+                                      .isFieldInvalid(ValidationField.EMAIL)
+                                  ? ValidationField.EMAIL.errorMessage()
+                                  : null,
+                            ),
+                            autofocus: false,
+                            keyboardType: TextInputType.emailAddress,
+                            controller: TextEditingController(
+                                text: BlocProvider.of<RegistrationBloc>(context)
+                                        .registration
+                                        .email ??
+                                    ""),
+                            onChanged: (value) =>
+                                BlocProvider.of<RegistrationBloc>(context)
+                                    .registration
+                                    .email = value,
+                            onSubmitted: (_) =>
+                                FocusScope.of(context).nextFocus()),
                         SizedBox(
                           height: 24.0,
                         ),
                         TextField(
                           maxLines: 1,
-                          style: TextStyle(fontSize: 18.0),
-                          decoration: InputDecoration(
-                            border: InputBorder.none,
-                            icon: Icon(
-                              Icons.brightness_1,
-                              size: 20.0,
-                              color: Colors.transparent,
-                            ),
-                            helperText: Strings.tapToEnter,
-                            labelText: Strings.lastName,
-                            contentPadding: EdgeInsets.zero,
-                            errorText: validationState
-                                    .isFieldInvalid(ValidationField.LAST_NAME)
-                                ? ValidationField.LAST_NAME.errorMessage()
-                                : null,
-                          ),
-                          autofocus: false,
-                          keyboardType: TextInputType.text,
-                          controller: TextEditingController(
-                              text: BlocProvider.of<RegistrationBloc>(context)
-                                      .registration
-                                      .lastName ??
-                                  ""),
-                          onChanged: (value) =>
-                              BlocProvider.of<RegistrationBloc>(context)
-                                  .registration
-                                  .lastName = value,
-                        ),
-                        SizedBox(
-                          height: 24.0,
-                        ),
-                        TextField(
-                          maxLines: 1,
-                          style: TextStyle(fontSize: 18.0),
-                          decoration: InputDecoration(
-                            border: InputBorder.none,
-                            icon: Icon(
-                              Icons.phone,
-                              size: 20.0,
-                            ),
-                            helperText: Strings.tapToEnter,
-                            labelText: Strings.mobileNumber,
-                            contentPadding: EdgeInsets.zero,
-                            errorText: validationState.isFieldInvalid(
-                                    ValidationField.CONTACT_NUMBER)
-                                ? ValidationField.CONTACT_NUMBER.errorMessage()
-                                : null,
-                          ),
-                          autofocus: false,
-                          keyboardType: TextInputType.phone,
-                          controller: TextEditingController(
-                              text: BlocProvider.of<RegistrationBloc>(context)
-                                      .registration
-                                      .mobileNumber ??
-                                  ""),
-                          onChanged: (value) =>
-                              BlocProvider.of<RegistrationBloc>(context)
-                                  .registration
-                                  .mobileNumber = value,
-                        ),
-                        SizedBox(
-                          height: 24.0,
-                        ),
-                        TextField(
-                          maxLines: 1,
-                          style: TextStyle(fontSize: 18.0),
-                          decoration: InputDecoration(
-                            border: InputBorder.none,
-                            icon: Icon(
-                              Icons.email,
-                              size: 20.0,
-                            ),
-                            helperText: Strings.tapToEnter,
-                            labelText: Strings.email,
-                            contentPadding: EdgeInsets.zero,
-                            errorText: validationState
-                                    .isFieldInvalid(ValidationField.EMAIL)
-                                ? ValidationField.EMAIL.errorMessage()
-                                : null,
-                          ),
-                          autofocus: false,
-                          keyboardType: TextInputType.emailAddress,
-                          controller: TextEditingController(
-                              text: BlocProvider.of<RegistrationBloc>(context)
-                                      .registration
-                                      .email ??
-                                  ""),
-                          onChanged: (value) =>
-                              BlocProvider.of<RegistrationBloc>(context)
-                                  .registration
-                                  .email = value,
-                        ),
-                        SizedBox(
-                          height: 24.0,
-                        ),
-                        TextField(
-                          maxLines: 1,
+                          textInputAction: TextInputAction.next,
                           style: TextStyle(fontSize: 18.0),
                           decoration: InputDecoration(
                             border: InputBorder.none,
@@ -201,12 +212,15 @@ class RegisterPage extends StatelessWidget {
                               BlocProvider.of<RegistrationBloc>(context)
                                   .registration
                                   .password = value,
+                          onSubmitted: (_) =>
+                              FocusScope.of(context).nextFocus(),
                         ),
                         SizedBox(
                           height: 24.0,
                         ),
                         TextField(
                           maxLines: 1,
+                          textInputAction: TextInputAction.done,
                           style: TextStyle(fontSize: 18.0),
                           decoration: InputDecoration(
                             border: InputBorder.none,
@@ -240,6 +254,7 @@ class RegisterPage extends StatelessWidget {
                               BlocProvider.of<RegistrationBloc>(context)
                                   .registration
                                   .confirmPassword = value,
+                          onSubmitted: (_) => FocusScope.of(context).unfocus(),
                         ),
                         SizedBox(
                           height: 48.0,

@@ -4,6 +4,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mental_health/bloc/page_transition/bloc.dart';
 import 'package:mental_health/bloc/page_transition/page_transition_bloc.dart';
 import 'package:mental_health/bloc/picker/image_picker_bloc.dart';
+import 'package:mental_health/bloc/validation/bloc.dart';
+import 'package:mental_health/models/validatable.dart';
 import 'package:mental_health/view/pages/address_details_input_page.dart';
 import 'package:mental_health/view/pages/birth_details_input_page.dart';
 import 'package:mental_health/view/pages/guardian_details_input_page.dart';
@@ -58,6 +60,9 @@ class _PatientDetailInputState extends State<PatientDetailInput>
       providers: [
         BlocProvider(
           create: (context) => ImagePickerBloc(),
+        ),
+        BlocProvider(
+          create: (context) => ValidationBloc(),
         ),
         BlocProvider(
           create: (context) => PageTransitionBloc(
@@ -138,7 +143,29 @@ class _PatientDetailInputState extends State<PatientDetailInput>
   }
 
   _handleNextPressed(
-      BuildContext context, PageTransitionState transitionState) {
+      BuildContext context, PageTransitionState transitionState) async {
+    if (_shouldValidateCurrentPage(transitionState)) {
+      if (await _validateCurrentPage(transitionState) == true)
+        _transitionToNextPage(context);
+    } else {
+      _transitionToNextPage(context);
+    }
+  }
+
+  Future<bool> _validateCurrentPage(PageTransitionState transitionState) async {
+    try {
+      Validatable validatable =
+          _pages[transitionState.currentPageNumber - 1] as Validatable;
+      return await validatable.validate();
+    } catch (e) {
+      return false;
+    }
+  }
+
+  bool _shouldValidateCurrentPage(PageTransitionState transitionState) =>
+      _pages[transitionState.currentPageNumber - 1] is Validatable;
+
+  void _transitionToNextPage(BuildContext context) {
     BlocProvider.of<PageTransitionBloc>(context).add(TransitionToNextPage());
   }
 }

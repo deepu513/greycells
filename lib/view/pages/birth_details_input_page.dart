@@ -1,7 +1,13 @@
-import 'package:flutter/material.dart';
-import 'package:mental_health/constants/strings.dart';
+import 'dart:async';
 
-class BirthDetailsInputPage extends StatelessWidget {
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:mental_health/bloc/birth_details/birth_details_bloc.dart';
+import 'package:mental_health/bloc/validation/bloc.dart';
+import 'package:mental_health/constants/strings.dart';
+import 'package:mental_health/models/validatable.dart';
+
+class BirthDetailsInputPage extends StatelessWidget implements Validatable {
   const BirthDetailsInputPage();
 
   @override
@@ -80,34 +86,55 @@ class BirthDetailsInputPage extends StatelessWidget {
           );
         });
   }
+
+  @override
+  FutureOr<bool> validate(BuildContext context, ValidationBloc validationBloc) {
+    var completer = Completer<bool>();
+
+    StreamSubscription subscription;
+
+    subscription = validationBloc.listen((validationState) {
+      completer.complete(validationState is ValidationBirthDetailsValid);
+      subscription.cancel();
+    });
+
+    validationBloc.add(ValidationValidateBirthDetailsFields(
+        BlocProvider.of<BirthDetailsBloc>(context).birthDetails));
+
+    return completer.future;
+  }
 }
 
 class PlaceOfBirthInput extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return TextField(
-      maxLines: 1,
-      maxLength: 50,
-      textInputAction: TextInputAction.next,
-      style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.w400),
-      decoration: InputDecoration(
-        border: InputBorder.none,
-        icon: Icon(
-          Icons.add_location,
-          size: 20.0,
-        ),
-        helperText: Strings.tapToEnter,
-        helperStyle: TextStyle(fontSize: 14.0, color: Colors.grey),
-        labelText: Strings.placeOfBirth,
-        contentPadding: EdgeInsets.zero,
-      ),
-      autofocus: false,
-      keyboardType: TextInputType.text,
-      textCapitalization: TextCapitalization.words,
-      buildCounter: (BuildContext context,
-          {int currentLength, int maxLength, bool isFocused}) =>
-      null,
-      onSubmitted: (_) => FocusScope.of(context).nextFocus(),
+    return BlocBuilder<ValidationBloc, ValidationState>(
+      builder: (context, validationState) {
+        return TextField(
+          maxLines: 1,
+          maxLength: 50,
+          textInputAction: TextInputAction.next,
+          style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.w400),
+          decoration: InputDecoration(
+            border: InputBorder.none,
+            icon: Icon(
+              Icons.add_location,
+              size: 20.0,
+            ),
+            helperText: Strings.tapToEnter,
+            helperStyle: TextStyle(fontSize: 14.0, color: Colors.grey),
+            labelText: Strings.placeOfBirth,
+            contentPadding: EdgeInsets.zero,
+          ),
+          autofocus: false,
+          keyboardType: TextInputType.text,
+          textCapitalization: TextCapitalization.words,
+          buildCounter: (BuildContext context,
+                  {int currentLength, int maxLength, bool isFocused}) =>
+              null,
+          onSubmitted: (_) => FocusScope.of(context).nextFocus(),
+        );
+      },
     );
   }
 }
@@ -140,98 +167,111 @@ class DateOfBirthInput extends StatelessWidget {
         ),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 8.0),
-          child: Row(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.end,
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: <Widget>[
-              Expanded(
-                flex: 2,
-                child: TextField(
-                  maxLength: 2,
-                  textInputAction: TextInputAction.next,
-                  style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.w400),
-                  decoration: InputDecoration(
-                      labelText: "dd",
-                      labelStyle:
-                          TextStyle(color: Theme.of(context).accentColor),
-                      contentPadding: EdgeInsets.zero,
-                      border: InputBorder.none),
-                  keyboardType: TextInputType.number,
-                  buildCounter: (BuildContext context,
-                          {int currentLength, int maxLength, bool isFocused}) =>
-                      null,
-                    onChanged: (value) {
-                      if(value.length == 2) FocusScope.of(context).nextFocus();
-                    },
-                    onSubmitted: (_) => FocusScope.of(context).nextFocus()
-                ),
-              ),
-              Expanded(
-                  flex: 1,
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 8.0),
-                    child: Text("/",
+          child: BlocBuilder<ValidationBloc, ValidationState>(
+            builder: (context, validationState) {
+              return Row(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.end,
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: <Widget>[
+                  Expanded(
+                    flex: 2,
+                    child: TextField(
+                        maxLength: 2,
+                        textInputAction: TextInputAction.next,
                         style: TextStyle(
-                            fontSize: 18.0, fontWeight: FontWeight.w400)),
-                  )),
-              Expanded(
-                flex: 2,
-                child: TextField(
-                  maxLength: 2,
-                  textInputAction: TextInputAction.next,
-                  style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.w400),
-                  decoration: InputDecoration(
-                      labelText: "mm",
-                      labelStyle:
-                          TextStyle(color: Theme.of(context).accentColor),
-                      contentPadding: EdgeInsets.zero,
-                      border: InputBorder.none),
-                  keyboardType: TextInputType.number,
-                  buildCounter: (BuildContext context,
-                          {int currentLength, int maxLength, bool isFocused}) =>
-                      null,
-                    onChanged: (value) {
-                      if(value.length == 2) FocusScope.of(context).nextFocus();
-                    },
-                    onSubmitted: (_) => FocusScope.of(context).nextFocus()
-                ),
-              ),
-              Expanded(
-                  flex: 1,
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 8.0),
-                    child: Text("/",
+                            fontSize: 18.0, fontWeight: FontWeight.w400),
+                        decoration: InputDecoration(
+                            labelText: "dd",
+                            labelStyle:
+                                TextStyle(color: Theme.of(context).accentColor),
+                            contentPadding: EdgeInsets.zero,
+                            border: InputBorder.none),
+                        keyboardType: TextInputType.number,
+                        buildCounter: (BuildContext context,
+                                {int currentLength,
+                                int maxLength,
+                                bool isFocused}) =>
+                            null,
+                        onChanged: (value) {
+                          if (value.length == 2)
+                            FocusScope.of(context).nextFocus();
+                        },
+                        onSubmitted: (_) => FocusScope.of(context).nextFocus()),
+                  ),
+                  Expanded(
+                      flex: 1,
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 8.0),
+                        child: Text("/",
+                            style: TextStyle(
+                                fontSize: 18.0, fontWeight: FontWeight.w400)),
+                      )),
+                  Expanded(
+                    flex: 2,
+                    child: TextField(
+                        maxLength: 2,
+                        textInputAction: TextInputAction.next,
                         style: TextStyle(
-                            fontSize: 18.0, fontWeight: FontWeight.w400)),
-                  )),
-              Expanded(
-                flex: 2,
-                child: TextField(
-                  maxLength: 4,
-                  textInputAction: TextInputAction.next,
-                  style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.w400),
-                  decoration: InputDecoration(
-                      labelText: "yyyy",
-                      labelStyle:
-                          TextStyle(color: Theme.of(context).accentColor),
-                      contentPadding: EdgeInsets.zero,
-                      border: InputBorder.none),
-                  keyboardType: TextInputType.number,
-                  buildCounter: (BuildContext context,
-                          {int currentLength, int maxLength, bool isFocused}) =>
-                      null,
-                    onChanged: (value) {
-                      if(value.length == 4) FocusScope.of(context).nextFocus();
-                    },
-                    onSubmitted: (_) => FocusScope.of(context).nextFocus()
-                ),
-              ),
-              Expanded(
-                flex: 2,
-                child: Container(),
-              )
-            ],
+                            fontSize: 18.0, fontWeight: FontWeight.w400),
+                        decoration: InputDecoration(
+                            labelText: "mm",
+                            labelStyle:
+                                TextStyle(color: Theme.of(context).accentColor),
+                            contentPadding: EdgeInsets.zero,
+                            border: InputBorder.none),
+                        keyboardType: TextInputType.number,
+                        buildCounter: (BuildContext context,
+                                {int currentLength,
+                                int maxLength,
+                                bool isFocused}) =>
+                            null,
+                        onChanged: (value) {
+                          if (value.length == 2)
+                            FocusScope.of(context).nextFocus();
+                        },
+                        onSubmitted: (_) => FocusScope.of(context).nextFocus()),
+                  ),
+                  Expanded(
+                      flex: 1,
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 8.0),
+                        child: Text("/",
+                            style: TextStyle(
+                                fontSize: 18.0, fontWeight: FontWeight.w400)),
+                      )),
+                  Expanded(
+                    flex: 2,
+                    child: TextField(
+                        maxLength: 4,
+                        textInputAction: TextInputAction.next,
+                        style: TextStyle(
+                            fontSize: 18.0, fontWeight: FontWeight.w400),
+                        decoration: InputDecoration(
+                            labelText: "yyyy",
+                            labelStyle:
+                                TextStyle(color: Theme.of(context).accentColor),
+                            contentPadding: EdgeInsets.zero,
+                            border: InputBorder.none),
+                        keyboardType: TextInputType.number,
+                        buildCounter: (BuildContext context,
+                                {int currentLength,
+                                int maxLength,
+                                bool isFocused}) =>
+                            null,
+                        onChanged: (value) {
+                          if (value.length == 4)
+                            FocusScope.of(context).nextFocus();
+                        },
+                        onSubmitted: (_) => FocusScope.of(context).nextFocus()),
+                  ),
+                  Expanded(
+                    flex: 2,
+                    child: Container(),
+                  )
+                ],
+              );
+            },
           ),
         ),
       ],
@@ -267,75 +307,85 @@ class TimeOfBirthWidget extends StatelessWidget {
         ),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 8.0),
-          child: Row(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.end,
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: <Widget>[
-              Expanded(
-                flex: 2,
-                child: TextField(
-                  maxLength: 2,
-                  textInputAction: TextInputAction.next,
-                  style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.w400),
-                  decoration: InputDecoration(
-                      labelText: "hrs",
-                      labelStyle:
-                          TextStyle(color: Theme.of(context).accentColor),
-                      contentPadding: EdgeInsets.zero,
-                      border: InputBorder.none),
-                  keyboardType: TextInputType.number,
-                  buildCounter: (BuildContext context,
-                          {int currentLength, int maxLength, bool isFocused}) =>
-                      null,
-                    onChanged: (value) {
-                      if(value.length == 2) FocusScope.of(context).nextFocus();
-                    },
-                    onSubmitted: (_) => FocusScope.of(context).nextFocus()
-                ),
-              ),
-              Expanded(
-                  flex: 1,
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 8.0),
-                    child: Text(":",
+          child: BlocBuilder<ValidationBloc, ValidationState>(
+            builder: (context, validationState) {
+              return Row(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.end,
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: <Widget>[
+                  Expanded(
+                    flex: 2,
+                    child: TextField(
+                        maxLength: 2,
+                        textInputAction: TextInputAction.next,
                         style: TextStyle(
-                            fontSize: 18.0, fontWeight: FontWeight.w400)),
-                  )),
-              Expanded(
-                flex: 2,
-                child: TextField(
-                  maxLength: 2,
-                  textInputAction: TextInputAction.done,
-                  style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.w400),
-                  decoration: InputDecoration(
-                      labelText: "min",
-                      labelStyle:
-                          TextStyle(color: Theme.of(context).accentColor),
-                      contentPadding: EdgeInsets.zero,
-                      border: InputBorder.none),
-                  keyboardType: TextInputType.number,
-                  buildCounter: (BuildContext context,
-                          {int currentLength, int maxLength, bool isFocused}) =>
-                      null,
-                    onChanged: (value) {
-                      if(value.length == 2) FocusScope.of(context).unfocus();
-                    },
-                    onSubmitted: (_) => FocusScope.of(context).nextFocus()
-                ),
-              ),
-              SizedBox(width: 8.0),
-              ToggleButtons(
-                children: <Widget>[Text("AM"), Text("PM")],
-                borderRadius: BorderRadius.circular(8.0),
-                isSelected: [true, false],
-                onPressed: (index) {},
-              ),
-              Expanded(
-                flex: 2,
-                child: Container(),
-              )
-            ],
+                            fontSize: 18.0, fontWeight: FontWeight.w400),
+                        decoration: InputDecoration(
+                            labelText: "hrs",
+                            labelStyle:
+                                TextStyle(color: Theme.of(context).accentColor),
+                            contentPadding: EdgeInsets.zero,
+                            border: InputBorder.none),
+                        keyboardType: TextInputType.number,
+                        buildCounter: (BuildContext context,
+                                {int currentLength,
+                                int maxLength,
+                                bool isFocused}) =>
+                            null,
+                        onChanged: (value) {
+                          if (value.length == 2)
+                            FocusScope.of(context).nextFocus();
+                        },
+                        onSubmitted: (_) => FocusScope.of(context).nextFocus()),
+                  ),
+                  Expanded(
+                      flex: 1,
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 8.0),
+                        child: Text(":",
+                            style: TextStyle(
+                                fontSize: 18.0, fontWeight: FontWeight.w400)),
+                      )),
+                  Expanded(
+                    flex: 2,
+                    child: TextField(
+                        maxLength: 2,
+                        textInputAction: TextInputAction.done,
+                        style: TextStyle(
+                            fontSize: 18.0, fontWeight: FontWeight.w400),
+                        decoration: InputDecoration(
+                            labelText: "min",
+                            labelStyle:
+                                TextStyle(color: Theme.of(context).accentColor),
+                            contentPadding: EdgeInsets.zero,
+                            border: InputBorder.none),
+                        keyboardType: TextInputType.number,
+                        buildCounter: (BuildContext context,
+                                {int currentLength,
+                                int maxLength,
+                                bool isFocused}) =>
+                            null,
+                        onChanged: (value) {
+                          if (value.length == 2)
+                            FocusScope.of(context).unfocus();
+                        },
+                        onSubmitted: (_) => FocusScope.of(context).nextFocus()),
+                  ),
+                  SizedBox(width: 8.0),
+                  ToggleButtons(
+                    children: <Widget>[Text("AM"), Text("PM")],
+                    borderRadius: BorderRadius.circular(8.0),
+                    isSelected: [true, false],
+                    onPressed: (index) {},
+                  ),
+                  Expanded(
+                    flex: 2,
+                    child: Container(),
+                  )
+                ],
+              );
+            },
           ),
         ),
       ],

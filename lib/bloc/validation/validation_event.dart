@@ -1,4 +1,5 @@
 import 'package:mental_health/models/address/address.dart';
+import 'package:mental_health/models/birth_details/birth_details.dart';
 import 'package:mental_health/models/login/login_request.dart';
 import 'package:mental_health/models/registration/registration.dart';
 
@@ -23,5 +24,7 @@ class ValidationValidateAddressFields extends ValidationEvent {
 }
 
 class ValidationValidateBirthDetailsFields extends ValidationEvent {
+  final BirthDetails birthDetails;
 
+  ValidationValidateBirthDetailsFields(this.birthDetails);
 }

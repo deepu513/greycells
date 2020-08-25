@@ -40,6 +40,8 @@ class ValidationBloc extends Bloc<ValidationEvent, ValidationState> {
         yield ValidationAddressFieldsValid(address: event.address);
       } else
         yield ValidationInvalidField(field: validationField);
+    } else if(event is ValidationValidateBirthDetailsFields) {
+      yield ValidationInvalidField(field: ValidationField.PASSWORD);
     }
   }
 

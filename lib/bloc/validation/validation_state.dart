@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:mental_health/bloc/validation/validation_field.dart';
 import 'package:mental_health/models/address/address.dart';
+import 'package:mental_health/models/birth_details/birth_details.dart';
 import 'package:mental_health/models/login/login_request.dart';
 import 'package:mental_health/models/registration/registration.dart';
 
@@ -24,6 +25,12 @@ class ValidationAddressFieldsValid extends ValidationState {
   final Address address;
 
   ValidationAddressFieldsValid({this.address});
+}
+
+class ValidationBirthDetailsValid extends ValidationState {
+  final BirthDetails birthDetails;
+
+  ValidationBirthDetailsValid(this.birthDetails);
 }
 
 class ValidationInvalidField extends ValidationState {

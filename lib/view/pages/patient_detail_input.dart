@@ -1,6 +1,7 @@
 import 'package:animations/animations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:mental_health/bloc/birth_details/birth_details_bloc.dart';
 import 'package:mental_health/bloc/page_transition/bloc.dart';
 import 'package:mental_health/bloc/page_transition/page_transition_bloc.dart';
 import 'package:mental_health/bloc/picker/image_picker_bloc.dart';
@@ -58,13 +59,16 @@ class _PatientDetailInputState extends State<PatientDetailInput>
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
-        BlocProvider(
+        BlocProvider<ImagePickerBloc>(
           create: (context) => ImagePickerBloc(),
         ),
-        BlocProvider(
+        BlocProvider<ValidationBloc>(
           create: (context) => ValidationBloc(),
         ),
-        BlocProvider(
+        BlocProvider<BirthDetailsBloc>(
+          create: (context) => BirthDetailsBloc(),
+        ),
+        BlocProvider<PageTransitionBloc>(
           create: (context) => PageTransitionBloc(
               numberOfPages: numberOfPages,
               initialPageNumber: initialPageNumber),
@@ -145,18 +149,22 @@ class _PatientDetailInputState extends State<PatientDetailInput>
   _handleNextPressed(
       BuildContext context, PageTransitionState transitionState) async {
     if (_shouldValidateCurrentPage(transitionState)) {
-      if (await _validateCurrentPage(transitionState) == true)
+      var result = await _validateCurrentPage(context, transitionState);
+      if (result == true)
         _transitionToNextPage(context);
+      else print("INVALID DATA");
     } else {
       _transitionToNextPage(context);
     }
   }
 
-  Future<bool> _validateCurrentPage(PageTransitionState transitionState) async {
+  Future<bool> _validateCurrentPage(
+      BuildContext context, PageTransitionState transitionState) async {
     try {
       Validatable validatable =
           _pages[transitionState.currentPageNumber - 1] as Validatable;
-      return await validatable.validate();
+      return await validatable
+          .validate(context, BlocProvider.of<ValidationBloc>(context));
     } catch (e) {
       return false;
     }

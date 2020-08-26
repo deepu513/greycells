@@ -1,12 +1,14 @@
 import 'dart:async';
 
 import 'package:bloc/bloc.dart';
+import 'package:intl/intl.dart';
 import 'package:mental_health/bloc/validation/validation_field.dart';
 import 'package:mental_health/bloc/validation/validation_state.dart';
+import 'package:mental_health/extensions.dart';
 import 'package:mental_health/models/address/address.dart';
+import 'package:mental_health/models/birth_details/birth_details.dart';
 import 'package:mental_health/models/login/login_request.dart';
 import 'package:mental_health/models/registration/registration.dart';
-import 'package:mental_health/utils.dart';
 
 import './bloc.dart';
 
@@ -40,43 +42,70 @@ class ValidationBloc extends Bloc<ValidationEvent, ValidationState> {
         yield ValidationAddressFieldsValid(address: event.address);
       } else
         yield ValidationInvalidField(field: validationField);
-    } else if(event is ValidationValidateBirthDetailsFields) {
-      yield ValidationInvalidField(field: ValidationField.PASSWORD);
+    } else if (event is ValidationValidateBirthDetailsFields) {
+      var validationField = _validateBirthDetails(event.birthDetails);
+
+      if (validationField == ValidationField.NONE) {
+        yield ValidationBirthDetailsValid(event.birthDetails);
+      }
     }
   }
 
   ValidationField _validateRegistrationFields(Registration registration) {
-    if (Utils.isNullOrEmpty(registration.firstName))
+    if (registration.firstName.isNullOrEmpty())
       return ValidationField.FIRST_NAME;
-    if (Utils.isNullOrEmpty(registration.lastName))
-      return ValidationField.LAST_NAME;
-    if (Utils.isNullOrEmpty(registration.mobileNumber))
+    if (registration.lastName.isNullOrEmpty()) return ValidationField.LAST_NAME;
+    if (registration.mobileNumber.isNullOrEmpty())
       return ValidationField.CONTACT_NUMBER;
-    if (Utils.isNullOrEmpty(registration.email)) return ValidationField.EMAIL;
-    if (Utils.isNullOrEmpty(registration.password))
-      return ValidationField.PASSWORD;
-    if (Utils.isNullOrEmpty(registration.confirmPassword) ||
+    if (registration.email.isNullOrEmpty()) return ValidationField.EMAIL;
+    if (registration.password.isNullOrEmpty()) return ValidationField.PASSWORD;
+    if (registration.confirmPassword.isNullOrEmpty() ||
         registration.password != registration.confirmPassword)
       return ValidationField.CONFIRM_PASSWORD;
     return ValidationField.NONE;
   }
 
   ValidationField _validateLoginFields(LoginRequest request) {
-    if (Utils.isNullOrEmpty(request.email))
+    if (request.email.isNullOrEmpty())
       return ValidationField.EMAIL;
-    else if (Utils.isNullOrEmpty(request.password))
-      return ValidationField.PASSWORD;
+    else if (request.password.isNullOrEmpty()) return ValidationField.PASSWORD;
     return ValidationField.NONE;
   }
 
   ValidationField _validateAddressFields(Address address) {
-    if (Utils.isNullOrEmpty(address.houseNumber))
+    if (address.houseNumber.isNullOrEmpty())
       return ValidationField.HOUSE_NUMBER;
-    if (Utils.isNullOrEmpty(address.roadName)) return ValidationField.ROAD_NAME;
-    if (Utils.isNullOrEmpty(address.city)) return ValidationField.CITY;
-    if (Utils.isNullOrEmpty(address.state)) return ValidationField.STATE;
-    if (Utils.isNullOrEmpty(address.country)) return ValidationField.COUNTRY;
-    if (Utils.isNullOrEmpty(address.pincode)) return ValidationField.PINCODE;
+    if (address.roadName.isNullOrEmpty()) return ValidationField.ROAD_NAME;
+    if (address.city.isNullOrEmpty()) return ValidationField.CITY;
+    if (address.state.isNullOrEmpty()) return ValidationField.STATE;
+    if (address.country.isNullOrEmpty()) return ValidationField.COUNTRY;
+    if (address.pincode.isNullOrEmpty()) return ValidationField.PINCODE;
     return ValidationField.NONE;
+  }
+
+  ValidationField _validateBirthDetails(BirthDetails birthDetails) {
+    if (birthDetails.placeOfBirth.isNullOrEmpty())
+      return ValidationField.PLACE_PART;
+    if (!_validDateTime(
+        birthDetails.dayPart, birthDetails.monthPart, birthDetails.yearPart))
+      return ValidationField.DATE_PART;
+    if (!_validDateTime(
+        birthDetails.dayPart,
+        birthDetails.monthPart,
+        birthDetails.yearPart,
+        birthDetails.hourPart,
+        birthDetails.minutePart)) return ValidationField.TIME_PART;
+    return ValidationField.NONE;
+  }
+
+  bool _validDateTime(int dayPart, int monthPart, int yearPart,
+      [int hourPart, int minutePart]) {
+    try {
+      DateFormat dateFormat = DateFormat("dd/MM/yyyy hh:mm");
+      dateFormat.parseStrict('$dayPart/$monthPart/$yearPart $hourPart:$minutePart');
+      return true;
+    } catch (e) {
+      return false;
+    }
   }
 }

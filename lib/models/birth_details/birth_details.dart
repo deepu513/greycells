@@ -1,4 +1,14 @@
 class BirthDetails {
   String placeOfBirth;
-  String birthDateTime;
+
+  // Date of birth
+  int dayPart;
+  int monthPart;
+  int yearPart;
+
+  // Time of birth
+  int hourPart;
+  int minutePart;
+
+  BirthDetails();
 }

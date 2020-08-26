@@ -89,7 +89,7 @@ class BirthDetailsInputPage extends StatelessWidget implements Validatable {
 
   @override
   FutureOr<bool> validate(BuildContext context, ValidationBloc validationBloc) {
-    var completer = Completer<bool>();
+    final completer = Completer<bool>();
 
     StreamSubscription subscription;
 

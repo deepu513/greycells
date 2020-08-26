@@ -4,8 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mental_health/bloc/birth_details/birth_details_bloc.dart';
 import 'package:mental_health/bloc/validation/bloc.dart';
+import 'package:mental_health/bloc/validation/validation_field.dart';
 import 'package:mental_health/constants/strings.dart';
 import 'package:mental_health/models/validatable.dart';
+import 'package:mental_health/extensions.dart';
 
 class BirthDetailsInputPage extends StatelessWidget implements Validatable {
   const BirthDetailsInputPage();
@@ -94,8 +96,10 @@ class BirthDetailsInputPage extends StatelessWidget implements Validatable {
     StreamSubscription subscription;
 
     subscription = validationBloc.listen((validationState) {
-      completer.complete(validationState is ValidationBirthDetailsValid);
-      subscription.cancel();
+      if (validationState is ValidationBirthDetailsValid) {
+        completer.complete(true);
+        subscription.cancel();
+      }
     });
 
     validationBloc.add(ValidationValidateBirthDetailsFields(
@@ -111,6 +115,11 @@ class PlaceOfBirthInput extends StatelessWidget {
     return BlocBuilder<ValidationBloc, ValidationState>(
       builder: (context, validationState) {
         return TextField(
+          controller: TextEditingController(
+              text: BlocProvider.of<BirthDetailsBloc>(context)
+                      .birthDetails
+                      .placeOfBirth ??
+                  ""),
           maxLines: 1,
           maxLength: 50,
           textInputAction: TextInputAction.next,
@@ -125,6 +134,10 @@ class PlaceOfBirthInput extends StatelessWidget {
             helperStyle: TextStyle(fontSize: 14.0, color: Colors.grey),
             labelText: Strings.placeOfBirth,
             contentPadding: EdgeInsets.zero,
+            errorText:
+                validationState.isFieldInvalid(ValidationField.PLACE_PART)
+                    ? ValidationField.PLACE_PART.errorMessage()
+                    : null,
           ),
           autofocus: false,
           keyboardType: TextInputType.text,
@@ -132,6 +145,9 @@ class PlaceOfBirthInput extends StatelessWidget {
           buildCounter: (BuildContext context,
                   {int currentLength, int maxLength, bool isFocused}) =>
               null,
+          onChanged: (value) => BlocProvider.of<BirthDetailsBloc>(context)
+              .birthDetails
+              .placeOfBirth = value,
           onSubmitted: (_) => FocusScope.of(context).nextFocus(),
         );
       },
@@ -177,6 +193,10 @@ class DateOfBirthInput extends StatelessWidget {
                   Expanded(
                     flex: 2,
                     child: TextField(
+                        controller: TextEditingController(
+                            text: BlocProvider.of<BirthDetailsBloc>(context)
+                                .birthDetails
+                                .dayPart ?? ""),
                         maxLength: 2,
                         textInputAction: TextInputAction.next,
                         style: TextStyle(
@@ -196,6 +216,10 @@ class DateOfBirthInput extends StatelessWidget {
                         onChanged: (value) {
                           if (value.length == 2)
                             FocusScope.of(context).nextFocus();
+
+                          BlocProvider.of<BirthDetailsBloc>(context)
+                              .birthDetails
+                              .dayPart = value.padLeft(2, '0');
                         },
                         onSubmitted: (_) => FocusScope.of(context).nextFocus()),
                   ),
@@ -210,6 +234,10 @@ class DateOfBirthInput extends StatelessWidget {
                   Expanded(
                     flex: 2,
                     child: TextField(
+                        controller: TextEditingController(
+                            text: BlocProvider.of<BirthDetailsBloc>(context)
+                                .birthDetails
+                                .monthPart ?? ""),
                         maxLength: 2,
                         textInputAction: TextInputAction.next,
                         style: TextStyle(
@@ -229,6 +257,10 @@ class DateOfBirthInput extends StatelessWidget {
                         onChanged: (value) {
                           if (value.length == 2)
                             FocusScope.of(context).nextFocus();
+
+                          BlocProvider.of<BirthDetailsBloc>(context)
+                              .birthDetails
+                              .monthPart = value.padLeft(2, '0');
                         },
                         onSubmitted: (_) => FocusScope.of(context).nextFocus()),
                   ),
@@ -243,6 +275,10 @@ class DateOfBirthInput extends StatelessWidget {
                   Expanded(
                     flex: 2,
                     child: TextField(
+                        controller: TextEditingController(
+                            text: BlocProvider.of<BirthDetailsBloc>(context)
+                                .birthDetails
+                                .yearPart ?? ""),
                         maxLength: 4,
                         textInputAction: TextInputAction.next,
                         style: TextStyle(
@@ -262,6 +298,9 @@ class DateOfBirthInput extends StatelessWidget {
                         onChanged: (value) {
                           if (value.length == 4)
                             FocusScope.of(context).nextFocus();
+                          BlocProvider.of<BirthDetailsBloc>(context)
+                              .birthDetails
+                              .yearPart = value.padLeft(4, '0');
                         },
                         onSubmitted: (_) => FocusScope.of(context).nextFocus()),
                   ),
@@ -274,6 +313,21 @@ class DateOfBirthInput extends StatelessWidget {
             },
           ),
         ),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 8.0),
+          child: BlocBuilder<ValidationBloc, ValidationState>(
+              builder: (context, validationState) {
+                return Visibility(
+                  visible: validationState.isFieldInvalid(ValidationField.DATE_PART),
+                  child: Text(validationState.isFieldInvalid(ValidationField.DATE_PART)
+                      ? ValidationField.DATE_PART.errorMessage()
+                      : "", style: Theme.of(context).textTheme.caption.copyWith(
+                      color: Colors.red
+                  ),),
+                );
+              },
+            ),
+          ),
       ],
     );
   }
@@ -317,6 +371,10 @@ class TimeOfBirthWidget extends StatelessWidget {
                   Expanded(
                     flex: 2,
                     child: TextField(
+                        controller: TextEditingController(
+                            text: BlocProvider.of<BirthDetailsBloc>(context)
+                                .birthDetails
+                                .hourPart ?? ""),
                         maxLength: 2,
                         textInputAction: TextInputAction.next,
                         style: TextStyle(
@@ -336,6 +394,9 @@ class TimeOfBirthWidget extends StatelessWidget {
                         onChanged: (value) {
                           if (value.length == 2)
                             FocusScope.of(context).nextFocus();
+                          BlocProvider.of<BirthDetailsBloc>(context)
+                              .birthDetails
+                              .hourPart = value.padLeft(2, '0');
                         },
                         onSubmitted: (_) => FocusScope.of(context).nextFocus()),
                   ),
@@ -350,6 +411,10 @@ class TimeOfBirthWidget extends StatelessWidget {
                   Expanded(
                     flex: 2,
                     child: TextField(
+                        controller: TextEditingController(
+                            text: BlocProvider.of<BirthDetailsBloc>(context)
+                                .birthDetails
+                                .minutePart ?? ""),
                         maxLength: 2,
                         textInputAction: TextInputAction.done,
                         style: TextStyle(
@@ -369,6 +434,10 @@ class TimeOfBirthWidget extends StatelessWidget {
                         onChanged: (value) {
                           if (value.length == 2)
                             FocusScope.of(context).unfocus();
+
+                          BlocProvider.of<BirthDetailsBloc>(context)
+                              .birthDetails
+                              .minutePart = value.padLeft(2, '0');
                         },
                         onSubmitted: (_) => FocusScope.of(context).nextFocus()),
                   ),
@@ -384,6 +453,21 @@ class TimeOfBirthWidget extends StatelessWidget {
                     child: Container(),
                   )
                 ],
+              );
+            },
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 8.0),
+          child: BlocBuilder<ValidationBloc, ValidationState>(
+            builder: (context, validationState) {
+              return Visibility(
+                visible: validationState.isFieldInvalid(ValidationField.TIME_PART),
+                child: Text(validationState.isFieldInvalid(ValidationField.TIME_PART)
+                    ? ValidationField.TIME_PART.errorMessage()
+                    : "", style: Theme.of(context).textTheme.caption.copyWith(
+                  color: Colors.red
+                ),),
               );
             },
           ),

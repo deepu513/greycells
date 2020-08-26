@@ -2,13 +2,13 @@ class BirthDetails {
   String placeOfBirth;
 
   // Date of birth
-  int dayPart;
-  int monthPart;
-  int yearPart;
+  String dayPart;
+  String monthPart;
+  String yearPart;
 
   // Time of birth
-  int hourPart;
-  int minutePart;
+  String hourPart;
+  String minutePart;
 
   BirthDetails();
 }

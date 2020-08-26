@@ -47,7 +47,7 @@ class ValidationBloc extends Bloc<ValidationEvent, ValidationState> {
 
       if (validationField == ValidationField.NONE) {
         yield ValidationBirthDetailsValid(event.birthDetails);
-      }
+      } else yield ValidationInvalidField(field: validationField);
     }
   }
 
@@ -98,8 +98,8 @@ class ValidationBloc extends Bloc<ValidationEvent, ValidationState> {
     return ValidationField.NONE;
   }
 
-  bool _validDateTime(int dayPart, int monthPart, int yearPart,
-      [int hourPart, int minutePart]) {
+  bool _validDateTime(String dayPart, String monthPart, String yearPart,
+      [String hourPart="00", String minutePart="00"]) {
     try {
       DateFormat dateFormat = DateFormat("dd/MM/yyyy hh:mm");
       dateFormat.parseStrict('$dayPart/$monthPart/$yearPart $hourPart:$minutePart');

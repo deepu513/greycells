@@ -152,7 +152,6 @@ class _PatientDetailInputState extends State<PatientDetailInput>
       var result = await _validateCurrentPage(context, transitionState);
       if (result == true)
         _transitionToNextPage(context);
-      else print("INVALID DATA");
     } else {
       _transitionToNextPage(context);
     }

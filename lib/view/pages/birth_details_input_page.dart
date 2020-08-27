@@ -6,8 +6,8 @@ import 'package:mental_health/bloc/birth_details/birth_details_bloc.dart';
 import 'package:mental_health/bloc/validation/bloc.dart';
 import 'package:mental_health/bloc/validation/validation_field.dart';
 import 'package:mental_health/constants/strings.dart';
-import 'package:mental_health/models/validatable.dart';
 import 'package:mental_health/extensions.dart';
+import 'package:mental_health/models/validatable.dart';
 
 class BirthDetailsInputPage extends StatelessWidget implements Validatable {
   const BirthDetailsInputPage();
@@ -98,13 +98,12 @@ class BirthDetailsInputPage extends StatelessWidget implements Validatable {
     subscription = validationBloc.listen((validationState) {
       if (validationState is ValidationBirthDetailsValid) {
         completer.complete(true);
-      } else if(validationState is ValidationInvalidField){
+      } else if (validationState is ValidationInvalidField) {
         completer.complete(false);
       } else {
         completer.completeError(Exception());
       }
       subscription.cancel();
-
     });
 
     validationBloc.add(ValidationValidateBirthDetailsFields(
@@ -200,8 +199,9 @@ class DateOfBirthInput extends StatelessWidget {
                     child: TextField(
                         controller: TextEditingController(
                             text: BlocProvider.of<BirthDetailsBloc>(context)
-                                .birthDetails
-                                .dayPart ?? ""),
+                                    .birthDetails
+                                    .dayPart ??
+                                ""),
                         maxLength: 2,
                         textInputAction: TextInputAction.next,
                         style: TextStyle(
@@ -241,8 +241,9 @@ class DateOfBirthInput extends StatelessWidget {
                     child: TextField(
                         controller: TextEditingController(
                             text: BlocProvider.of<BirthDetailsBloc>(context)
-                                .birthDetails
-                                .monthPart ?? ""),
+                                    .birthDetails
+                                    .monthPart ??
+                                ""),
                         maxLength: 2,
                         textInputAction: TextInputAction.next,
                         style: TextStyle(
@@ -282,8 +283,9 @@ class DateOfBirthInput extends StatelessWidget {
                     child: TextField(
                         controller: TextEditingController(
                             text: BlocProvider.of<BirthDetailsBloc>(context)
-                                .birthDetails
-                                .yearPart ?? ""),
+                                    .birthDetails
+                                    .yearPart ??
+                                ""),
                         maxLength: 4,
                         textInputAction: TextInputAction.next,
                         style: TextStyle(
@@ -321,18 +323,23 @@ class DateOfBirthInput extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 8.0),
           child: BlocBuilder<ValidationBloc, ValidationState>(
-              builder: (context, validationState) {
-                return Visibility(
-                  visible: validationState.isFieldInvalid(ValidationField.DATE_PART),
-                  child: Text(validationState.isFieldInvalid(ValidationField.DATE_PART)
+            builder: (context, validationState) {
+              return Visibility(
+                visible:
+                    validationState.isFieldInvalid(ValidationField.DATE_PART),
+                child: Text(
+                  validationState.isFieldInvalid(ValidationField.DATE_PART)
                       ? ValidationField.DATE_PART.errorMessage()
-                      : "", style: Theme.of(context).textTheme.caption.copyWith(
-                      color: Colors.red
-                  ),),
-                );
-              },
-            ),
+                      : "",
+                  style: Theme.of(context)
+                      .textTheme
+                      .caption
+                      .copyWith(color: Colors.red),
+                ),
+              );
+            },
           ),
+        ),
       ],
     );
   }
@@ -378,8 +385,9 @@ class TimeOfBirthWidget extends StatelessWidget {
                     child: TextField(
                         controller: TextEditingController(
                             text: BlocProvider.of<BirthDetailsBloc>(context)
-                                .birthDetails
-                                .hourPart ?? ""),
+                                    .birthDetails
+                                    .hourPart ??
+                                ""),
                         maxLength: 2,
                         textInputAction: TextInputAction.next,
                         style: TextStyle(
@@ -418,8 +426,9 @@ class TimeOfBirthWidget extends StatelessWidget {
                     child: TextField(
                         controller: TextEditingController(
                             text: BlocProvider.of<BirthDetailsBloc>(context)
-                                .birthDetails
-                                .minutePart ?? ""),
+                                    .birthDetails
+                                    .minutePart ??
+                                ""),
                         maxLength: 2,
                         textInputAction: TextInputAction.done,
                         style: TextStyle(
@@ -447,12 +456,7 @@ class TimeOfBirthWidget extends StatelessWidget {
                         onSubmitted: (_) => FocusScope.of(context).nextFocus()),
                   ),
                   SizedBox(width: 8.0),
-                  ToggleButtons(
-                    children: <Widget>[Text("AM"), Text("PM")],
-                    borderRadius: BorderRadius.circular(8.0),
-                    isSelected: [true, false],
-                    onPressed: (index) {},
-                  ),
+                  _AmPmToggle(),
                   Expanded(
                     flex: 2,
                     child: Container(),
@@ -467,17 +471,62 @@ class TimeOfBirthWidget extends StatelessWidget {
           child: BlocBuilder<ValidationBloc, ValidationState>(
             builder: (context, validationState) {
               return Visibility(
-                visible: validationState.isFieldInvalid(ValidationField.TIME_PART),
-                child: Text(validationState.isFieldInvalid(ValidationField.TIME_PART)
-                    ? ValidationField.TIME_PART.errorMessage()
-                    : "", style: Theme.of(context).textTheme.caption.copyWith(
-                  color: Colors.red
-                ),),
+                visible:
+                    validationState.isFieldInvalid(ValidationField.TIME_PART),
+                child: Text(
+                  validationState.isFieldInvalid(ValidationField.TIME_PART)
+                      ? ValidationField.TIME_PART.errorMessage()
+                      : "",
+                  style: Theme.of(context)
+                      .textTheme
+                      .caption
+                      .copyWith(color: Colors.red),
+                ),
               );
             },
           ),
         ),
       ],
+    );
+  }
+}
+
+class _AmPmToggle extends StatefulWidget {
+  @override
+  _AmPmToggleState createState() => _AmPmToggleState();
+}
+
+class _AmPmToggleState extends State<_AmPmToggle> {
+  int _selectedIndex;
+  List<String> _options;
+  List<bool> _selections;
+
+  @override
+  void initState() {
+    super.initState();
+
+    _selectedIndex = 0;
+    _options = ["AM", "PM"];
+    _selections = List.generate(2, (index) => index == _selectedIndex);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return ToggleButtons(
+      children: List<Widget>.generate(
+          _options.length, (index) => Text(_options[index])),
+      borderRadius: BorderRadius.circular(8.0),
+      isSelected: _selections,
+      onPressed: (index) {
+        setState(() {
+          _selections[_selectedIndex] = false;
+          _selections[index] = !_selections[index];
+          _selectedIndex = index;
+
+          BlocProvider.of<BirthDetailsBloc>(context).birthDetails.a =
+          _options[index];
+        });
+      },
     );
   }
 }

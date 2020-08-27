@@ -10,5 +10,8 @@ class BirthDetails {
   String hourPart;
   String minutePart;
 
+  // AM PM
+  String a;
+
   BirthDetails();
 }

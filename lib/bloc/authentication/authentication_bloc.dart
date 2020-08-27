@@ -21,7 +21,9 @@ class AuthenticationBloc
   final ValidationBloc validationBloc;
   StreamSubscription _validationSubscription;
 
-  AuthenticationBloc(this.validationBloc) : assert(validationBloc != null) {
+  AuthenticationBloc(this.validationBloc)
+      : assert(validationBloc != null),
+        super(AuthenticationInitial()) {
     loginRequest = LoginRequest();
     _userRepository = UserRepository();
     _validationSubscription = validationBloc.listen((state) {
@@ -30,9 +32,6 @@ class AuthenticationBloc
       }
     });
   }
-
-  @override
-  AuthenticationState get initialState => AuthenticationInitial();
 
   /// _settingsRepository is being initialized in each and every event here
   /// because, in real world, any event can occur and order is not guaranteed
@@ -57,8 +56,8 @@ class AuthenticationBloc
 
     if (event is LoginInitiated) {
       if (!event.valid) {
-        validationBloc.add(
-            ValidationValidateLoginFields(loginRequest: loginRequest));
+        validationBloc
+            .add(ValidationValidateLoginFields(loginRequest: loginRequest));
       } else if (event.valid) {
         yield AuthenticationLoading();
 
@@ -67,13 +66,13 @@ class AuthenticationBloc
               loginRequest: event.loginRequest);*/
 
           //if (user != null) {
-            _settingsRepository = await SettingsRepository.getInstance();
-            await _settingsRepository.saveValue(
-                SettingKey.KEY_IS_LOGGED_IN, true);
-            /*await _settingsRepository.saveValue(
+          _settingsRepository = await SettingsRepository.getInstance();
+          await _settingsRepository.saveValue(
+              SettingKey.KEY_IS_LOGGED_IN, true);
+          /*await _settingsRepository.saveValue(
                 SettingKey.KEY_TOKEN, data.JWTToken);*/
-            yield AuthenticationAuthenticated(/*user*/);
-         // }
+          yield AuthenticationAuthenticated(/*user*/);
+          // }
 
           /// This should never happen. Added for safety.
 //          else {

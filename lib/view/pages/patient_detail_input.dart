@@ -84,7 +84,7 @@ class _PatientDetailInputState extends State<PatientDetailInput>
                   duration: Duration(milliseconds: animationDuration));
             },
             child: BlocBuilder<PageTransitionBloc, PageTransitionState>(
-              condition: (previous, current) {
+              buildWhen: (previous, current) {
                 return current is PageTransitionInitial ||
                     current is PageTransitionToNextPage ||
                     current is PageTransitionToPreviousPage;

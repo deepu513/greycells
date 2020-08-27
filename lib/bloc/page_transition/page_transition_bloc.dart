@@ -13,13 +13,10 @@ class PageTransitionBloc
 
   int _currentPageNumber;
 
-  PageTransitionBloc({@required this.numberOfPages, this.initialPageNumber = 1}) {
+  PageTransitionBloc({@required this.numberOfPages, this.initialPageNumber = 1})
+      : super(PageTransitionInitial(initialPageNumber)) {
     _currentPageNumber = initialPageNumber;
   }
-
-  @override
-  PageTransitionState get initialState =>
-      PageTransitionInitial(initialPageNumber);
 
   @override
   Stream<PageTransitionState> mapEventToState(

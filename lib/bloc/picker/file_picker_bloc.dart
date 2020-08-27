@@ -8,12 +8,9 @@ part 'file_picker_state.dart';
 
 class FilePickerBloc extends Bloc<FilePickerEvent, FilePickerState> {
 
-  FilePickerBloc() {
+  FilePickerBloc() : super(FilePickerInitial()) {
 
   }
-
-  @override
-  FilePickerState get initialState => FilePickerInitial();
 
   @override
   Stream<FilePickerState> mapEventToState(

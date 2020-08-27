@@ -24,7 +24,7 @@ class RegisterPage extends StatelessWidget {
             child: BlocBuilder<RegistrationBloc, RegistrationState>(
               builder: (context, registrationState) {
                 return BlocBuilder<ValidationBloc, ValidationState>(
-                  bloc:
+                  cubit:
                       BlocProvider.of<RegistrationBloc>(context).validationBloc,
                   builder: (context, validationState) {
                     return Column(

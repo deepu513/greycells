@@ -27,7 +27,7 @@ class LoginPage extends StatelessWidget {
           child: BlocBuilder<AuthenticationBloc, AuthenticationState>(
             builder: (context, authenticationState) {
               return BlocBuilder<ValidationBloc, ValidationState>(
-                bloc:
+                cubit:
                     BlocProvider.of<AuthenticationBloc>(context).validationBloc,
                 builder: (context, validationState) {
                   return Column(

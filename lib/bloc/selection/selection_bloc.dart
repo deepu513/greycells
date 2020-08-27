@@ -5,8 +5,8 @@ import 'package:bloc/bloc.dart';
 import './bloc.dart';
 
 class SelectionBloc<T> extends Bloc<SelectionEvent<T>, SelectionState<T>> {
-  @override
-  SelectionState<T> get initialState => SelectionInitial();
+
+  SelectionBloc() : super(SelectionInitial<T>());
 
   @override
   Stream<SelectionState<T>> mapEventToState(

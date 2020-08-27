@@ -22,8 +22,8 @@ dependencies:
 
   provider: ^4.0.4
   animations: ^1.1.1
-  bloc: ^4.0.0
-  flutter_bloc: ^4.0.0
+  bloc: ^6.0.2
+  flutter_bloc: ^6.0.2
   equatable: ^1.1.1
   shared_preferences: '>=0.5.7+1 <2.0.0'
   http: ^0.12.1

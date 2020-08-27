@@ -98,8 +98,13 @@ class BirthDetailsInputPage extends StatelessWidget implements Validatable {
     subscription = validationBloc.listen((validationState) {
       if (validationState is ValidationBirthDetailsValid) {
         completer.complete(true);
-        subscription.cancel();
+      } else if(validationState is ValidationInvalidField){
+        completer.complete(false);
+      } else {
+        completer.completeError(Exception());
       }
+      subscription.cancel();
+
     });
 
     validationBloc.add(ValidationValidateBirthDetailsFields(

@@ -11,12 +11,9 @@ class BirthDetailsBloc extends Bloc<BirthDetailsEvent, BirthDetailsState> {
 
   BirthDetails birthDetails;
 
-  BirthDetailsBloc() {
+  BirthDetailsBloc() : super(BirthDetailsInitial()) {
    birthDetails = BirthDetails();
   }
-
-  @override
-  BirthDetailsState get initialState => BirthDetailsInitial();
 
   @override
   Stream<BirthDetailsState> mapEventToState(

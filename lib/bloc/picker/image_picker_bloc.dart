@@ -10,8 +10,7 @@ part 'image_picker_event.dart';
 part 'image_picker_state.dart';
 
 class ImagePickerBloc extends Bloc<ImagePickerEvent, ImagePickerState> {
-  @override
-  ImagePickerState get initialState => ImagePickerInitial();
+  ImagePickerBloc() : super(ImagePickerInitial());
 
   @override
   Stream<ImagePickerState> mapEventToState(

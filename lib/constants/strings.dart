@@ -77,6 +77,6 @@ class ErrorMessages {
   static const COUNTRY_ERROR_MESSAGE = "Please enter your country";
   static const PINCODE_ERROR_MESSAGE = "Please enter a value";
   static const PLACE_PART_ERROR_MESSAGE = "Please enter a place";
-  static const DATE_PART_ERROR_MESSAGE = "Date looks invalid";
-  static const TIME_PART_ERROR_MESSAGE = "Time looks invalid";
+  static const DATE_PART_ERROR_MESSAGE = "Please enter a valid date";
+  static const TIME_PART_ERROR_MESSAGE = "Please enter a valid time";
 }

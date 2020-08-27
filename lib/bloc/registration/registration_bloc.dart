@@ -19,7 +19,9 @@ class RegistrationBloc extends Bloc<RegistrationEvent, RegistrationState> {
   final ValidationBloc validationBloc;
   StreamSubscription _validationSubscription;
 
-  RegistrationBloc(this.validationBloc) : assert(validationBloc != null) {
+  RegistrationBloc(this.validationBloc)
+      : assert(validationBloc != null),
+        super(RegistrationStateInitial()) {
     registration = Registration();
     _userRepository = UserRepository();
     _validationSubscription = validationBloc.listen((state) {
@@ -28,9 +30,6 @@ class RegistrationBloc extends Bloc<RegistrationEvent, RegistrationState> {
       }
     });
   }
-
-  @override
-  RegistrationState get initialState => RegistrationStateInitial();
 
   @override
   Stream<RegistrationState> mapEventToState(

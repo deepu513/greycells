@@ -13,8 +13,8 @@ import 'package:mental_health/models/registration/registration.dart';
 import './bloc.dart';
 
 class ValidationBloc extends Bloc<ValidationEvent, ValidationState> {
-  @override
-  ValidationState get initialState => ValidationStateInitial();
+
+  ValidationBloc() : super(ValidationStateInitial());
 
   @override
   Stream<ValidationState> mapEventToState(

@@ -29,8 +29,12 @@ class FilePickerBloc extends Bloc<FilePickerEvent, FilePickerState> {
 
       if (pickedFile != null) {
         var file = File(pickedFile.path);
-        pickedFiles.add(PickedFile(SelectableFileType.IMAGE, file));
-        yield ImageFilePicked(file);
+        String dirName = dirname(file.path);
+        String newPath = join(dirName, 'IMG_${DateTime.now().millisecondsSinceEpoch}');
+        var renamedFile = file.renameSync(newPath);
+        var mPickedFile = PickedFile(SelectableFileType.IMAGE, renamedFile);
+        pickedFiles.add(mPickedFile);
+        yield ImageFilePicked(mPickedFile);
       } else
         yield FilePickCancelled();
     }
@@ -42,14 +46,20 @@ class FilePickerBloc extends Bloc<FilePickerEvent, FilePickerState> {
       if (file != null) {
         if (extension(file.path) == ".pdf") {
           if (file.lengthSync() <= 2097152 /* 2MB */) {
-            pickedFiles.add(PickedFile(SelectableFileType.PDF, file));
+            var pickedFile = PickedFile(SelectableFileType.PDF, file);
+            pickedFiles.add(pickedFile);
+            yield PdfFilePicked(pickedFile);
           } else
             yield FileSizeTooLarge();
-          yield PdfFilePicked(file);
         } else
           yield UnsupportedFilePicked();
       } else
         yield FilePickCancelled();
+    }
+
+    if(event is RemoveFile) {
+      pickedFiles.remove(event.pickedFile);
+      yield FileRemoved();
     }
   }
 }

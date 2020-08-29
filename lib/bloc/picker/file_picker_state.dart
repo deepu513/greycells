@@ -6,16 +6,18 @@ abstract class FilePickerState {}
 class FilePickerInitial extends FilePickerState {}
 
 class ImageFilePicked extends FilePickerState {
-  final File pickedFile;
+  final PickedFile pickedFile;
 
   ImageFilePicked(this.pickedFile);
 }
 
 class PdfFilePicked extends FilePickerState {
-  final File pickedFile;
+  final PickedFile pickedFile;
 
   PdfFilePicked(this.pickedFile);
 }
+
+class FileRemoved extends FilePickerState {}
 
 class UnsupportedFilePicked extends FilePickerState {}
 

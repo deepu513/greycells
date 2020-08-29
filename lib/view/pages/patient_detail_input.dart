@@ -2,6 +2,7 @@ import 'package:animations/animations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mental_health/bloc/birth_details/birth_details_bloc.dart';
+import 'package:mental_health/bloc/health_details/health_details_bloc.dart';
 import 'package:mental_health/bloc/page_transition/bloc.dart';
 import 'package:mental_health/bloc/page_transition/page_transition_bloc.dart';
 import 'package:mental_health/bloc/picker/image_picker_bloc.dart';
@@ -67,6 +68,9 @@ class _PatientDetailInputState extends State<PatientDetailInput>
         ),
         BlocProvider<BirthDetailsBloc>(
           create: (context) => BirthDetailsBloc(),
+        ),
+        BlocProvider<HealthDetailsBloc>(
+          create: (context) => HealthDetailsBloc(),
         ),
         BlocProvider<PageTransitionBloc>(
           create: (context) => PageTransitionBloc(

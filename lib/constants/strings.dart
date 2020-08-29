@@ -47,17 +47,25 @@ class Strings {
   static const guardianAddress = "Guardian Address";
   static const sameAsAbove = "Same as above";
   static const liveWithGuardian = "Select this if you live with your guardian";
-  static const emptyListMessage = "Click on + to select a file\n(click 'Next' to skip)";
+  static const emptyListMessage =
+      "Click on + to select a file\n(click 'Next' to skip)";
   static const mandatoryFields = "All fields are mandatory";
   static const info = "Info";
   static const help = "Help";
-  static const medicalRecordsInfo = "Details about why we are asking medical records and what medical records you can add should go in this section";
-  static const addressDetailsInfo = "Details about why we are asking address should go in this section";
-  static const guardianDetailsInfo = "Details about why we are asking information related to guardian should go in this section";
-  static const healthRecordsInfo = "Details about why we are asking health details should go in this section";
-  static const birthDetailsInfo = "Details about why we are asking birth information should go in this section";
-  static const assessmentHelp = "Any helpful message which a user can see in middle of test should go here";
-  static const imageError = "Couldn't pick image. Try to pick again or a different one";
+  static const medicalRecordsInfo =
+      "Details about why we are asking medical records and what medical records you can add should go in this section";
+  static const addressDetailsInfo =
+      "Details about why we are asking address should go in this section";
+  static const guardianDetailsInfo =
+      "Details about why we are asking information related to guardian should go in this section";
+  static const healthRecordsInfo =
+      "Details about why we are asking health details should go in this section";
+  static const birthDetailsInfo =
+      "Details about why we are asking birth information should go in this section";
+  static const assessmentHelp =
+      "Any helpful message which a user can see in middle of test should go here";
+  static const imageError =
+      "Couldn't pick image. Try to pick again or a different one";
   static const dateOfBirth = "Date of birth";
   static const timeOfBirth = "Time of birth";
 }
@@ -79,4 +87,6 @@ class ErrorMessages {
   static const PLACE_PART_ERROR_MESSAGE = "Please enter a place";
   static const DATE_PART_ERROR_MESSAGE = "Please enter a valid date";
   static const TIME_PART_ERROR_MESSAGE = "Please enter a valid time";
+  static const RELATION_ERROR_MESSAGE =
+      "Please specify your relation with guardian";
 }

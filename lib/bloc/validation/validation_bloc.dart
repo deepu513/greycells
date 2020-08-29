@@ -4,50 +4,58 @@ import 'package:bloc/bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:mental_health/bloc/validation/validation_field.dart';
 import 'package:mental_health/bloc/validation/validation_state.dart';
+import 'package:mental_health/constants/relationship.dart';
 import 'package:mental_health/extensions.dart';
 import 'package:mental_health/models/address/address.dart';
 import 'package:mental_health/models/birth_details/birth_details.dart';
+import 'package:mental_health/models/guardian_details/guardian_details.dart';
 import 'package:mental_health/models/login/login_request.dart';
 import 'package:mental_health/models/registration/registration.dart';
 
 import './bloc.dart';
 
 class ValidationBloc extends Bloc<ValidationEvent, ValidationState> {
-
   ValidationBloc() : super(ValidationStateInitial());
 
   @override
   Stream<ValidationState> mapEventToState(
     ValidationEvent event,
   ) async* {
-    if (event is ValidationValidateLoginFields) {
+    if (event is ValidateLoginFields) {
       var validationField = _validateLoginFields(event.loginRequest);
 
       if (validationField == ValidationField.NONE) {
-        yield ValidationLoginFieldsValid(loginRequest: event.loginRequest);
+        yield LoginFieldsValid(loginRequest: event.loginRequest);
       } else
         yield ValidationInvalidField(field: validationField);
-    } else if (event is ValidationValidateRegistrationFields) {
+    } else if (event is ValidateRegistrationFields) {
       var validationField = _validateRegistrationFields(event.registration);
 
       if (validationField == ValidationField.NONE) {
-        yield ValidationRegistrationFieldsValid(
-            registration: event.registration);
+        yield RegistrationFieldsValid(registration: event.registration);
       } else
         yield ValidationInvalidField(field: validationField);
-    } else if (event is ValidationValidateAddressFields) {
+    } else if (event is ValidateAddressFields) {
       var validationField = _validateAddressFields(event.address);
 
       if (validationField == ValidationField.NONE) {
-        yield ValidationAddressFieldsValid(address: event.address);
+        yield AddressFieldsValid(address: event.address);
       } else
         yield ValidationInvalidField(field: validationField);
-    } else if (event is ValidationValidateBirthDetailsFields) {
+    } else if (event is ValidateBirthDetailsFields) {
       var validationField = _validateBirthDetails(event.birthDetails);
 
       if (validationField == ValidationField.NONE) {
-        yield ValidationBirthDetailsValid(event.birthDetails);
-      } else yield ValidationInvalidField(field: validationField);
+        yield BirthDetailsValid(event.birthDetails);
+      } else
+        yield ValidationInvalidField(field: validationField);
+    } else if (event is ValidateGuardianDetailsFields) {
+      var validationField = _validateGuardianDetails(event.guardianDetails);
+
+      if (validationField == ValidationField.NONE) {
+        yield GuardianDetailsValid(event.guardianDetails);
+      } else
+        yield ValidationInvalidField(field: validationField);
     }
   }
 
@@ -99,13 +107,24 @@ class ValidationBloc extends Bloc<ValidationEvent, ValidationState> {
   }
 
   bool _validDateTime(String dayPart, String monthPart, String yearPart,
-      [String hourPart="00", String minutePart="00"]) {
+      [String hourPart = "00", String minutePart = "00"]) {
     try {
       DateFormat dateFormat = DateFormat("dd/MM/yyyy hh:mm");
-      dateFormat.parseStrict('$dayPart/$monthPart/$yearPart $hourPart:$minutePart');
+      dateFormat
+          .parseStrict('$dayPart/$monthPart/$yearPart $hourPart:$minutePart');
       return true;
     } catch (e) {
       return false;
     }
+  }
+
+  ValidationField _validateGuardianDetails(GuardianDetails guardianDetails) {
+    if (guardianDetails.relationShip == Relationship.other &&
+        guardianDetails.readableRelationship.isNullOrEmpty()) {
+      return ValidationField.OTHER_RELATION;
+    }
+    if (guardianDetails.mobileNumber.isNullOrEmpty())
+      return ValidationField.CONTACT_NUMBER;
+    return ValidationField.NONE;
   }
 }

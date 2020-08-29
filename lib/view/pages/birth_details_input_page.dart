@@ -96,7 +96,7 @@ class BirthDetailsInputPage extends StatelessWidget implements Validatable {
     StreamSubscription subscription;
 
     subscription = validationBloc.listen((validationState) {
-      if (validationState is ValidationBirthDetailsValid) {
+      if (validationState is BirthDetailsValid) {
         completer.complete(true);
       } else if (validationState is ValidationInvalidField) {
         completer.complete(false);
@@ -106,7 +106,7 @@ class BirthDetailsInputPage extends StatelessWidget implements Validatable {
       subscription.cancel();
     });
 
-    validationBloc.add(ValidationValidateBirthDetailsFields(
+    validationBloc.add(ValidateBirthDetailsFields(
         BlocProvider.of<BirthDetailsBloc>(context).birthDetails));
 
     return completer.future;

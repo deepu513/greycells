@@ -25,7 +25,7 @@ class RegistrationBloc extends Bloc<RegistrationEvent, RegistrationState> {
     registration = Registration();
     _userRepository = UserRepository();
     _validationSubscription = validationBloc.listen((state) {
-      if (state is ValidationRegistrationFieldsValid) {
+      if (state is RegistrationFieldsValid) {
         add(RegistrationCreateUser(validated: true));
       }
     });
@@ -38,7 +38,7 @@ class RegistrationBloc extends Bloc<RegistrationEvent, RegistrationState> {
     if (event is RegistrationCreateUser) {
       if (!event.validated)
         validationBloc.add(
-            ValidationValidateRegistrationFields(registration: registration));
+            ValidateRegistrationFields(registration: registration));
       else if (event.validated) {
         yield RegistrationInProgress();
 

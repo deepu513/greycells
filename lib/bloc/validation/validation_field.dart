@@ -53,4 +53,7 @@ class ValidationField {
 
   static const TIME_PART =
       ValidationField._internal(ErrorMessages.TIME_PART_ERROR_MESSAGE);
+
+  static const OTHER_RELATION =
+      ValidationField._internal(ErrorMessages.RELATION_ERROR_MESSAGE);
 }

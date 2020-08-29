@@ -260,7 +260,6 @@ class _GenderSelectorState extends State<GenderSelector> {
     super.initState();
     _genders = Gender.values();
     _selectedIndex = _genders.indexOf(widget.initialGender);
-    widget.genderSelectedCallback.call(_genders[_selectedIndex]);
   }
 
   @override

@@ -27,7 +27,7 @@ class AuthenticationBloc
     loginRequest = LoginRequest();
     _userRepository = UserRepository();
     _validationSubscription = validationBloc.listen((state) {
-      if (state is ValidationLoginFieldsValid) {
+      if (state is LoginFieldsValid) {
         add(LoginInitiated(valid: true));
       }
     });
@@ -57,7 +57,7 @@ class AuthenticationBloc
     if (event is LoginInitiated) {
       if (!event.valid) {
         validationBloc
-            .add(ValidationValidateLoginFields(loginRequest: loginRequest));
+            .add(ValidateLoginFields(loginRequest: loginRequest));
       } else if (event.valid) {
         yield AuthenticationLoading();
 

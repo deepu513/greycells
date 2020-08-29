@@ -1,30 +1,37 @@
 import 'package:mental_health/models/address/address.dart';
 import 'package:mental_health/models/birth_details/birth_details.dart';
+import 'package:mental_health/models/guardian_details/guardian_details.dart';
 import 'package:mental_health/models/login/login_request.dart';
 import 'package:mental_health/models/registration/registration.dart';
 
 abstract class ValidationEvent {}
 
-class ValidationValidateLoginFields extends ValidationEvent {
+class ValidateLoginFields extends ValidationEvent {
   final LoginRequest loginRequest;
 
-  ValidationValidateLoginFields({this.loginRequest});
+  ValidateLoginFields({this.loginRequest});
 }
 
-class ValidationValidateRegistrationFields extends ValidationEvent {
+class ValidateRegistrationFields extends ValidationEvent {
   final Registration registration;
 
-  ValidationValidateRegistrationFields({this.registration});
+  ValidateRegistrationFields({this.registration});
 }
 
-class ValidationValidateAddressFields extends ValidationEvent {
+class ValidateAddressFields extends ValidationEvent {
   final Address address;
 
-  ValidationValidateAddressFields(this.address);
+  ValidateAddressFields(this.address);
 }
 
-class ValidationValidateBirthDetailsFields extends ValidationEvent {
+class ValidateBirthDetailsFields extends ValidationEvent {
   final BirthDetails birthDetails;
 
-  ValidationValidateBirthDetailsFields(this.birthDetails);
+  ValidateBirthDetailsFields(this.birthDetails);
+}
+
+class ValidateGuardianDetailsFields extends ValidationEvent {
+ final GuardianDetails guardianDetails;
+
+ ValidateGuardianDetailsFields(this.guardianDetails);
 }

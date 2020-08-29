@@ -1,10 +1,21 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:mental_health/bloc/guardian_details/guardian_details_bloc.dart';
+import 'package:mental_health/bloc/validation/bloc.dart';
+import 'package:mental_health/bloc/validation/validation_bloc.dart';
+import 'package:mental_health/bloc/validation/validation_field.dart';
+import 'package:mental_health/constants/relationship.dart';
 import 'package:mental_health/constants/strings.dart';
+import 'package:mental_health/extensions.dart';
+import 'package:mental_health/models/validatable.dart';
 import 'package:mental_health/view/widgets/no_glow_scroll_behaviour.dart';
 
-class GuardianDetailsInputPage extends StatelessWidget {
+class GuardianDetailsInputPage extends StatelessWidget implements Validatable {
   const GuardianDetailsInputPage();
+
   @override
   Widget build(BuildContext context) {
     return ScrollConfiguration(
@@ -30,11 +41,11 @@ class GuardianDetailsInputPage extends StatelessWidget {
           ),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16.0),
-            child: Text(
-                Strings.mandatoryFields,
-                style: Theme.of(context).textTheme.subtitle1.copyWith(
-                    color: Colors.grey[600], fontSize: 14.0
-                )),
+            child: Text(Strings.mandatoryFields,
+                style: Theme.of(context)
+                    .textTheme
+                    .subtitle1
+                    .copyWith(color: Colors.grey[600], fontSize: 14.0)),
           ),
           SizedBox(
             height: 36.0,
@@ -42,12 +53,31 @@ class GuardianDetailsInputPage extends StatelessWidget {
           // Relationship, guardian name, guardian mobile number, guardian address
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 24.0),
-            child: GuardianRelationshipInput(),
+            child: BlocBuilder<GuardianDetailsBloc, GuardianDetailsState>(
+              builder: (context, guardianDetailsState) {
+                return GuardianRelationshipInput(
+                    BlocProvider.of<GuardianDetailsBloc>(context)
+                        .guardianDetails
+                        .relationShip, (relationShip) {
+                  BlocProvider.of<GuardianDetailsBloc>(context)
+                      .add(UpdateRelationship(relationShip));
+                }, (actualValue) {
+                  BlocProvider.of<GuardianDetailsBloc>(context).add(
+                      UpdateRelationship(Relationship.other,
+                          actualValue: actualValue));
+                });
+              },
+            ),
           ),
-          SizedBox(height: 36.0,),
+          SizedBox(
+            height: 24.0,
+          ),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 24.0),
-            child: GuardianMobileNumberInput(),
+            child: GuardianMobileNumberInput((mobileNumber) {
+              BlocProvider.of<GuardianDetailsBloc>(context)
+                  .add(UpdateMobileNumber(mobileNumber));
+            }),
           ),
         ],
       ),
@@ -79,31 +109,57 @@ class GuardianDetailsInputPage extends StatelessWidget {
           );
         });
   }
+
+  @override
+  FutureOr<bool> validate(BuildContext context, ValidationBloc validationBloc) {
+    final completer = Completer<bool>();
+
+    StreamSubscription subscription;
+
+    subscription = validationBloc.listen((validationState) {
+      if (validationState is GuardianDetailsValid) {
+        completer.complete(true);
+      } else if (validationState is ValidationInvalidField) {
+        completer.complete(false);
+      } else {
+        completer.completeError(Exception());
+      }
+      subscription.cancel();
+    });
+
+    validationBloc.add(ValidateGuardianDetailsFields(
+        BlocProvider.of<GuardianDetailsBloc>(context).guardianDetails));
+
+    return completer.future;
+  }
 }
 
 class GuardianRelationshipInput extends StatefulWidget {
+  final Relationship initialRelationship;
+  final ValueChanged<Relationship> onRelationshipSelected;
+  final ValueChanged<String> onOtherValueChanged;
+
+  GuardianRelationshipInput(this.initialRelationship,
+      this.onRelationshipSelected, this.onOtherValueChanged);
+
   @override
   _GuardianRelationshipInputState createState() =>
       _GuardianRelationshipInputState();
 }
 
 class _GuardianRelationshipInputState extends State<GuardianRelationshipInput> {
-  List<String> relationShipList;
-  List<bool> toggleStateList;
+  List<Relationship> relationShipList;
+  List<bool> _toggleStateList;
   int _selectedIndex;
 
   @override
   void initState() {
     super.initState();
-    relationShipList = List<String>()
-      ..add("Father")
-      ..add("Mother")
-      ..add("Brother")
-      ..add("Sister")
-      ..add("Other");
-
-    toggleStateList = <bool>[true, false, false, false, false];
-    _selectedIndex = 1;
+    relationShipList = Relationship.values();
+    _selectedIndex = relationShipList.indexWhere((element) {
+      return element.toString() == widget.initialRelationship.toString();
+    });
+    _toggleStateList = List.generate(5, (index) => index == _selectedIndex);
   }
 
   @override
@@ -111,37 +167,76 @@ class _GuardianRelationshipInputState extends State<GuardianRelationshipInput> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
-        Text("Your relationship with guardian", style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.w400)),
-        SizedBox(height: 8.0,),
+        Text("Your relationship with guardian",
+            style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.w400)),
+        SizedBox(
+          height: 8.0,
+        ),
         LayoutBuilder(
           builder: (context, constraints) {
             return ToggleButtons(
-              children: relationShipList.map((value) => Text(value)).toList(),
-              constraints: BoxConstraints.expand(width: (constraints.maxWidth - 24.0)/ relationShipList.length, height: 48.0),
-              isSelected: toggleStateList,
+              children: relationShipList
+                  .map((value) => Text(value.toString()))
+                  .toList(),
+              constraints: BoxConstraints.expand(
+                  width:
+                      (constraints.maxWidth - 24.0) / relationShipList.length,
+                  height: 48.0),
+              isSelected: _toggleStateList,
               onPressed: (index) {
-
+                _toggleStateList[_selectedIndex] =
+                    !_toggleStateList[_selectedIndex];
+                _selectedIndex = index;
+                _toggleStateList[_selectedIndex] =
+                    !_toggleStateList[_selectedIndex];
+                widget.onRelationshipSelected.call(relationShipList[index]);
               },
             );
           },
         ),
-        SizedBox(height: 12.0),
+        SizedBox(height: 16.0),
         AnimatedContainer(
-          height: 0.0,
-          duration: Duration(milliseconds: 600),
-          child: TextField(
-            maxLines: 1,
-            decoration: InputDecoration(
-              border: InputBorder.none,
-              helperText: Strings.tapToEnter,
-              labelText: Strings.relationshipWithGuardian,
-              contentPadding: EdgeInsets.zero,
-              labelStyle: TextStyle(color: Theme.of(context).accentColor),
-            ),
-            autofocus: false,
-            keyboardType: TextInputType.text,
-            enabled: true,
-            textCapitalization: TextCapitalization.words,
+          height: BlocProvider.of<GuardianDetailsBloc>(context)
+              .guardianDetails
+              .relationShip ==
+              Relationship.other ? 72.0 : 0.0,
+          duration: Duration(milliseconds: 300),
+          child: BlocBuilder<ValidationBloc, ValidationState>(
+            builder: (context, validationState) {
+              return Visibility(
+                visible: BlocProvider.of<GuardianDetailsBloc>(context)
+                        .guardianDetails
+                        .relationShip ==
+                    Relationship.other,
+                child: TextField(
+                  controller: TextEditingController(
+                      text: BlocProvider.of<GuardianDetailsBloc>(context)
+                              .guardianDetails
+                              .readableRelationship ??
+                          ""),
+                  maxLines: 1,
+                  decoration: InputDecoration(
+                    border: InputBorder.none,
+                    helperText: Strings.tapToEnter,
+                    labelText: Strings.relationshipWithGuardian,
+                    contentPadding: EdgeInsets.zero,
+                    labelStyle: TextStyle(color: Theme.of(context).accentColor),
+                    errorText: validationState
+                            .isFieldInvalid(ValidationField.OTHER_RELATION)
+                        ? ValidationField.OTHER_RELATION.errorMessage()
+                        : null,
+                  ),
+                  autofocus: false,
+                  keyboardType: TextInputType.text,
+                  enabled: true,
+                  textCapitalization: TextCapitalization.words,
+                  onChanged: (value) {
+                    widget.onOtherValueChanged.call(value);
+                  },
+                  onSubmitted: (_) => FocusScope.of(context).nextFocus(),
+                ),
+              );
+            },
           ),
         )
       ],
@@ -151,142 +246,57 @@ class _GuardianRelationshipInputState extends State<GuardianRelationshipInput> {
 
 // TODO: Optimize it and DRY when integrating bloc
 class GuardianMobileNumberInput extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: <Widget>[
-        Text("Guardian mobile number", style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.w400)),
-        TextField(
-          maxLines: 1,
-          maxLength: 10,
-          style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.w500),
-          decoration: InputDecoration(
-            border: InputBorder.none,
-            hintText:
-            Strings.tapToEnter,
-            hintStyle: TextStyle(fontSize: 20.0, fontWeight: FontWeight.w400),
-            icon: Text(
-              "+91",
-              style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.w400),
-            ),
-          ),
-          autofocus: false,
-          keyboardType: TextInputType.phone,
-          inputFormatters: <TextInputFormatter>[
-            WhitelistingTextInputFormatter.digitsOnly
-          ],
-          autocorrect: false,
-          buildCounter: (BuildContext context,
-              {int currentLength, int maxLength, bool isFocused}) =>
-          null,
-        ),
-      ],
-    );
-  }
-}
+  final ValueChanged<String> onMobileNumberValueChanged;
 
-class GuardianAddressInput extends StatelessWidget {
+  GuardianMobileNumberInput(this.onMobileNumberValueChanged);
+
   @override
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
-        TextField(
-          maxLines: 1,
-          decoration: InputDecoration(
-            border: InputBorder.none,
-            helperText: Strings.tapToEnter,
-            labelText: Strings.houseNumber,
-            contentPadding: EdgeInsets.zero,
-          ),
-          autofocus: false,
-          keyboardType: TextInputType.text,
-          textCapitalization: TextCapitalization.words,
-        ),
-        SizedBox(
-          height: 16.0,
-        ),
-        TextField(
-          maxLines: 1,
-          decoration: InputDecoration(
-            border: InputBorder.none,
-            helperText: Strings.tapToEnter,
-            labelText: Strings.roadName,
-            contentPadding: EdgeInsets.zero,
-          ),
-          autofocus: false,
-          keyboardType: TextInputType.text,
-          textCapitalization: TextCapitalization.words,
-        ),
-        SizedBox(
-          height: 16.0,
-        ),
-        TextField(
-          maxLines: 1,
-          decoration: InputDecoration(
-            border: InputBorder.none,
-            helperText: Strings.tapToEnter,
-            labelText: Strings.city,
-            contentPadding: EdgeInsets.zero,
-          ),
-          autofocus: false,
-          keyboardType: TextInputType.text,
-          textCapitalization: TextCapitalization.words,
-        ),
-        SizedBox(
-          height: 16.0,
-        ),
-        TextField(
-          maxLines: 1,
-          decoration: InputDecoration(
-            border: InputBorder.none,
-            helperText: Strings.tapToEnter,
-            labelText: Strings.state,
-            contentPadding: EdgeInsets.zero,
-          ),
-          autofocus: false,
-          keyboardType: TextInputType.text,
-          textCapitalization: TextCapitalization.words,
-        ),
-        SizedBox(
-          height: 16.0,
-        ),
-        TextField(
-          maxLines: 1,
-          decoration: InputDecoration(
-            border: InputBorder.none,
-            helperText: Strings.tapToEnter,
-            labelText: Strings.country,
-            contentPadding: EdgeInsets.zero,
-          ),
-          autofocus: false,
-          keyboardType: TextInputType.text,
-          textCapitalization: TextCapitalization.words,
-        ),
-        SizedBox(
-          height: 16.0,
-        ),
-        TextField(
-          maxLines: 1,
-          maxLength: 10,
-          decoration: InputDecoration(
-            border: InputBorder.none,
-            helperText: Strings.tapToEnter,
-            labelText: Strings.pincode,
-            contentPadding: EdgeInsets.zero,
-          ),
-          autofocus: false,
-          keyboardType: TextInputType.number,
-          buildCounter: (BuildContext context,
-              {int currentLength, int maxLength, bool isFocused}) =>
-          null,
-          inputFormatters: <TextInputFormatter>[
-            WhitelistingTextInputFormatter.digitsOnly
-          ],
-        ),
-        SizedBox(
-          height: 16.0,
+        Text("Guardian mobile number",
+            style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.w400)),
+        BlocBuilder<ValidationBloc, ValidationState>(
+          builder: (context, validationState) {
+            return TextField(
+              controller: TextEditingController(
+                  text: BlocProvider.of<GuardianDetailsBloc>(context)
+                          .guardianDetails
+                          .mobileNumber ??
+                      ""),
+              maxLines: 1,
+              maxLength: 10,
+              style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.w400),
+              decoration: InputDecoration(
+                border: InputBorder.none,
+                hintText: Strings.tapToEnter,
+                hintStyle:
+                    TextStyle(fontSize: 20.0, fontWeight: FontWeight.w400),
+                icon: Icon(
+                  Icons.phone,
+                  size: 20.0,
+                ),
+                errorText: validationState
+                        .isFieldInvalid(ValidationField.CONTACT_NUMBER)
+                    ? ValidationField.CONTACT_NUMBER.errorMessage()
+                    : null,
+              ),
+              autofocus: false,
+              keyboardType: TextInputType.phone,
+              inputFormatters: <TextInputFormatter>[
+                WhitelistingTextInputFormatter.digitsOnly
+              ],
+              autocorrect: false,
+              buildCounter: (BuildContext context,
+                      {int currentLength, int maxLength, bool isFocused}) =>
+                  null,
+              onChanged: (value) {
+                onMobileNumberValueChanged.call(value);
+              },
+              onSubmitted: (_) => FocusScope.of(context).nextFocus(),
+            );
+          },
         ),
       ],
     );

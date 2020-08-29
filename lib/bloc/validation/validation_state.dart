@@ -2,6 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:mental_health/bloc/validation/validation_field.dart';
 import 'package:mental_health/models/address/address.dart';
 import 'package:mental_health/models/birth_details/birth_details.dart';
+import 'package:mental_health/models/guardian_details/guardian_details.dart';
 import 'package:mental_health/models/login/login_request.dart';
 import 'package:mental_health/models/registration/registration.dart';
 
@@ -9,28 +10,34 @@ abstract class ValidationState {}
 
 class ValidationStateInitial extends ValidationState {}
 
-class ValidationLoginFieldsValid extends ValidationState {
+class LoginFieldsValid extends ValidationState {
   final LoginRequest loginRequest;
 
-  ValidationLoginFieldsValid({this.loginRequest});
+  LoginFieldsValid({this.loginRequest});
 }
 
-class ValidationRegistrationFieldsValid extends ValidationState {
+class RegistrationFieldsValid extends ValidationState {
   final Registration registration;
 
-  ValidationRegistrationFieldsValid({this.registration});
+  RegistrationFieldsValid({this.registration});
 }
 
-class ValidationAddressFieldsValid extends ValidationState {
+class AddressFieldsValid extends ValidationState {
   final Address address;
 
-  ValidationAddressFieldsValid({this.address});
+  AddressFieldsValid({this.address});
 }
 
-class ValidationBirthDetailsValid extends ValidationState {
+class BirthDetailsValid extends ValidationState {
   final BirthDetails birthDetails;
 
-  ValidationBirthDetailsValid(this.birthDetails);
+  BirthDetailsValid(this.birthDetails);
+}
+
+class GuardianDetailsValid extends ValidationState {
+  final GuardianDetails guardianDetails;
+
+  GuardianDetailsValid(this.guardianDetails);
 }
 
 class ValidationInvalidField extends ValidationState {

@@ -195,20 +195,14 @@ class _GuardianRelationshipInputState extends State<GuardianRelationshipInput> {
           },
         ),
         SizedBox(height: 16.0),
-        AnimatedContainer(
-          height: BlocProvider.of<GuardianDetailsBloc>(context)
-              .guardianDetails
-              .relationShip ==
-              Relationship.other ? 72.0 : 0.0,
-          duration: Duration(milliseconds: 300),
-          child: BlocBuilder<ValidationBloc, ValidationState>(
-            builder: (context, validationState) {
-              return Visibility(
-                visible: BlocProvider.of<GuardianDetailsBloc>(context)
-                        .guardianDetails
-                        .relationShip ==
-                    Relationship.other,
-                child: TextField(
+        Visibility(
+            visible: BlocProvider.of<GuardianDetailsBloc>(context)
+                    .guardianDetails
+                    .relationShip ==
+                Relationship.other,
+            child: BlocBuilder<ValidationBloc, ValidationState>(
+              builder: (context, validationState) {
+                return TextField(
                   controller: TextEditingController(
                       text: BlocProvider.of<GuardianDetailsBloc>(context)
                               .guardianDetails
@@ -234,11 +228,9 @@ class _GuardianRelationshipInputState extends State<GuardianRelationshipInput> {
                     widget.onOtherValueChanged.call(value);
                   },
                   onSubmitted: (_) => FocusScope.of(context).nextFocus(),
-                ),
-              );
-            },
-          ),
-        )
+                );
+              },
+            )),
       ],
     );
   }

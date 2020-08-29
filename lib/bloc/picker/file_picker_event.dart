@@ -2,8 +2,6 @@ part of 'file_picker_bloc.dart';
 
 abstract class FilePickerEvent {}
 
-class PickFiles extends FilePickerEvent {
-  List<String> fileExtensions;
+class PickImageFile extends FilePickerEvent {}
 
-  PickFiles(this.fileExtensions);
-}
+class PickPdfFile extends FilePickerEvent {}

@@ -7,6 +7,7 @@ import 'package:mental_health/bloc/guardian_details/guardian_details_bloc.dart';
 import 'package:mental_health/bloc/health_details/health_details_bloc.dart';
 import 'package:mental_health/bloc/page_transition/bloc.dart';
 import 'package:mental_health/bloc/page_transition/page_transition_bloc.dart';
+import 'package:mental_health/bloc/picker/file_picker_bloc.dart';
 import 'package:mental_health/bloc/picker/image_picker_bloc.dart';
 import 'package:mental_health/bloc/validation/bloc.dart';
 import 'package:mental_health/models/validatable.dart';
@@ -64,6 +65,9 @@ class _PatientDetailInputState extends State<PatientDetailInput>
       providers: [
         BlocProvider<ImagePickerBloc>(
           create: (context) => ImagePickerBloc(),
+        ),
+        BlocProvider<FilePickerBloc>(
+          create: (context) => FilePickerBloc(),
         ),
         BlocProvider<ValidationBloc>(
           create: (context) => ValidationBloc(),

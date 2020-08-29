@@ -10,7 +10,9 @@ part 'address_details_state.dart';
 class AddressDetailsBloc extends Bloc<AddressDetailsEvent, AddressDetailsState> {
   Address address;
 
-  AddressDetailsBloc() : super(AddressDetailsInitial());
+  AddressDetailsBloc() : super(AddressDetailsInitial()) {
+    address = Address();
+  }
 
   @override
   Stream<AddressDetailsState> mapEventToState(

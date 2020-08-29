@@ -14,7 +14,9 @@ class Address {
 
   GuardianAddress guardianAddress;
 
-  Address();
+  Address() {
+    guardianAddress = GuardianAddress();
+  }
 
   factory Address.fromJson(Map<String, dynamic> json) =>
       _$AddressFromJson(json);

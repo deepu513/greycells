@@ -88,6 +88,18 @@ class ValidationBloc extends Bloc<ValidationEvent, ValidationState> {
     if (address.state.isNullOrEmpty()) return ValidationField.STATE;
     if (address.country.isNullOrEmpty()) return ValidationField.COUNTRY;
     if (address.pincode.isNullOrEmpty()) return ValidationField.PINCODE;
+    if (address.guardianAddress.houseNumber.isNullOrEmpty())
+      return ValidationField.GUARDIAN_HOUSE_NUMBER;
+    if (address.guardianAddress.roadName.isNullOrEmpty())
+      return ValidationField.GUARDIAN_ROAD_NAME;
+    if (address.guardianAddress.city.isNullOrEmpty())
+      return ValidationField.GUARDIAN_CITY;
+    if (address.guardianAddress.state.isNullOrEmpty())
+      return ValidationField.GUARDIAN_STATE;
+    if (address.guardianAddress.country.isNullOrEmpty())
+      return ValidationField.GUARDIAN_COUNTRY;
+    if (address.guardianAddress.pincode.isNullOrEmpty())
+      return ValidationField.GUARDIAN_PINCODE;
     return ValidationField.NONE;
   }
 

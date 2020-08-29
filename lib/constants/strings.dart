@@ -91,4 +91,5 @@ class ErrorMessages {
       "Please specify your relation with guardian";
   static const FILE_SIZE_ERROR_MESSAGE = "File size exceeds 2 MB";
   static const UNSUPPORTED_FILE_ERROR_MESSAGE = "This file type is not supported";
+  static const MAX_FILES_ERROR_MESSAGE = "Maximum 5 files are allowed";
 }

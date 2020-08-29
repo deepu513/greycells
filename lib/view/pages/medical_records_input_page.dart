@@ -13,11 +13,18 @@ class MedicalRecordsInputPage extends StatelessWidget {
     return Scaffold(
       floatingActionButton: FloatingActionButton(
         onPressed: () async {
-          String result = await showAlertDialog(context);
-          if (result == "Image") {
-            BlocProvider.of<FilePickerBloc>(context).add(PickImageFile());
-          } else if (result == "PDF") {
-            BlocProvider.of<FilePickerBloc>(context).add(PickPdfFile());
+          if(BlocProvider.of<FilePickerBloc>(context).pickedFiles.length < 5) {
+            String result = await showAlertDialog(context);
+            if (result == "Image") {
+              BlocProvider.of<FilePickerBloc>(context).add(PickImageFile());
+            } else if (result == "PDF") {
+              BlocProvider.of<FilePickerBloc>(context).add(PickPdfFile());
+            }
+          } else {
+            Scaffold.of(context).showSnackBar(SnackBar(
+              content: Text(ErrorMessages.MAX_FILES_ERROR_MESSAGE),
+              duration: Duration(milliseconds: 2000),
+            ));
           }
         },
         child: Icon(Icons.add),

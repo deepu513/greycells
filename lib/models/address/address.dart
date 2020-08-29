@@ -1,4 +1,5 @@
 import 'package:json_annotation/json_annotation.dart';
+import 'package:mental_health/models/address/guardian_address.dart';
 
 part 'address.g.dart';
 
@@ -11,9 +12,12 @@ class Address {
   String country;
   String pincode;
 
+  GuardianAddress guardianAddress;
+
   Address();
 
-  factory Address.fromJson(Map<String, dynamic> json) => _$AddressFromJson(json);
+  factory Address.fromJson(Map<String, dynamic> json) =>
+      _$AddressFromJson(json);
 
-    Map<String, dynamic> toJson() => _$AddressToJson(this);
+  Map<String, dynamic> toJson() => _$AddressToJson(this);
 }

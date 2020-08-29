@@ -1,6 +1,7 @@
 import 'package:animations/animations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:mental_health/bloc/address_details/address_details_bloc.dart';
 import 'package:mental_health/bloc/birth_details/birth_details_bloc.dart';
 import 'package:mental_health/bloc/guardian_details/guardian_details_bloc.dart';
 import 'package:mental_health/bloc/health_details/health_details_bloc.dart';
@@ -75,6 +76,9 @@ class _PatientDetailInputState extends State<PatientDetailInput>
         ),
         BlocProvider<GuardianDetailsBloc>(
           create: (context) => GuardianDetailsBloc(),
+        ),
+        BlocProvider<AddressDetailsBloc>(
+          create: (context) => AddressDetailsBloc(),
         ),
         BlocProvider<PageTransitionBloc>(
           create: (context) => PageTransitionBloc(

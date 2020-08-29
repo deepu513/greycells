@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:mental_health/bloc/address_details/address_details_bloc.dart';
 import 'package:mental_health/constants/strings.dart';
 import 'package:mental_health/view/widgets/no_glow_scroll_behaviour.dart';
 
 class AddressDetailInputPage extends StatelessWidget {
   const AddressDetailInputPage();
+
   @override
   Widget build(BuildContext context) {
     return ScrollConfiguration(
@@ -31,7 +34,7 @@ class AddressDetailInputPage extends StatelessWidget {
           SizedBox(
             height: 16.0,
           ),
-          AddressInputControls(),
+          PatientAddressInput(),
           Divider(),
           GuardianAddressInput()
         ],
@@ -66,7 +69,7 @@ class AddressDetailInputPage extends StatelessWidget {
   }
 }
 
-class AddressInputControls extends StatelessWidget {
+class PatientAddressInput extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -75,104 +78,158 @@ class AddressInputControls extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           TextField(
-            maxLines: 1,
-            decoration: InputDecoration(
-              border: InputBorder.none,
-              icon: Icon(Icons.home),
-              helperText: Strings.tapToEnter,
-              labelText: Strings.houseNumber,
-              contentPadding: EdgeInsets.zero,
-            ),
-            autofocus: false,
-            keyboardType: TextInputType.text,
-            textCapitalization: TextCapitalization.words,
-          ),
+              maxLines: 1,
+              decoration: InputDecoration(
+                border: InputBorder.none,
+                icon: Icon(Icons.home),
+                helperText: Strings.tapToEnter,
+                labelText: Strings.houseNumber,
+                contentPadding: EdgeInsets.zero,
+              ),
+              autofocus: false,
+              keyboardType: TextInputType.text,
+              textCapitalization: TextCapitalization.words,
+              controller: TextEditingController(
+                  text: BlocProvider.of<AddressDetailsBloc>(context)
+                      .address
+                      .houseNumber ??
+                      ""),
+              onChanged: (value) =>
+              BlocProvider.of<AddressDetailsBloc>(context)
+                  .address
+                  .houseNumber = value,
+              onSubmitted: (_) => FocusScope.of(context).nextFocus()),
           SizedBox(
             height: 16.0,
           ),
           TextField(
-            maxLines: 1,
-            decoration: InputDecoration(
-              icon: Icon(Icons.nature),
-              border: InputBorder.none,
-              helperText: Strings.tapToEnter,
-              labelText: Strings.roadName,
-              contentPadding: EdgeInsets.zero,
-            ),
-            autofocus: false,
-            keyboardType: TextInputType.text,
-            textCapitalization: TextCapitalization.words,
-          ),
+              maxLines: 1,
+              decoration: InputDecoration(
+                icon: Icon(Icons.nature),
+                border: InputBorder.none,
+                helperText: Strings.tapToEnter,
+                labelText: Strings.roadName,
+                contentPadding: EdgeInsets.zero,
+              ),
+              autofocus: false,
+              keyboardType: TextInputType.text,
+              textCapitalization: TextCapitalization.words,
+              controller: TextEditingController(
+                  text: BlocProvider.of<AddressDetailsBloc>(context)
+                      .address
+                      .roadName ??
+                      ""),
+              onChanged: (value) =>
+              BlocProvider.of<AddressDetailsBloc>(context)
+                  .address
+                  .roadName = value,
+              onSubmitted: (_) => FocusScope.of(context).nextFocus()),
           SizedBox(
             height: 16.0,
           ),
           TextField(
-            maxLines: 1,
-            decoration: InputDecoration(
-              icon: Icon(Icons.location_city),
-              border: InputBorder.none,
-              helperText: Strings.tapToEnter,
-              labelText: Strings.city,
-              contentPadding: EdgeInsets.zero,
-            ),
-            autofocus: false,
-            keyboardType: TextInputType.text,
-            textCapitalization: TextCapitalization.words,
-          ),
+              maxLines: 1,
+              decoration: InputDecoration(
+                icon: Icon(Icons.location_city),
+                border: InputBorder.none,
+                helperText: Strings.tapToEnter,
+                labelText: Strings.city,
+                contentPadding: EdgeInsets.zero,
+              ),
+              autofocus: false,
+              keyboardType: TextInputType.text,
+              textCapitalization: TextCapitalization.words,
+              controller: TextEditingController(
+                  text: BlocProvider.of<AddressDetailsBloc>(context)
+                      .address
+                      .city ??
+                      ""),
+              onChanged: (value) =>
+              BlocProvider.of<AddressDetailsBloc>(context)
+                  .address
+                  .city = value,
+              onSubmitted: (_) => FocusScope.of(context).nextFocus()),
           SizedBox(
             height: 16.0,
           ),
           TextField(
-            maxLines: 1,
-            decoration: InputDecoration(
-              icon: Icon(Icons.my_location),
-              border: InputBorder.none,
-              helperText: Strings.tapToEnter,
-              labelText: Strings.state,
-              contentPadding: EdgeInsets.zero,
-            ),
-            autofocus: false,
-            keyboardType: TextInputType.text,
-            textCapitalization: TextCapitalization.words,
-          ),
+              maxLines: 1,
+              decoration: InputDecoration(
+                icon: Icon(Icons.my_location),
+                border: InputBorder.none,
+                helperText: Strings.tapToEnter,
+                labelText: Strings.state,
+                contentPadding: EdgeInsets.zero,
+              ),
+              autofocus: false,
+              keyboardType: TextInputType.text,
+              textCapitalization: TextCapitalization.words,
+              controller: TextEditingController(
+                  text: BlocProvider.of<AddressDetailsBloc>(context)
+                      .address
+                      .state ??
+                      ""),
+              onChanged: (value) =>
+              BlocProvider.of<AddressDetailsBloc>(context)
+                  .address
+                  .state = value,
+              onSubmitted: (_) => FocusScope.of(context).nextFocus()),
           SizedBox(
             height: 16.0,
           ),
           TextField(
-            maxLines: 1,
-            decoration: InputDecoration(
-              icon: Icon(Icons.map),
-              border: InputBorder.none,
-              helperText: Strings.tapToEnter,
-              labelText: Strings.country,
-              contentPadding: EdgeInsets.zero,
-            ),
-            autofocus: false,
-            keyboardType: TextInputType.text,
-            textCapitalization: TextCapitalization.words,
-          ),
+              maxLines: 1,
+              decoration: InputDecoration(
+                icon: Icon(Icons.map),
+                border: InputBorder.none,
+                helperText: Strings.tapToEnter,
+                labelText: Strings.country,
+                contentPadding: EdgeInsets.zero,
+              ),
+              autofocus: false,
+              keyboardType: TextInputType.text,
+              textCapitalization: TextCapitalization.words,
+              controller: TextEditingController(
+                  text: BlocProvider.of<AddressDetailsBloc>(context)
+                      .address
+                      .country ??
+                      ""),
+              onChanged: (value) =>
+              BlocProvider.of<AddressDetailsBloc>(context)
+                  .address
+                  .country = value,
+              onSubmitted: (_) => FocusScope.of(context).nextFocus()),
           SizedBox(
             height: 16.0,
           ),
           TextField(
-            maxLines: 1,
-            maxLength: 10,
-            decoration: InputDecoration(
-              icon: Icon(Icons.pin_drop),
-              border: InputBorder.none,
-              helperText: Strings.tapToEnter,
-              labelText: Strings.pincode,
-              contentPadding: EdgeInsets.zero,
-            ),
-            autofocus: false,
-            keyboardType: TextInputType.number,
-            buildCounter: (BuildContext context,
-                    {int currentLength, int maxLength, bool isFocused}) =>
-                null,
-            inputFormatters: <TextInputFormatter>[
-              WhitelistingTextInputFormatter.digitsOnly
-            ],
-          ),
+              maxLines: 1,
+              maxLength: 10,
+              decoration: InputDecoration(
+                icon: Icon(Icons.pin_drop),
+                border: InputBorder.none,
+                helperText: Strings.tapToEnter,
+                labelText: Strings.pincode,
+                contentPadding: EdgeInsets.zero,
+              ),
+              autofocus: false,
+              keyboardType: TextInputType.number,
+              buildCounter: (BuildContext context,
+                      {int currentLength, int maxLength, bool isFocused}) =>
+                  null,
+              inputFormatters: <TextInputFormatter>[
+                WhitelistingTextInputFormatter.digitsOnly
+              ],
+              controller: TextEditingController(
+                  text: BlocProvider.of<AddressDetailsBloc>(context)
+                      .address
+                      .pincode ??
+                      ""),
+              onChanged: (value) =>
+              BlocProvider.of<AddressDetailsBloc>(context)
+                  .address
+                  .pincode = value,
+              onSubmitted: (_) => FocusScope.of(context).unfocus()),
           SizedBox(
             height: 16.0,
           ),
@@ -199,7 +256,10 @@ class GuardianAddressInput extends StatelessWidget {
         CheckboxListTile(
           value: false,
           onChanged: (value) {},
-          title: Text(Strings.sameAsAbove, style: Theme.of(context).textTheme.subtitle1,),
+          title: Text(
+            Strings.sameAsAbove,
+            style: Theme.of(context).textTheme.subtitle1,
+          ),
           subtitle: Text(Strings.liveWithGuardian),
         ),
         SizedBox(
@@ -208,8 +268,178 @@ class GuardianAddressInput extends StatelessWidget {
         AnimatedOpacity(
             opacity: 1.0,
             duration: Duration(milliseconds: 600),
-            child: AddressInputControls())
+            child: GuardianAddressInputFields())
       ],
+    );
+  }
+}
+
+class GuardianAddressInputFields extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 24.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          TextField(
+              maxLines: 1,
+              decoration: InputDecoration(
+                border: InputBorder.none,
+                icon: Icon(Icons.home),
+                helperText: Strings.tapToEnter,
+                labelText: Strings.houseNumber,
+                contentPadding: EdgeInsets.zero,
+              ),
+              autofocus: false,
+              keyboardType: TextInputType.text,
+              textCapitalization: TextCapitalization.words,
+              controller: TextEditingController(
+                  text: BlocProvider.of<AddressDetailsBloc>(context)
+                      .address.guardianAddress
+                      .houseNumber ??
+                      ""),
+              onChanged: (value) =>
+              BlocProvider.of<AddressDetailsBloc>(context)
+                  .address.guardianAddress
+                  .houseNumber = value,
+              onSubmitted: (_) => FocusScope.of(context).nextFocus()),
+          SizedBox(
+            height: 16.0,
+          ),
+          TextField(
+              maxLines: 1,
+              decoration: InputDecoration(
+                icon: Icon(Icons.nature),
+                border: InputBorder.none,
+                helperText: Strings.tapToEnter,
+                labelText: Strings.roadName,
+                contentPadding: EdgeInsets.zero,
+              ),
+              autofocus: false,
+              keyboardType: TextInputType.text,
+              textCapitalization: TextCapitalization.words,
+              controller: TextEditingController(
+                  text: BlocProvider.of<AddressDetailsBloc>(context)
+                      .address.guardianAddress
+                      .roadName ??
+                      ""),
+              onChanged: (value) =>
+              BlocProvider.of<AddressDetailsBloc>(context)
+                  .address.guardianAddress
+                  .roadName = value,
+              onSubmitted: (_) => FocusScope.of(context).nextFocus()),
+          SizedBox(
+            height: 16.0,
+          ),
+          TextField(
+              maxLines: 1,
+              decoration: InputDecoration(
+                icon: Icon(Icons.location_city),
+                border: InputBorder.none,
+                helperText: Strings.tapToEnter,
+                labelText: Strings.city,
+                contentPadding: EdgeInsets.zero,
+              ),
+              autofocus: false,
+              keyboardType: TextInputType.text,
+              textCapitalization: TextCapitalization.words,
+              controller: TextEditingController(
+                  text: BlocProvider.of<AddressDetailsBloc>(context)
+                      .address.guardianAddress
+                      .city ??
+                      ""),
+              onChanged: (value) =>
+              BlocProvider.of<AddressDetailsBloc>(context)
+                  .address.guardianAddress
+                  .city = value,
+              onSubmitted: (_) => FocusScope.of(context).nextFocus()),
+          SizedBox(
+            height: 16.0,
+          ),
+          TextField(
+              maxLines: 1,
+              decoration: InputDecoration(
+                icon: Icon(Icons.my_location),
+                border: InputBorder.none,
+                helperText: Strings.tapToEnter,
+                labelText: Strings.state,
+                contentPadding: EdgeInsets.zero,
+              ),
+              autofocus: false,
+              keyboardType: TextInputType.text,
+              textCapitalization: TextCapitalization.words,
+              controller: TextEditingController(
+                  text: BlocProvider.of<AddressDetailsBloc>(context)
+                      .address.guardianAddress
+                      .state ??
+                      ""),
+              onChanged: (value) =>
+              BlocProvider.of<AddressDetailsBloc>(context)
+                  .address.guardianAddress
+                  .state = value,
+              onSubmitted: (_) => FocusScope.of(context).nextFocus()),
+          SizedBox(
+            height: 16.0,
+          ),
+          TextField(
+              maxLines: 1,
+              decoration: InputDecoration(
+                icon: Icon(Icons.map),
+                border: InputBorder.none,
+                helperText: Strings.tapToEnter,
+                labelText: Strings.country,
+                contentPadding: EdgeInsets.zero,
+              ),
+              autofocus: false,
+              keyboardType: TextInputType.text,
+              textCapitalization: TextCapitalization.words,
+              controller: TextEditingController(
+                  text: BlocProvider.of<AddressDetailsBloc>(context)
+                      .address.guardianAddress
+                      .country ??
+                      ""),
+              onChanged: (value) =>
+              BlocProvider.of<AddressDetailsBloc>(context)
+                  .address.guardianAddress
+                  .country = value,
+              onSubmitted: (_) => FocusScope.of(context).nextFocus()),
+          SizedBox(
+            height: 16.0,
+          ),
+          TextField(
+              maxLines: 1,
+              maxLength: 10,
+              decoration: InputDecoration(
+                icon: Icon(Icons.pin_drop),
+                border: InputBorder.none,
+                helperText: Strings.tapToEnter,
+                labelText: Strings.pincode,
+                contentPadding: EdgeInsets.zero,
+              ),
+              autofocus: false,
+              keyboardType: TextInputType.number,
+              buildCounter: (BuildContext context,
+                  {int currentLength, int maxLength, bool isFocused}) =>
+              null,
+              inputFormatters: <TextInputFormatter>[
+                WhitelistingTextInputFormatter.digitsOnly
+              ],
+              controller: TextEditingController(
+                  text: BlocProvider.of<AddressDetailsBloc>(context)
+                      .address.guardianAddress
+                      .pincode ??
+                      ""),
+              onChanged: (value) =>
+              BlocProvider.of<AddressDetailsBloc>(context)
+                  .address.guardianAddress
+                  .pincode = value,
+              onSubmitted: (_) => FocusScope.of(context).unfocus()),
+          SizedBox(
+            height: 16.0,
+          ),
+        ],
+      ),
     );
   }
 }

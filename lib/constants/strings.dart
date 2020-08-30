@@ -68,6 +68,8 @@ class Strings {
       "Couldn't pick image. Try to pick again or a different one";
   static const dateOfBirth = "Date of birth";
   static const timeOfBirth = "Time of birth";
+  static const beforeWeBegin = "Before we begin...";
+  static const somePoints = "Let's go through some points...";
 }
 
 /// This should contain strings which signify an error message

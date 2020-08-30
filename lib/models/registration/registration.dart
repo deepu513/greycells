@@ -3,7 +3,7 @@ import 'package:json_annotation/json_annotation.dart';
 part 'registration.g.dart';
 
 @JsonSerializable(explicitToJson: true)
-class Registration  {
+class Registration {
   String firstName;
   String lastName;
   String mobileNumber;
@@ -15,7 +15,8 @@ class Registration  {
 
   Registration();
 
-  factory Registration.fromJson(Map<String, dynamic> json) => _$RegistrationFromJson(json);
+  factory Registration.fromJson(Map<String, dynamic> json) =>
+      _$RegistrationFromJson(json);
 
-    Map<String, dynamic> toJson() => _$RegistrationToJson(this);
+  Map<String, dynamic> toJson() => _$RegistrationToJson(this);
 }

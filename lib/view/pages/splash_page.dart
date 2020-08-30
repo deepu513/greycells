@@ -6,7 +6,10 @@ class SplashPage extends StatelessWidget {
     return Scaffold(
       body: Container(
         child: Center(
-          child: Text("Splash Page", style: TextStyle(fontSize: 24.0),),
+          child: Text(
+            "Splash Page",
+            style: TextStyle(fontSize: 24.0),
+          ),
         ),
       ),
     );

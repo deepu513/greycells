@@ -31,7 +31,7 @@ class ValidateBirthDetailsFields extends ValidationEvent {
 }
 
 class ValidateGuardianDetailsFields extends ValidationEvent {
- final GuardianDetails guardianDetails;
+  final GuardianDetails guardianDetails;
 
- ValidateGuardianDetailsFields(this.guardianDetails);
+  ValidateGuardianDetailsFields(this.guardianDetails);
 }

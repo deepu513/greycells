@@ -12,7 +12,7 @@ class SimpleBlocObserver extends BlocObserver {
     print(transition);
     super.onTransition(bloc, transition);
   }
-  
+
   @override
   void onError(Cubit cubit, Object error, StackTrace stackTrace) {
     print(error);

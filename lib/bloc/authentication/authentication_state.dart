@@ -24,7 +24,9 @@ class AuthenticationAuthenticated extends AuthenticationState {
   AuthenticationAuthenticated(/*this.user*/);
 
   @override
-  List<Object> get props => [/*user*/];
+  List<Object> get props => [
+        /*user*/
+      ];
 
   @override
   bool get stringify => true;

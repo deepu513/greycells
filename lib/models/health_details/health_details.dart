@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:mental_health/constants/gender.dart';
 
 class HealthDetails {
@@ -8,6 +7,4 @@ class HealthDetails {
   int heightInCm;
 
   HealthDetails();
-
-
 }

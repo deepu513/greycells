@@ -13,7 +13,7 @@ class MedicalRecordsInputPage extends StatelessWidget {
     return Scaffold(
       floatingActionButton: FloatingActionButton(
         onPressed: () async {
-          if(BlocProvider.of<FilePickerBloc>(context).pickedFiles.length < 5) {
+          if (BlocProvider.of<FilePickerBloc>(context).pickedFiles.length < 5) {
             String result = await showAlertDialog(context);
             if (result == "Image") {
               BlocProvider.of<FilePickerBloc>(context).add(PickImageFile());
@@ -31,14 +31,14 @@ class MedicalRecordsInputPage extends StatelessWidget {
       ),
       body: BlocListener<FilePickerBloc, FilePickerState>(
         listener: (current, previous) {
-          if(current is FileSizeTooLarge) {
+          if (current is FileSizeTooLarge) {
             Scaffold.of(context).showSnackBar(SnackBar(
               content: Text(ErrorMessages.FILE_SIZE_ERROR_MESSAGE),
               duration: Duration(milliseconds: 2000),
             ));
           }
 
-          if(current is UnsupportedFilePicked) {
+          if (current is UnsupportedFilePicked) {
             Scaffold.of(context).showSnackBar(SnackBar(
               content: Text(ErrorMessages.UNSUPPORTED_FILE_ERROR_MESSAGE),
               duration: Duration(milliseconds: 2000),
@@ -47,7 +47,8 @@ class MedicalRecordsInputPage extends StatelessWidget {
         },
         child: BlocBuilder<FilePickerBloc, FilePickerState>(
           builder: (context, filePickerState) {
-            var pickedFiles = BlocProvider.of<FilePickerBloc>(context).pickedFiles;
+            var pickedFiles =
+                BlocProvider.of<FilePickerBloc>(context).pickedFiles;
             return Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: <Widget>[
@@ -72,10 +73,8 @@ class MedicalRecordsInputPage extends StatelessWidget {
                   padding: const EdgeInsets.fromLTRB(16.0, 0.0, 16.0, 16.0),
                   child: Text(
                     "${pickedFiles.length} file(s) selected\nMax size 2 MB per file",
-                    style: Theme.of(context)
-                        .textTheme
-                        .subtitle1
-                        .copyWith(color: Colors.grey[600], fontSize: 12.0, height: 1.3),
+                    style: Theme.of(context).textTheme.subtitle1.copyWith(
+                        color: Colors.grey[600], fontSize: 12.0, height: 1.3),
                   ),
                 ),
                 Expanded(
@@ -176,18 +175,24 @@ class FileList extends StatelessWidget {
     return ListView.separated(
         itemBuilder: (context, index) {
           return ListTile(
-            leading: list[index].selectableFileType == SelectableFileType.IMAGE ? Image.file(
-              list[index].selectedFile,
-              width: 80.0,
-              fit: BoxFit.cover,
-            ) : Icon(Icons.insert_drive_file),
-            title: Text(basename(list[index].selectedFile.path), overflow: TextOverflow.ellipsis,),
+            leading: list[index].selectableFileType == SelectableFileType.IMAGE
+                ? Image.file(
+                    list[index].selectedFile,
+                    width: 80.0,
+                    fit: BoxFit.cover,
+                  )
+                : Icon(Icons.insert_drive_file),
+            title: Text(
+              basename(list[index].selectedFile.path),
+              overflow: TextOverflow.ellipsis,
+            ),
             subtitle: Text(filesize(list[index].selectedFile.lengthSync())),
             trailing: IconButton(
               icon: Icon(Icons.cancel),
               iconSize: 20.0,
               onPressed: () {
-                BlocProvider.of<FilePickerBloc>(context).add(RemoveFile(list[index]));
+                BlocProvider.of<FilePickerBloc>(context)
+                    .add(RemoveFile(list[index]));
               },
             ),
           );

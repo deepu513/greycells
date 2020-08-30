@@ -118,7 +118,9 @@ class _OptionSectionState extends State<OptionSection> {
               duration: Duration(milliseconds: 300),
               padding: EdgeInsets.all(16.0),
               decoration: BoxDecoration(
-                color: index == selectedIndex ? Colors.blueAccent.shade100 : Colors.white,
+                  color: index == selectedIndex
+                      ? Colors.blueAccent.shade100
+                      : Colors.white,
                   border: Border.all(
                       width: selectedIndex >= 0 ? 0.0 : 0.0,
                       color: index == selectedIndex
@@ -128,8 +130,8 @@ class _OptionSectionState extends State<OptionSection> {
               child: Text(
                 options[index],
                 style: Theme.of(context).textTheme.subtitle1.copyWith(
-                  color: index == selectedIndex? Colors.white : Colors.black
-                ),
+                    color:
+                        index == selectedIndex ? Colors.white : Colors.black),
               ),
             ),
           ),

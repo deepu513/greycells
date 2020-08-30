@@ -7,11 +7,7 @@ import 'package:mental_health/bloc/validation/validation_bloc.dart';
 import 'package:mental_health/route/route_generator.dart';
 import 'package:mental_health/simple_bloc_observer.dart';
 import 'package:mental_health/view/pages/home_page.dart';
-import 'package:mental_health/view/pages/login_page.dart';
 import 'package:mental_health/view/pages/patient_detail_input.dart';
-import 'package:mental_health/view/pages/question_option_page.dart';
-import 'package:mental_health/view/pages/register_page.dart';
-import 'package:mental_health/view/pages/welcome_page.dart';
 
 class MentalHealthApp extends StatelessWidget {
   @override

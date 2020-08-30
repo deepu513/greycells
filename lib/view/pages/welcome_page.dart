@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:mental_health/route/route_name.dart';
 import 'package:mental_health/constants/strings.dart';
+import 'package:mental_health/route/route_name.dart';
 
 class WelcomePage extends StatefulWidget {
   @override
@@ -126,18 +126,18 @@ class _WelcomePageState extends State<WelcomePage>
                   minWidth: double.infinity,
                   height: 48.0,
                   child: RaisedButton(
-                    onPressed: () => {
-                      Navigator.pushNamed(context, RouteName.LOGIN)
-                    },
+                    onPressed: () =>
+                        {Navigator.pushNamed(context, RouteName.LOGIN)},
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(8.0)),
                     textColor: Colors.black,
                     color: Colors.white,
                     child: Text(
                       Strings.login,
-                      style: Theme.of(context).textTheme.button.copyWith(
-                        color: Colors.grey[800]
-                      ),
+                      style: Theme.of(context)
+                          .textTheme
+                          .button
+                          .copyWith(color: Colors.grey[800]),
                     ),
                   ),
                 ),
@@ -146,16 +146,16 @@ class _WelcomePageState extends State<WelcomePage>
                   minWidth: double.infinity,
                   height: 48.0,
                   child: RaisedButton(
-                    onPressed: () => {
-                      Navigator.pushNamed(context, RouteName.REGISTER)
-                    },
+                    onPressed: () =>
+                        {Navigator.pushNamed(context, RouteName.REGISTER)},
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(8.0)),
                     child: Text(
                       Strings.register,
-                      style: Theme.of(context).textTheme.button.copyWith(
-                        color: Colors.grey[800]
-                      ),
+                      style: Theme.of(context)
+                          .textTheme
+                          .button
+                          .copyWith(color: Colors.grey[800]),
                     ),
                   ),
                 ),

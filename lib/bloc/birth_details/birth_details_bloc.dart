@@ -8,17 +8,14 @@ part 'birth_details_event.dart';
 part 'birth_details_state.dart';
 
 class BirthDetailsBloc extends Bloc<BirthDetailsEvent, BirthDetailsState> {
-
   BirthDetails birthDetails;
 
   BirthDetailsBloc() : super(BirthDetailsInitial()) {
-   birthDetails = BirthDetails();
+    birthDetails = BirthDetails();
   }
 
   @override
   Stream<BirthDetailsState> mapEventToState(
     BirthDetailsEvent event,
-  ) async* {
-
-  }
+  ) async* {}
 }

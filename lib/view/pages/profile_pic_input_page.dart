@@ -30,8 +30,7 @@ class ProfilePicInputPage extends StatelessWidget {
   }
 
   void _removeImage(BuildContext context) {
-    return BlocProvider.of<ImagePickerBloc>(context)
-        .add(RemoveSelectedImage());
+    return BlocProvider.of<ImagePickerBloc>(context).add(RemoveSelectedImage());
   }
 }
 

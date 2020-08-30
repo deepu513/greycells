@@ -26,12 +26,8 @@ class ForgotPasswordPage extends StatelessWidget {
             SizedBox(
               height: 16.0,
             ),
-            Text(
-              Strings.resetPasswordMessage,
-              style: Theme.of(context)
-                  .textTheme
-                  .subtitle1
-            ),
+            Text(Strings.resetPasswordMessage,
+                style: Theme.of(context).textTheme.subtitle1),
             SizedBox(
               height: 56.0,
             ),

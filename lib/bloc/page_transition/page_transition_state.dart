@@ -14,8 +14,7 @@ class PageTransitionInitial extends PageTransitionState {
 }
 
 class PageTransitionToNextPage extends PageTransitionState {
-  const PageTransitionToNextPage(currentPageNumber)
-      : super(currentPageNumber);
+  const PageTransitionToNextPage(currentPageNumber) : super(currentPageNumber);
 }
 
 class PageTransitionToPreviousPage extends PageTransitionState {

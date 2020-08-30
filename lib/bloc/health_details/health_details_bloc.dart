@@ -6,7 +6,6 @@ import 'package:mental_health/models/health_details/health_details.dart';
 import 'package:meta/meta.dart';
 
 part 'health_details_event.dart';
-
 part 'health_details_state.dart';
 
 class HealthDetailsBloc extends Bloc<HealthDetailsEvent, HealthDetailsState> {

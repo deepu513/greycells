@@ -13,11 +13,11 @@ class HomePage extends StatelessWidget {
       body: Container(
         child: Center(
             child: RaisedButton(
-              child: Text('logout'),
-              onPressed: () {
-                BlocProvider.of<AuthenticationBloc>(context).add(LoggedOut());
-              },
-            )),
+          child: Text('logout'),
+          onPressed: () {
+            BlocProvider.of<AuthenticationBloc>(context).add(LoggedOut());
+          },
+        )),
       ),
     );
   }

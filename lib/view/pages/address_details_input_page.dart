@@ -10,7 +10,7 @@ import 'package:mental_health/bloc/validation/validation_field.dart';
 import 'package:mental_health/bloc/validation/validation_state.dart';
 import 'package:mental_health/constants/strings.dart';
 import 'package:mental_health/extensions.dart';
-import 'package:mental_health/models/validatable.dart';
+import 'package:mental_health/interface/validatable.dart';
 import 'package:mental_health/view/widgets/no_glow_scroll_behaviour.dart';
 
 class AddressDetailInputPage extends StatelessWidget implements Validatable {

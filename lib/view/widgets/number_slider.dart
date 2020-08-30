@@ -83,7 +83,6 @@ class NumberSlider extends StatelessWidget {
           indicatorText,
           style: TextStyle(color: Colors.grey, fontSize: 14.0),
         ),
-
       ],
     );
   }

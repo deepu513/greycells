@@ -7,7 +7,7 @@ import 'package:mental_health/bloc/validation/bloc.dart';
 import 'package:mental_health/bloc/validation/validation_field.dart';
 import 'package:mental_health/constants/strings.dart';
 import 'package:mental_health/extensions.dart';
-import 'package:mental_health/models/validatable.dart';
+import 'package:mental_health/interface/validatable.dart';
 
 class BirthDetailsInputPage extends StatelessWidget implements Validatable {
   const BirthDetailsInputPage();
@@ -524,7 +524,7 @@ class _AmPmToggleState extends State<_AmPmToggle> {
           _selectedIndex = index;
 
           BlocProvider.of<BirthDetailsBloc>(context).birthDetails.a =
-          _options[index];
+              _options[index];
         });
       },
     );

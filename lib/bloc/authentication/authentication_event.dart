@@ -1,6 +1,4 @@
 import 'package:equatable/equatable.dart';
-import 'package:mental_health/models/login/login_request.dart';
-import 'package:meta/meta.dart';
 
 abstract class AuthenticationEvent extends Equatable {
   const AuthenticationEvent();

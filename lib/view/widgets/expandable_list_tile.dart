@@ -11,11 +11,8 @@ class ExpandableListTile extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListTileTheme(
       contentPadding: EdgeInsets.all(0),
-      child: ExpansionTile(
-          title: title,
-          subtitle:subtitle,
-          children: children
-      ),
+      child:
+          ExpansionTile(title: title, subtitle: subtitle, children: children),
     );
   }
 }

@@ -1,9 +1,6 @@
 import 'package:equatable/equatable.dart';
-import 'package:flutter/foundation.dart';
-import 'package:mental_health/models/registration/registration.dart';
 
 abstract class RegistrationEvent extends Equatable {
-
   const RegistrationEvent();
 
   @override

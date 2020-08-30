@@ -37,8 +37,8 @@ class RegistrationBloc extends Bloc<RegistrationEvent, RegistrationState> {
   ) async* {
     if (event is RegistrationCreateUser) {
       if (!event.validated)
-        validationBloc.add(
-            ValidateRegistrationFields(registration: registration));
+        validationBloc
+            .add(ValidateRegistrationFields(registration: registration));
       else if (event.validated) {
         yield RegistrationInProgress();
 

@@ -10,7 +10,7 @@ import 'package:mental_health/bloc/page_transition/page_transition_bloc.dart';
 import 'package:mental_health/bloc/picker/file_picker_bloc.dart';
 import 'package:mental_health/bloc/picker/image_picker_bloc.dart';
 import 'package:mental_health/bloc/validation/bloc.dart';
-import 'package:mental_health/models/validatable.dart';
+import 'package:mental_health/interface/validatable.dart';
 import 'package:mental_health/view/pages/address_details_input_page.dart';
 import 'package:mental_health/view/pages/birth_details_input_page.dart';
 import 'package:mental_health/view/pages/guardian_details_input_page.dart';
@@ -167,8 +167,7 @@ class _PatientDetailInputState extends State<PatientDetailInput>
     if (_shouldValidateCurrentPage(transitionState)) {
       //var result = await _validateCurrentPage(context, transitionState);
       var result = true;
-      if (result == true)
-        _transitionToNextPage(context);
+      if (result == true) _transitionToNextPage(context);
     } else {
       _transitionToNextPage(context);
     }
@@ -179,8 +178,8 @@ class _PatientDetailInputState extends State<PatientDetailInput>
     try {
       Validatable validatable =
           _pages[transitionState.currentPageNumber - 1] as Validatable;
-      return await validatable
-          .validate(context, BlocProvider.of<ValidationBloc>(context));
+      return await validatable.validate(
+          context, BlocProvider.of<ValidationBloc>(context));
     } catch (e) {
       return false;
     }

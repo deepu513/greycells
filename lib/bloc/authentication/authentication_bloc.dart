@@ -47,7 +47,7 @@ class AuthenticationBloc
       if (_settingsRepository.get(SettingKey.KEY_IS_LOGGED_IN,
               defaultValue: false) &&
           _settingsRepository
-              .get(SettingKey.KEY_TOKEN, defaultValue: "")
+              .get(SettingKey.KEY_REQUEST_TOKEN, defaultValue: "")
               .isNotEmpty) {
         yield AuthenticationAuthenticated(/*user*/);
       } else
@@ -56,8 +56,7 @@ class AuthenticationBloc
 
     if (event is LoginInitiated) {
       if (!event.valid) {
-        validationBloc
-            .add(ValidateLoginFields(loginRequest: loginRequest));
+        validationBloc.add(ValidateLoginFields(loginRequest: loginRequest));
       } else if (event.valid) {
         yield AuthenticationLoading();
 

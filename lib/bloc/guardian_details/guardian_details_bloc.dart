@@ -6,7 +6,6 @@ import 'package:mental_health/models/guardian_details/guardian_details.dart';
 import 'package:meta/meta.dart';
 
 part 'guardian_details_event.dart';
-
 part 'guardian_details_state.dart';
 
 class GuardianDetailsBloc

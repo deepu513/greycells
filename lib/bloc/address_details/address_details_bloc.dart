@@ -7,7 +7,8 @@ import 'package:meta/meta.dart';
 part 'address_details_event.dart';
 part 'address_details_state.dart';
 
-class AddressDetailsBloc extends Bloc<AddressDetailsEvent, AddressDetailsState> {
+class AddressDetailsBloc
+    extends Bloc<AddressDetailsEvent, AddressDetailsState> {
   Address address;
 
   AddressDetailsBloc() : super(AddressDetailsInitial()) {
@@ -17,7 +18,5 @@ class AddressDetailsBloc extends Bloc<AddressDetailsEvent, AddressDetailsState> 
   @override
   Stream<AddressDetailsState> mapEventToState(
     AddressDetailsEvent event,
-  ) async* {
-
-  }
+  ) async* {}
 }

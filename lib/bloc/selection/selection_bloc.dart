@@ -5,7 +5,6 @@ import 'package:bloc/bloc.dart';
 import './bloc.dart';
 
 class SelectionBloc<T> extends Bloc<SelectionEvent<T>, SelectionState<T>> {
-
   SelectionBloc() : super(SelectionInitial<T>());
 
   @override

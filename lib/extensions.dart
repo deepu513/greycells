@@ -14,3 +14,14 @@ extension StringExtensions on String {
   bool hasRequiredLength(int length) =>
       this != null && this.isNotEmpty && this.length == length;
 }
+
+extension NumberToWord on int {
+  String toWord() {
+    if (this == 1) return "First";
+    if (this == 2) return "Second";
+    if (this == 3) return "Third";
+    if (this == 4) return "Four";
+    if (this == 5) return "Five";
+    return "";
+  }
+}

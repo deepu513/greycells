@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:mental_health/constants/strings.dart';
 
@@ -142,26 +140,28 @@ class _AssessmentStartMessagePageState extends State<AssessmentStartMessagePage>
     });
 
     _secondPointFadeController.addStatusListener((status) {
-      if(status == AnimationStatus.completed) {
+      if (status == AnimationStatus.completed) {
         currentPoint = 2;
       }
     });
 
     _thirdPointFadeController.addStatusListener((status) {
-      if(status == AnimationStatus.completed) {
+      if (status == AnimationStatus.completed) {
         currentPoint = 3;
       }
     });
 
     _fourthPointFadeController.addStatusListener((status) {
-      if(status == AnimationStatus.completed) {
+      if (status == AnimationStatus.completed) {
         currentPoint = 4;
       }
     });
 
     _fifthPointFadeController.addStatusListener((status) {
-      if(status == AnimationStatus.completed) {
-        currentPoint = 5;
+      if (status == AnimationStatus.completed) {
+        setState(() {
+          currentPoint = 5;
+        });
       }
     });
 
@@ -201,7 +201,7 @@ class _AssessmentStartMessagePageState extends State<AssessmentStartMessagePage>
     return Scaffold(
       body: SafeArea(
         child: Container(
-          margin: EdgeInsets.symmetric(horizontal: 24.0, vertical: 16.0),
+          margin: EdgeInsets.symmetric(horizontal: 24.0, vertical: 36.0),
           child: Stack(
             children: [
               FadeTransition(
@@ -209,7 +209,8 @@ class _AssessmentStartMessagePageState extends State<AssessmentStartMessagePage>
                 child: Center(
                   child: Text(
                     Strings.beforeWeBegin,
-                    style: Theme.of(context)
+                    style: Theme
+                        .of(context)
                         .textTheme
                         .headline5
                         .copyWith(fontWeight: FontWeight.w300, fontSize: 24.0),
@@ -220,7 +221,11 @@ class _AssessmentStartMessagePageState extends State<AssessmentStartMessagePage>
                 opacity: _secondMessageFadeInOut,
                 child: Center(
                   child: Text(Strings.somePoints,
-                      style: Theme.of(context).textTheme.headline5.copyWith(
+                      style: Theme
+                          .of(context)
+                          .textTheme
+                          .headline5
+                          .copyWith(
                           fontWeight: FontWeight.w300, fontSize: 24.0)),
                 ),
               ),
@@ -229,7 +234,31 @@ class _AssessmentStartMessagePageState extends State<AssessmentStartMessagePage>
                 child: FadeTransition(
                   opacity: _buttonFadeIn,
                   child: FlatButton(
-                    child: Text("Next"),
+                    child: AnimatedCrossFade(
+                        duration: Duration(milliseconds: 200),
+                        crossFadeState: currentPoint < 5 ? CrossFadeState
+                            .showFirst : CrossFadeState.showSecond,
+                        firstChild: Text(
+                          Strings.next.toUpperCase(),
+                          style: Theme
+                              .of(context)
+                              .textTheme
+                              .button
+                              .copyWith(color: Theme
+                              .of(context)
+                              .accentColor),
+                        ),
+                        secondChild: Text(
+                          "Let's begin".toUpperCase(),
+                          style: Theme
+                              .of(context)
+                              .textTheme
+                              .button
+                              .copyWith(color: Theme
+                              .of(context)
+                              .accentColor),
+                        ),
+                    ),
                     onPressed: showNextPoint,
                   ),
                 ),
@@ -241,44 +270,218 @@ class _AssessmentStartMessagePageState extends State<AssessmentStartMessagePage>
                   children: [
                     FadeTransition(
                       opacity: _listTitleFadeIn,
-                      child: Text("List title",
-                          style: Theme.of(context).textTheme.headline5.copyWith(
-                              fontWeight: FontWeight.w300, fontSize: 20.0)),
+                      child: Text("Points to note:",
+                          style: Theme
+                              .of(context)
+                              .textTheme
+                              .headline5
+                              .copyWith(
+                              color: Colors.black,
+                              fontWeight: FontWeight.w300)),
                     ),
+                    SizedBox(height: 16.0),
                     FadeTransition(
                       opacity: _firstColumnPointFadeIn,
-                      child: Text(
-                          "1. Some point to show to the user, may be show in rich text",
-                          style: Theme.of(context).textTheme.headline5.copyWith(
-                              fontWeight: FontWeight.w300, fontSize: 16.0)),
+                      child: RichText(
+                        text: TextSpan(
+                            text: "1.  ",
+                            style:
+                            Theme
+                                .of(context)
+                                .textTheme
+                                .bodyText1
+                                .copyWith(
+                              fontWeight: FontWeight.w400,
+                              fontSize: 20.0,
+                            ),
+                            children: [
+                              TextSpan(
+                                text:
+                                "This questionnaire is designed to help you explore the typical ways you interact with people.",
+                                style: Theme
+                                    .of(context)
+                                    .textTheme
+                                    .bodyText2
+                                    .copyWith(
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.w300,
+                                    fontSize: 18.0,
+                                    height: 1.4,
+                                    letterSpacing: 0.7),
+                              ),
+                            ]),
+                      ),
                     ),
+                    SizedBox(height: 16.0),
                     FadeTransition(
                       opacity: _secondColumnPointFadeIn,
-                      child: Text(
-                          "1. Some point to show to the user, may be show in rich text",
-                          style: Theme.of(context).textTheme.headline5.copyWith(
-                              fontWeight: FontWeight.w300, fontSize: 16.0)),
+                      child: RichText(
+                        text: TextSpan(
+                            text: "2.  ",
+                            style:
+                            Theme
+                                .of(context)
+                                .textTheme
+                                .bodyText1
+                                .copyWith(
+                              fontWeight: FontWeight.w400,
+                              fontSize: 20.0,
+                            ),
+                            children: [
+                              TextSpan(
+                                text: "There are ",
+                                style: Theme
+                                    .of(context)
+                                    .textTheme
+                                    .bodyText2
+                                    .copyWith(
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.w300,
+                                    fontSize: 18.0,
+                                    height: 1.4,
+                                    letterSpacing: 0.6),
+                              ),
+                              TextSpan(
+                                text: "no right or wrong answers.",
+                                style: Theme
+                                    .of(context)
+                                    .textTheme
+                                    .bodyText2
+                                    .copyWith(
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.w400,
+                                    fontSize: 18.0,
+                                    height: 1.4,
+                                    letterSpacing: 0.6),
+                              )
+                            ]),
+                      ),
                     ),
+                    SizedBox(height: 16.0),
                     FadeTransition(
                       opacity: _thirdColumnPointFadeIn,
-                      child: Text(
-                          "1. Some point to show to the user, may be show in rich text",
-                          style: Theme.of(context).textTheme.headline5.copyWith(
-                              fontWeight: FontWeight.w300, fontSize: 16.0)),
+                      child: RichText(
+                        text: TextSpan(
+                            text: "3.  ",
+                            style:
+                            Theme
+                                .of(context)
+                                .textTheme
+                                .bodyText1
+                                .copyWith(
+                              fontWeight: FontWeight.w400,
+                              fontSize: 20.0,
+                            ),
+                            children: [
+                              TextSpan(
+                                text:
+                                "Each person has his own ways of behaving. Sometimes people are tempted to answer questions like this in terms of what they think a person should do.",
+                                style: Theme
+                                    .of(context)
+                                    .textTheme
+                                    .bodyText2
+                                    .copyWith(
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.w300,
+                                    fontSize: 18.0,
+                                    height: 1.4,
+                                    letterSpacing: 0.6),
+                              ),
+                              TextSpan(
+                                text: "This is not what is desired here.",
+                                style: Theme
+                                    .of(context)
+                                    .textTheme
+                                    .bodyText2
+                                    .copyWith(
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.w400,
+                                    fontSize: 18.0,
+                                    height: 1.4,
+                                    letterSpacing: 0.6),
+                              )
+                            ]),
+                      ),
                     ),
+                    SizedBox(height: 16.0),
                     FadeTransition(
                       opacity: _fourthColumnPointFadeIn,
-                      child: Text(
-                          "1. Some point to show to the user, may be show in rich text",
-                          style: Theme.of(context).textTheme.headline5.copyWith(
-                              fontWeight: FontWeight.w300, fontSize: 16.0)),
+                      child: RichText(
+                        text: TextSpan(
+                            text: "4.  ",
+                            style:
+                            Theme
+                                .of(context)
+                                .textTheme
+                                .bodyText1
+                                .copyWith(
+                              fontWeight: FontWeight.w400,
+                              fontSize: 20.0,
+                            ),
+                            children: [
+                              TextSpan(
+                                text:
+                                "The questionnaire is an attempt to help you learn more about yourself and how you actually behave.",
+                                style: Theme
+                                    .of(context)
+                                    .textTheme
+                                    .bodyText2
+                                    .copyWith(
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.w300,
+                                    fontSize: 18.0,
+                                    height: 1.4,
+                                    letterSpacing: 0.6),
+                              ),
+                            ]),
+                      ),
                     ),
+                    SizedBox(height: 16.0),
                     FadeTransition(
                       opacity: _fifthColumnPointFadeIn,
-                      child: Text(
-                          "1. Some point to show to the user, may be show in rich text",
-                          style: Theme.of(context).textTheme.headline5.copyWith(
-                              fontWeight: FontWeight.w300, fontSize: 16.0)),
+                      child: RichText(
+                        text: TextSpan(
+                            text: "5.  ",
+                            style:
+                            Theme
+                                .of(context)
+                                .textTheme
+                                .bodyText1
+                                .copyWith(
+                              fontWeight: FontWeight.w400,
+                              fontSize: 20.0,
+                            ),
+                            children: [
+                              TextSpan(
+                                text:
+                                "Some of the questions which follow may seem similar to others.",
+                                style: Theme
+                                    .of(context)
+                                    .textTheme
+                                    .bodyText2
+                                    .copyWith(
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.w300,
+                                    fontSize: 18.0,
+                                    height: 1.4,
+                                    letterSpacing: 0.6),
+                              ),
+                              TextSpan(
+                                text:
+                                " Please tick the answer that best applies to you. Be honest with yourself",
+                                style: Theme
+                                    .of(context)
+                                    .textTheme
+                                    .bodyText2
+                                    .copyWith(
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.w400,
+                                    fontSize: 18.0,
+                                    height: 1.4,
+                                    letterSpacing: 0.6),
+                              )
+                            ]),
+                      ),
                     ),
                   ],
                 ),
@@ -287,59 +490,6 @@ class _AssessmentStartMessagePageState extends State<AssessmentStartMessagePage>
           ),
         ),
       ),
-    );
-  }
-}
-
-class ShowUp extends StatefulWidget {
-  final Widget child;
-  final int delay;
-
-  ShowUp({@required this.child, this.delay});
-
-  @override
-  _ShowUpState createState() => _ShowUpState();
-}
-
-class _ShowUpState extends State<ShowUp> with TickerProviderStateMixin {
-  AnimationController _animController;
-  Animation<Offset> _animOffset;
-
-  @override
-  void initState() {
-    super.initState();
-
-    _animController =
-        AnimationController(vsync: this, duration: Duration(milliseconds: 500));
-    final curve =
-        CurvedAnimation(curve: Curves.decelerate, parent: _animController);
-    _animOffset =
-        Tween<Offset>(begin: const Offset(0.0, 0.35), end: Offset.zero)
-            .animate(curve);
-
-    if (widget.delay == null) {
-      _animController.forward();
-    } else {
-      Timer(Duration(milliseconds: widget.delay), () {
-        _animController.forward();
-      });
-    }
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-    _animController.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return FadeTransition(
-      child: SlideTransition(
-        position: _animOffset,
-        child: widget.child,
-      ),
-      opacity: _animController,
     );
   }
 }

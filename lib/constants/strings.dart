@@ -80,6 +80,7 @@ class ErrorMessages {
   static const LAST_NAME_ERROR_MESSAGE = "Please enter your last name";
   static const MOBILE_ERROR_MESSAGE = "Please enter a valid mobile number";
   static const CONFIRM_PASSWORD_ERROR_MESSAGE = "Passwords do not match";
+  static const MINIMUM_LENGTH_ERROR_MESSAGE = "value must have at least 8 characters";
   static const HOUSE_NUMBER_ERROR_MESSAGE = "Please enter a value";
   static const ROAD_NAME_ERROR_MESSAGE = "Please enter a value";
   static const CITY_ERROR_MESSAGE = "Please enter your city";

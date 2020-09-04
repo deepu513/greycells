@@ -98,10 +98,7 @@ class LoginPage extends StatelessWidget {
                             helperText: Strings.tapToEnter,
                             labelText: Strings.password,
                             contentPadding: EdgeInsets.zero,
-                            errorText: validationState
-                                    .isFieldInvalid(ValidationField.PASSWORD)
-                                ? ValidationField.PASSWORD.errorMessage()
-                                : null,
+                            errorText: _getPasswordErrorMessage(validationState),
                           ),
                           autofocus: false,
                           keyboardType: TextInputType.text,
@@ -164,5 +161,13 @@ class LoginPage extends StatelessWidget {
 
   _requestUserLogin(BuildContext context) {
     BlocProvider.of<AuthenticationBloc>(context).add(LoginInitiated());
+  }
+
+  _getPasswordErrorMessage(ValidationState validationState) {
+    if (validationState.isFieldInvalid(ValidationField.PASSWORD))
+      return ValidationField.PASSWORD.errorMessage();
+    if (validationState.isFieldInvalid(ValidationField.LENGTH))
+      return ValidationField.LENGTH.errorMessage();
+    return null;
   }
 }

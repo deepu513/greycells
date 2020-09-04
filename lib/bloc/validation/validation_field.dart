@@ -75,4 +75,7 @@ class ValidationField {
 
   static const OTHER_RELATION =
       ValidationField._internal(ErrorMessages.RELATION_ERROR_MESSAGE, 22);
+
+  static const LENGTH =
+      ValidationField._internal(ErrorMessages.MINIMUM_LENGTH_ERROR_MESSAGE, 23);
 }

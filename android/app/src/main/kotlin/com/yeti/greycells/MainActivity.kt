@@ -1,4 +1,4 @@
-package com.yeti.mental_health
+package com.yeti.greycells
 
 import io.flutter.embedding.android.FlutterActivity
 

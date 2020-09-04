@@ -9,8 +9,8 @@ class Strings {
   static const forgotPassword = "Forgot your password?";
   static const login = "Login";
   static const register = "Register";
-  static const sound = "Sound";
-  static const mind = "Mind";
+  static const grey = "Grey";
+  static const cells = "Cells";
   static const subtitle = "Your first step towards self-care";
   static const firstName = "First name";
   static const lastName = "Last name";

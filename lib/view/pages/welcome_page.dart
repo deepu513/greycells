@@ -73,7 +73,7 @@ class _WelcomePageState extends State<WelcomePage>
                   FadeTransition(
                       opacity: _firstWordFadeAnimation,
                       child: Text(
-                        Strings.sound,
+                        Strings.grey,
                         style: Theme.of(context)
                             .textTheme
                             .headline3
@@ -82,7 +82,7 @@ class _WelcomePageState extends State<WelcomePage>
                   FadeTransition(
                       opacity: _secondWordFadeAnimation,
                       child: Text(
-                        Strings.mind,
+                        Strings.cells,
                         style: Theme.of(context)
                             .textTheme
                             .headline3

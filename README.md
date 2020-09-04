@@ -1,4 +1,4 @@
-# mental_health
+# GreyCells
 
 A new Flutter project.
 

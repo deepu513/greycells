@@ -1,10 +1,10 @@
-import 'package:http/http.dart' as http;
 import 'package:greycells/networking/http_exceptions.dart';
 import 'package:greycells/networking/interceptor.dart';
 import 'package:greycells/networking/method.dart';
 import 'package:greycells/networking/request.dart';
 import 'package:greycells/networking/response.dart';
 import 'package:greycells/networking/serializable.dart';
+import 'package:http/http.dart' as http;
 
 // You do actual the server calls here
 class ServerCallInterceptor implements Interceptor {
@@ -87,7 +87,10 @@ class ServerCallInterceptor implements Interceptor {
       Method requestMethod,
       http.Response actualResponse,
       Serializable<ResponseType> responseSerializable) {
-    if (_isSuccessOrThrow(actualResponse.statusCode))
+    if (_isSuccessOrThrow(
+        actualResponse.statusCode)) if (responseSerializable == null) {
+      return Response(null, null, statusCode: actualResponse.statusCode);
+    } else
       return requestMethod == Method.GET_LIST
           ? Response<ResponseType>.fromJsonArray(
               actualResponse.body, responseSerializable,

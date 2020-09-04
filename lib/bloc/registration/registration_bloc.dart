@@ -43,13 +43,14 @@ class RegistrationBloc extends Bloc<RegistrationEvent, RegistrationState> {
         yield RegistrationInProgress();
 
         try {
-          /*User user = await _userRepository.post(event.user);
-          if (user != null) {*/
-          _settingsRepository = await SettingsRepository.getInstance();
-          await _settingsRepository.saveValue(
-              SettingKey.KEY_IS_LOGGED_IN, true);
-          yield RegistrationSuccessful(/*user: user*/);
-          //}
+          bool success =
+              await _userRepository.register(registration: registration);
+          if (success != null && success == true) {
+            _settingsRepository = await SettingsRepository.getInstance();
+            await _settingsRepository.saveValue(
+                SettingKey.KEY_IS_LOGGED_IN, true);
+            yield RegistrationSuccessful();
+          }
         } catch (error) {
           yield RegistrationUnsuccessful(error: error.toString());
         }

@@ -2,6 +2,8 @@ import 'dart:convert';
 
 import 'package:greycells/networking/serializable.dart';
 
+/// If type information is not given and serializable is null,
+/// only statusCode will be available in Response object
 class Response<T> {
   final Serializable<T> _serializable;
 

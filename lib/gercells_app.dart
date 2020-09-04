@@ -9,6 +9,8 @@ import 'package:greycells/simple_bloc_observer.dart';
 import 'package:greycells/view/pages/assessment_start_message_page.dart';
 import 'package:greycells/view/pages/home_page.dart';
 import 'package:greycells/view/pages/patient_detail_input.dart';
+import 'package:greycells/view/pages/register_page.dart';
+import 'package:greycells/view/pages/welcome_page.dart';
 
 class GreyCellsApp extends StatelessWidget {
   @override
@@ -62,7 +64,7 @@ class _MyApp extends StatelessWidget {
             }
 
             // TODO: Handle this/failure, show error or let user login again
-            return AssessmentStartMessagePage();
+            return WelcomePage();
           },
         ),
       ),

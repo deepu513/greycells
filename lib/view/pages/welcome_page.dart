@@ -133,7 +133,7 @@ class _WelcomePageState extends State<WelcomePage>
                     textColor: Colors.black,
                     color: Colors.white,
                     child: Text(
-                      Strings.login,
+                      Strings.login.toUpperCase(),
                       style: Theme.of(context)
                           .textTheme
                           .button
@@ -151,7 +151,7 @@ class _WelcomePageState extends State<WelcomePage>
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(8.0)),
                     child: Text(
-                      Strings.register,
+                      Strings.register.toUpperCase(),
                       style: Theme.of(context)
                           .textTheme
                           .button

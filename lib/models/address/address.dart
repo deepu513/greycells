@@ -1,5 +1,5 @@
 import 'package:json_annotation/json_annotation.dart';
-import 'package:mental_health/models/address/guardian_address.dart';
+import 'package:greycells/models/address/guardian_address.dart';
 
 part 'address.g.dart';
 

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:mental_health/bloc/authentication/authentication_bloc.dart';
-import 'package:mental_health/bloc/authentication/authentication_event.dart';
+import 'package:greycells/bloc/authentication/authentication_bloc.dart';
+import 'package:greycells/bloc/authentication/authentication_event.dart';
 
 class HomePage extends StatelessWidget {
   @override

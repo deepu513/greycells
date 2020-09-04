@@ -1,6 +1,6 @@
-import 'package:mental_health/networking/interceptor.dart';
-import 'package:mental_health/networking/request.dart';
-import 'package:mental_health/networking/response.dart';
+import 'package:greycells/networking/interceptor.dart';
+import 'package:greycells/networking/request.dart';
+import 'package:greycells/networking/response.dart';
 
 class LoggingInterceptor implements Interceptor {
   @override

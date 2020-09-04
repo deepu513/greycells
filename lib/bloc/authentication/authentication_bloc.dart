@@ -1,14 +1,14 @@
 import 'dart:async';
 
 import 'package:bloc/bloc.dart';
-import 'package:mental_health/bloc/validation/validation_bloc.dart';
-import 'package:mental_health/bloc/validation/validation_event.dart';
-import 'package:mental_health/bloc/validation/validation_state.dart';
-import 'package:mental_health/constants/setting_key.dart';
-import 'package:mental_health/models/login/login_request.dart';
-import 'package:mental_health/networking/http_exceptions.dart';
-import 'package:mental_health/repository/settings/settings_repository.dart';
-import 'package:mental_health/repository/user/user_repository.dart';
+import 'package:greycells/bloc/validation/validation_bloc.dart';
+import 'package:greycells/bloc/validation/validation_event.dart';
+import 'package:greycells/bloc/validation/validation_state.dart';
+import 'package:greycells/constants/setting_key.dart';
+import 'package:greycells/models/login/login_request.dart';
+import 'package:greycells/networking/http_exceptions.dart';
+import 'package:greycells/repository/settings/settings_repository.dart';
+import 'package:greycells/repository/user/user_repository.dart';
 
 import 'bloc.dart';
 

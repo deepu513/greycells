@@ -1,10 +1,10 @@
 import 'package:flutter/foundation.dart';
-import 'package:mental_health/bloc/validation/validation_field.dart';
-import 'package:mental_health/models/address/address.dart';
-import 'package:mental_health/models/birth_details/birth_details.dart';
-import 'package:mental_health/models/guardian_details/guardian_details.dart';
-import 'package:mental_health/models/login/login_request.dart';
-import 'package:mental_health/models/registration/registration.dart';
+import 'package:greycells/bloc/validation/validation_field.dart';
+import 'package:greycells/models/address/address.dart';
+import 'package:greycells/models/birth_details/birth_details.dart';
+import 'package:greycells/models/guardian_details/guardian_details.dart';
+import 'package:greycells/models/login/login_request.dart';
+import 'package:greycells/models/registration/registration.dart';
 
 abstract class ValidationState {}
 

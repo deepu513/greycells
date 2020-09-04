@@ -1,5 +1,5 @@
-import 'package:mental_health/models/login/login_request.dart';
-import 'package:mental_health/networking/serializable.dart';
+import 'package:greycells/models/login/login_request.dart';
+import 'package:greycells/networking/serializable.dart';
 
 class LoginRequestSerializable implements Serializable<LoginRequest> {
   @override

@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:mental_health/bloc/registration/bloc.dart';
-import 'package:mental_health/bloc/validation/bloc.dart';
-import 'package:mental_health/route/route_name.dart';
-import 'package:mental_health/view/pages/forgot_password_page.dart';
-import 'package:mental_health/view/pages/home_page.dart';
-import 'package:mental_health/view/pages/login_page.dart';
-import 'package:mental_health/view/pages/register_page.dart';
-import 'package:mental_health/view/pages/welcome_page.dart';
+import 'package:greycells/bloc/registration/bloc.dart';
+import 'package:greycells/bloc/validation/bloc.dart';
+import 'package:greycells/route/route_name.dart';
+import 'package:greycells/view/pages/forgot_password_page.dart';
+import 'package:greycells/view/pages/home_page.dart';
+import 'package:greycells/view/pages/login_page.dart';
+import 'package:greycells/view/pages/register_page.dart';
+import 'package:greycells/view/pages/welcome_page.dart';
 
 class RouteGenerator {
   static const double kDefaultDuration = .30;

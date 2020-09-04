@@ -1,8 +1,8 @@
 import 'dart:async';
 
 import 'package:bloc/bloc.dart';
-import 'package:mental_health/constants/gender.dart';
-import 'package:mental_health/models/health_details/health_details.dart';
+import 'package:greycells/constants/gender.dart';
+import 'package:greycells/models/health_details/health_details.dart';
 import 'package:meta/meta.dart';
 
 part 'health_details_event.dart';

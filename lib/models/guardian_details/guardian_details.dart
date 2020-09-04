@@ -1,4 +1,4 @@
-import 'package:mental_health/constants/relationship.dart';
+import 'package:greycells/constants/relationship.dart';
 
 class GuardianDetails {
   Relationship relationShip;

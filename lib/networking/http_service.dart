@@ -1,17 +1,17 @@
 import 'dart:async';
 
-import 'package:mental_health/constants/setting_key.dart';
-import 'package:mental_health/models/token/token.dart';
-import 'package:mental_health/models/token/token_serializable.dart';
-import 'package:mental_health/networking/http_exceptions.dart';
-import 'package:mental_health/networking/interceptor.dart';
-import 'package:mental_health/networking/method.dart';
-import 'package:mental_health/networking/real_interceptor_chain.dart';
-import 'package:mental_health/networking/request.dart';
-import 'package:mental_health/networking/response.dart';
-import 'package:mental_health/networking/serializable.dart';
-import 'package:mental_health/networking/server_call_interceptor.dart';
-import 'package:mental_health/repository/settings/settings_repository.dart';
+import 'package:greycells/constants/setting_key.dart';
+import 'package:greycells/models/token/token.dart';
+import 'package:greycells/models/token/token_serializable.dart';
+import 'package:greycells/networking/http_exceptions.dart';
+import 'package:greycells/networking/interceptor.dart';
+import 'package:greycells/networking/method.dart';
+import 'package:greycells/networking/real_interceptor_chain.dart';
+import 'package:greycells/networking/request.dart';
+import 'package:greycells/networking/response.dart';
+import 'package:greycells/networking/serializable.dart';
+import 'package:greycells/networking/server_call_interceptor.dart';
+import 'package:greycells/repository/settings/settings_repository.dart';
 
 typedef SessionExpiredCallback = void Function();
 

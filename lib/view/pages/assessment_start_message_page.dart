@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mental_health/constants/strings.dart';
+import 'package:greycells/constants/strings.dart';
 
 class AssessmentStartMessagePage extends StatefulWidget {
   @override

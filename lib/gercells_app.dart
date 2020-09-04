@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:mental_health/app_theme.dart';
-import 'package:mental_health/bloc/authentication/bloc.dart';
-import 'package:mental_health/bloc/validation/validation_bloc.dart';
-import 'package:mental_health/route/route_generator.dart';
-import 'package:mental_health/simple_bloc_observer.dart';
-import 'package:mental_health/view/pages/assessment_start_message_page.dart';
-import 'package:mental_health/view/pages/home_page.dart';
-import 'package:mental_health/view/pages/patient_detail_input.dart';
+import 'package:greycells/app_theme.dart';
+import 'package:greycells/bloc/authentication/bloc.dart';
+import 'package:greycells/bloc/validation/validation_bloc.dart';
+import 'package:greycells/route/route_generator.dart';
+import 'package:greycells/simple_bloc_observer.dart';
+import 'package:greycells/view/pages/assessment_start_message_page.dart';
+import 'package:greycells/view/pages/home_page.dart';
+import 'package:greycells/view/pages/patient_detail_input.dart';
 
-class MentalHealthApp extends StatelessWidget {
+class GreyCellsApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Bloc.observer = SimpleBlocObserver();

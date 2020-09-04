@@ -1,4 +1,4 @@
-import 'package:mental_health/constants/gender.dart';
+import 'package:greycells/constants/gender.dart';
 
 class HealthDetails {
   Gender gender;

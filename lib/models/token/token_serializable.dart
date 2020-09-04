@@ -1,5 +1,5 @@
-import 'package:mental_health/models/token/token.dart';
-import 'package:mental_health/networking/serializable.dart';
+import 'package:greycells/models/token/token.dart';
+import 'package:greycells/networking/serializable.dart';
 
 class TokenSerializable implements Serializable<Token> {
   @override

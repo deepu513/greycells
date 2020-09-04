@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:mental_health/constants/strings.dart';
-import 'package:mental_health/route/route_name.dart';
+import 'package:greycells/constants/strings.dart';
+import 'package:greycells/route/route_name.dart';
 
 class WelcomePage extends StatefulWidget {
   @override

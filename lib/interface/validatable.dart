@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/cupertino.dart';
-import 'package:mental_health/bloc/validation/bloc.dart';
+import 'package:greycells/bloc/validation/bloc.dart';
 
 abstract class Validatable {
   /// Invoked when parent widget requests for validation.

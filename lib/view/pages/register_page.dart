@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:mental_health/bloc/registration/bloc.dart';
-import 'package:mental_health/bloc/validation/bloc.dart';
-import 'package:mental_health/bloc/validation/validation_field.dart';
-import 'package:mental_health/constants/strings.dart';
-import 'package:mental_health/extensions.dart';
+import 'package:greycells/bloc/registration/bloc.dart';
+import 'package:greycells/bloc/validation/bloc.dart';
+import 'package:greycells/bloc/validation/validation_field.dart';
+import 'package:greycells/constants/strings.dart';
+import 'package:greycells/extensions.dart';
 
 class RegisterPage extends StatelessWidget {
   @override

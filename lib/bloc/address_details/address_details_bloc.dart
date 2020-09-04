@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:bloc/bloc.dart';
-import 'package:mental_health/models/address/address.dart';
+import 'package:greycells/models/address/address.dart';
 import 'package:meta/meta.dart';
 
 part 'address_details_event.dart';

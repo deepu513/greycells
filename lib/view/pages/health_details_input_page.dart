@@ -2,10 +2,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:mental_health/bloc/health_details/health_details_bloc.dart';
-import 'package:mental_health/constants/gender.dart';
-import 'package:mental_health/constants/strings.dart';
-import 'package:mental_health/view/widgets/number_slider.dart';
+import 'package:greycells/bloc/health_details/health_details_bloc.dart';
+import 'package:greycells/constants/gender.dart';
+import 'package:greycells/constants/strings.dart';
+import 'package:greycells/view/widgets/number_slider.dart';
 
 class HealthDetailsInputPage extends StatefulWidget {
   const HealthDetailsInputPage();

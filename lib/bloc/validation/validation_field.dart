@@ -1,4 +1,4 @@
-import 'package:mental_health/constants/strings.dart';
+import 'package:greycells/constants/strings.dart';
 
 class ValidationField {
   final String _value;

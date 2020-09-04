@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mental_health/view/widgets/linear_loading_indicator.dart';
+import 'package:greycells/view/widgets/linear_loading_indicator.dart';
 
 class TitleWithLoading extends StatefulWidget {
   final String title;

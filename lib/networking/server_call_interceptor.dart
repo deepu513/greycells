@@ -1,10 +1,10 @@
 import 'package:http/http.dart' as http;
-import 'package:mental_health/networking/http_exceptions.dart';
-import 'package:mental_health/networking/interceptor.dart';
-import 'package:mental_health/networking/method.dart';
-import 'package:mental_health/networking/request.dart';
-import 'package:mental_health/networking/response.dart';
-import 'package:mental_health/networking/serializable.dart';
+import 'package:greycells/networking/http_exceptions.dart';
+import 'package:greycells/networking/interceptor.dart';
+import 'package:greycells/networking/method.dart';
+import 'package:greycells/networking/request.dart';
+import 'package:greycells/networking/response.dart';
+import 'package:greycells/networking/serializable.dart';
 
 // You do actual the server calls here
 class ServerCallInterceptor implements Interceptor {

@@ -1,5 +1,5 @@
 import 'package:json_annotation/json_annotation.dart';
-import 'package:mental_health/constants/user_type.dart';
+import 'package:greycells/constants/user_type.dart';
 
 part 'registration.g.dart';
 

@@ -1,7 +1,7 @@
 import 'dart:convert';
 
-import 'package:mental_health/networking/method.dart';
-import 'package:mental_health/networking/serializable.dart';
+import 'package:greycells/networking/method.dart';
+import 'package:greycells/networking/serializable.dart';
 
 class Request<T> {
   final String url;

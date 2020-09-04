@@ -1,23 +1,23 @@
 import 'package:animations/animations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:mental_health/bloc/address_details/address_details_bloc.dart';
-import 'package:mental_health/bloc/birth_details/birth_details_bloc.dart';
-import 'package:mental_health/bloc/guardian_details/guardian_details_bloc.dart';
-import 'package:mental_health/bloc/health_details/health_details_bloc.dart';
-import 'package:mental_health/bloc/page_transition/bloc.dart';
-import 'package:mental_health/bloc/page_transition/page_transition_bloc.dart';
-import 'package:mental_health/bloc/picker/file_picker_bloc.dart';
-import 'package:mental_health/bloc/picker/image_picker_bloc.dart';
-import 'package:mental_health/bloc/validation/bloc.dart';
-import 'package:mental_health/interface/validatable.dart';
-import 'package:mental_health/view/pages/address_details_input_page.dart';
-import 'package:mental_health/view/pages/birth_details_input_page.dart';
-import 'package:mental_health/view/pages/guardian_details_input_page.dart';
-import 'package:mental_health/view/pages/health_details_input_page.dart';
-import 'package:mental_health/view/pages/medical_records_input_page.dart';
-import 'package:mental_health/view/pages/profile_pic_input_page.dart';
-import 'package:mental_health/view/widgets/navigation_button_row.dart';
+import 'package:greycells/bloc/address_details/address_details_bloc.dart';
+import 'package:greycells/bloc/birth_details/birth_details_bloc.dart';
+import 'package:greycells/bloc/guardian_details/guardian_details_bloc.dart';
+import 'package:greycells/bloc/health_details/health_details_bloc.dart';
+import 'package:greycells/bloc/page_transition/bloc.dart';
+import 'package:greycells/bloc/page_transition/page_transition_bloc.dart';
+import 'package:greycells/bloc/picker/file_picker_bloc.dart';
+import 'package:greycells/bloc/picker/image_picker_bloc.dart';
+import 'package:greycells/bloc/validation/bloc.dart';
+import 'package:greycells/interface/validatable.dart';
+import 'package:greycells/view/pages/address_details_input_page.dart';
+import 'package:greycells/view/pages/birth_details_input_page.dart';
+import 'package:greycells/view/pages/guardian_details_input_page.dart';
+import 'package:greycells/view/pages/health_details_input_page.dart';
+import 'package:greycells/view/pages/medical_records_input_page.dart';
+import 'package:greycells/view/pages/profile_pic_input_page.dart';
+import 'package:greycells/view/widgets/navigation_button_row.dart';
 
 class PatientDetailInput extends StatefulWidget {
   @override

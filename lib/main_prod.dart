@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:mental_health/flavor_config.dart';
-import 'package:mental_health/mental_health_app.dart';
-import 'package:mental_health/route/route_name.dart';
+import 'package:greycells/flavor_config.dart';
+import 'package:greycells/gercells_app.dart';
+import 'package:greycells/route/route_name.dart';
 
 void main() {
   FlavorConfig(
@@ -18,5 +18,5 @@ void main() {
 //  // which will output a state and logout user.
 //  });
 
-  runApp(MentalHealthApp());
+  runApp(GreyCellsApp());
 }

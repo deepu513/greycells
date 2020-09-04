@@ -1,6 +1,6 @@
-import 'package:mental_health/networking/request.dart';
-import 'package:mental_health/networking/response.dart';
-import 'package:mental_health/networking/serializable.dart';
+import 'package:greycells/networking/request.dart';
+import 'package:greycells/networking/response.dart';
+import 'package:greycells/networking/serializable.dart';
 
 abstract class Interceptor {
   Future<Response<ResponseType>> intercept<RequestType, ResponseType>(

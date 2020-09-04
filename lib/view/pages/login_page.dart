@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:mental_health/bloc/authentication/authentication_bloc.dart';
-import 'package:mental_health/bloc/authentication/authentication_event.dart';
-import 'package:mental_health/bloc/authentication/authentication_state.dart';
-import 'package:mental_health/bloc/validation/bloc.dart';
-import 'package:mental_health/bloc/validation/validation_field.dart';
-import 'package:mental_health/constants/strings.dart';
-import 'package:mental_health/extensions.dart';
-import 'package:mental_health/route/route_name.dart';
+import 'package:greycells/bloc/authentication/authentication_bloc.dart';
+import 'package:greycells/bloc/authentication/authentication_event.dart';
+import 'package:greycells/bloc/authentication/authentication_state.dart';
+import 'package:greycells/bloc/validation/bloc.dart';
+import 'package:greycells/bloc/validation/validation_field.dart';
+import 'package:greycells/constants/strings.dart';
+import 'package:greycells/extensions.dart';
+import 'package:greycells/route/route_name.dart';
 
 class LoginPage extends StatelessWidget {
   @override

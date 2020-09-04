@@ -1,8 +1,8 @@
 import 'dart:async';
 
 import 'package:bloc/bloc.dart';
-import 'package:mental_health/constants/relationship.dart';
-import 'package:mental_health/models/guardian_details/guardian_details.dart';
+import 'package:greycells/constants/relationship.dart';
+import 'package:greycells/models/guardian_details/guardian_details.dart';
 import 'package:meta/meta.dart';
 
 part 'guardian_details_event.dart';

@@ -1,8 +1,8 @@
-import 'package:mental_health/constants/setting_key.dart';
-import 'package:mental_health/networking/interceptor.dart';
-import 'package:mental_health/networking/request.dart';
-import 'package:mental_health/networking/response.dart';
-import 'package:mental_health/repository/settings/settings_repository.dart';
+import 'package:greycells/constants/setting_key.dart';
+import 'package:greycells/networking/interceptor.dart';
+import 'package:greycells/networking/request.dart';
+import 'package:greycells/networking/response.dart';
+import 'package:greycells/repository/settings/settings_repository.dart';
 
 class RequestHeaderInterceptor implements Interceptor {
   final SettingsRepository _settingsRepository;

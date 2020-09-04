@@ -1,8 +1,8 @@
 import 'package:filesize/filesize.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:mental_health/bloc/picker/file_picker_bloc.dart';
-import 'package:mental_health/constants/strings.dart';
+import 'package:greycells/bloc/picker/file_picker_bloc.dart';
+import 'package:greycells/constants/strings.dart';
 import 'package:path/path.dart';
 
 class MedicalRecordsInputPage extends StatelessWidget {

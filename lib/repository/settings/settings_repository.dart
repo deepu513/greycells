@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:mental_health/constants/setting_key.dart';
+import 'package:greycells/constants/setting_key.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SettingsRepository {

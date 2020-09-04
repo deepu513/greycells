@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:mental_health/networking/serializable.dart';
+import 'package:greycells/networking/serializable.dart';
 
 class Response<T> {
   final Serializable<T> _serializable;

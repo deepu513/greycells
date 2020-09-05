@@ -7,6 +7,7 @@ part of 'registration.dart';
 // **************************************************************************
 
 Registration _$RegistrationFromJson(Map<String, dynamic> json) {
+  $checkKeys(json, disallowNullValues: const ['DeviceId', 'UserType']);
   return Registration()
     ..firstName = json['FirstName'] as String
     ..lastName = json['LastName'] as String
@@ -17,16 +18,25 @@ Registration _$RegistrationFromJson(Map<String, dynamic> json) {
     ..userType = _$enumDecodeNullable(_$UserTypeEnumMap, json['UserType']);
 }
 
-Map<String, dynamic> _$RegistrationToJson(Registration instance) =>
-    <String, dynamic>{
-      'FirstName': instance.firstName,
-      'LastName': instance.lastName,
-      'MobileNumber': instance.mobileNumber,
-      'Email': instance.email,
-      'Password': instance.password,
-      'DeviceId': instance.deviceId,
-      'UserType': _$UserTypeEnumMap[instance.userType],
-    };
+Map<String, dynamic> _$RegistrationToJson(Registration instance) {
+  final val = <String, dynamic>{
+    'FirstName': instance.firstName,
+    'LastName': instance.lastName,
+    'MobileNumber': instance.mobileNumber,
+    'Email': instance.email,
+    'Password': instance.password,
+  };
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('DeviceId', instance.deviceId);
+  writeNotNull('UserType', _$UserTypeEnumMap[instance.userType]);
+  return val;
+}
 
 T _$enumDecode<T>(
   Map<T, dynamic> enumValues,

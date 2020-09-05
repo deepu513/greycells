@@ -1,11 +1,10 @@
-import 'package:json_annotation/json_annotation.dart';
 import 'package:greycells/constants/user_type.dart';
+import 'package:json_annotation/json_annotation.dart';
 
 part 'registration.g.dart';
 
 @JsonSerializable(explicitToJson: true)
 class Registration {
-
   @JsonKey(name: "FirstName")
   String firstName;
 
@@ -21,16 +20,20 @@ class Registration {
   @JsonKey(name: "Password")
   String password;
 
-  @JsonKey(name: "DeviceId")
+  @JsonKey(name: "DeviceId", disallowNullValue: true)
   String deviceId;
 
-  @JsonKey(name: "UserType")
+  @JsonKey(
+      name: "UserType", disallowNullValue: true)
   UserType userType;
 
   @JsonKey(ignore: true)
   String confirmPassword;
 
-  Registration();
+  Registration() {
+    deviceId = "";
+    userType = UserType.PATIENT;
+  }
 
   factory Registration.fromJson(Map<String, dynamic> json) =>
       _$RegistrationFromJson(json);

@@ -11,6 +11,10 @@ import 'package:greycells/extensions.dart';
 import 'package:greycells/route/route_name.dart';
 
 class LoginPage extends StatelessWidget {
+  final bool shouldShowRegistrationSuccessfulMessage;
+
+  LoginPage({this.shouldShowRegistrationSuccessfulMessage = false});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -99,7 +103,7 @@ class LoginPage extends StatelessWidget {
                             labelText: Strings.password,
                             contentPadding: EdgeInsets.zero,
                             errorText: validationState
-                                .isFieldInvalid(ValidationField.PASSWORD)
+                                    .isFieldInvalid(ValidationField.PASSWORD)
                                 ? ValidationField.PASSWORD.errorMessage()
                                 : null,
                           ),

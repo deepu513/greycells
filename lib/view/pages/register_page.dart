@@ -5,6 +5,7 @@ import 'package:greycells/bloc/validation/bloc.dart';
 import 'package:greycells/bloc/validation/validation_field.dart';
 import 'package:greycells/constants/strings.dart';
 import 'package:greycells/extensions.dart';
+import 'package:greycells/utils.dart';
 
 class RegisterPage extends StatelessWidget {
   @override
@@ -23,34 +24,10 @@ class RegisterPage extends StatelessWidget {
             builder: (context) {
               return BlocListener<RegistrationBloc, RegistrationState>(
                 listener: (previous, current) {
-                  if (current is RegistrationSuccessful) {
-                    // TODO: Navigate to login page with a boolean flow to show registration success message
-                  }
+                  if (current is RegistrationSuccessful) {}
 
                   if (current is RegistrationUnsuccessful) {
-                    showDialog<void>(
-                        context: context,
-                        barrierDismissible: true,
-                        builder: (dialogContext) {
-                          return AlertDialog(
-                            title: Text("Error"),
-                            content: SingleChildScrollView(
-                              child: ListBody(
-                                children: <Widget>[
-                                  Text(current.error),
-                                ],
-                              ),
-                            ),
-                            actions: [
-                              FlatButton(
-                                child: Text('OK'),
-                                onPressed: () async {
-                                  Navigator.of(context).pop();
-                                },
-                              )
-                            ],
-                          );
-                        });
+                    Utils.showErrorDialog(context, current.error);
                   }
                 },
                 child: RegisterInputSection(),
@@ -313,7 +290,19 @@ class RegisterInputSection extends StatelessWidget {
                   onSubmitted: (_) => FocusScope.of(context).unfocus(),
                 ),
                 SizedBox(
-                  height: 48.0,
+                  height: 24.0,
+                ),
+                Visibility(
+                  visible: registrationState is RegistrationInProgress,
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 24.0),
+                    child: LinearProgressIndicator(
+                      minHeight: 2.0,
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  height: 24.0,
                 ),
                 ButtonTheme(
                   minWidth: double.infinity,

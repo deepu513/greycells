@@ -5,7 +5,9 @@ import 'package:greycells/bloc/validation/validation_bloc.dart';
 import 'package:greycells/bloc/validation/validation_event.dart';
 import 'package:greycells/bloc/validation/validation_state.dart';
 import 'package:greycells/constants/setting_key.dart';
+import 'package:greycells/constants/strings.dart';
 import 'package:greycells/models/registration/registration.dart';
+import 'package:greycells/networking/http_exceptions.dart';
 import 'package:greycells/repository/settings/settings_repository.dart';
 import 'package:greycells/repository/user/user_repository.dart';
 
@@ -55,7 +57,11 @@ class RegistrationBloc extends Bloc<RegistrationEvent, RegistrationState> {
             yield RegistrationSuccessful();
           }
         } catch (error) {
-          yield RegistrationUnsuccessful(error: error.toString());
+          if (error is ResourceConflictException)
+            yield RegistrationUnsuccessful(
+                error: ErrorMessages.USER_REGISTERED_ERROR_MESSAGE);
+          else
+            yield RegistrationUnsuccessful(error: error.toString());
         }
       }
     }

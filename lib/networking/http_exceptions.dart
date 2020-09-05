@@ -9,7 +9,7 @@ class HttpException implements Exception {
 }
 
 class FetchDataException extends HttpException {
-  FetchDataException() : super("No internet connection");
+  FetchDataException() : super("Unable to connect. Please try again.");
 }
 
 class BadRequestException extends HttpException {
@@ -29,5 +29,5 @@ class ResourceConflictException extends HttpException {
 }
 
 class UnknownResponseCodeException extends HttpException {
-  UnknownResponseCodeException() : super("Unknown response code");
+  UnknownResponseCodeException() : super("Something went wrong. Please try again.");
 }

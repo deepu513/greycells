@@ -21,22 +21,36 @@ class RegisterPage extends StatelessWidget {
           padding: EdgeInsets.fromLTRB(24.0, 0.0, 24.0, 16.0),
           child: Builder(
             builder: (context) {
-              return  BlocListener<RegistrationBloc, RegistrationState>(
+              return BlocListener<RegistrationBloc, RegistrationState>(
                 listener: (previous, current) {
-                  if(current is RegistrationSuccessful) {
-                    Scaffold.of(context).showSnackBar(SnackBar(
-                      content: Text(
-                          "Registration Successful"
-                      ),
-                    ));
+                  if (current is RegistrationSuccessful) {
+                    // TODO: Navigate to login page with a boolean flow to show registration success message
                   }
 
-                  if(current is RegistrationUnsuccessful) {
-                    Scaffold.of(context).showSnackBar(SnackBar(
-                      content: Text(
-                          "Some error occurred"
-                      ),
-                    ));
+                  if (current is RegistrationUnsuccessful) {
+                    showDialog<void>(
+                        context: context,
+                        barrierDismissible: true,
+                        builder: (dialogContext) {
+                          return AlertDialog(
+                            title: Text("Error"),
+                            content: SingleChildScrollView(
+                              child: ListBody(
+                                children: <Widget>[
+                                  Text(current.error),
+                                ],
+                              ),
+                            ),
+                            actions: [
+                              FlatButton(
+                                child: Text('OK'),
+                                onPressed: () async {
+                                  Navigator.of(context).pop();
+                                },
+                              )
+                            ],
+                          );
+                        });
                   }
                 },
                 child: RegisterInputSection(),
@@ -83,6 +97,7 @@ class RegisterInputSection extends StatelessWidget {
                         Icons.person,
                         size: 20.0,
                       ),
+                      enabled: registrationState is! RegistrationInProgress,
                       helperText: Strings.tapToEnter,
                       labelText: Strings.firstName,
                       contentPadding: EdgeInsets.zero,
@@ -122,6 +137,7 @@ class RegisterInputSection extends StatelessWidget {
                           : null,
                     ),
                     autofocus: false,
+                    enabled: registrationState is! RegistrationInProgress,
                     keyboardType: TextInputType.text,
                     controller: TextEditingController(
                         text: BlocProvider.of<RegistrationBloc>(context)
@@ -147,6 +163,7 @@ class RegisterInputSection extends StatelessWidget {
                         Icons.phone,
                         size: 20.0,
                       ),
+                      enabled: registrationState is! RegistrationInProgress,
                       helperText: Strings.tapToEnter,
                       labelText: Strings.mobileNumber,
                       contentPadding: EdgeInsets.zero,
@@ -189,6 +206,7 @@ class RegisterInputSection extends StatelessWidget {
                               : null,
                     ),
                     autofocus: false,
+                    enabled: registrationState is! RegistrationInProgress,
                     keyboardType: TextInputType.emailAddress,
                     controller: TextEditingController(
                         text: BlocProvider.of<RegistrationBloc>(context)
@@ -214,10 +232,13 @@ class RegisterInputSection extends StatelessWidget {
                       size: 20.0,
                     ),
                     suffixIcon: IconButton(
-                      icon: BlocProvider.of<RegistrationBloc>(context).shouldObscurePassword ?
-                      Icon(Icons.visibility) : Icon(Icons.visibility_off),
+                      icon: BlocProvider.of<RegistrationBloc>(context)
+                              .shouldObscurePassword
+                          ? Icon(Icons.visibility)
+                          : Icon(Icons.visibility_off),
                       onPressed: () {
-                        BlocProvider.of<RegistrationBloc>(context).add(new TogglePasswordVisibility());
+                        BlocProvider.of<RegistrationBloc>(context)
+                            .add(new TogglePasswordVisibility());
                       },
                       iconSize: 20.0,
                     ),
@@ -227,7 +248,9 @@ class RegisterInputSection extends StatelessWidget {
                     errorText: _getPasswordErrorMessage(validationState),
                   ),
                   autofocus: false,
-                  obscureText: BlocProvider.of<RegistrationBloc>(context).shouldObscurePassword,
+                  enabled: registrationState is! RegistrationInProgress,
+                  obscureText: BlocProvider.of<RegistrationBloc>(context)
+                      .shouldObscurePassword,
                   keyboardType: TextInputType.text,
                   controller: TextEditingController(
                       text: BlocProvider.of<RegistrationBloc>(context)
@@ -256,11 +279,14 @@ class RegisterInputSection extends StatelessWidget {
                     ),
                     helperText: Strings.tapToEnter,
                     suffixIcon: IconButton(
-                      icon: BlocProvider.of<RegistrationBloc>(context).shouldObscureConfirmPassword ?
-                      Icon(Icons.visibility) : Icon(Icons.visibility_off),
+                      icon: BlocProvider.of<RegistrationBloc>(context)
+                              .shouldObscureConfirmPassword
+                          ? Icon(Icons.visibility)
+                          : Icon(Icons.visibility_off),
                       iconSize: 20.0,
                       onPressed: () {
-                        BlocProvider.of<RegistrationBloc>(context).add(new ToggleConfirmPasswordVisibility());
+                        BlocProvider.of<RegistrationBloc>(context)
+                            .add(new ToggleConfirmPasswordVisibility());
                       },
                     ),
                     labelText: Strings.confirmPassword,
@@ -271,8 +297,10 @@ class RegisterInputSection extends StatelessWidget {
                         : null,
                   ),
                   autofocus: false,
-                  obscureText: BlocProvider.of<RegistrationBloc>(context).shouldObscureConfirmPassword,
+                  obscureText: BlocProvider.of<RegistrationBloc>(context)
+                      .shouldObscureConfirmPassword,
                   keyboardType: TextInputType.text,
+                  enabled: registrationState is! RegistrationInProgress,
                   controller: TextEditingController(
                       text: BlocProvider.of<RegistrationBloc>(context)
                               .registration

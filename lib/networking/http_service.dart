@@ -98,7 +98,7 @@ class HttpService {
   void _handleError(e, stackTrace) {
     print(e);
     print(stackTrace.toString());
-    throw FetchDataException();
+    throw e;
   }
 
   bool _isSuccessOrThrow(int statusCode) {

@@ -8,6 +8,7 @@ class Strings {
   static const password = "Password";
   static const forgotPassword = "Forgot your password?";
   static const login = "Login";
+  static const registrationSuccessMessageOnLogin = "Registration successful! Please Login to continue.";
   static const register = "Register";
   static const grey = "Grey";
   static const cells = "Cells";
@@ -99,4 +100,6 @@ class ErrorMessages {
   static const MAX_FILES_ERROR_MESSAGE = "Maximum 5 files are allowed";
   static const USER_REGISTERED_ERROR_MESSAGE =
       "The Email ID you submitted is already registered.\nPlease try with a different Email ID";
+  static const USER_NOT_FOUND_ERROR_MESSAGE = "Invalid username or password.";
+  static const GENERIC_ERROR_MESSAGE = "Something went wrong! Please try again.";
 }

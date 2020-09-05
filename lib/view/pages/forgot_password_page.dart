@@ -58,7 +58,7 @@ class ForgotPasswordPage extends StatelessWidget {
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(8.0)),
                 child: Text(
-                  Strings.confirm,
+                  Strings.confirm.toUpperCase(),
                   style: Theme.of(context)
                       .textTheme
                       .button

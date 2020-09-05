@@ -5,7 +5,9 @@ import 'package:greycells/bloc/validation/validation_bloc.dart';
 import 'package:greycells/bloc/validation/validation_event.dart';
 import 'package:greycells/bloc/validation/validation_state.dart';
 import 'package:greycells/constants/setting_key.dart';
+import 'package:greycells/constants/strings.dart';
 import 'package:greycells/models/login/login_request.dart';
+import 'package:greycells/models/user/user.dart';
 import 'package:greycells/networking/http_exceptions.dart';
 import 'package:greycells/repository/settings/settings_repository.dart';
 import 'package:greycells/repository/user/user_repository.dart';
@@ -17,6 +19,8 @@ class AuthenticationBloc
   LoginRequest loginRequest;
   UserRepository _userRepository;
   SettingsRepository _settingsRepository;
+
+  bool shouldObscurePassword = true;
 
   final ValidationBloc validationBloc;
   StreamSubscription _validationSubscription;
@@ -49,7 +53,7 @@ class AuthenticationBloc
           _settingsRepository
               .get(SettingKey.KEY_REQUEST_TOKEN, defaultValue: "")
               .isNotEmpty) {
-        yield AuthenticationAuthenticated(/*user*/);
+        yield AuthenticationAuthenticated();
       } else
         yield AuthenticationUnauthenticated();
     }
@@ -61,27 +65,29 @@ class AuthenticationBloc
         yield AuthenticationLoading();
 
         try {
-          /*User user = await _userRepository.authenticate(
-              loginRequest: event.loginRequest);*/
+          User user =
+              await _userRepository.authenticate(loginRequest: loginRequest);
 
-          //if (user != null) {
-          _settingsRepository = await SettingsRepository.getInstance();
-          await _settingsRepository.saveValue(
-              SettingKey.KEY_IS_LOGGED_IN, true);
-          /*await _settingsRepository.saveValue(
-                SettingKey.KEY_TOKEN, data.JWTToken);*/
-          yield AuthenticationAuthenticated(/*user*/);
-          // }
+          if (user != null) {
+            _settingsRepository = await SettingsRepository.getInstance();
+            await _settingsRepository.saveValue(
+                SettingKey.KEY_IS_LOGGED_IN, true);
+            await _settingsRepository.saveValue(
+                SettingKey.KEY_REQUEST_TOKEN, user.token);
+            yield AuthenticationAuthenticated();
+          }
 
           /// This should never happen. Added for safety.
-//          else {
-//            yield AuthenticationFailure(
-//                error: "Something went wrong! Please try again.");
-//          }
-        } on ResourceNotFoundException {
-          yield AuthenticationUserNotFound();
+          else {
+            yield AuthenticationFailure(
+                error: ErrorMessages.GENERIC_ERROR_MESSAGE);
+          }
         } catch (error) {
-          yield AuthenticationFailure(error: error.toString());
+          if (error is ResourceNotFoundException)
+            yield AuthenticationFailure(
+                error: ErrorMessages.USER_NOT_FOUND_ERROR_MESSAGE);
+          else
+            yield AuthenticationFailure(error: error.toString());
         }
       }
     }
@@ -91,6 +97,11 @@ class AuthenticationBloc
       _settingsRepository = await SettingsRepository.getInstance();
       await _settingsRepository.saveValue(SettingKey.KEY_IS_LOGGED_IN, false);
       yield AuthenticationUnauthenticated();
+    }
+
+    if (event is TogglePasswordVisibility) {
+      shouldObscurePassword = !shouldObscurePassword;
+      yield PasswordVisibilityToggled();
     }
   }
 

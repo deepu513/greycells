@@ -22,7 +22,10 @@ class RouteGenerator {
       case RouteName.INITIAL:
         return MaterialPageRoute(builder: (_) => WelcomePage());
       case RouteName.LOGIN:
-        return MaterialPageRoute(builder: (_) => LoginPage());
+        return MaterialPageRoute(
+            builder: (_) => LoginPage(
+                  shouldShowRegistrationSuccessfulMessage: args ?? false,
+                ));
       case RouteName.REGISTER:
         return MaterialPageRoute(
             builder: (context) => BlocProvider<RegistrationBloc>(

@@ -5,6 +5,7 @@ import 'package:greycells/bloc/validation/bloc.dart';
 import 'package:greycells/bloc/validation/validation_field.dart';
 import 'package:greycells/constants/strings.dart';
 import 'package:greycells/extensions.dart';
+import 'package:greycells/route/route_name.dart';
 import 'package:greycells/utils.dart';
 
 class RegisterPage extends StatelessWidget {
@@ -24,7 +25,10 @@ class RegisterPage extends StatelessWidget {
             builder: (context) {
               return BlocListener<RegistrationBloc, RegistrationState>(
                 listener: (previous, current) {
-                  if (current is RegistrationSuccessful) {}
+                  if (current is RegistrationSuccessful) {
+                    Navigator.pushNamed(context, RouteName.LOGIN,
+                        arguments: true);
+                  }
 
                   if (current is RegistrationUnsuccessful) {
                     Utils.showErrorDialog(context, current.error);

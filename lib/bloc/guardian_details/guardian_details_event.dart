@@ -8,9 +8,3 @@ class UpdateRelationship extends GuardianDetailsEvent {
 
   UpdateRelationship(this.relationship, {this.actualValue});
 }
-
-class UpdateMobileNumber extends GuardianDetailsEvent {
-  final String mobileNumber;
-
-  UpdateMobileNumber(this.mobileNumber);
-}

@@ -29,10 +29,5 @@ class GuardianDetailsBloc
         guardianDetails.readableRelationship = event.actualValue;
       yield RelationshipUpdated(event.relationship);
     }
-
-    if (event is UpdateMobileNumber) {
-      guardianDetails.mobileNumber = event.mobileNumber;
-      yield MobileNumberUpdated(event.mobileNumber);
-    }
   }
 }

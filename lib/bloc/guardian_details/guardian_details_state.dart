@@ -10,9 +10,3 @@ class RelationshipUpdated extends GuardianDetailsState {
 
   RelationshipUpdated(this.relationship);
 }
-
-class MobileNumberUpdated extends GuardianDetailsState {
-  final String mobileNumber;
-
-  MobileNumberUpdated(this.mobileNumber);
-}

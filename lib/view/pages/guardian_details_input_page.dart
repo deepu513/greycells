@@ -75,8 +75,7 @@ class GuardianDetailsInputPage extends StatelessWidget implements Validatable {
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 24.0),
             child: GuardianMobileNumberInput((mobileNumber) {
-              BlocProvider.of<GuardianDetailsBloc>(context)
-                  .add(UpdateMobileNumber(mobileNumber));
+              BlocProvider.of<GuardianDetailsBloc>(context).guardianDetails.mobileNumber = mobileNumber;
             }),
           ),
         ],
@@ -286,7 +285,7 @@ class GuardianMobileNumberInput extends StatelessWidget {
               onChanged: (value) {
                 onMobileNumberValueChanged.call(value);
               },
-              onSubmitted: (_) => FocusScope.of(context).nextFocus(),
+              onSubmitted: (_) => FocusScope.of(context).unfocus(),
             );
           },
         ),

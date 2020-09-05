@@ -138,6 +138,7 @@ class RegisterInputSection extends StatelessWidget {
                 ),
                 TextField(
                     maxLines: 1,
+                    maxLength: 10,
                     textInputAction: TextInputAction.next,
                     style: TextStyle(fontSize: 18.0),
                     decoration: InputDecoration(

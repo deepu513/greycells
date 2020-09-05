@@ -22,7 +22,7 @@ class UserRepository {
         _registrationSerializable)
       ..setBody(registration);
 
-    Response loginResponse = await _httpService.post(request, null);
+    Response loginResponse = await _httpService.postRaw(request, null);
     return loginResponse.statusCode == 200;
   }
 }

@@ -213,9 +213,13 @@ class RegisterInputSection extends StatelessWidget {
                       Icons.lock,
                       size: 20.0,
                     ),
-                    suffixIcon: Icon(
-                      Icons.visibility,
-                      size: 20.0,
+                    suffixIcon: IconButton(
+                      icon: BlocProvider.of<RegistrationBloc>(context).shouldObscurePassword ?
+                      Icon(Icons.visibility) : Icon(Icons.visibility_off),
+                      onPressed: () {
+                        BlocProvider.of<RegistrationBloc>(context).add(new TogglePasswordVisibility());
+                      },
+                      iconSize: 20.0,
                     ),
                     helperText: Strings.tapToEnter,
                     labelText: Strings.password,
@@ -223,7 +227,7 @@ class RegisterInputSection extends StatelessWidget {
                     errorText: _getPasswordErrorMessage(validationState),
                   ),
                   autofocus: false,
-                  obscureText: true,
+                  obscureText: BlocProvider.of<RegistrationBloc>(context).shouldObscurePassword,
                   keyboardType: TextInputType.text,
                   controller: TextEditingController(
                       text: BlocProvider.of<RegistrationBloc>(context)
@@ -251,9 +255,13 @@ class RegisterInputSection extends StatelessWidget {
                       color: Colors.transparent,
                     ),
                     helperText: Strings.tapToEnter,
-                    suffixIcon: Icon(
-                      Icons.visibility,
-                      size: 20.0,
+                    suffixIcon: IconButton(
+                      icon: BlocProvider.of<RegistrationBloc>(context).shouldObscureConfirmPassword ?
+                      Icon(Icons.visibility) : Icon(Icons.visibility_off),
+                      iconSize: 20.0,
+                      onPressed: () {
+                        BlocProvider.of<RegistrationBloc>(context).add(new ToggleConfirmPasswordVisibility());
+                      },
                     ),
                     labelText: Strings.confirmPassword,
                     contentPadding: EdgeInsets.zero,
@@ -263,7 +271,7 @@ class RegisterInputSection extends StatelessWidget {
                         : null,
                   ),
                   autofocus: false,
-                  obscureText: true,
+                  obscureText: BlocProvider.of<RegistrationBloc>(context).shouldObscureConfirmPassword,
                   keyboardType: TextInputType.text,
                   controller: TextEditingController(
                       text: BlocProvider.of<RegistrationBloc>(context)

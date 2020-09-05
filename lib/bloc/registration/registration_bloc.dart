@@ -16,6 +16,9 @@ class RegistrationBloc extends Bloc<RegistrationEvent, RegistrationState> {
   UserRepository _userRepository;
   SettingsRepository _settingsRepository;
 
+  bool shouldObscurePassword = true;
+  bool shouldObscureConfirmPassword = true;
+
   final ValidationBloc validationBloc;
   StreamSubscription _validationSubscription;
 
@@ -55,6 +58,16 @@ class RegistrationBloc extends Bloc<RegistrationEvent, RegistrationState> {
           yield RegistrationUnsuccessful(error: error.toString());
         }
       }
+    }
+
+    if (event is TogglePasswordVisibility) {
+      shouldObscurePassword = !shouldObscurePassword;
+      yield PasswordVisibilityToggled();
+    }
+
+    if (event is ToggleConfirmPasswordVisibility) {
+      shouldObscureConfirmPassword = !shouldObscureConfirmPassword;
+      yield ConfirmPasswordVisibilityToggled();
     }
   }
 

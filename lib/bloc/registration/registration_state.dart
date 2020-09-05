@@ -1,11 +1,8 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter/foundation.dart';
 
-abstract class RegistrationState extends Equatable {
+abstract class RegistrationState {
   const RegistrationState();
-
-  @override
-  List<Object> get props => [];
 }
 
 class RegistrationStateInitial extends RegistrationState {}
@@ -18,10 +15,8 @@ class RegistrationUnsuccessful extends RegistrationState {
   final String error;
 
   const RegistrationUnsuccessful({@required this.error});
-
-  @override
-  List<Object> get props => [error];
-
-  @override
-  bool get stringify => true;
 }
+
+class PasswordVisibilityToggled extends RegistrationState {}
+
+class ConfirmPasswordVisibilityToggled extends RegistrationState {}

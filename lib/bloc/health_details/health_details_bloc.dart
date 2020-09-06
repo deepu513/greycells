@@ -2,18 +2,18 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:greycells/constants/gender.dart';
-import 'package:greycells/models/health_details/health_details.dart';
+import 'package:greycells/models/health_details/health_record.dart';
 import 'package:meta/meta.dart';
 
 part 'health_details_event.dart';
 part 'health_details_state.dart';
 
 class HealthDetailsBloc extends Bloc<HealthDetailsEvent, HealthDetailsState> {
-  HealthDetails healthDetails;
+  HealthRecord healthDetails;
 
   HealthDetailsBloc() : super(HealthDetailsInitial()) {
     // Initialize with default values
-    healthDetails = HealthDetails()
+    healthDetails = HealthRecord()
       ..gender = Gender.MALE
       ..weightInKg = 70
       ..heightInCm = 150;

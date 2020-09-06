@@ -1,6 +1,6 @@
 import 'package:greycells/models/address/address.dart';
 import 'package:greycells/models/birth_details/birth_details.dart';
-import 'package:greycells/models/guardian_details/guardian_details.dart';
+import 'package:greycells/models/guardian_details/guardian.dart';
 import 'package:greycells/models/login/login_request.dart';
 import 'package:greycells/models/registration/registration.dart';
 
@@ -31,7 +31,7 @@ class ValidateBirthDetailsFields extends ValidationEvent {
 }
 
 class ValidateGuardianDetailsFields extends ValidationEvent {
-  final GuardianDetails guardianDetails;
+  final Guardian guardianDetails;
 
   ValidateGuardianDetailsFields(this.guardianDetails);
 }

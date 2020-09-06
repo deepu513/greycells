@@ -2,7 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:greycells/bloc/validation/validation_field.dart';
 import 'package:greycells/models/address/address.dart';
 import 'package:greycells/models/birth_details/birth_details.dart';
-import 'package:greycells/models/guardian_details/guardian_details.dart';
+import 'package:greycells/models/guardian_details/guardian.dart';
 import 'package:greycells/models/login/login_request.dart';
 import 'package:greycells/models/registration/registration.dart';
 
@@ -35,7 +35,7 @@ class BirthDetailsValid extends ValidationState {
 }
 
 class GuardianDetailsValid extends ValidationState {
-  final GuardianDetails guardianDetails;
+  final Guardian guardianDetails;
 
   GuardianDetailsValid(this.guardianDetails);
 }

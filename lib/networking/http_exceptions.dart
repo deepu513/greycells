@@ -1,3 +1,5 @@
+import 'package:greycells/constants/strings.dart';
+
 class HttpException implements Exception {
   final _message;
 
@@ -13,7 +15,7 @@ class FetchDataException extends HttpException {
 }
 
 class BadRequestException extends HttpException {
-  BadRequestException() : super("Invalid request");
+  BadRequestException() : super(ErrorMessages.GENERIC_ERROR_MESSAGE);
 }
 
 class UnauthorisedException extends HttpException {
@@ -29,5 +31,5 @@ class ResourceConflictException extends HttpException {
 }
 
 class UnknownResponseCodeException extends HttpException {
-  UnknownResponseCodeException() : super("Something went wrong. Please try again.");
+  UnknownResponseCodeException() : super(ErrorMessages.GENERIC_ERROR_MESSAGE);
 }

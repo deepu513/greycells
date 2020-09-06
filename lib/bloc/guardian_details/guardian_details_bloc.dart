@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:greycells/constants/relationship.dart';
-import 'package:greycells/models/guardian_details/guardian_details.dart';
+import 'package:greycells/models/guardian_details/guardian.dart';
 import 'package:meta/meta.dart';
 
 part 'guardian_details_event.dart';
@@ -10,11 +10,11 @@ part 'guardian_details_state.dart';
 
 class GuardianDetailsBloc
     extends Bloc<GuardianDetailsEvent, GuardianDetailsState> {
-  GuardianDetails guardianDetails;
+  Guardian guardianDetails;
 
   GuardianDetailsBloc() : super(GuardianDetailsInitial()) {
     // Initial values
-    guardianDetails = GuardianDetails()..relationShip = Relationship.father;
+    guardianDetails = Guardian()..relationShip = Relationship.father;
   }
 
   @override

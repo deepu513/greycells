@@ -8,7 +8,7 @@ import 'package:greycells/constants/relationship.dart';
 import 'package:greycells/extensions.dart';
 import 'package:greycells/models/address/address.dart';
 import 'package:greycells/models/birth_details/birth_details.dart';
-import 'package:greycells/models/guardian_details/guardian_details.dart';
+import 'package:greycells/models/guardian_details/guardian.dart';
 import 'package:greycells/models/login/login_request.dart';
 import 'package:greycells/models/registration/registration.dart';
 
@@ -131,7 +131,7 @@ class ValidationBloc extends Bloc<ValidationEvent, ValidationState> {
     }
   }
 
-  ValidationField _validateGuardianDetails(GuardianDetails guardianDetails) {
+  ValidationField _validateGuardianDetails(Guardian guardianDetails) {
     if (guardianDetails.relationShip == Relationship.other &&
         guardianDetails.readableRelationship.isNullOrEmpty()) {
       return ValidationField.OTHER_RELATION;

@@ -8,6 +8,7 @@ import 'package:greycells/models/patient/guardian/guardian.dart';
 import 'package:greycells/models/patient/health/health_record.dart';
 import 'package:greycells/models/patient/medical/medical_record.dart';
 import 'package:greycells/models/patient/patient.dart';
+import 'package:intl/intl.dart';
 import 'package:meta/meta.dart';
 
 part 'patient_details_event.dart';
@@ -56,5 +57,35 @@ class PatientDetailsBloc
       patient.readableGender = event.gender.toString();
       yield GenderUpdated(event.gender);
     }
+
+    if (event is BirthDetailsValidated) {
+      patient.dateOfBirth = getStringDateTime(
+          patient.dayPart, patient.monthPart, patient.yearPart);
+      patient.timeOfBirth = getStringDateTime(
+          patient.dayPart,
+          patient.monthPart,
+          patient.yearPart,
+          patient.hourPart,
+          patient.minutePart,
+          true);
+      yield StateOK();
+    }
+  }
+
+  String getStringDateTime(String dayPart, String monthPart, String yearPart,
+      [String hourPart = "00",
+      String minutePart = "00",
+      bool onlyTime = false]) {
+    DateFormat dateFormat = DateFormat("dd/MM/yyyy hh:mm");
+    DateTime serverDateTime = dateFormat
+        .parseStrict('$dayPart/$monthPart/$yearPart $hourPart:$minutePart');
+
+    if (onlyTime) {
+      DateFormat convertedFormat = DateFormat("hh:mm a");
+      return convertedFormat.format(serverDateTime);
+    }
+
+    DateFormat convertedFormat = DateFormat("dd/MM/yyyy");
+    return convertedFormat.format(serverDateTime);
   }
 }

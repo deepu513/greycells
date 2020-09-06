@@ -21,6 +21,9 @@ class Patient {
   @JsonKey(name: "FileId")
   String profilePicId;
 
+  @JsonKey(ignore: true)
+  String localProfilePicFilePath;
+
   @JsonKey(name: "IsMinor")
   bool isMinor;
 

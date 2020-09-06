@@ -2,25 +2,41 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:image_picker/image_picker.dart';
+import 'package:greycells/bloc/patient_details/patient_details_bloc.dart';
 import 'package:greycells/bloc/picker/image_picker_bloc.dart';
 import 'package:greycells/constants/strings.dart';
+import 'package:image_picker/image_picker.dart';
 
 class ProfilePicInputPage extends StatelessWidget {
   const ProfilePicInputPage();
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<ImagePickerBloc, ImagePickerState>(
-      builder: (context, imagePickerState) {
-        if (imagePickerState is StateImagePicked) {
-          return CircleAvatarWidget(imagePickerState.pickedImageFile,
-              onSelectionRequested: () => _pickImage(context),
-              onRemoveRequested: () => _removeImage(context));
-        } else
-          return _ProfilePicSelector(
-              onSelectionRequested: () => _pickImage(context));
+    return BlocListener<ImagePickerBloc, ImagePickerState>(
+      listener: (context, state) {
+        if (state is StateImagePicked) {
+          BlocProvider.of<PatientDetailsBloc>(context)
+              .patient
+              .localProfilePicFilePath = state.pickedImageFile.path;
+        }
+
+        if(state is StateImageRemoved) {
+          BlocProvider.of<PatientDetailsBloc>(context)
+              .patient
+              .localProfilePicFilePath = "";
+        }
       },
+      child: BlocBuilder<ImagePickerBloc, ImagePickerState>(
+        builder: (context, imagePickerState) {
+          if (imagePickerState is StateImagePicked) {
+            return CircleAvatarWidget(imagePickerState.pickedImageFile,
+                onSelectionRequested: () => _pickImage(context),
+                onRemoveRequested: () => _removeImage(context));
+          } else
+            return _ProfilePicSelector(
+                onSelectionRequested: () => _pickImage(context));
+        },
+      ),
     );
   }
 

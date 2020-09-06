@@ -16,3 +16,5 @@ class GenderUpdated extends PatientDetailsState {
 
   GenderUpdated(this.updatedGender);
 }
+
+class StateOK extends PatientDetailsState {}

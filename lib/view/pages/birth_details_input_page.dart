@@ -97,6 +97,8 @@ class BirthDetailsInputPage extends StatelessWidget implements Validatable {
 
     subscription = validationBloc.listen((validationState) {
       if (validationState is BirthDetailsValid) {
+        BlocProvider.of<PatientDetailsBloc>(context)
+            .add(BirthDetailsValidated());
         completer.complete(true);
       } else if (validationState is ValidationInvalidField) {
         completer.complete(false);
@@ -106,7 +108,6 @@ class BirthDetailsInputPage extends StatelessWidget implements Validatable {
       subscription.cancel();
     });
 
-    // TODO: After validation is success, add event to update DateOfBirth and TimeOfBirth Fields
     validationBloc.add(ValidateBirthDetailsFields(
         BlocProvider.of<PatientDetailsBloc>(context).patient));
 

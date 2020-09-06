@@ -64,7 +64,7 @@ class _MyApp extends StatelessWidget {
             }
 
             // TODO: Handle this/failure, show error or let user login again
-            return WelcomePage();
+            return PatientDetailInput();
           },
         ),
       ),

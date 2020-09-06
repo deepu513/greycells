@@ -43,8 +43,14 @@ class AddressDetailInputPage extends StatelessWidget implements Validatable {
             height: 16.0,
           ),
           PatientAddressInput(),
-          Divider(),
-          GuardianAddressInput()
+          Visibility(
+              visible:
+                  BlocProvider.of<PatientDetailsBloc>(context).patient.isMinor,
+              child: Divider()),
+          Visibility(
+              visible:
+                  BlocProvider.of<PatientDetailsBloc>(context).patient.isMinor,
+              child: GuardianAddressInput())
         ],
       ),
     );

@@ -40,9 +40,11 @@ class _PatientDetailInputState extends State<PatientDetailInput>
       const ProfilePicInputPage(),
       const BirthDetailsInputPage(),
       const HealthDetailsInputPage(),
-      const GuardianDetailsInputPage(), // TODO: Skip this page if not minor
-      const AddressDetailInputPage(), // TODO: Hide guardian address if not minor. If minor show. Also add functionality for same address
-      const MedicalRecordsInputPage(), // TODO: Check whatever needs to be done
+      const GuardianDetailsInputPage(),
+      const AddressDetailInputPage(),
+      // TODO: Add functionality for same address
+      const MedicalRecordsInputPage(),
+      // TODO: Check whatever needs to be done
     ]);
 
     _controller = AnimationController(vsync: this);
@@ -130,7 +132,8 @@ class _PatientDetailInputState extends State<PatientDetailInput>
                     Padding(
                       padding: const EdgeInsets.all(16.0),
                       child: NavigationButtonRow(
-                        onBackPressed: () => _handleBackPressed(context),
+                        onBackPressed: () =>
+                            _handleBackPressed(context, transitionState),
                         onNextPressed: () =>
                             _handleNextPressed(context, transitionState),
                       ),
@@ -145,19 +148,14 @@ class _PatientDetailInputState extends State<PatientDetailInput>
     );
   }
 
-  void _handleBackPressed(BuildContext context) {
-    BlocProvider.of<PageTransitionBloc>(context)
-        .add(TransitionToPreviousPage());
-  }
-
   _handleNextPressed(
       BuildContext context, PageTransitionState transitionState) async {
     if (_shouldValidateCurrentPage(transitionState)) {
-      //var result = await _validateCurrentPage(context, transitionState);
-      var result = true;
-      if (result == true) _transitionToNextPage(context);
+      var result = await _validateCurrentPage(context, transitionState);
+      //var result = true;
+      if (result == true) _transitionToNextPage(context, transitionState);
     } else {
-      _transitionToNextPage(context);
+      _transitionToNextPage(context, transitionState);
     }
   }
 
@@ -176,7 +174,24 @@ class _PatientDetailInputState extends State<PatientDetailInput>
   bool _shouldValidateCurrentPage(PageTransitionState transitionState) =>
       _pages[transitionState.currentPageNumber - 1] is Validatable;
 
-  void _transitionToNextPage(BuildContext context) {
-    BlocProvider.of<PageTransitionBloc>(context).add(TransitionToNextPage());
+  void _handleBackPressed(
+      BuildContext context, PageTransitionState transitionState) {
+    if (transitionState.currentPageNumber == 5) {
+      if (!BlocProvider.of<PatientDetailsBloc>(context).patient.isMinor) {
+        BlocProvider.of<PageTransitionBloc>(context).add(SkipPages(-2));
+      }
+    } else
+      BlocProvider.of<PageTransitionBloc>(context)
+          .add(TransitionToPreviousPage());
+  }
+
+  void _transitionToNextPage(
+      BuildContext context, PageTransitionState transitionState) {
+    if (transitionState.currentPageNumber == 3) {
+      if (!BlocProvider.of<PatientDetailsBloc>(context).patient.isMinor) {
+        BlocProvider.of<PageTransitionBloc>(context).add(SkipPages(2));
+      }
+    } else
+      BlocProvider.of<PageTransitionBloc>(context).add(TransitionToNextPage());
   }
 }

@@ -39,5 +39,16 @@ class PageTransitionBloc
         yield PageTransitionToPreviousPage(_currentPageNumber);
       }
     }
+
+    if (event is SkipPages) {
+      if (_currentPageNumber == numberOfPages)
+        yield PageTransitionReachedLowerLimit(_currentPageNumber);
+      if (_currentPageNumber == 1)
+        yield PageTransitionReachedLowerLimit(_currentPageNumber);
+      else {
+        _currentPageNumber += event.numberOfPages;
+        yield PageTransitionToNextPage(_currentPageNumber);
+      }
+    }
   }
 }

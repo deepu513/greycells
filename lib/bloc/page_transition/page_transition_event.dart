@@ -10,3 +10,9 @@ abstract class PageTransitionEvent extends Equatable {
 class TransitionToNextPage extends PageTransitionEvent {}
 
 class TransitionToPreviousPage extends PageTransitionEvent {}
+
+class SkipPages extends PageTransitionEvent {
+  final int numberOfPages;
+
+  SkipPages(this.numberOfPages);
+}

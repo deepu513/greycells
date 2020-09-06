@@ -9,8 +9,8 @@ import 'package:greycells/constants/strings.dart';
 import 'package:greycells/models/login/login_request.dart';
 import 'package:greycells/models/user/user.dart';
 import 'package:greycells/networking/http_exceptions.dart';
-import 'package:greycells/repository/settings/settings_repository.dart';
-import 'package:greycells/repository/user/user_repository.dart';
+import 'package:greycells/repository/settings_repository.dart';
+import 'package:greycells/repository/user_repository.dart';
 
 import 'bloc.dart';
 

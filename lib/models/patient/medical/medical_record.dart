@@ -1,3 +1,4 @@
+import 'package:greycells/bloc/picker/file_picker_bloc.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'medical_record.g.dart';
@@ -17,7 +18,12 @@ class MedicalRecord {
 	@JsonKey(name: "Description")
   String description;
 
-	MedicalRecord();
+	@JsonKey(ignore: true)
+	List<PickedFile> pickedFiles;
+
+	MedicalRecord() {
+		pickedFiles = List<PickedFile>();
+	}
 
 	factory MedicalRecord.fromJson(Map<String, dynamic> json) => _$MedicalRecordFromJson(json);
 

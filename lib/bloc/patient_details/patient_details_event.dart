@@ -24,3 +24,15 @@ class AddressValidated extends PatientDetailsEvent {}
 class GuardianHasSameAddress extends PatientDetailsEvent {}
 
 class GuardianNotHasSameAddress extends PatientDetailsEvent {}
+
+class AddMedicalRecordFile extends PatientDetailsEvent {
+  final PickedFile pickedFile;
+
+  AddMedicalRecordFile(this.pickedFile);
+}
+
+class RemoveMedicalRecordFile extends PatientDetailsEvent {
+  final PickedFile pickedFile;
+
+  RemoveMedicalRecordFile(this.pickedFile);
+}

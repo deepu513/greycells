@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:bloc/bloc.dart';
+import 'package:greycells/bloc/picker/file_picker_bloc.dart';
 import 'package:greycells/constants/gender.dart';
 import 'package:greycells/constants/relationship.dart';
 import 'package:greycells/models/patient/address/address.dart';
@@ -71,7 +72,7 @@ class PatientDetailsBloc
               int.parse(patient.monthPart), int.parse(patient.dayPart))) <
           18;
 
-      if(!patient.isMinor) patient.guardian = null;
+      if (!patient.isMinor) patient.guardian = null;
       yield StateOK();
     }
 
@@ -93,7 +94,7 @@ class PatientDetailsBloc
       yield StateOK();
     }
 
-    if(event is GuardianHasSameAddress) {
+    if (event is GuardianHasSameAddress) {
       patient.guardian.address.houseNumber = patient.address.houseNumber;
       patient.guardian.address.roadName = patient.address.roadName;
       patient.guardian.address.city = patient.address.city;
@@ -103,10 +104,22 @@ class PatientDetailsBloc
       yield GuardianAddressUpdated(true);
     }
 
-    if(event is GuardianNotHasSameAddress) {
+    if (event is GuardianNotHasSameAddress) {
       yield GuardianAddressUpdated(false);
     }
 
+    if (event is AddMedicalRecordFile) {
+      patient.medicalRecord.pickedFiles.add(event.pickedFile);
+      yield StateOK();
+    }
+
+    if (event is RemoveMedicalRecordFile) {
+      patient.medicalRecord.pickedFiles.removeWhere((pickedFile) {
+        return pickedFile.selectedFile.path ==
+            event.pickedFile.selectedFile.path;
+      });
+      yield StateOK();
+    }
   }
 
   String getStringDateTime(String dayPart, String monthPart, String yearPart,

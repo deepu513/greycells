@@ -28,7 +28,7 @@ class LoginPage extends StatelessWidget {
       body: SafeArea(
         minimum: EdgeInsets.fromLTRB(24.0, 8.0, 24.0, 16.0),
         child: BlocListener<AuthenticationBloc, AuthenticationState>(
-          listener: (previous, current) {
+          listener: (context, current) {
             if (current is AuthenticationAuthenticated) {
               Navigator.pushNamedAndRemoveUntil(
                   context, RouteName.HOME, (route) => false);

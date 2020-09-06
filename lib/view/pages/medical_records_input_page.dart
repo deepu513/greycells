@@ -1,6 +1,7 @@
 import 'package:filesize/filesize.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:greycells/bloc/patient_details/patient_details_bloc.dart';
 import 'package:greycells/bloc/picker/file_picker_bloc.dart';
 import 'package:greycells/constants/strings.dart';
 import 'package:path/path.dart';
@@ -30,19 +31,28 @@ class MedicalRecordsInputPage extends StatelessWidget {
         child: Icon(Icons.add),
       ),
       body: BlocListener<FilePickerBloc, FilePickerState>(
-        listener: (current, previous) {
-          if (current is FileSizeTooLarge) {
+        listener: (context, state) {
+          if (state is FileSizeTooLarge) {
             Scaffold.of(context).showSnackBar(SnackBar(
               content: Text(ErrorMessages.FILE_SIZE_ERROR_MESSAGE),
               duration: Duration(milliseconds: 2000),
             ));
           }
 
-          if (current is UnsupportedFilePicked) {
+          if (state is UnsupportedFilePicked) {
             Scaffold.of(context).showSnackBar(SnackBar(
               content: Text(ErrorMessages.UNSUPPORTED_FILE_ERROR_MESSAGE),
               duration: Duration(milliseconds: 2000),
             ));
+          }
+
+          if (state is ImageFilePicked) {
+            BlocProvider.of<PatientDetailsBloc>(context)
+                .add(AddMedicalRecordFile(state.pickedFile));
+          }
+          if (state is PdfFilePicked) {
+            BlocProvider.of<PatientDetailsBloc>(context)
+                .add(AddMedicalRecordFile(state.pickedFile));
           }
         },
         child: BlocBuilder<FilePickerBloc, FilePickerState>(
@@ -193,6 +203,8 @@ class FileList extends StatelessWidget {
               onPressed: () {
                 BlocProvider.of<FilePickerBloc>(context)
                     .add(RemoveFile(list[index]));
+                BlocProvider.of<PatientDetailsBloc>(context)
+                    .add(RemoveMedicalRecordFile(list[index]));
               },
             ),
           );

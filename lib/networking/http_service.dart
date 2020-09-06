@@ -5,6 +5,8 @@ import 'package:greycells/networking/request.dart';
 import 'package:greycells/networking/response.dart';
 import 'package:greycells/networking/serializable.dart';
 import 'package:http/http.dart' as http;
+import 'package:http_parser/http_parser.dart';
+import 'package:path/path.dart';
 
 typedef SessionExpiredCallback = void Function();
 
@@ -73,6 +75,19 @@ class HttpService {
         .then((http.Response value) =>
             _processResponse(value, responseSerializable).getResponseBody())
         .catchError((e, stackTrace) => _handleError(e, stackTrace));
+  }
+
+  Future<bool> multipart(String url, String type, String filePath) async {
+    final mediaType = extension(filePath) == ".pdf"
+        ? MediaType('application', 'pdf')
+        : MediaType('image', '*');
+
+    final request = http.MultipartRequest("POST",  Uri.parse(url))
+      ..fields['Type'] = type
+      ..files.add(await http.MultipartFile.fromPath("File", filePath,
+          contentType: mediaType));
+    var response = await request.send();
+    return response.statusCode == 200;
   }
 
   Future<bool> delete<RequestType>(Request<RequestType> request) {

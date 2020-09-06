@@ -43,7 +43,6 @@ class _PatientDetailInputState extends State<PatientDetailInput>
       const GuardianDetailsInputPage(),
       const AddressDetailInputPage(),
       const MedicalRecordsInputPage(),
-      // TODO: Check whatever needs to be done
     ]);
 
     _controller = AnimationController(vsync: this);
@@ -83,7 +82,7 @@ class _PatientDetailInputState extends State<PatientDetailInput>
         body: SafeArea(
           minimum: EdgeInsets.only(top: 56.0),
           child: BlocListener<PageTransitionBloc, PageTransitionState>(
-            listener: (previous, current) {
+            listener: (context, current) {
               _controller.animateBack(
                   (current.currentPageNumber) / numberOfPages,
                   duration: Duration(milliseconds: animationDuration));

@@ -1,5 +1,5 @@
 import 'package:greycells/constants/relationship.dart';
-import 'package:greycells/models/address/address.dart';
+import 'package:greycells/models/patient/address/address.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'guardian.g.dart';

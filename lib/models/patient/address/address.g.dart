@@ -8,24 +8,17 @@ part of 'address.dart';
 
 Address _$AddressFromJson(Map<String, dynamic> json) {
   return Address()
-    ..houseNumber = json['houseNumber'] as String
-    ..roadName = json['roadName'] as String
-    ..city = json['city'] as String
-    ..state = json['state'] as String
-    ..country = json['country'] as String
-    ..pincode = json['pincode'] as String
-    ..guardianAddress = json['guardianAddress'] == null
-        ? null
-        : GuardianAddress.fromJson(
-            json['guardianAddress'] as Map<String, dynamic>);
+    ..readableAddress = json['Readable_Address'] as String
+    ..city = json['City'] as String
+    ..state = json['State'] as String
+    ..country = json['Country'] as String
+    ..pincode = json['PostalCode'] as String;
 }
 
 Map<String, dynamic> _$AddressToJson(Address instance) => <String, dynamic>{
-      'houseNumber': instance.houseNumber,
-      'roadName': instance.roadName,
-      'city': instance.city,
-      'state': instance.state,
-      'country': instance.country,
-      'pincode': instance.pincode,
-      'guardianAddress': instance.guardianAddress?.toJson(),
+      'Readable_Address': instance.readableAddress,
+      'City': instance.city,
+      'State': instance.state,
+      'Country': instance.country,
+      'PostalCode': instance.pincode,
     };

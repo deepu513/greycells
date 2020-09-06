@@ -1,12 +1,9 @@
-import 'package:greycells/constants/gender.dart';
 import 'package:json_annotation/json_annotation.dart';
 
+part 'health_record.g.dart';
+
+@JsonSerializable(explicitToJson: true)
 class HealthRecord {
-
-// TODO: Move gender to patient parent class
-  Gender gender;
-  String readableGender;
-
   @JsonKey(name: "Width")
   int weightInKg;
 
@@ -23,4 +20,9 @@ class HealthRecord {
   String medicalHistory;
 
   HealthRecord();
+
+  factory HealthRecord.fromJson(Map<String, dynamic> json) =>
+      _$HealthRecordFromJson(json);
+
+  Map<String, dynamic> toJson() => _$HealthRecordToJson(this);
 }

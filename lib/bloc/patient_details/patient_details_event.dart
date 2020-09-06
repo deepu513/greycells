@@ -18,3 +18,9 @@ class UpdateGender extends PatientDetailsEvent {
 class BirthDetailsValidated extends PatientDetailsEvent {}
 
 class HealthDetailsSubmitted extends PatientDetailsEvent {}
+
+class AddressValidated extends PatientDetailsEvent {}
+
+class GuardianHasSameAddress extends PatientDetailsEvent {}
+
+class GuardianNotHasSameAddress extends PatientDetailsEvent {}

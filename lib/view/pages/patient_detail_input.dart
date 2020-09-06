@@ -42,7 +42,6 @@ class _PatientDetailInputState extends State<PatientDetailInput>
       const HealthDetailsInputPage(),
       const GuardianDetailsInputPage(),
       const AddressDetailInputPage(),
-      // TODO: Add functionality for same address
       const MedicalRecordsInputPage(),
       // TODO: Check whatever needs to be done
     ]);
@@ -151,8 +150,8 @@ class _PatientDetailInputState extends State<PatientDetailInput>
   _handleNextPressed(
       BuildContext context, PageTransitionState transitionState) async {
     if (_shouldValidateCurrentPage(transitionState)) {
-      var result = await _validateCurrentPage(context, transitionState);
-      //var result = true;
+      //var result = await _validateCurrentPage(context, transitionState);
+      var result = true;
       if (result == true) _transitionToNextPage(context, transitionState);
     } else {
       _transitionToNextPage(context, transitionState);
@@ -176,10 +175,9 @@ class _PatientDetailInputState extends State<PatientDetailInput>
 
   void _handleBackPressed(
       BuildContext context, PageTransitionState transitionState) {
-    if (transitionState.currentPageNumber == 5) {
-      if (!BlocProvider.of<PatientDetailsBloc>(context).patient.isMinor) {
-        BlocProvider.of<PageTransitionBloc>(context).add(SkipPages(-2));
-      }
+    if (transitionState.currentPageNumber == 5 &&
+        BlocProvider.of<PatientDetailsBloc>(context).patient.isMinor == false) {
+      BlocProvider.of<PageTransitionBloc>(context).add(SkipPages(-2));
     } else
       BlocProvider.of<PageTransitionBloc>(context)
           .add(TransitionToPreviousPage());
@@ -187,10 +185,9 @@ class _PatientDetailInputState extends State<PatientDetailInput>
 
   void _transitionToNextPage(
       BuildContext context, PageTransitionState transitionState) {
-    if (transitionState.currentPageNumber == 3) {
-      if (!BlocProvider.of<PatientDetailsBloc>(context).patient.isMinor) {
-        BlocProvider.of<PageTransitionBloc>(context).add(SkipPages(2));
-      }
+    if (transitionState.currentPageNumber == 3 &&
+        BlocProvider.of<PatientDetailsBloc>(context).patient.isMinor == false) {
+      BlocProvider.of<PageTransitionBloc>(context).add(SkipPages(2));
     } else
       BlocProvider.of<PageTransitionBloc>(context).add(TransitionToNextPage());
   }

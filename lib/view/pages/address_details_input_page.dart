@@ -44,12 +44,16 @@ class AddressDetailInputPage extends StatelessWidget implements Validatable {
           ),
           PatientAddressInput(),
           Visibility(
-              visible:
-                  BlocProvider.of<PatientDetailsBloc>(context).patient.isMinor,
+              visible: BlocProvider.of<PatientDetailsBloc>(context)
+                      .patient
+                      .isMinor ==
+                  true,
               child: Divider()),
           Visibility(
-              visible:
-                  BlocProvider.of<PatientDetailsBloc>(context).patient.isMinor,
+              visible: BlocProvider.of<PatientDetailsBloc>(context)
+                      .patient
+                      .isMinor ==
+                  true,
               child: GuardianAddressInput())
         ],
       ),
@@ -327,33 +331,44 @@ class PatientAddressInput extends StatelessWidget {
 class GuardianAddressInput extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: <Widget>[
-        Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Text(
-            Strings.guardianAddress,
-            style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.w400),
-          ),
-        ),
-        CheckboxListTile(
-          value: false,
-          onChanged: (value) {},
-          title: Text(
-            Strings.sameAsAbove,
-            style: Theme.of(context).textTheme.subtitle1,
-          ),
-          subtitle: Text(Strings.liveWithGuardian),
-        ),
-        SizedBox(
-          height: 8.0,
-        ),
-        AnimatedOpacity(
-            opacity: 1.0,
-            duration: Duration(milliseconds: 600),
-            child: GuardianAddressInputFields())
-      ],
+    return BlocBuilder<PatientDetailsBloc, PatientDetailsState>(
+      builder: (context, state) {
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Text(
+                Strings.guardianAddress,
+                style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.w400),
+              ),
+            ),
+            CheckboxListTile(
+              value: state is GuardianAddressUpdated && state.hasSameAddress,
+              onChanged: (value) {
+                if (value)
+                  BlocProvider.of<PatientDetailsBloc>(context)
+                      .add(GuardianHasSameAddress());
+                else
+                  BlocProvider.of<PatientDetailsBloc>(context)
+                      .add(GuardianNotHasSameAddress());
+              },
+              title: Text(
+                Strings.sameAsAbove,
+                style: Theme.of(context).textTheme.subtitle1,
+              ),
+              subtitle: Text(Strings.liveWithGuardian),
+            ),
+            SizedBox(
+              height: 8.0,
+            ),
+            AnimatedOpacity(
+                opacity: 1.0,
+                duration: Duration(milliseconds: 600),
+                child: GuardianAddressInputFields())
+          ],
+        );
+      },
     );
   }
 }

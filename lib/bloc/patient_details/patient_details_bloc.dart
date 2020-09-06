@@ -70,6 +70,8 @@ class PatientDetailsBloc
       patient.isMinor = calculateAge(DateTime(int.parse(patient.yearPart),
               int.parse(patient.monthPart), int.parse(patient.dayPart))) <
           18;
+
+      if(!patient.isMinor) patient.guardian = null;
       yield StateOK();
     }
 
@@ -78,6 +80,33 @@ class PatientDetailsBloc
       patient.healthRecord.bmi =
           patient.healthRecord.weightInKg ~/ (heightInMetres * heightInMetres);
     }
+
+    if (event is AddressValidated) {
+      patient.address.readableAddress =
+          patient.address.houseNumber + " " + patient.address.roadName;
+
+      if (patient.isMinor)
+        patient.guardian.address.readableAddress =
+            patient.guardian.address.houseNumber +
+                " " +
+                patient.guardian.address.roadName;
+      yield StateOK();
+    }
+
+    if(event is GuardianHasSameAddress) {
+      patient.guardian.address.houseNumber = patient.address.houseNumber;
+      patient.guardian.address.roadName = patient.address.roadName;
+      patient.guardian.address.city = patient.address.city;
+      patient.guardian.address.state = patient.address.state;
+      patient.guardian.address.country = patient.address.country;
+      patient.guardian.address.pincode = patient.address.pincode;
+      yield GuardianAddressUpdated(true);
+    }
+
+    if(event is GuardianNotHasSameAddress) {
+      yield GuardianAddressUpdated(false);
+    }
+
   }
 
   String getStringDateTime(String dayPart, String monthPart, String yearPart,

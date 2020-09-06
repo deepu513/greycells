@@ -17,4 +17,10 @@ class GenderUpdated extends PatientDetailsState {
   GenderUpdated(this.updatedGender);
 }
 
+class GuardianAddressUpdated extends PatientDetailsState {
+  final bool hasSameAddress;
+
+  GuardianAddressUpdated(this.hasSameAddress);
+}
+
 class StateOK extends PatientDetailsState {}

@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:greycells/bloc/health_details/health_details_bloc.dart';
+import 'package:greycells/bloc/patient_details/patient_details_bloc.dart';
 import 'package:greycells/constants/gender.dart';
 import 'package:greycells/constants/strings.dart';
 import 'package:greycells/view/widgets/number_slider.dart';
@@ -21,11 +21,15 @@ class _HealthDetailsInputPageState extends State<HealthDetailsInputPage> {
   @override
   void initState() {
     super.initState();
-    selectedHeight =
-        BlocProvider.of<HealthDetailsBloc>(context).healthDetails.heightInCm;
+    selectedHeight = BlocProvider.of<PatientDetailsBloc>(context)
+        .patient
+        .healthRecord
+        .heightInCm;
 
-    selectedWeight =
-        BlocProvider.of<HealthDetailsBloc>(context).healthDetails.weightInKg;
+    selectedWeight = BlocProvider.of<PatientDetailsBloc>(context)
+        .patient
+        .healthRecord
+        .weightInKg;
   }
 
   @override
@@ -56,19 +60,18 @@ class _HealthDetailsInputPageState extends State<HealthDetailsInputPage> {
         ),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16.0),
-          child: BlocBuilder<HealthDetailsBloc, HealthDetailsState>(
-            buildWhen: (context, healthDetailsState) {
-              return healthDetailsState is GenderUpdated;
+          child: BlocBuilder<PatientDetailsBloc, PatientDetailsState>(
+            buildWhen: (context, patientDetailsState) {
+              return patientDetailsState is GenderUpdated;
             },
-            builder: (context, healthDetailsState) {
-              var gender = BlocProvider.of<HealthDetailsBloc>(context)
-                  .healthDetails
-                  .gender;
-              if (healthDetailsState is GenderUpdated) {
-                gender = healthDetailsState.updatedGender;
+            builder: (context, patientDetailsState) {
+              var gender =
+                  BlocProvider.of<PatientDetailsBloc>(context).patient.gender;
+              if (patientDetailsState is GenderUpdated) {
+                gender = patientDetailsState.updatedGender;
               }
               return GenderSelector(gender, (selectedGender) {
-                BlocProvider.of<HealthDetailsBloc>(context)
+                BlocProvider.of<PatientDetailsBloc>(context)
                     .add(UpdateGender(selectedGender));
               });
             },
@@ -127,8 +130,9 @@ class _HealthDetailsInputPageState extends State<HealthDetailsInputPage> {
           onChanged: (val) => setState(
             () {
               selectedWeight = val;
-              BlocProvider.of<HealthDetailsBloc>(context)
-                  .healthDetails
+              BlocProvider.of<PatientDetailsBloc>(context)
+                  .patient
+                  .healthRecord
                   .weightInKg = val;
             },
           ),
@@ -167,8 +171,9 @@ class _HealthDetailsInputPageState extends State<HealthDetailsInputPage> {
           onChanged: (val) => setState(
             () {
               selectedHeight = val;
-              BlocProvider.of<HealthDetailsBloc>(context)
-                  .healthDetails
+              BlocProvider.of<PatientDetailsBloc>(context)
+                  .patient
+                  .healthRecord
                   .weightInKg = val;
             },
           ),

@@ -25,18 +25,22 @@ class Patient {
   bool isMinor;
 
   @JsonKey(name: "Address")
+  /// Not a atomic value
   Address address;
 
   @JsonKey(name: "isEligibleForTest")
   bool isEligibleForTest;
 
   @JsonKey(name: "HealthRecord")
+  /// Not a atomic value
   HealthRecord healthRecord;
 
   @JsonKey(name: "MedicalRecord")
+  /// Not a atomic value
   MedicalRecord medicalRecord;
 
   @JsonKey(name: "Guardian")
+  /// Not a atomic value
   Guardian guardian;
 
   @JsonKey(name: "PlaceOfBirth")

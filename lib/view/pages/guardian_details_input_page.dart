@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:greycells/bloc/guardian_details/guardian_details_bloc.dart';
+import 'package:greycells/bloc/patient_details/patient_details_bloc.dart';
 import 'package:greycells/bloc/validation/bloc.dart';
 import 'package:greycells/bloc/validation/validation_bloc.dart';
 import 'package:greycells/bloc/validation/validation_field.dart';
@@ -53,17 +53,18 @@ class GuardianDetailsInputPage extends StatelessWidget implements Validatable {
           // Relationship, guardian name, guardian mobile number, guardian address
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 24.0),
-            child: BlocBuilder<GuardianDetailsBloc, GuardianDetailsState>(
+            child: BlocBuilder<PatientDetailsBloc, PatientDetailsState>(
               builder: (context, guardianDetailsState) {
                 return GuardianRelationshipInput(
-                    BlocProvider.of<GuardianDetailsBloc>(context)
-                        .guardianDetails
+                    BlocProvider.of<PatientDetailsBloc>(context)
+                        .patient
+                        .guardian
                         .relationShip, (relationShip) {
-                  BlocProvider.of<GuardianDetailsBloc>(context)
-                      .add(UpdateRelationship(relationShip));
+                  BlocProvider.of<PatientDetailsBloc>(context)
+                      .add(UpdateGuardianRelationship(relationShip));
                 }, (actualValue) {
-                  BlocProvider.of<GuardianDetailsBloc>(context).add(
-                      UpdateRelationship(Relationship.other,
+                  BlocProvider.of<PatientDetailsBloc>(context).add(
+                      UpdateGuardianRelationship(Relationship.other,
                           actualValue: actualValue));
                 });
               },
@@ -75,7 +76,10 @@ class GuardianDetailsInputPage extends StatelessWidget implements Validatable {
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 24.0),
             child: GuardianMobileNumberInput((mobileNumber) {
-              BlocProvider.of<GuardianDetailsBloc>(context).guardianDetails.mobileNumber = mobileNumber;
+              BlocProvider.of<PatientDetailsBloc>(context)
+                  .patient
+                  .guardian
+                  .mobileNumber = mobileNumber;
             }),
           ),
         ],
@@ -127,7 +131,7 @@ class GuardianDetailsInputPage extends StatelessWidget implements Validatable {
     });
 
     validationBloc.add(ValidateGuardianDetailsFields(
-        BlocProvider.of<GuardianDetailsBloc>(context).guardianDetails));
+        BlocProvider.of<PatientDetailsBloc>(context).patient.guardian));
 
     return completer.future;
   }
@@ -195,16 +199,16 @@ class _GuardianRelationshipInputState extends State<GuardianRelationshipInput> {
         ),
         SizedBox(height: 16.0),
         Visibility(
-            visible: BlocProvider.of<GuardianDetailsBloc>(context)
-                    .guardianDetails
+            visible: BlocProvider.of<PatientDetailsBloc>(context)
+                    .patient.guardian
                     .relationShip ==
                 Relationship.other,
             child: BlocBuilder<ValidationBloc, ValidationState>(
               builder: (context, validationState) {
                 return TextField(
                   controller: TextEditingController(
-                      text: BlocProvider.of<GuardianDetailsBloc>(context)
-                              .guardianDetails
+                      text: BlocProvider.of<PatientDetailsBloc>(context)
+                              .patient.guardian
                               .readableRelationship ??
                           ""),
                   maxLines: 1,
@@ -252,8 +256,8 @@ class GuardianMobileNumberInput extends StatelessWidget {
           builder: (context, validationState) {
             return TextField(
               controller: TextEditingController(
-                  text: BlocProvider.of<GuardianDetailsBloc>(context)
-                          .guardianDetails
+                  text: BlocProvider.of<PatientDetailsBloc>(context)
+                          .patient.guardian
                           .mobileNumber ??
                       ""),
               maxLines: 1,

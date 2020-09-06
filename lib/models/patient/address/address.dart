@@ -19,6 +19,12 @@ class Address {
   @JsonKey(name: "PostalCode")
   String pincode;
 
+  @JsonKey(ignore: true)
+  String houseNumber;
+
+  @JsonKey(ignore: true)
+  String roadName;
+
   Address();
 
   factory Address.fromJson(Map<String, dynamic> json) =>

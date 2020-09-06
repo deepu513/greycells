@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:greycells/bloc/birth_details/birth_details_bloc.dart';
+import 'package:greycells/bloc/patient_details/patient_details_bloc.dart';
 import 'package:greycells/bloc/validation/bloc.dart';
 import 'package:greycells/bloc/validation/validation_field.dart';
 import 'package:greycells/constants/strings.dart';
@@ -106,8 +106,9 @@ class BirthDetailsInputPage extends StatelessWidget implements Validatable {
       subscription.cancel();
     });
 
+    // TODO: After validation is success, add event to update DateOfBirth and TimeOfBirth Fields
     validationBloc.add(ValidateBirthDetailsFields(
-        BlocProvider.of<BirthDetailsBloc>(context).birthDetails));
+        BlocProvider.of<PatientDetailsBloc>(context).patient));
 
     return completer.future;
   }
@@ -120,8 +121,8 @@ class PlaceOfBirthInput extends StatelessWidget {
       builder: (context, validationState) {
         return TextField(
           controller: TextEditingController(
-              text: BlocProvider.of<BirthDetailsBloc>(context)
-                      .birthDetails
+              text: BlocProvider.of<PatientDetailsBloc>(context)
+                      .patient
                       .placeOfBirth ??
                   ""),
           maxLines: 1,
@@ -149,8 +150,8 @@ class PlaceOfBirthInput extends StatelessWidget {
           buildCounter: (BuildContext context,
                   {int currentLength, int maxLength, bool isFocused}) =>
               null,
-          onChanged: (value) => BlocProvider.of<BirthDetailsBloc>(context)
-              .birthDetails
+          onChanged: (value) => BlocProvider.of<PatientDetailsBloc>(context)
+              .patient
               .placeOfBirth = value,
           onSubmitted: (_) => FocusScope.of(context).nextFocus(),
         );
@@ -198,8 +199,8 @@ class DateOfBirthInput extends StatelessWidget {
                     flex: 2,
                     child: TextField(
                         controller: TextEditingController(
-                            text: BlocProvider.of<BirthDetailsBloc>(context)
-                                    .birthDetails
+                            text: BlocProvider.of<PatientDetailsBloc>(context)
+                                    .patient
                                     .dayPart ??
                                 ""),
                         maxLength: 2,
@@ -222,8 +223,8 @@ class DateOfBirthInput extends StatelessWidget {
                           if (value.length == 2)
                             FocusScope.of(context).nextFocus();
 
-                          BlocProvider.of<BirthDetailsBloc>(context)
-                              .birthDetails
+                          BlocProvider.of<PatientDetailsBloc>(context)
+                              .patient
                               .dayPart = value.padLeft(2, '0');
                         },
                         onSubmitted: (_) => FocusScope.of(context).nextFocus()),
@@ -240,8 +241,8 @@ class DateOfBirthInput extends StatelessWidget {
                     flex: 2,
                     child: TextField(
                         controller: TextEditingController(
-                            text: BlocProvider.of<BirthDetailsBloc>(context)
-                                    .birthDetails
+                            text: BlocProvider.of<PatientDetailsBloc>(context)
+                                    .patient
                                     .monthPart ??
                                 ""),
                         maxLength: 2,
@@ -264,8 +265,8 @@ class DateOfBirthInput extends StatelessWidget {
                           if (value.length == 2)
                             FocusScope.of(context).nextFocus();
 
-                          BlocProvider.of<BirthDetailsBloc>(context)
-                              .birthDetails
+                          BlocProvider.of<PatientDetailsBloc>(context)
+                              .patient
                               .monthPart = value.padLeft(2, '0');
                         },
                         onSubmitted: (_) => FocusScope.of(context).nextFocus()),
@@ -282,8 +283,8 @@ class DateOfBirthInput extends StatelessWidget {
                     flex: 2,
                     child: TextField(
                         controller: TextEditingController(
-                            text: BlocProvider.of<BirthDetailsBloc>(context)
-                                    .birthDetails
+                            text: BlocProvider.of<PatientDetailsBloc>(context)
+                                    .patient
                                     .yearPart ??
                                 ""),
                         maxLength: 4,
@@ -305,8 +306,8 @@ class DateOfBirthInput extends StatelessWidget {
                         onChanged: (value) {
                           if (value.length == 4)
                             FocusScope.of(context).nextFocus();
-                          BlocProvider.of<BirthDetailsBloc>(context)
-                              .birthDetails
+                          BlocProvider.of<PatientDetailsBloc>(context)
+                              .patient
                               .yearPart = value.padLeft(4, '0');
                         },
                         onSubmitted: (_) => FocusScope.of(context).nextFocus()),
@@ -384,8 +385,8 @@ class TimeOfBirthWidget extends StatelessWidget {
                     flex: 2,
                     child: TextField(
                         controller: TextEditingController(
-                            text: BlocProvider.of<BirthDetailsBloc>(context)
-                                    .birthDetails
+                            text: BlocProvider.of<PatientDetailsBloc>(context)
+                                    .patient
                                     .hourPart ??
                                 ""),
                         maxLength: 2,
@@ -407,8 +408,8 @@ class TimeOfBirthWidget extends StatelessWidget {
                         onChanged: (value) {
                           if (value.length == 2)
                             FocusScope.of(context).nextFocus();
-                          BlocProvider.of<BirthDetailsBloc>(context)
-                              .birthDetails
+                          BlocProvider.of<PatientDetailsBloc>(context)
+                              .patient
                               .hourPart = value.padLeft(2, '0');
                         },
                         onSubmitted: (_) => FocusScope.of(context).nextFocus()),
@@ -425,8 +426,8 @@ class TimeOfBirthWidget extends StatelessWidget {
                     flex: 2,
                     child: TextField(
                         controller: TextEditingController(
-                            text: BlocProvider.of<BirthDetailsBloc>(context)
-                                    .birthDetails
+                            text: BlocProvider.of<PatientDetailsBloc>(context)
+                                    .patient
                                     .minutePart ??
                                 ""),
                         maxLength: 2,
@@ -449,8 +450,8 @@ class TimeOfBirthWidget extends StatelessWidget {
                           if (value.length == 2)
                             FocusScope.of(context).unfocus();
 
-                          BlocProvider.of<BirthDetailsBloc>(context)
-                              .birthDetails
+                          BlocProvider.of<PatientDetailsBloc>(context)
+                              .patient
                               .minutePart = value.padLeft(2, '0');
                         },
                         onSubmitted: (_) => FocusScope.of(context).nextFocus()),
@@ -523,7 +524,7 @@ class _AmPmToggleState extends State<_AmPmToggle> {
           _selections[index] = !_selections[index];
           _selectedIndex = index;
 
-          BlocProvider.of<BirthDetailsBloc>(context).birthDetails.a =
+          BlocProvider.of<PatientDetailsBloc>(context).patient.a =
               _options[index];
         });
       },

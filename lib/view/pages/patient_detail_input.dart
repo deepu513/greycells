@@ -1,12 +1,9 @@
 import 'package:animations/animations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:greycells/bloc/address_details/address_details_bloc.dart';
-import 'package:greycells/bloc/birth_details/birth_details_bloc.dart';
-import 'package:greycells/bloc/guardian_details/guardian_details_bloc.dart';
-import 'package:greycells/bloc/health_details/health_details_bloc.dart';
 import 'package:greycells/bloc/page_transition/bloc.dart';
 import 'package:greycells/bloc/page_transition/page_transition_bloc.dart';
+import 'package:greycells/bloc/patient_details/patient_details_bloc.dart';
 import 'package:greycells/bloc/picker/file_picker_bloc.dart';
 import 'package:greycells/bloc/picker/image_picker_bloc.dart';
 import 'package:greycells/bloc/validation/bloc.dart';
@@ -72,17 +69,8 @@ class _PatientDetailInputState extends State<PatientDetailInput>
         BlocProvider<ValidationBloc>(
           create: (context) => ValidationBloc(),
         ),
-        BlocProvider<BirthDetailsBloc>(
-          create: (context) => BirthDetailsBloc(),
-        ),
-        BlocProvider<HealthDetailsBloc>(
-          create: (context) => HealthDetailsBloc(),
-        ),
-        BlocProvider<GuardianDetailsBloc>(
-          create: (context) => GuardianDetailsBloc(),
-        ),
-        BlocProvider<AddressDetailsBloc>(
-          create: (context) => AddressDetailsBloc(),
+        BlocProvider<PatientDetailsBloc>(
+          create: (context) => PatientDetailsBloc(),
         ),
         BlocProvider<PageTransitionBloc>(
           create: (context) => PageTransitionBloc(

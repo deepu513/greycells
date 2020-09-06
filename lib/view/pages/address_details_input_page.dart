@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:greycells/bloc/address_details/address_details_bloc.dart';
+import 'package:greycells/bloc/patient_details/patient_details_bloc.dart';
 import 'package:greycells/bloc/validation/bloc.dart';
 import 'package:greycells/bloc/validation/validation_bloc.dart';
 import 'package:greycells/bloc/validation/validation_field.dart';
@@ -93,8 +93,9 @@ class AddressDetailInputPage extends StatelessWidget implements Validatable {
       subscription.cancel();
     });
 
+    // TODO: On successful validation update readable address
     validationBloc.add(ValidateAddressFields(
-        BlocProvider.of<AddressDetailsBloc>(context).address));
+        BlocProvider.of<PatientDetailsBloc>(context).patient.address));
 
     return completer.future;
   }
@@ -128,12 +129,14 @@ class PatientAddressInput extends StatelessWidget {
                   keyboardType: TextInputType.text,
                   textCapitalization: TextCapitalization.words,
                   controller: TextEditingController(
-                      text: BlocProvider.of<AddressDetailsBloc>(context)
+                      text: BlocProvider.of<PatientDetailsBloc>(context)
+                              .patient
                               .address
                               .houseNumber ??
                           ""),
                   onChanged: (value) =>
-                      BlocProvider.of<AddressDetailsBloc>(context)
+                      BlocProvider.of<PatientDetailsBloc>(context)
+                          .patient
                           .address
                           .houseNumber = value,
                   onSubmitted: (_) => FocusScope.of(context).nextFocus()),
@@ -158,12 +161,14 @@ class PatientAddressInput extends StatelessWidget {
                   keyboardType: TextInputType.text,
                   textCapitalization: TextCapitalization.words,
                   controller: TextEditingController(
-                      text: BlocProvider.of<AddressDetailsBloc>(context)
+                      text: BlocProvider.of<PatientDetailsBloc>(context)
+                              .patient
                               .address
                               .roadName ??
                           ""),
                   onChanged: (value) =>
-                      BlocProvider.of<AddressDetailsBloc>(context)
+                      BlocProvider.of<PatientDetailsBloc>(context)
+                          .patient
                           .address
                           .roadName = value,
                   onSubmitted: (_) => FocusScope.of(context).nextFocus()),
@@ -188,12 +193,14 @@ class PatientAddressInput extends StatelessWidget {
                   keyboardType: TextInputType.text,
                   textCapitalization: TextCapitalization.words,
                   controller: TextEditingController(
-                      text: BlocProvider.of<AddressDetailsBloc>(context)
+                      text: BlocProvider.of<PatientDetailsBloc>(context)
+                              .patient
                               .address
                               .city ??
                           ""),
                   onChanged: (value) =>
-                      BlocProvider.of<AddressDetailsBloc>(context)
+                      BlocProvider.of<PatientDetailsBloc>(context)
+                          .patient
                           .address
                           .city = value,
                   onSubmitted: (_) => FocusScope.of(context).nextFocus()),
@@ -218,12 +225,14 @@ class PatientAddressInput extends StatelessWidget {
                   keyboardType: TextInputType.text,
                   textCapitalization: TextCapitalization.words,
                   controller: TextEditingController(
-                      text: BlocProvider.of<AddressDetailsBloc>(context)
+                      text: BlocProvider.of<PatientDetailsBloc>(context)
+                              .patient
                               .address
                               .state ??
                           ""),
                   onChanged: (value) =>
-                      BlocProvider.of<AddressDetailsBloc>(context)
+                      BlocProvider.of<PatientDetailsBloc>(context)
+                          .patient
                           .address
                           .state = value,
                   onSubmitted: (_) => FocusScope.of(context).nextFocus()),
@@ -248,12 +257,14 @@ class PatientAddressInput extends StatelessWidget {
                   keyboardType: TextInputType.text,
                   textCapitalization: TextCapitalization.words,
                   controller: TextEditingController(
-                      text: BlocProvider.of<AddressDetailsBloc>(context)
+                      text: BlocProvider.of<PatientDetailsBloc>(context)
+                              .patient
                               .address
                               .country ??
                           ""),
                   onChanged: (value) =>
-                      BlocProvider.of<AddressDetailsBloc>(context)
+                      BlocProvider.of<PatientDetailsBloc>(context)
+                          .patient
                           .address
                           .country = value,
                   onSubmitted: (_) => FocusScope.of(context).nextFocus()),
@@ -284,12 +295,14 @@ class PatientAddressInput extends StatelessWidget {
                     WhitelistingTextInputFormatter.digitsOnly
                   ],
                   controller: TextEditingController(
-                      text: BlocProvider.of<AddressDetailsBloc>(context)
+                      text: BlocProvider.of<PatientDetailsBloc>(context)
+                              .patient
                               .address
                               .pincode ??
                           ""),
                   onChanged: (value) =>
-                      BlocProvider.of<AddressDetailsBloc>(context)
+                      BlocProvider.of<PatientDetailsBloc>(context)
+                          .patient
                           .address
                           .pincode = value,
                   onSubmitted: (_) => FocusScope.of(context).unfocus()),
@@ -367,15 +380,17 @@ class GuardianAddressInputFields extends StatelessWidget {
                   keyboardType: TextInputType.text,
                   textCapitalization: TextCapitalization.words,
                   controller: TextEditingController(
-                      text: BlocProvider.of<AddressDetailsBloc>(context)
+                      text: BlocProvider.of<PatientDetailsBloc>(context)
+                              .patient
+                              .guardian
                               .address
-                              .guardianAddress
                               .houseNumber ??
                           ""),
                   onChanged: (value) =>
-                      BlocProvider.of<AddressDetailsBloc>(context)
+                      BlocProvider.of<PatientDetailsBloc>(context)
+                          .patient
+                          .guardian
                           .address
-                          .guardianAddress
                           .houseNumber = value,
                   onSubmitted: (_) => FocusScope.of(context).nextFocus()),
               SizedBox(
@@ -399,15 +414,17 @@ class GuardianAddressInputFields extends StatelessWidget {
                   keyboardType: TextInputType.text,
                   textCapitalization: TextCapitalization.words,
                   controller: TextEditingController(
-                      text: BlocProvider.of<AddressDetailsBloc>(context)
+                      text: BlocProvider.of<PatientDetailsBloc>(context)
+                              .patient
+                              .guardian
                               .address
-                              .guardianAddress
                               .roadName ??
                           ""),
                   onChanged: (value) =>
-                      BlocProvider.of<AddressDetailsBloc>(context)
+                      BlocProvider.of<PatientDetailsBloc>(context)
+                          .patient
+                          .guardian
                           .address
-                          .guardianAddress
                           .roadName = value,
                   onSubmitted: (_) => FocusScope.of(context).nextFocus()),
               SizedBox(
@@ -431,15 +448,17 @@ class GuardianAddressInputFields extends StatelessWidget {
                   keyboardType: TextInputType.text,
                   textCapitalization: TextCapitalization.words,
                   controller: TextEditingController(
-                      text: BlocProvider.of<AddressDetailsBloc>(context)
+                      text: BlocProvider.of<PatientDetailsBloc>(context)
+                              .patient
+                              .guardian
                               .address
-                              .guardianAddress
                               .city ??
                           ""),
                   onChanged: (value) =>
-                      BlocProvider.of<AddressDetailsBloc>(context)
+                      BlocProvider.of<PatientDetailsBloc>(context)
+                          .patient
+                          .guardian
                           .address
-                          .guardianAddress
                           .city = value,
                   onSubmitted: (_) => FocusScope.of(context).nextFocus()),
               SizedBox(
@@ -463,15 +482,17 @@ class GuardianAddressInputFields extends StatelessWidget {
                   keyboardType: TextInputType.text,
                   textCapitalization: TextCapitalization.words,
                   controller: TextEditingController(
-                      text: BlocProvider.of<AddressDetailsBloc>(context)
+                      text: BlocProvider.of<PatientDetailsBloc>(context)
+                              .patient
+                              .guardian
                               .address
-                              .guardianAddress
                               .state ??
                           ""),
                   onChanged: (value) =>
-                      BlocProvider.of<AddressDetailsBloc>(context)
+                      BlocProvider.of<PatientDetailsBloc>(context)
+                          .patient
+                          .guardian
                           .address
-                          .guardianAddress
                           .state = value,
                   onSubmitted: (_) => FocusScope.of(context).nextFocus()),
               SizedBox(
@@ -495,15 +516,17 @@ class GuardianAddressInputFields extends StatelessWidget {
                   keyboardType: TextInputType.text,
                   textCapitalization: TextCapitalization.words,
                   controller: TextEditingController(
-                      text: BlocProvider.of<AddressDetailsBloc>(context)
+                      text: BlocProvider.of<PatientDetailsBloc>(context)
+                              .patient
+                              .guardian
                               .address
-                              .guardianAddress
                               .country ??
                           ""),
                   onChanged: (value) =>
-                      BlocProvider.of<AddressDetailsBloc>(context)
+                      BlocProvider.of<PatientDetailsBloc>(context)
+                          .patient
+                          .guardian
                           .address
-                          .guardianAddress
                           .country = value,
                   onSubmitted: (_) => FocusScope.of(context).nextFocus()),
               SizedBox(
@@ -533,15 +556,17 @@ class GuardianAddressInputFields extends StatelessWidget {
                     WhitelistingTextInputFormatter.digitsOnly
                   ],
                   controller: TextEditingController(
-                      text: BlocProvider.of<AddressDetailsBloc>(context)
+                      text: BlocProvider.of<PatientDetailsBloc>(context)
+                              .patient
+                              .guardian
                               .address
-                              .guardianAddress
                               .pincode ??
                           ""),
                   onChanged: (value) =>
-                      BlocProvider.of<AddressDetailsBloc>(context)
+                      BlocProvider.of<PatientDetailsBloc>(context)
+                          .patient
+                          .guardian
                           .address
-                          .guardianAddress
                           .pincode = value,
                   onSubmitted: (_) => FocusScope.of(context).unfocus()),
               SizedBox(

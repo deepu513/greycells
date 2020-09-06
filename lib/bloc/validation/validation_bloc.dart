@@ -1,14 +1,12 @@
 import 'dart:async';
 
 import 'package:bloc/bloc.dart';
+import 'package:greycells/models/patient/address/address.dart';
 import 'package:intl/intl.dart';
 import 'package:greycells/bloc/validation/validation_field.dart';
 import 'package:greycells/bloc/validation/validation_state.dart';
 import 'package:greycells/constants/relationship.dart';
 import 'package:greycells/extensions.dart';
-import 'package:greycells/models/address/address.dart';
-import 'package:greycells/models/birth_details/birth_details.dart';
-import 'package:greycells/models/guardian_details/guardian.dart';
 import 'package:greycells/models/login/login_request.dart';
 import 'package:greycells/models/registration/registration.dart';
 

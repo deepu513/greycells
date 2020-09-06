@@ -40,9 +40,9 @@ class _PatientDetailInputState extends State<PatientDetailInput>
       const ProfilePicInputPage(),
       const BirthDetailsInputPage(),
       const HealthDetailsInputPage(),
-      const GuardianDetailsInputPage(),
-      const AddressDetailInputPage(),
-      const MedicalRecordsInputPage(),
+      const GuardianDetailsInputPage(), // TODO: Skip this page if not minor
+      const AddressDetailInputPage(), // TODO: Hide guardian address if not minor. If minor show. Also add functionality for same address
+      const MedicalRecordsInputPage(), // TODO: Check whatever needs to be done
     ]);
 
     _controller = AnimationController(vsync: this);

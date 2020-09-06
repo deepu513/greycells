@@ -16,3 +16,5 @@ class UpdateGender extends PatientDetailsEvent {
 }
 
 class BirthDetailsValidated extends PatientDetailsEvent {}
+
+class HealthDetailsSubmitted extends PatientDetailsEvent {}

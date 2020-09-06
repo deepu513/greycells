@@ -1,17 +1,27 @@
+import 'dart:async';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:greycells/bloc/patient_details/patient_details_bloc.dart';
+import 'package:greycells/bloc/validation/validation_bloc.dart';
 import 'package:greycells/constants/gender.dart';
 import 'package:greycells/constants/strings.dart';
+import 'package:greycells/interface/validatable.dart';
 import 'package:greycells/view/widgets/number_slider.dart';
 
-class HealthDetailsInputPage extends StatefulWidget {
+class HealthDetailsInputPage extends StatefulWidget implements Validatable {
   const HealthDetailsInputPage();
 
   @override
   _HealthDetailsInputPageState createState() => _HealthDetailsInputPageState();
+
+  @override
+  FutureOr<bool> validate(BuildContext context, ValidationBloc validationBloc) {
+    BlocProvider.of<PatientDetailsBloc>(context).add(HealthDetailsSubmitted());
+    return true;
+  }
 }
 
 class _HealthDetailsInputPageState extends State<HealthDetailsInputPage> {

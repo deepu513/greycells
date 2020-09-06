@@ -32,7 +32,6 @@ class PatientDetailsBloc
     patient.guardian = Guardian()..relationShip = Relationship.father;
 
     /// Initialize HealthRecord with a default values
-    /// TODO: Also add default BMI
     patient.healthRecord = HealthRecord()
       ..weightInKg = 70
       ..heightInCm = 150;
@@ -68,7 +67,16 @@ class PatientDetailsBloc
           patient.hourPart,
           patient.minutePart,
           true);
+      patient.isMinor = calculateAge(DateTime(int.parse(patient.yearPart),
+              int.parse(patient.monthPart), int.parse(patient.dayPart))) <
+          18;
       yield StateOK();
+    }
+
+    if (event is HealthDetailsSubmitted) {
+      final heightInMetres = patient.healthRecord.heightInCm / 100;
+      patient.healthRecord.bmi =
+          patient.healthRecord.weightInKg ~/ (heightInMetres * heightInMetres);
     }
   }
 
@@ -87,5 +95,23 @@ class PatientDetailsBloc
 
     DateFormat convertedFormat = DateFormat("dd/MM/yyyy");
     return convertedFormat.format(serverDateTime);
+  }
+
+  /// Not tested
+  int calculateAge(DateTime birthDate) {
+    DateTime currentDate = DateTime.now();
+    int age = currentDate.year - birthDate.year;
+    int month1 = currentDate.month;
+    int month2 = birthDate.month;
+    if (month2 > month1) {
+      age--;
+    } else if (month1 == month2) {
+      int day1 = currentDate.day;
+      int day2 = birthDate.day;
+      if (day2 > day1) {
+        age--;
+      }
+    }
+    return age;
   }
 }

@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:greycells/models/patient/address/address.dart';
+import 'package:greycells/models/patient/patient.dart';
 import 'package:intl/intl.dart';
 import 'package:greycells/bloc/validation/validation_field.dart';
 import 'package:greycells/bloc/validation/validation_state.dart';
@@ -34,24 +35,24 @@ class ValidationBloc extends Bloc<ValidationEvent, ValidationState> {
       } else
         yield ValidationInvalidField(field: validationField);
     } else if (event is ValidateAddressFields) {
-      var validationField = _validateAddressFields(event.address);
+      var validationField = _validateAddressFields(event.patient);
 
       if (validationField == ValidationField.NONE) {
-        yield AddressFieldsValid(address: event.address);
+        yield AddressFieldsValid(address: event.patient.address);
       } else
         yield ValidationInvalidField(field: validationField);
     } else if (event is ValidateBirthDetailsFields) {
-      var validationField = _validateBirthDetails(event.birthDetails);
+      var validationField = _validateBirthDetails(event.patient);
 
       if (validationField == ValidationField.NONE) {
-        yield BirthDetailsValid(event.birthDetails);
+        yield BirthDetailsValid(event.patient);
       } else
         yield ValidationInvalidField(field: validationField);
     } else if (event is ValidateGuardianDetailsFields) {
-      var validationField = _validateGuardianDetails(event.guardianDetails);
+      var validationField = _validateGuardianDetails(event.patient);
 
       if (validationField == ValidationField.NONE) {
-        yield GuardianDetailsValid(event.guardianDetails);
+        yield GuardianDetailsValid(event.patient);
       } else
         yield ValidationInvalidField(field: validationField);
     }
@@ -79,41 +80,43 @@ class ValidationBloc extends Bloc<ValidationEvent, ValidationState> {
     return ValidationField.NONE;
   }
 
-  ValidationField _validateAddressFields(Address address) {
-    if (address.houseNumber.isNullOrEmpty())
+  ValidationField _validateAddressFields(Patient patient) {
+    if (patient.address.houseNumber.isNullOrEmpty())
       return ValidationField.HOUSE_NUMBER;
-    if (address.roadName.isNullOrEmpty()) return ValidationField.ROAD_NAME;
-    if (address.city.isNullOrEmpty()) return ValidationField.CITY;
-    if (address.state.isNullOrEmpty()) return ValidationField.STATE;
-    if (address.country.isNullOrEmpty()) return ValidationField.COUNTRY;
-    if (address.pincode.isNullOrEmpty()) return ValidationField.PINCODE;
-    if (address.guardianAddress.houseNumber.isNullOrEmpty())
-      return ValidationField.GUARDIAN_HOUSE_NUMBER;
-    if (address.guardianAddress.roadName.isNullOrEmpty())
-      return ValidationField.GUARDIAN_ROAD_NAME;
-    if (address.guardianAddress.city.isNullOrEmpty())
-      return ValidationField.GUARDIAN_CITY;
-    if (address.guardianAddress.state.isNullOrEmpty())
-      return ValidationField.GUARDIAN_STATE;
-    if (address.guardianAddress.country.isNullOrEmpty())
-      return ValidationField.GUARDIAN_COUNTRY;
-    if (address.guardianAddress.pincode.isNullOrEmpty())
-      return ValidationField.GUARDIAN_PINCODE;
+    if (patient.address.roadName.isNullOrEmpty()) return ValidationField.ROAD_NAME;
+    if (patient.address.city.isNullOrEmpty()) return ValidationField.CITY;
+    if (patient.address.state.isNullOrEmpty()) return ValidationField.STATE;
+    if (patient.address.country.isNullOrEmpty()) return ValidationField.COUNTRY;
+    if (patient.address.pincode.isNullOrEmpty()) return ValidationField.PINCODE;
+    if(patient.isMinor) {
+      if (patient.guardian.address.houseNumber.isNullOrEmpty())
+        return ValidationField.GUARDIAN_HOUSE_NUMBER;
+      if (patient.guardian.address.roadName.isNullOrEmpty())
+        return ValidationField.GUARDIAN_ROAD_NAME;
+      if (patient.guardian.address.city.isNullOrEmpty())
+        return ValidationField.GUARDIAN_CITY;
+      if (patient.guardian.address.state.isNullOrEmpty())
+        return ValidationField.GUARDIAN_STATE;
+      if (patient.guardian.address.country.isNullOrEmpty())
+        return ValidationField.GUARDIAN_COUNTRY;
+      if (patient.guardian.address.pincode.isNullOrEmpty())
+        return ValidationField.GUARDIAN_PINCODE;
+    }
     return ValidationField.NONE;
   }
 
-  ValidationField _validateBirthDetails(BirthDetails birthDetails) {
-    if (birthDetails.placeOfBirth.isNullOrEmpty())
+  ValidationField _validateBirthDetails(Patient patient) {
+    if (patient.placeOfBirth.isNullOrEmpty())
       return ValidationField.PLACE_PART;
     if (!_validDateTime(
-        birthDetails.dayPart, birthDetails.monthPart, birthDetails.yearPart))
+        patient.dayPart, patient.monthPart, patient.yearPart))
       return ValidationField.DATE_PART;
     if (!_validDateTime(
-        birthDetails.dayPart,
-        birthDetails.monthPart,
-        birthDetails.yearPart,
-        birthDetails.hourPart,
-        birthDetails.minutePart)) return ValidationField.TIME_PART;
+        patient.dayPart,
+        patient.monthPart,
+        patient.yearPart,
+        patient.hourPart,
+        patient.minutePart)) return ValidationField.TIME_PART;
     return ValidationField.NONE;
   }
 
@@ -129,12 +132,12 @@ class ValidationBloc extends Bloc<ValidationEvent, ValidationState> {
     }
   }
 
-  ValidationField _validateGuardianDetails(Guardian guardianDetails) {
-    if (guardianDetails.relationShip == Relationship.other &&
-        guardianDetails.readableRelationship.isNullOrEmpty()) {
+  ValidationField _validateGuardianDetails(Patient patient) {
+    if (patient.guardian.relationShip == Relationship.other &&
+        patient.guardian.readableRelationship.isNullOrEmpty()) {
       return ValidationField.OTHER_RELATION;
     }
-    if (guardianDetails.mobileNumber.isNullOrEmpty())
+    if (patient.guardian.mobileNumber.isNullOrEmpty())
       return ValidationField.CONTACT_NUMBER;
     return ValidationField.NONE;
   }

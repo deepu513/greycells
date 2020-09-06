@@ -131,7 +131,7 @@ class GuardianDetailsInputPage extends StatelessWidget implements Validatable {
     });
 
     validationBloc.add(ValidateGuardianDetailsFields(
-        BlocProvider.of<PatientDetailsBloc>(context).patient.guardian));
+        BlocProvider.of<PatientDetailsBloc>(context).patient));
 
     return completer.future;
   }

@@ -1,6 +1,3 @@
-import 'package:greycells/models/address/address.dart';
-import 'package:greycells/models/birth_details/birth_details.dart';
-import 'package:greycells/models/guardian_details/guardian.dart';
 import 'package:greycells/models/login/login_request.dart';
 import 'package:greycells/models/patient/patient.dart';
 import 'package:greycells/models/registration/registration.dart';
@@ -20,9 +17,9 @@ class ValidateRegistrationFields extends ValidationEvent {
 }
 
 class ValidateAddressFields extends ValidationEvent {
-  final Address address;
+  final Patient patient;
 
-  ValidateAddressFields(this.address);
+  ValidateAddressFields(this.patient);
 }
 
 class ValidateBirthDetailsFields extends ValidationEvent {
@@ -32,7 +29,7 @@ class ValidateBirthDetailsFields extends ValidationEvent {
 }
 
 class ValidateGuardianDetailsFields extends ValidationEvent {
-  final Guardian guardianDetails;
+  final Patient patient;
 
-  ValidateGuardianDetailsFields(this.guardianDetails);
+  ValidateGuardianDetailsFields(this.patient);
 }

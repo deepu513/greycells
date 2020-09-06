@@ -1,9 +1,8 @@
 import 'package:flutter/foundation.dart';
 import 'package:greycells/bloc/validation/validation_field.dart';
-import 'package:greycells/models/address/address.dart';
-import 'package:greycells/models/birth_details/birth_details.dart';
-import 'package:greycells/models/guardian_details/guardian.dart';
 import 'package:greycells/models/login/login_request.dart';
+import 'package:greycells/models/patient/address/address.dart';
+import 'package:greycells/models/patient/patient.dart';
 import 'package:greycells/models/registration/registration.dart';
 
 abstract class ValidationState {}
@@ -29,15 +28,15 @@ class AddressFieldsValid extends ValidationState {
 }
 
 class BirthDetailsValid extends ValidationState {
-  final BirthDetails birthDetails;
+  final Patient patient;
 
-  BirthDetailsValid(this.birthDetails);
+  BirthDetailsValid(this.patient);
 }
 
 class GuardianDetailsValid extends ValidationState {
-  final Guardian guardianDetails;
+  final Patient patient;
 
-  GuardianDetailsValid(this.guardianDetails);
+  GuardianDetailsValid(this.patient);
 }
 
 class ValidationInvalidField extends ValidationState {

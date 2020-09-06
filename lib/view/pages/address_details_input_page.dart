@@ -95,7 +95,7 @@ class AddressDetailInputPage extends StatelessWidget implements Validatable {
 
     // TODO: On successful validation update readable address
     validationBloc.add(ValidateAddressFields(
-        BlocProvider.of<PatientDetailsBloc>(context).patient.address));
+        BlocProvider.of<PatientDetailsBloc>(context).patient));
 
     return completer.future;
   }

@@ -25,7 +25,9 @@ class Guardian {
   @JsonKey(name: "Address")
   Address address;
 
-  Guardian();
+  Guardian() {
+    address = Address();
+  }
 
   factory Guardian.fromJson(Map<String, dynamic> json) => _$GuardianFromJson(json);
 

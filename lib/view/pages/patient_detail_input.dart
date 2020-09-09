@@ -13,6 +13,7 @@ import 'package:greycells/view/pages/birth_details_input_page.dart';
 import 'package:greycells/view/pages/guardian_details_input_page.dart';
 import 'package:greycells/view/pages/health_details_input_page.dart';
 import 'package:greycells/view/pages/medical_records_input_page.dart';
+import 'package:greycells/view/pages/patient_upload_page.dart';
 import 'package:greycells/view/pages/profile_pic_input_page.dart';
 import 'package:greycells/view/widgets/navigation_button_row.dart';
 
@@ -28,7 +29,7 @@ class _PatientDetailInputState extends State<PatientDetailInput>
   final animationDuration = 500;
 
   final initialPageNumber = 1;
-  final numberOfPages = 6;
+  final numberOfPages = 7;
 
   List<Widget> _pages;
 
@@ -43,6 +44,7 @@ class _PatientDetailInputState extends State<PatientDetailInput>
       const GuardianDetailsInputPage(),
       const AddressDetailInputPage(),
       const MedicalRecordsInputPage(),
+      const PatientUploadPage(),
     ]);
 
     _controller = AnimationController(vsync: this);
@@ -52,7 +54,7 @@ class _PatientDetailInputState extends State<PatientDetailInput>
       curve: Curves.linear,
     ));
 
-    _controller.animateTo(initialPageNumber / numberOfPages,
+    _controller.animateTo(initialPageNumber / (numberOfPages - 1),
         duration: Duration(milliseconds: animationDuration));
   }
 
@@ -84,8 +86,14 @@ class _PatientDetailInputState extends State<PatientDetailInput>
           child: BlocListener<PageTransitionBloc, PageTransitionState>(
             listener: (context, current) {
               _controller.animateBack(
-                  (current.currentPageNumber) / numberOfPages,
+                  (current.currentPageNumber) / (numberOfPages - 1),
                   duration: Duration(milliseconds: animationDuration));
+
+              if (current.currentPageNumber == 7) {
+                // TODO: Review this if you want to call it here or on next page.
+                BlocProvider.of<PatientDetailsBloc>(context)
+                    .add(UploadPatientDetails());
+              }
             },
             child: BlocBuilder<PageTransitionBloc, PageTransitionState>(
               buildWhen: (previous, current) {
@@ -121,7 +129,9 @@ class _PatientDetailInputState extends State<PatientDetailInput>
                         animation: _progressAnimation,
                         builder: (context, child) {
                           return LinearProgressIndicator(
-                            value: _progressAnimation.value,
+                            value: transitionState.currentPageNumber == 7
+                                ? null
+                                : _progressAnimation.value,
                             backgroundColor: Colors.blue.shade100,
                           );
                         },
@@ -130,10 +140,14 @@ class _PatientDetailInputState extends State<PatientDetailInput>
                     Padding(
                       padding: const EdgeInsets.all(16.0),
                       child: NavigationButtonRow(
-                        onBackPressed: () =>
-                            _handleBackPressed(context, transitionState),
-                        onNextPressed: () =>
-                            _handleNextPressed(context, transitionState),
+                        onBackPressed: transitionState.currentPageNumber == 7
+                            ? null
+                            : () =>
+                                _handleBackPressed(context, transitionState),
+                        onNextPressed: transitionState.currentPageNumber == 7
+                            ? null
+                            : () =>
+                                _handleNextPressed(context, transitionState),
                       ),
                     ),
                   ],

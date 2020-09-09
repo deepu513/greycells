@@ -120,6 +120,10 @@ class PatientDetailsBloc
       });
       yield StateOK();
     }
+
+    if(event is UploadPatientDetails) {
+      yield PatientDetailsUploading();
+    }
   }
 
   String getStringDateTime(String dayPart, String monthPart, String yearPart,

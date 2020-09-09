@@ -36,3 +36,5 @@ class RemoveMedicalRecordFile extends PatientDetailsEvent {
 
   RemoveMedicalRecordFile(this.pickedFile);
 }
+
+class UploadPatientDetails extends PatientDetailsEvent {}

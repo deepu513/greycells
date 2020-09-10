@@ -1,23 +1,32 @@
 import 'dart:async';
 import 'dart:convert';
 
+import 'package:greycells/constants/setting_key.dart';
+import 'package:greycells/extensions.dart';
 import 'package:greycells/models/server_file/server_file.dart';
 import 'package:greycells/networking/http_exceptions.dart';
 import 'package:greycells/networking/request.dart';
 import 'package:greycells/networking/response.dart';
 import 'package:greycells/networking/serializable.dart';
+import 'package:greycells/repository/settings_repository.dart';
 import 'package:http/http.dart' as http;
 import 'package:http_parser/http_parser.dart';
 import 'package:path/path.dart';
-import 'package:greycells/extensions.dart';
 
 typedef SessionExpiredCallback = void Function();
 
 class HttpService {
   static HttpService _instance;
-  String token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6IjEiLCJuYmYiOjE1OTk3MTE1MzUsImV4cCI6MTYwMjMwMzUzNSwiaWF0IjoxNTk5NzExNTM1fQ.tXH12jhyamgT49zOR0oeo5WWKhb89xob1bBoSe8OGBM";
+  String _token;
+  SettingsRepository _settingsRepository;
 
-  HttpService._internal();
+  HttpService._internal() {
+    SettingsRepository.getInstance()
+        .then((value) {
+      _settingsRepository = value;
+      _token = _settingsRepository.get(SettingKey.KEY_REQUEST_TOKEN);
+    });
+  }
 
   factory HttpService() {
     _instance ??= HttpService._internal();
@@ -30,10 +39,11 @@ class HttpService {
     print(request.toJsonString());
     return http
         .post(request.url,
-            body: request.toJsonString(),
-            headers: request.headers ?? _getDefaultHeaders(token: token))
+        body: request.toJsonString(),
+        headers: request.headers ??
+            _getDefaultHeaders(url: request.url, token: _token))
         .then((http.Response value) =>
-            _processResponse(value, responseSerializable))
+        _processResponse(value, responseSerializable))
         .catchError((e, stackTrace) => _handleError(e, stackTrace));
   }
 
@@ -42,10 +52,11 @@ class HttpService {
       Serializable<ResponseType> responseSerializable) {
     return http
         .post(request.url,
-            body: request.toJsonString(),
-            headers: request.headers ?? _getDefaultHeaders(token: token))
+        body: request.toJsonString(),
+        headers: request.headers ??
+            _getDefaultHeaders(url: request.url, token: _token))
         .then((http.Response value) =>
-            _processResponse(value, responseSerializable).getResponseBody())
+        _processResponse(value, responseSerializable).getResponseBody())
         .catchError((e, stackTrace) => _handleError(e, stackTrace));
   }
 
@@ -53,9 +64,11 @@ class HttpService {
       Request<RequestType> request,
       Serializable<ResponseType> responseSerializable) {
     return http
-        .get(request.url, headers: request.headers ?? _getDefaultHeaders(token: token))
+        .get(request.url,
+        headers: request.headers ??
+            _getDefaultHeaders(url: request.url, token: _token))
         .then((http.Response value) =>
-            _processResponse(value, responseSerializable).getResponseBody())
+        _processResponse(value, responseSerializable).getResponseBody())
         .catchError((e, stackTrace) => _handleError(e, stackTrace));
   }
 
@@ -63,10 +76,12 @@ class HttpService {
       Request<RequestType> request,
       Serializable<ResponseType> responseSerializable) {
     return http
-        .get(request.url, headers: request.headers ?? _getDefaultHeaders(token: token))
+        .get(request.url,
+        headers: request.headers ??
+            _getDefaultHeaders(url: request.url, token: _token))
         .then((http.Response value) =>
-            _processResponse(value, responseSerializable)
-                .getResponseBodyAsList())
+        _processResponse(value, responseSerializable)
+            .getResponseBodyAsList())
         .catchError((e, stackTrace) => _handleError(e, stackTrace));
   }
 
@@ -75,10 +90,11 @@ class HttpService {
       Serializable<ResponseType> responseSerializable) {
     return http
         .put(request.url,
-            body: request.toJsonString(),
-            headers: request.headers ?? _getDefaultHeaders(token: token))
+        body: request.toJsonString(),
+        headers: request.headers ??
+            _getDefaultHeaders(url: request.url, token: _token))
         .then((http.Response value) =>
-            _processResponse(value, responseSerializable).getResponseBody())
+        _processResponse(value, responseSerializable).getResponseBody())
         .catchError((e, stackTrace) => _handleError(e, stackTrace));
   }
 
@@ -96,12 +112,12 @@ class HttpService {
         ..fields['Type'] = fileType
         ..files.add(await http.MultipartFile.fromPath("File", filePath,
             contentType: mediaType));
-      request.headers.putIfAbsent("Authorization", () => "Bearer $token");
+      request.headers.putIfAbsent("Authorization", () => "Bearer $_token");
       var response = await request.send();
 
-      if(_isSuccessOrThrow(response.statusCode)) {
+      if (_isSuccessOrThrow(response.statusCode)) {
         final String responseString = await response.stream.bytesToString();
-        if(responseString.isNullOrEmpty()) {
+        if (responseString.isNullOrEmpty()) {
           throw UnknownException();
         } else {
           final responseJson = jsonDecode(responseString);
@@ -115,7 +131,9 @@ class HttpService {
 
   Future<bool> delete<RequestType>(Request<RequestType> request) {
     return http
-        .delete(request.url, headers: request.headers ?? _getDefaultHeaders())
+        .delete(request.url,
+        headers: request.headers ??
+            _getDefaultHeaders(url: request.url, token: _token))
         .then((value) => value.statusCode == 200)
         .catchError((e, stackTrace) => _handleError(e, stackTrace));
   }
@@ -158,10 +176,13 @@ class HttpService {
     }
   }
 
-  Map<String, String> _getDefaultHeaders({String token}) {
+  Map<String, String> _getDefaultHeaders({String url, String token}) {
     var map = {"content-type": "application/json"};
 
-    if (token != null && token.isNotEmpty) {
+    if (!url.contains("authenticate") &&
+        !url.contains("register") &&
+        token != null &&
+        token.isNotEmpty) {
       map.putIfAbsent("Authorization", () => "Bearer $token");
     }
 

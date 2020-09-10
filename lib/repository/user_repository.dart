@@ -47,11 +47,12 @@ class UserRepository {
     return await _httpService.post(request, _userSerializable);
   }
 
-  savePatientDetails({@required Patient patient}) async {
+  Future<bool> savePatientDetails({@required Patient patient}) async {
     Request<Patient> request = Request(
         "${FlavorConfig.getBaseUrl()}Patient/CreatePatient",
         _patientSerializable)..setBody(patient);
 
-    return await _httpService.post(request, responseSerializable);
+    Response patientResponse = await _httpService.postRaw(request, null);
+    return patientResponse.statusCode == 200;
   }
 }

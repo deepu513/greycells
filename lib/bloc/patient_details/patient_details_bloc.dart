@@ -30,13 +30,13 @@ class PatientDetailsBloc
     _userRepository = UserRepository();
     _fileRepository = FileRepository();
 
-    patient = Patient()..gender = Gender.MALE;
+    patient = Patient()
+      ..gender = Gender.MALE
+      ..genderValue = Gender.MALE.intValue()
+      ..readableGender = Gender.MALE.toString();
 
     /// Initialize address
     patient.address = Address();
-
-    /// Initialize MedicalRecord
-    patient.medicalRecord = MedicalRecord();
 
     /// Initialize Guardian with a default relationship
     patient.guardian = Guardian()..relationShip = Relationship.father;
@@ -44,7 +44,9 @@ class PatientDetailsBloc
     /// Initialize HealthRecord with a default values
     patient.healthRecord = HealthRecord()
       ..weightInKg = 70
-      ..heightInCm = 150;
+      ..heightInCm = 150
+      ..bloodGroup = 0
+      ..medicalHistory = "";
   }
 
   @override
@@ -89,16 +91,17 @@ class PatientDetailsBloc
       final heightInMetres = patient.healthRecord.heightInCm / 100;
       patient.healthRecord.bmi =
           patient.healthRecord.weightInKg ~/ (heightInMetres * heightInMetres);
+      yield StateOK();
     }
 
     if (event is AddressValidated) {
       patient.address.readableAddress =
-          patient.address.houseNumber + " " + patient.address.roadName;
+          patient.address.houseNumber + ", " + patient.address.roadName;
 
       if (patient.isMinor)
         patient.guardian.address.readableAddress =
             patient.guardian.address.houseNumber +
-                " " +
+                ", " +
                 patient.guardian.address.roadName;
       yield StateOK();
     }
@@ -118,12 +121,12 @@ class PatientDetailsBloc
     }
 
     if (event is AddMedicalRecordFile) {
-      patient.medicalRecord.pickedFiles.add(event.pickedFile);
+      patient.pickedFiles.add(event.pickedFile);
       yield StateOK();
     }
 
     if (event is RemoveMedicalRecordFile) {
-      patient.medicalRecord.pickedFiles.removeWhere((pickedFile) {
+      patient.pickedFiles.removeWhere((pickedFile) {
         return pickedFile.selectedFile.path ==
             event.pickedFile.selectedFile.path;
       });
@@ -131,26 +134,36 @@ class PatientDetailsBloc
     }
 
     if (event is UploadPatientDetails) {
-      if (!patient.localProfilePicFilePath.isNullOrEmpty()) {
-        yield PatientUploadProgress("Uploading your profile picture");
-        var profilePicServerFile =
-            await _fileRepository.upload(patient.localProfilePicFilePath);
-        patient.profilePicId = profilePicServerFile.fileId;
+      try {
+        if (!patient.localProfilePicFilePath.isNullOrEmpty()) {
+          yield PatientUploadProgress("Uploading your profile picture");
+          var profilePicServerFile =
+              await _fileRepository.upload(patient.localProfilePicFilePath);
+          patient.profilePicId = profilePicServerFile.fileId;
+        }
+
+        if (patient.pickedFiles.isNotEmpty && patient.medicalRecords.isEmpty) {
+          yield PatientUploadProgress("Uploading your medical records");
+          var medicalRecordList = List<MedicalRecord>();
+          for (var element in patient.pickedFiles) {
+            var serverFile =
+                await _fileRepository.upload(element.selectedFile.path);
+            medicalRecordList.add(MedicalRecord()..fileId = serverFile.fileId);
+          }
+          patient.medicalRecords.addAll(medicalRecordList);
+        }
+
+        yield PatientUploadProgress("Almost done...");
+
+        var result = await _userRepository.savePatientDetails(patient: patient);
+        if (result)
+          yield PatientDetailsUploaded();
+        else
+          yield ErrorWhileUploading();
+      } catch (error) {
+        print(error);
+        yield ErrorWhileUploading();
       }
-
-      if (patient.medicalRecord.pickedFiles.isNotEmpty) {
-        yield PatientUploadProgress("Uploading your medical records");
-        patient.medicalRecord.pickedFiles.forEach((element) async {
-          await _fileRepository.upload(element.selectedFile.path);
-          // TODO: Update medical record data with file id
-        });
-      }
-
-      yield PatientUploadProgress("Almost done...");
-
-      await _userRepository.savePatientDetails(patient: patient);
-      // TODO: Any checks here?
-      yield PatientDetailsUploaded();
     }
   }
 
@@ -167,7 +180,7 @@ class PatientDetailsBloc
       return convertedFormat.format(serverDateTime);
     }
 
-    DateFormat convertedFormat = DateFormat("dd/MM/yyyy");
+    DateFormat convertedFormat = DateFormat("MM/dd/yyyy");
     return convertedFormat.format(serverDateTime);
   }
 

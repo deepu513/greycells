@@ -1,3 +1,4 @@
+import 'package:greycells/bloc/picker/file_picker_bloc.dart';
 import 'package:greycells/constants/gender.dart';
 import 'package:greycells/models/patient/address/address.dart';
 import 'package:greycells/models/patient/guardian/guardian.dart';
@@ -37,10 +38,6 @@ class Patient {
   @JsonKey(name: "HealthRecord")
   /// Not a atomic value
   HealthRecord healthRecord;
-
-  @JsonKey(name: "MedicalRecord")
-  /// Not a atomic value
-  MedicalRecord medicalRecord;
 
   @JsonKey(name: "Guardian")
   /// Not a atomic value
@@ -82,7 +79,21 @@ class Patient {
   @JsonKey(ignore: true)
   String readableGender;
 
-  Patient();
+  @JsonKey(name: "MedicalRecord")
+  List<MedicalRecord> medicalRecords;
+
+  @JsonKey(ignore: true)
+  List<PickedFile> pickedFiles;
+
+  Patient() {
+    pickedFiles = List<PickedFile>();
+    medicalRecords = List<MedicalRecord>();
+
+    id = 0;
+    alternativeNumber = "";
+    isEligibleForTest = true;
+
+  }
 
   factory Patient.fromJson(Map<String, dynamic> json) => _$PatientFromJson(json);
 

@@ -157,8 +157,8 @@ class _PatientDetailInputState extends State<PatientDetailInput>
   _handleNextPressed(
       BuildContext context, PageTransitionState transitionState) async {
     if (_shouldValidateCurrentPage(transitionState)) {
-      //var result = await _validateCurrentPage(context, transitionState);
-      var result = true;
+      var result = await _validateCurrentPage(context, transitionState);
+      //var result = true;
       if (result == true) _transitionToNextPage(context, transitionState);
     } else {
       _transitionToNextPage(context, transitionState);

@@ -25,6 +25,8 @@ class GuardianAddressUpdated extends PatientDetailsState {
 
 class PatientDetailsUploaded extends PatientDetailsState {}
 
+class ErrorWhileUploading extends PatientDetailsState {}
+
 class PatientUploadProgress extends PatientDetailsState {
   final String message;
 

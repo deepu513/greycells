@@ -1,4 +1,3 @@
-import 'package:greycells/bloc/picker/file_picker_bloc.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'medical_record.g.dart';
@@ -6,23 +5,14 @@ part 'medical_record.g.dart';
 @JsonSerializable(explicitToJson: true)
 class MedicalRecord {
 
-	@JsonKey(name: "Type")
-  String type;
+	@JsonKey(name : "PatientId")
+	int patientId;
 
-	@JsonKey(name: "FileUrl")
-  String fileUrl;
-
-	@JsonKey(name: "FileType")
-  String fileType;
-
-	@JsonKey(name: "Description")
-  String description;
-
-	@JsonKey(ignore: true)
-	List<PickedFile> pickedFiles;
+	@JsonKey(name: "FileId")
+	int fileId;
 
 	MedicalRecord() {
-		pickedFiles = List<PickedFile>();
+		patientId = 0;
 	}
 
 	factory MedicalRecord.fromJson(Map<String, dynamic> json) => _$MedicalRecordFromJson(json);

@@ -15,6 +15,7 @@ typedef SessionExpiredCallback = void Function();
 
 class HttpService {
   static HttpService _instance;
+  String token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6IjEiLCJuYmYiOjE1OTk3MTE1MzUsImV4cCI6MTYwMjMwMzUzNSwiaWF0IjoxNTk5NzExNTM1fQ.tXH12jhyamgT49zOR0oeo5WWKhb89xob1bBoSe8OGBM";
 
   HttpService._internal();
 
@@ -26,10 +27,11 @@ class HttpService {
   Future<Response<ResponseType>> postRaw<RequestType, ResponseType>(
       Request<RequestType> request,
       Serializable<ResponseType> responseSerializable) {
+    print(request.toJsonString());
     return http
         .post(request.url,
             body: request.toJsonString(),
-            headers: request.headers ?? _getDefaultHeaders())
+            headers: request.headers ?? _getDefaultHeaders(token: token))
         .then((http.Response value) =>
             _processResponse(value, responseSerializable))
         .catchError((e, stackTrace) => _handleError(e, stackTrace));
@@ -41,7 +43,7 @@ class HttpService {
     return http
         .post(request.url,
             body: request.toJsonString(),
-            headers: request.headers ?? _getDefaultHeaders())
+            headers: request.headers ?? _getDefaultHeaders(token: token))
         .then((http.Response value) =>
             _processResponse(value, responseSerializable).getResponseBody())
         .catchError((e, stackTrace) => _handleError(e, stackTrace));
@@ -51,7 +53,7 @@ class HttpService {
       Request<RequestType> request,
       Serializable<ResponseType> responseSerializable) {
     return http
-        .get(request.url, headers: request.headers ?? _getDefaultHeaders())
+        .get(request.url, headers: request.headers ?? _getDefaultHeaders(token: token))
         .then((http.Response value) =>
             _processResponse(value, responseSerializable).getResponseBody())
         .catchError((e, stackTrace) => _handleError(e, stackTrace));
@@ -61,7 +63,7 @@ class HttpService {
       Request<RequestType> request,
       Serializable<ResponseType> responseSerializable) {
     return http
-        .get(request.url, headers: request.headers ?? _getDefaultHeaders())
+        .get(request.url, headers: request.headers ?? _getDefaultHeaders(token: token))
         .then((http.Response value) =>
             _processResponse(value, responseSerializable)
                 .getResponseBodyAsList())
@@ -74,7 +76,7 @@ class HttpService {
     return http
         .put(request.url,
             body: request.toJsonString(),
-            headers: request.headers ?? _getDefaultHeaders())
+            headers: request.headers ?? _getDefaultHeaders(token: token))
         .then((http.Response value) =>
             _processResponse(value, responseSerializable).getResponseBody())
         .catchError((e, stackTrace) => _handleError(e, stackTrace));
@@ -94,6 +96,7 @@ class HttpService {
         ..fields['Type'] = fileType
         ..files.add(await http.MultipartFile.fromPath("File", filePath,
             contentType: mediaType));
+      request.headers.putIfAbsent("Authorization", () => "Bearer $token");
       var response = await request.send();
 
       if(_isSuccessOrThrow(response.statusCode)) {

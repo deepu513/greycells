@@ -94,6 +94,7 @@ class AddressDetailInputPage extends StatelessWidget implements Validatable {
 
     subscription = validationBloc.listen((validationState) {
       if (validationState is AddressFieldsValid) {
+        BlocProvider.of<PatientDetailsBloc>(context).add(AddressValidated());
         completer.complete(true);
       } else if (validationState is ValidationInvalidField) {
         completer.complete(false);
@@ -103,7 +104,6 @@ class AddressDetailInputPage extends StatelessWidget implements Validatable {
       subscription.cancel();
     });
 
-    // TODO: On successful validation update readable address
     validationBloc.add(ValidateAddressFields(
         BlocProvider.of<PatientDetailsBloc>(context).patient));
 
@@ -148,7 +148,7 @@ class PatientAddressInput extends StatelessWidget {
                       BlocProvider.of<PatientDetailsBloc>(context)
                           .patient
                           .address
-                          .houseNumber = value,
+                          .houseNumber = value.trim(),
                   onSubmitted: (_) => FocusScope.of(context).nextFocus()),
               SizedBox(
                 height: 16.0,
@@ -180,7 +180,7 @@ class PatientAddressInput extends StatelessWidget {
                       BlocProvider.of<PatientDetailsBloc>(context)
                           .patient
                           .address
-                          .roadName = value,
+                          .roadName = value.trim(),
                   onSubmitted: (_) => FocusScope.of(context).nextFocus()),
               SizedBox(
                 height: 16.0,
@@ -212,7 +212,7 @@ class PatientAddressInput extends StatelessWidget {
                       BlocProvider.of<PatientDetailsBloc>(context)
                           .patient
                           .address
-                          .city = value,
+                          .city = value.trim(),
                   onSubmitted: (_) => FocusScope.of(context).nextFocus()),
               SizedBox(
                 height: 16.0,
@@ -244,7 +244,7 @@ class PatientAddressInput extends StatelessWidget {
                       BlocProvider.of<PatientDetailsBloc>(context)
                           .patient
                           .address
-                          .state = value,
+                          .state = value.trim(),
                   onSubmitted: (_) => FocusScope.of(context).nextFocus()),
               SizedBox(
                 height: 16.0,
@@ -276,14 +276,14 @@ class PatientAddressInput extends StatelessWidget {
                       BlocProvider.of<PatientDetailsBloc>(context)
                           .patient
                           .address
-                          .country = value,
+                          .country = value.trim(),
                   onSubmitted: (_) => FocusScope.of(context).nextFocus()),
               SizedBox(
                 height: 16.0,
               ),
               TextField(
                   maxLines: 1,
-                  textInputAction: TextInputAction.next,
+                  textInputAction: TextInputAction.done,
                   maxLength: 10,
                   decoration: InputDecoration(
                     icon: Icon(Icons.pin_drop),
@@ -314,7 +314,7 @@ class PatientAddressInput extends StatelessWidget {
                       BlocProvider.of<PatientDetailsBloc>(context)
                           .patient
                           .address
-                          .pincode = value,
+                          .pincode = value.trim(),
                   onSubmitted: (_) => FocusScope.of(context).unfocus()),
               SizedBox(
                 height: 16.0,
@@ -412,7 +412,7 @@ class GuardianAddressInputFields extends StatelessWidget {
                           .patient
                           .guardian
                           .address
-                          .houseNumber = value,
+                          .houseNumber = value.trim(),
                   onSubmitted: (_) => FocusScope.of(context).nextFocus()),
               SizedBox(
                 height: 16.0,
@@ -446,7 +446,7 @@ class GuardianAddressInputFields extends StatelessWidget {
                           .patient
                           .guardian
                           .address
-                          .roadName = value,
+                          .roadName = value.trim(),
                   onSubmitted: (_) => FocusScope.of(context).nextFocus()),
               SizedBox(
                 height: 16.0,
@@ -480,7 +480,7 @@ class GuardianAddressInputFields extends StatelessWidget {
                           .patient
                           .guardian
                           .address
-                          .city = value,
+                          .city = value.trim(),
                   onSubmitted: (_) => FocusScope.of(context).nextFocus()),
               SizedBox(
                 height: 16.0,
@@ -514,7 +514,7 @@ class GuardianAddressInputFields extends StatelessWidget {
                           .patient
                           .guardian
                           .address
-                          .state = value,
+                          .state = value.trim(),
                   onSubmitted: (_) => FocusScope.of(context).nextFocus()),
               SizedBox(
                 height: 16.0,
@@ -548,14 +548,14 @@ class GuardianAddressInputFields extends StatelessWidget {
                           .patient
                           .guardian
                           .address
-                          .country = value,
+                          .country = value.trim(),
                   onSubmitted: (_) => FocusScope.of(context).nextFocus()),
               SizedBox(
                 height: 16.0,
               ),
               TextField(
                   maxLines: 1,
-                  textInputAction: TextInputAction.next,
+                  textInputAction: TextInputAction.done,
                   maxLength: 10,
                   decoration: InputDecoration(
                     icon: Icon(Icons.pin_drop),
@@ -588,7 +588,7 @@ class GuardianAddressInputFields extends StatelessWidget {
                           .patient
                           .guardian
                           .address
-                          .pincode = value,
+                          .pincode = value.trim(),
                   onSubmitted: (_) => FocusScope.of(context).unfocus()),
               SizedBox(
                 height: 16.0,

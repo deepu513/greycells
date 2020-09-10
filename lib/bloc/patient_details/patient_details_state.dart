@@ -23,6 +23,12 @@ class GuardianAddressUpdated extends PatientDetailsState {
   GuardianAddressUpdated(this.hasSameAddress);
 }
 
-class PatientDetailsUploading extends PatientDetailsState {}
+class PatientDetailsUploaded extends PatientDetailsState {}
+
+class PatientUploadProgress extends PatientDetailsState {
+  final String message;
+
+  PatientUploadProgress(this.message);
+}
 
 class StateOK extends PatientDetailsState {}

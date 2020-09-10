@@ -1,5 +1,7 @@
 import 'dart:async';
+import 'dart:convert';
 
+import 'package:greycells/models/server_file/server_file.dart';
 import 'package:greycells/networking/http_exceptions.dart';
 import 'package:greycells/networking/request.dart';
 import 'package:greycells/networking/response.dart';
@@ -7,6 +9,7 @@ import 'package:greycells/networking/serializable.dart';
 import 'package:http/http.dart' as http;
 import 'package:http_parser/http_parser.dart';
 import 'package:path/path.dart';
+import 'package:greycells/extensions.dart';
 
 typedef SessionExpiredCallback = void Function();
 
@@ -77,17 +80,34 @@ class HttpService {
         .catchError((e, stackTrace) => _handleError(e, stackTrace));
   }
 
-  Future<bool> multipart(String url, String type, String filePath) async {
-    final mediaType = extension(filePath) == ".pdf"
-        ? MediaType('application', 'pdf')
-        : MediaType('image', '*');
+  Future<ServerFile> multipart(String url, String filePath) async {
+    try {
+      final fileExtension = extension(filePath);
 
-    final request = http.MultipartRequest("POST",  Uri.parse(url))
-      ..fields['Type'] = type
-      ..files.add(await http.MultipartFile.fromPath("File", filePath,
-          contentType: mediaType));
-    var response = await request.send();
-    return response.statusCode == 200;
+      final mediaType = fileExtension == ".pdf"
+          ? MediaType('application', 'pdf')
+          : MediaType('image', '*');
+
+      final fileType = fileExtension == ".pdf" ? "pdf" : "image";
+
+      final request = http.MultipartRequest("POST", Uri.parse(url))
+        ..fields['Type'] = fileType
+        ..files.add(await http.MultipartFile.fromPath("File", filePath,
+            contentType: mediaType));
+      var response = await request.send();
+
+      if(_isSuccessOrThrow(response.statusCode)) {
+        final String responseString = await response.stream.bytesToString();
+        if(responseString.isNullOrEmpty()) {
+          throw UnknownException();
+        } else {
+          final responseJson = jsonDecode(responseString);
+          return ServerFile.fromJson(responseJson);
+        }
+      }
+    } catch (e) {
+      throw e;
+    }
   }
 
   Future<bool> delete<RequestType>(Request<RequestType> request) {
@@ -107,7 +127,7 @@ class HttpService {
         return Response<ResponseType>(actualResponse.body, responseSerializable,
             statusCode: actualResponse.statusCode);
     } else
-      throw UnknownResponseCodeException();
+      throw UnknownException();
   }
 
   void _handleError(e, stackTrace) {
@@ -131,7 +151,7 @@ class HttpService {
         throw ResourceConflictException();
       case 500:
       default:
-        throw UnknownResponseCodeException();
+        throw UnknownException();
     }
   }
 

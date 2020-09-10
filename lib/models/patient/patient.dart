@@ -19,7 +19,7 @@ class Patient {
   String alternativeNumber;
 
   @JsonKey(name: "FileId")
-  String profilePicId;
+  int profilePicId;
 
   @JsonKey(ignore: true)
   String localProfilePicFilePath;

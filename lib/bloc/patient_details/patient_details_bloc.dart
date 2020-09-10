@@ -4,11 +4,14 @@ import 'package:bloc/bloc.dart';
 import 'package:greycells/bloc/picker/file_picker_bloc.dart';
 import 'package:greycells/constants/gender.dart';
 import 'package:greycells/constants/relationship.dart';
+import 'package:greycells/extensions.dart';
 import 'package:greycells/models/patient/address/address.dart';
 import 'package:greycells/models/patient/guardian/guardian.dart';
 import 'package:greycells/models/patient/health/health_record.dart';
 import 'package:greycells/models/patient/medical/medical_record.dart';
 import 'package:greycells/models/patient/patient.dart';
+import 'package:greycells/repository/file_repository.dart';
+import 'package:greycells/repository/user_repository.dart';
 import 'package:intl/intl.dart';
 import 'package:meta/meta.dart';
 
@@ -20,7 +23,13 @@ class PatientDetailsBloc
     extends Bloc<PatientDetailsEvent, PatientDetailsState> {
   Patient patient;
 
+  UserRepository _userRepository;
+  FileRepository _fileRepository;
+
   PatientDetailsBloc() : super(PatientDetailsInitial()) {
+    _userRepository = UserRepository();
+    _fileRepository = FileRepository();
+
     patient = Patient()..gender = Gender.MALE;
 
     /// Initialize address
@@ -121,8 +130,27 @@ class PatientDetailsBloc
       yield StateOK();
     }
 
-    if(event is UploadPatientDetails) {
-      yield PatientDetailsUploading();
+    if (event is UploadPatientDetails) {
+      if (!patient.localProfilePicFilePath.isNullOrEmpty()) {
+        yield PatientUploadProgress("Uploading your profile picture");
+        var profilePicServerFile =
+            await _fileRepository.upload(patient.localProfilePicFilePath);
+        patient.profilePicId = profilePicServerFile.fileId;
+      }
+
+      if (patient.medicalRecord.pickedFiles.isNotEmpty) {
+        yield PatientUploadProgress("Uploading your medical records");
+        patient.medicalRecord.pickedFiles.forEach((element) async {
+          await _fileRepository.upload(element.selectedFile.path);
+          // TODO: Update medical record data with file id
+        });
+      }
+
+      yield PatientUploadProgress("Almost done...");
+
+      await _userRepository.savePatientDetails(patient: patient);
+      // TODO: Any checks here?
+      yield PatientDetailsUploaded();
     }
   }
 

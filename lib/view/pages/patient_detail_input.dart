@@ -88,12 +88,6 @@ class _PatientDetailInputState extends State<PatientDetailInput>
               _controller.animateBack(
                   (current.currentPageNumber) / (numberOfPages - 1),
                   duration: Duration(milliseconds: animationDuration));
-
-              if (current.currentPageNumber == 7) {
-                // TODO: Review this if you want to call it here or on next page.
-                BlocProvider.of<PatientDetailsBloc>(context)
-                    .add(UploadPatientDetails());
-              }
             },
             child: BlocBuilder<PageTransitionBloc, PageTransitionState>(
               buildWhen: (previous, current) {

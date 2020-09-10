@@ -30,6 +30,6 @@ class ResourceConflictException extends HttpException {
   ResourceConflictException() : super("Conflict in resource");
 }
 
-class UnknownResponseCodeException extends HttpException {
-  UnknownResponseCodeException() : super(ErrorMessages.GENERIC_ERROR_MESSAGE);
+class UnknownException extends HttpException {
+  UnknownException() : super(ErrorMessages.GENERIC_ERROR_MESSAGE);
 }

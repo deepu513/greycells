@@ -4,7 +4,12 @@ import 'package:greycells/bloc/patient_details/patient_details_bloc.dart';
 import 'package:greycells/view/widgets/error_with_retry.dart';
 
 class PatientUploadPage extends StatefulWidget {
-  const PatientUploadPage();
+  final VoidCallback onError;
+  final VoidCallback onUploadStart;
+
+  PatientUploadPage({@required this.onUploadStart, @required this.onError})
+      : assert(onError != null),
+        assert(onUploadStart != null);
 
   @override
   _PatientUploadPageState createState() => _PatientUploadPageState();
@@ -18,22 +23,30 @@ class _PatientUploadPageState extends State<PatientUploadPage> {
   }
 
   void _uploadPatientDetails() {
+    widget.onUploadStart.call();
     BlocProvider.of<PatientDetailsBloc>(context).add(UploadPatientDetails());
   }
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<PatientDetailsBloc, PatientDetailsState>(
-      builder: (context, state) {
-        if (state is PatientUploadProgress)
-          return _PatientUploadProgress(state.message);
-        if (state is ErrorWhileUploading)
-          return ErrorWithRetry(
-            onRetryPressed: _uploadPatientDetails,
-          );
-        else
-          return Container();
+    return BlocListener<PatientDetailsBloc, PatientDetailsState>(
+      listener: (context, state) {
+        if(state is ErrorWhileUploading) {
+          widget.onError.call();
+        }
       },
+      child: BlocBuilder<PatientDetailsBloc, PatientDetailsState>(
+        builder: (context, state) {
+          if (state is PatientUploadProgress)
+            return _PatientUploadProgress(state.message);
+          if (state is ErrorWhileUploading) {
+            return ErrorWithRetry(
+              onRetryPressed: _uploadPatientDetails,
+            );
+          } else
+            return Container();
+        },
+      ),
     );
   }
 }

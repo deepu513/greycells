@@ -33,6 +33,8 @@ class _PatientDetailInputState extends State<PatientDetailInput>
 
   List<Widget> _pages;
 
+  var _patientDetailUploading = false;
+
   @override
   void initState() {
     super.initState();
@@ -44,7 +46,10 @@ class _PatientDetailInputState extends State<PatientDetailInput>
       const GuardianDetailsInputPage(),
       const AddressDetailInputPage(),
       const MedicalRecordsInputPage(),
-      const PatientUploadPage(),
+      PatientUploadPage(
+        onUploadStart: _onUploadStart,
+        onError: _onUploadError,
+      ),
     ]);
 
     _controller = AnimationController(vsync: this);
@@ -56,6 +61,22 @@ class _PatientDetailInputState extends State<PatientDetailInput>
 
     _controller.animateTo(initialPageNumber / (numberOfPages - 1),
         duration: Duration(milliseconds: animationDuration));
+  }
+
+  void _onUploadStart() {
+    WidgetsBinding.instance.addPostFrameCallback((_){
+      setState(() {
+        _patientDetailUploading = true;
+      });
+    });
+  }
+
+  void _onUploadError() {
+    WidgetsBinding.instance.addPostFrameCallback((_){
+      setState(() {
+        _patientDetailUploading = false;
+      });
+    });
   }
 
   @override
@@ -123,7 +144,7 @@ class _PatientDetailInputState extends State<PatientDetailInput>
                         animation: _progressAnimation,
                         builder: (context, child) {
                           return LinearProgressIndicator(
-                            value: transitionState.currentPageNumber == 7
+                            value: _patientDetailUploading
                                 ? null
                                 : _progressAnimation.value,
                             backgroundColor: Colors.blue.shade100,
@@ -134,11 +155,11 @@ class _PatientDetailInputState extends State<PatientDetailInput>
                     Padding(
                       padding: const EdgeInsets.all(16.0),
                       child: NavigationButtonRow(
-                        onBackPressed: transitionState.currentPageNumber == 7
+                        onBackPressed: _patientDetailUploading
                             ? null
                             : () =>
                                 _handleBackPressed(context, transitionState),
-                        onNextPressed: transitionState.currentPageNumber == 7
+                        onNextPressed: _patientDetailUploading
                             ? null
                             : () =>
                                 _handleNextPressed(context, transitionState),

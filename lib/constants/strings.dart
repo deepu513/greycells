@@ -71,6 +71,10 @@ class Strings {
   static const timeOfBirth = "Time of birth";
   static const beforeWeBegin = "Before we begin...";
   static const somePoints = "Let's go through some points...";
+  static const retry = "Retry";
+  static const uploadingProfilePicture = "Uploading your profile picture";
+  static const uploadingMedicalRecord = "Uploading your medical records";
+  static const almostDone = "Almost done...";
 }
 
 /// This should contain strings which signify an error message
@@ -101,5 +105,5 @@ class ErrorMessages {
   static const USER_REGISTERED_ERROR_MESSAGE =
       "The Email ID you submitted is already registered.\nPlease try with a different Email ID";
   static const USER_NOT_FOUND_ERROR_MESSAGE = "Invalid username or password.";
-  static const GENERIC_ERROR_MESSAGE = "Something went wrong! Please try again.";
+  static const GENERIC_ERROR_MESSAGE = "Something went wrong!\nPlease try again.";
 }

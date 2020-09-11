@@ -4,6 +4,8 @@ import 'package:bloc/bloc.dart';
 import 'package:greycells/bloc/picker/file_picker_bloc.dart';
 import 'package:greycells/constants/gender.dart';
 import 'package:greycells/constants/relationship.dart';
+import 'package:greycells/constants/setting_key.dart';
+import 'package:greycells/constants/strings.dart';
 import 'package:greycells/extensions.dart';
 import 'package:greycells/models/patient/address/address.dart';
 import 'package:greycells/models/patient/guardian/guardian.dart';
@@ -11,6 +13,7 @@ import 'package:greycells/models/patient/health/health_record.dart';
 import 'package:greycells/models/patient/medical/medical_record.dart';
 import 'package:greycells/models/patient/patient.dart';
 import 'package:greycells/repository/file_repository.dart';
+import 'package:greycells/repository/settings_repository.dart';
 import 'package:greycells/repository/user_repository.dart';
 import 'package:intl/intl.dart';
 import 'package:meta/meta.dart';
@@ -25,6 +28,7 @@ class PatientDetailsBloc
 
   UserRepository _userRepository;
   FileRepository _fileRepository;
+  SettingsRepository _settingsRepository;
 
   PatientDetailsBloc() : super(PatientDetailsInitial()) {
     _userRepository = UserRepository();
@@ -33,7 +37,9 @@ class PatientDetailsBloc
     patient = Patient()
       ..gender = Gender.MALE
       ..genderValue = Gender.MALE.intValue()
-      ..readableGender = Gender.MALE.toString();
+      ..readableGender = Gender.MALE.toString()
+      ..alternativeNumber = ""
+      ..isEligibleForTest = true;
 
     /// Initialize address
     patient.address = Address();
@@ -47,6 +53,12 @@ class PatientDetailsBloc
       ..heightInCm = 150
       ..bloodGroup = 0
       ..medicalHistory = "";
+
+    SettingsRepository.getInstance().then((value) {
+      _settingsRepository = value;
+      patient.id = 1;
+    });
+
   }
 
   @override
@@ -135,15 +147,16 @@ class PatientDetailsBloc
 
     if (event is UploadPatientDetails) {
       try {
+
         if (!patient.localProfilePicFilePath.isNullOrEmpty()) {
-          yield PatientUploadProgress("Uploading your profile picture");
+          yield PatientUploadProgress(Strings.uploadingProfilePicture);
           var profilePicServerFile =
               await _fileRepository.upload(patient.localProfilePicFilePath);
           patient.profilePicId = profilePicServerFile.fileId;
         }
 
         if (patient.pickedFiles.isNotEmpty && patient.medicalRecords.isEmpty) {
-          yield PatientUploadProgress("Uploading your medical records");
+          yield PatientUploadProgress(Strings.uploadingMedicalRecord);
           var medicalRecordList = List<MedicalRecord>();
           for (var element in patient.pickedFiles) {
             var serverFile =
@@ -153,7 +166,7 @@ class PatientDetailsBloc
           patient.medicalRecords.addAll(medicalRecordList);
         }
 
-        yield PatientUploadProgress("Almost done...");
+        yield PatientUploadProgress(Strings.almostDone);
 
         var result = await _userRepository.savePatientDetails(patient: patient);
         if (result)

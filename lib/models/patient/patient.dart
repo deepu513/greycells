@@ -29,6 +29,7 @@ class Patient {
   bool isMinor = true;
 
   @JsonKey(name: "Address")
+
   /// Not a atomic value
   Address address;
 
@@ -36,10 +37,12 @@ class Patient {
   bool isEligibleForTest;
 
   @JsonKey(name: "HealthRecord")
+
   /// Not a atomic value
   HealthRecord healthRecord;
 
   @JsonKey(name: "Guardian")
+
   /// Not a atomic value
   Guardian guardian;
 
@@ -88,14 +91,10 @@ class Patient {
   Patient() {
     pickedFiles = List<PickedFile>();
     medicalRecords = List<MedicalRecord>();
-
-    id = 0;
-    alternativeNumber = "";
-    isEligibleForTest = true;
-
   }
 
-  factory Patient.fromJson(Map<String, dynamic> json) => _$PatientFromJson(json);
+  factory Patient.fromJson(Map<String, dynamic> json) =>
+      _$PatientFromJson(json);
 
-    Map<String, dynamic> toJson() => _$PatientToJson(this);
+  Map<String, dynamic> toJson() => _$PatientToJson(this);
 }

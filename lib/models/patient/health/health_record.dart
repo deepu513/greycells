@@ -7,7 +7,7 @@ class HealthRecord {
   @JsonKey(name: "Width")
   int weightInKg;
 
-  @JsonKey(name: "Height")
+  @JsonKey(name: "Height", toJson: _heightToJson, fromJson: _heightFromJson)
   int heightInCm;
 
   @JsonKey(name: "BloodGroup")
@@ -25,4 +25,12 @@ class HealthRecord {
       _$HealthRecordFromJson(json);
 
   Map<String, dynamic> toJson() => _$HealthRecordToJson(this);
+
+  static String _heightToJson(int height) {
+    return height.toString();
+  }
+
+  static int _heightFromJson(String height) {
+    return int.parse(height);
+  }
 }

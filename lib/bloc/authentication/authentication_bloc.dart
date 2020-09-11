@@ -74,6 +74,8 @@ class AuthenticationBloc
                 SettingKey.KEY_IS_LOGGED_IN, true);
             await _settingsRepository.saveValue(
                 SettingKey.KEY_REQUEST_TOKEN, user.token);
+            await _settingsRepository.saveValue(
+                SettingKey.KEY_USER_ID, user.id);
             yield AuthenticationAuthenticated();
           }
 

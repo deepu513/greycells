@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:greycells/constants/strings.dart';
 
-class AssessmentStartMessagePage extends StatefulWidget {
+class AssessmentTestIntroPage extends StatefulWidget {
   @override
-  _AssessmentStartMessagePageState createState() =>
-      _AssessmentStartMessagePageState();
+  _AssessmentTestIntroPageState createState() =>
+      _AssessmentTestIntroPageState();
 }
 
-class _AssessmentStartMessagePageState extends State<AssessmentStartMessagePage>
+class _AssessmentTestIntroPageState extends State<AssessmentTestIntroPage>
     with TickerProviderStateMixin {
   AnimationController _firstMessageFadeController;
   AnimationController _secondMessageFadeController;

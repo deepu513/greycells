@@ -6,10 +6,15 @@ import 'package:greycells/view/widgets/error_with_retry.dart';
 class PatientUploadPage extends StatefulWidget {
   final VoidCallback onError;
   final VoidCallback onUploadStart;
+  final VoidCallback onUploadComplete;
 
-  PatientUploadPage({@required this.onUploadStart, @required this.onError})
+  PatientUploadPage(
+      {@required this.onUploadStart,
+      @required this.onUploadComplete,
+      @required this.onError})
       : assert(onError != null),
-        assert(onUploadStart != null);
+        assert(onUploadStart != null),
+        assert(onUploadComplete != null);
 
   @override
   _PatientUploadPageState createState() => _PatientUploadPageState();
@@ -31,7 +36,7 @@ class _PatientUploadPageState extends State<PatientUploadPage> {
   Widget build(BuildContext context) {
     return BlocListener<PatientDetailsBloc, PatientDetailsState>(
       listener: (context, state) {
-        if(state is ErrorWhileUploading) {
+        if (state is ErrorWhileUploading) {
           widget.onError.call();
         }
       },

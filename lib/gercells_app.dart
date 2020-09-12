@@ -6,7 +6,7 @@ import 'package:greycells/bloc/authentication/bloc.dart';
 import 'package:greycells/bloc/validation/validation_bloc.dart';
 import 'package:greycells/route/route_generator.dart';
 import 'package:greycells/simple_bloc_observer.dart';
-import 'package:greycells/view/pages/assessment_start_message_page.dart';
+import 'package:greycells/view/pages/assessment_test_intro_page.dart';
 import 'package:greycells/view/pages/home_page.dart';
 import 'package:greycells/view/pages/patient_detail_input.dart';
 import 'package:greycells/view/pages/register_page.dart';

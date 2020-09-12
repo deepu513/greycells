@@ -3,9 +3,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:greycells/bloc/registration/bloc.dart';
 import 'package:greycells/bloc/validation/bloc.dart';
 import 'package:greycells/route/route_name.dart';
+import 'package:greycells/view/pages/assessment_test_intro_page.dart';
+import 'package:greycells/view/pages/assessment_test_page.dart';
 import 'package:greycells/view/pages/forgot_password_page.dart';
 import 'package:greycells/view/pages/home_page.dart';
 import 'package:greycells/view/pages/login_page.dart';
+import 'package:greycells/view/pages/patient_detail_input.dart';
 import 'package:greycells/view/pages/register_page.dart';
 import 'package:greycells/view/pages/welcome_page.dart';
 
@@ -35,13 +38,19 @@ class RouteGenerator {
         return MaterialPageRoute(builder: (_) => HomePage());
       case RouteName.FORGOT_PASSWORD:
         return MaterialPageRoute(builder: (_) => ForgotPasswordPage());
-
+      case RouteName.PATIENT_DETAIL_INPUT_PAGE:
+        return MaterialPageRoute(builder: (_) => PatientDetailInput());
+      case RouteName.ASSESSMENT_TEST_INTRO:
+        return MaterialPageRoute(builder: (_) => AssessmentTestIntroPage());
+      case RouteName.ASSESSMENT_TEST:
+        return MaterialPageRoute(builder: (_) => AssessmentTestPage());
       default:
         // If there is no such named route in the switch statement, e.g. /third
         return _errorRoute();
     }
   }
 
+  // TODO: Make a proper error page
   static Route<dynamic> _errorRoute() {
     return MaterialPageRoute(builder: (_) {
       return Scaffold(

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:greycells/constants/strings.dart';
 
-class QuestionOptionPage extends StatelessWidget {
+class AssessmentTestPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(

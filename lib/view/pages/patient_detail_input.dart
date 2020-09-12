@@ -8,6 +8,7 @@ import 'package:greycells/bloc/picker/file_picker_bloc.dart';
 import 'package:greycells/bloc/picker/image_picker_bloc.dart';
 import 'package:greycells/bloc/validation/bloc.dart';
 import 'package:greycells/interface/validatable.dart';
+import 'package:greycells/route/route_name.dart';
 import 'package:greycells/view/pages/address_details_input_page.dart';
 import 'package:greycells/view/pages/birth_details_input_page.dart';
 import 'package:greycells/view/pages/guardian_details_input_page.dart';
@@ -34,6 +35,7 @@ class _PatientDetailInputState extends State<PatientDetailInput>
   List<Widget> _pages;
 
   var _patientDetailUploading = false;
+  var _patientDetailUploadComplete = false;
 
   @override
   void initState() {
@@ -48,6 +50,7 @@ class _PatientDetailInputState extends State<PatientDetailInput>
       const MedicalRecordsInputPage(),
       PatientUploadPage(
         onUploadStart: _onUploadStart,
+        onUploadComplete: _onUploadComplete,
         onError: _onUploadError,
       ),
     ]);
@@ -64,19 +67,38 @@ class _PatientDetailInputState extends State<PatientDetailInput>
   }
 
   void _onUploadStart() {
-    WidgetsBinding.instance.addPostFrameCallback((_){
+    WidgetsBinding.instance.addPostFrameCallback((_) {
       setState(() {
         _patientDetailUploading = true;
+        _patientDetailUploadComplete = false;
       });
     });
   }
 
   void _onUploadError() {
-    WidgetsBinding.instance.addPostFrameCallback((_){
+    WidgetsBinding.instance.addPostFrameCallback((_) {
       setState(() {
         _patientDetailUploading = false;
+        _patientDetailUploadComplete = false;
       });
     });
+  }
+
+  void _onUploadComplete() {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      setState(() {
+        _patientDetailUploading = false;
+        _patientDetailUploadComplete = true;
+        
+        Future.delayed(Duration(seconds: 1), () {
+          _navigateToTestPage();
+        });
+      });
+    });
+  }
+  
+  void _navigateToTestPage() {
+    Navigator.of(context).pushNamed(RouteName.ASSESSMENT_TEST);
   }
 
   @override
@@ -155,11 +177,13 @@ class _PatientDetailInputState extends State<PatientDetailInput>
                     Padding(
                       padding: const EdgeInsets.all(16.0),
                       child: NavigationButtonRow(
-                        onBackPressed: _patientDetailUploading
+                        onBackPressed: _patientDetailUploading ||
+                                _patientDetailUploadComplete
                             ? null
                             : () =>
                                 _handleBackPressed(context, transitionState),
-                        onNextPressed: _patientDetailUploading
+                        onNextPressed: _patientDetailUploading ||
+                                _patientDetailUploadComplete
                             ? null
                             : () =>
                                 _handleNextPressed(context, transitionState),

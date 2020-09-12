@@ -22,21 +22,23 @@ class _AssessmentTestPageState extends State<AssessmentTestPage> {
   @override
   Widget build(BuildContext context) {
     return BlocListener<AssessmentBloc, AssessmentState>(
-        listener: (context, state) {
-      if (state is AssessmentError) {
-        Utils.showErrorDialog(context, Strings.optionSubmitError);
-      }
-    }, child: BlocBuilder<AssessmentBloc, AssessmentState>(
-      builder: (context, state) {
-        if (state is AssessmentTestLoading) {
-          return CenteredCircularLoadingIndicator();
+      listener: (context, state) {
+        if (state is AssessmentError) {
+          Utils.showErrorDialog(context, Strings.optionSubmitError);
         }
-        if (state is ShowQuestion) {
-          return _TestSection(state.currentQuestion, state.totalQuestions);
-        }
-        return Container();
       },
-    ));
+      child: BlocBuilder<AssessmentBloc, AssessmentState>(
+        builder: (context, state) {
+          if (state is AssessmentTestLoading) {
+            return CenteredCircularLoadingIndicator();
+          }
+          if (state is ShowQuestion) {
+            return _TestSection(state.currentQuestion, state.totalQuestions);
+          }
+          return Container();
+        },
+      ),
+    );
   }
 }
 
@@ -53,7 +55,7 @@ class _TestSection extends StatelessWidget {
         elevation: 4.0,
         brightness: Brightness.light,
         title: Text(
-          "Question ${_currentQuestion.sequence} of $_totalQuestions}",
+          "Question ${_currentQuestion.sequence} of $_totalQuestions",
           style: Theme.of(context)
               .textTheme
               .headline6
@@ -117,18 +119,18 @@ class _QuestionOptionPageContent extends StatelessWidget {
                 ),
           ),
         ),
+        Expanded(
+          child: OptionSection(question.options),
+        ),
         Visibility(
           visible: question.answerUpperLimit > 1,
           child: Padding(
-            padding: const EdgeInsets.fromLTRB(16.0, 8.0, 16.0, 8.0),
+            padding: const EdgeInsets.fromLTRB(24.0, 8.0, 16.0, 8.0),
             child: Text(
               Strings.multiOptionHelper,
               style: Theme.of(context).textTheme.caption,
             ),
           ),
-        ),
-        Expanded(
-          child: OptionSection(question.options),
         ),
         Padding(
           padding: const EdgeInsets.all(16.0),
@@ -173,10 +175,10 @@ class _OptionSectionState extends State<OptionSection> {
                       ? Colors.blueAccent.shade100
                       : Colors.white,
                   border: Border.all(
-                      width: widget.options[index].selected ? 0.0 : 1.0,
+                      width: widget.options[index].selected ? 0.0 : 0.5,
                       color: widget.options[index].selected
                           ? Colors.blueAccent.shade100
-                          : Colors.transparent),
+                          : Colors.black),
                   borderRadius: BorderRadius.circular(16.0)),
               child: Text(
                 widget.options[index].optionText,
@@ -203,7 +205,8 @@ class QuestionNavigator extends StatelessWidget {
         FlatButton(
           onPressed: () {
             // TODO: Show previous question (should not be editable)
-            BlocProvider.of<AssessmentBloc>(context).add(ShowPreviousQuestion());
+            BlocProvider.of<AssessmentBloc>(context)
+                .add(ShowPreviousQuestion());
           },
           textColor: Theme.of(context).accentColor,
           child: Text(Strings.back.toUpperCase()),

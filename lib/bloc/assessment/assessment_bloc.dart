@@ -19,7 +19,7 @@ class AssessmentBloc extends Bloc<AssessmentEvent, AssessmentState> {
 
   AssessmentBloc() : super(AssessmentInitial()) {
     _testRepository = AssessmentTestRepository();
-    _currentQuestionNumber = 1;
+    _currentQuestionNumber = 0;
   }
 
   @override

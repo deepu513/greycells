@@ -15,6 +15,7 @@ class Question {
   @JsonKey(name: "name")
   String questionText;
 
+  @JsonKey(name: "optionMaster")
   List<Option> options;
 
   @JsonKey(ignore: true)

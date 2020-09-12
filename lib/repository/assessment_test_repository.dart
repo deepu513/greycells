@@ -19,7 +19,7 @@ class AssessmentTestRepository {
 
   Future<Test> getTest() async {
     Request<Test> request = Request(
-        "${FlavorConfig.getBaseUrl()}Assessment/TestTypes", null);
+        "${FlavorConfig.getBaseUrl()}Assessment/Questions/1", null);
 
     return await _httpService.get(request, _testSerializable);
   }

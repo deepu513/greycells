@@ -39,6 +39,10 @@ class _PatientUploadPageState extends State<PatientUploadPage> {
         if (state is ErrorWhileUploading) {
           widget.onError.call();
         }
+
+        if(state is PatientDetailsUploaded) {
+          widget.onUploadComplete.call();
+        }
       },
       child: BlocBuilder<PatientDetailsBloc, PatientDetailsState>(
         builder: (context, state) {

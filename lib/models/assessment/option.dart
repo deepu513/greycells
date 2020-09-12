@@ -16,7 +16,9 @@ class Option {
   @JsonKey(ignore: true)
   bool selected;
 
-  Option();
+  Option() {
+    selected = false;
+  }
 
   factory Option.fromJson(Map<String, dynamic> json) => _$OptionFromJson(json);
 

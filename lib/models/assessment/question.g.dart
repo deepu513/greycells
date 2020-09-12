@@ -14,7 +14,7 @@ Question _$QuestionFromJson(Map<String, dynamic> json) {
     ..isActive = json['isActive'] as bool
     ..isLastQuestion = json['isLastQuestion'] as bool
     ..questionText = json['name'] as String
-    ..options = (json['options'] as List)
+    ..options = (json['optionMaster'] as List)
         ?.map((e) =>
             e == null ? null : Option.fromJson(e as Map<String, dynamic>))
         ?.toList();
@@ -27,5 +27,5 @@ Map<String, dynamic> _$QuestionToJson(Question instance) => <String, dynamic>{
       'isActive': instance.isActive,
       'isLastQuestion': instance.isLastQuestion,
       'name': instance.questionText,
-      'options': instance.options?.map((e) => e?.toJson())?.toList(),
+      'optionMaster': instance.options?.map((e) => e?.toJson())?.toList(),
     };

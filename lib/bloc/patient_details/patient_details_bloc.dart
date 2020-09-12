@@ -146,37 +146,41 @@ class PatientDetailsBloc
     }
 
     if (event is UploadPatientDetails) {
-      try {
+      yield PatientUploadProgress(Strings.uploadingProfilePicture);
+      yield PatientUploadProgress(Strings.uploadingMedicalRecord);
+      yield PatientDetailsUploaded();
 
-        if (!patient.localProfilePicFilePath.isNullOrEmpty()) {
-          yield PatientUploadProgress(Strings.uploadingProfilePicture);
-          var profilePicServerFile =
-              await _fileRepository.upload(patient.localProfilePicFilePath);
-          patient.profilePicId = profilePicServerFile.fileId;
-        }
-
-        if (patient.pickedFiles.isNotEmpty && patient.medicalRecords.isEmpty) {
-          yield PatientUploadProgress(Strings.uploadingMedicalRecord);
-          var medicalRecordList = List<MedicalRecord>();
-          for (var element in patient.pickedFiles) {
-            var serverFile =
-                await _fileRepository.upload(element.selectedFile.path);
-            medicalRecordList.add(MedicalRecord()..fileId = serverFile.fileId);
-          }
-          patient.medicalRecords.addAll(medicalRecordList);
-        }
-
-        yield PatientUploadProgress(Strings.almostDone);
-
-        var result = await _userRepository.savePatientDetails(patient: patient);
-        if (result)
-          yield PatientDetailsUploaded();
-        else
-          yield ErrorWhileUploading();
-      } catch (error) {
-        print(error);
-        yield ErrorWhileUploading();
-      }
+      // try {
+      //
+      //   if (!patient.localProfilePicFilePath.isNullOrEmpty()) {
+      //     yield PatientUploadProgress(Strings.uploadingProfilePicture);
+      //     var profilePicServerFile =
+      //         await _fileRepository.upload(patient.localProfilePicFilePath);
+      //     patient.profilePicId = profilePicServerFile.fileId;
+      //   }
+      //
+      //   if (patient.pickedFiles.isNotEmpty && patient.medicalRecords.isEmpty) {
+      //     yield PatientUploadProgress(Strings.uploadingMedicalRecord);
+      //     var medicalRecordList = List<MedicalRecord>();
+      //     for (var element in patient.pickedFiles) {
+      //       var serverFile =
+      //           await _fileRepository.upload(element.selectedFile.path);
+      //       medicalRecordList.add(MedicalRecord()..fileId = serverFile.fileId);
+      //     }
+      //     patient.medicalRecords.addAll(medicalRecordList);
+      //   }
+      //
+      //   yield PatientUploadProgress(Strings.almostDone);
+      //
+      //   var result = await _userRepository.savePatientDetails(patient: patient);
+      //   if (result)
+      //     yield PatientDetailsUploaded();
+      //   else
+      //     yield ErrorWhileUploading();
+      // } catch (error) {
+      //   print(error);
+      //   yield ErrorWhileUploading();
+      // }
     }
   }
 

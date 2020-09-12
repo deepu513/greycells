@@ -13,6 +13,9 @@ class Option {
 
   bool isActive;
 
+  @JsonKey(ignore: true)
+  bool selected;
+
   Option();
 
   factory Option.fromJson(Map<String, dynamic> json) => _$OptionFromJson(json);

@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:greycells/bloc/assessment/assessment_bloc.dart';
 import 'package:greycells/constants/strings.dart';
+import 'package:greycells/models/assessment/option.dart';
+import 'package:greycells/models/assessment/question.dart';
+import 'package:greycells/models/assessment/test.dart';
 import 'package:greycells/view/widgets/centered_circular_loading.dart';
 
 class AssessmentTestPage extends StatefulWidget {
@@ -10,7 +13,6 @@ class AssessmentTestPage extends StatefulWidget {
 }
 
 class _AssessmentTestPageState extends State<AssessmentTestPage> {
-
   @override
   void initState() {
     super.initState();
@@ -40,6 +42,10 @@ class _AssessmentTestPageState extends State<AssessmentTestPage> {
 }
 
 class _TestSection extends StatelessWidget {
+  final Test test;
+
+  _TestSection(this.test);
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -47,7 +53,7 @@ class _TestSection extends StatelessWidget {
         elevation: 4.0,
         brightness: Brightness.light,
         title: Text(
-          "Question 10 of 52",
+          "Question ${test.currentQuestion} of ${test.questions.length}}",
           style: Theme.of(context)
               .textTheme
               .headline6
@@ -60,7 +66,7 @@ class _TestSection extends StatelessWidget {
           )
         ],
       ),
-      body: _QuestionOptionPageContent(),
+      body: _QuestionOptionPageContent(test.questions[test.currentQuestion]),
     );
   }
 
@@ -92,6 +98,10 @@ class _TestSection extends StatelessWidget {
 }
 
 class _QuestionOptionPageContent extends StatelessWidget {
+  final Question question;
+
+  _QuestionOptionPageContent(this.question);
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -99,9 +109,17 @@ class _QuestionOptionPageContent extends StatelessWidget {
       children: [
         Padding(
           padding: const EdgeInsets.fromLTRB(16.0, 24.0, 16.0, 16.0),
-          child: QuestionSection(),
+          child: Text(
+            question.questionText,
+            style: Theme.of(context).textTheme.headline6.copyWith(
+                  height: 1.2,
+                  letterSpacing: 0.7,
+                ),
+          ),
         ),
-        Expanded(child: OptionSection()),
+        Expanded(
+          child: OptionSection(question.options, question.answerUpperLimit),
+        ),
         Padding(
           padding: const EdgeInsets.all(16.0),
           child: QuestionNavigator(),
@@ -111,35 +129,26 @@ class _QuestionOptionPageContent extends StatelessWidget {
   }
 }
 
-class QuestionSection extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Text(
-      "I tend to join social organisations when I have an opportunity",
-      style: Theme.of(context).textTheme.headline6.copyWith(
-            height: 1.2,
-            letterSpacing: 0.7,
-          ),
-    );
-  }
-}
-
 class OptionSection extends StatefulWidget {
+  final List<Option> options;
+  final int numberOfSelectableOptions;
+
+  OptionSection(this.options, this.numberOfSelectableOptions);
+
   @override
   _OptionSectionState createState() => _OptionSectionState();
 }
 
 class _OptionSectionState extends State<OptionSection> {
-  final List<String> options = [
-    "Usually",
-    "Often",
-    "Sometimes",
-    "Occasionally",
-    "Rarely",
-    "Never",
-  ];
-  int selectedIndex = -1;
+  int selectedIndex;
 
+  @override
+  void initState() {
+    super.initState();
+    selectedIndex = -1;
+  }
+
+  // TODO: Make this able to select multiple items
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
@@ -166,7 +175,7 @@ class _OptionSectionState extends State<OptionSection> {
                           : Colors.transparent),
                   borderRadius: BorderRadius.circular(16.0)),
               child: Text(
-                options[index],
+                widget.options[index].optionText,
                 style: Theme.of(context).textTheme.subtitle1.copyWith(
                     color:
                         index == selectedIndex ? Colors.white : Colors.black),
@@ -187,13 +196,17 @@ class QuestionNavigator extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: <Widget>[
         FlatButton(
-          onPressed: () {},
+          onPressed: () {
+            // TODO: Show previous question (should not be editable)
+          },
           textColor: Theme.of(context).accentColor,
           child: Text(Strings.back.toUpperCase()),
         ),
         RaisedButton.icon(
           padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
-          onPressed: () {},
+          onPressed: () {
+            // TODO: Show next question (check if not answered then only editable
+          },
           color: Theme.of(context).accentColor,
           textColor: Colors.white,
           shape:

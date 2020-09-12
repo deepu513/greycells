@@ -78,6 +78,7 @@ class Strings {
   static const almostDone = "Almost done...";
   static const optionSubmitError =
       "Some error occurred while saving your response. Please try again.";
+  static const multiOptionHelper = "Tap on option to select. Tap again to remove selection.";
 }
 
 /// This should contain strings which signify an error message

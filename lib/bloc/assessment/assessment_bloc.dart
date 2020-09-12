@@ -45,6 +45,10 @@ class AssessmentBloc extends Bloc<AssessmentEvent, AssessmentState> {
 
     if (event is QuestionAnswered) {
       // TODO: Hit api and move to next question here
+      ++_currentQuestionNumber;
+
+      yield ShowQuestion(
+          _test.questions[_currentQuestionNumber], _test.questions.length);
     }
 
     if (event is ShowPreviousQuestion) {
@@ -54,11 +58,12 @@ class AssessmentBloc extends Bloc<AssessmentEvent, AssessmentState> {
           _test.questions[_currentQuestionNumber], _test.questions.length);
     }
 
-    if (event is SelectOption) {
+    if (event is TrySelectingOption) {
       var currentQuestion = _test.questions[_currentQuestionNumber];
       if (currentQuestion.answerUpperLimit == 1) {
         currentQuestion.selectedOptions.clear();
         currentQuestion.selectedOptions.add(event.option);
+        event.option.selected = true;
         yield OptionSelected();
       } else if (currentQuestion.answerUpperLimit > 1) {
         /// If option already present then remove it.
@@ -72,12 +77,14 @@ class AssessmentBloc extends Bloc<AssessmentEvent, AssessmentState> {
         });
 
         if (optionRemoved) {
+          event.option.selected = false;
           yield OptionDeselected();
         } else {
           /// Option not present, add it.
           if (currentQuestion.selectedOptions.length <
               currentQuestion.answerUpperLimit) {
             currentQuestion.selectedOptions.add(event.option);
+            event.option.selected = true;
             yield OptionSelected();
           } else {
             yield MaxOptionsSelected();

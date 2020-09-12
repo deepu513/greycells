@@ -8,8 +8,8 @@ class QuestionAnswered extends AssessmentEvent {}
 
 class ShowPreviousQuestion extends AssessmentEvent {}
 
-class SelectOption extends AssessmentEvent {
+class TrySelectingOption extends AssessmentEvent {
   final Option option;
 
-  SelectOption(this.option);
+  TrySelectingOption(this.option);
 }

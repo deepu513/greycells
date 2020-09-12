@@ -4,7 +4,6 @@ import 'package:greycells/bloc/assessment/assessment_bloc.dart';
 import 'package:greycells/constants/strings.dart';
 import 'package:greycells/models/assessment/option.dart';
 import 'package:greycells/models/assessment/question.dart';
-import 'package:greycells/models/assessment/test.dart';
 import 'package:greycells/utils.dart';
 import 'package:greycells/view/widgets/centered_circular_loading.dart';
 
@@ -24,21 +23,20 @@ class _AssessmentTestPageState extends State<AssessmentTestPage> {
   Widget build(BuildContext context) {
     return BlocListener<AssessmentBloc, AssessmentState>(
         listener: (context, state) {
-          if (state is AssessmentError) {
-            Utils.showErrorDialog(context, Strings.optionSubmitError);
-          }
-        },
-        child: BlocBuilder<AssessmentBloc, AssessmentState>(
-          builder: (context, state) {
-            if (state is AssessmentTestLoading) {
-              return CenteredCircularLoadingIndicator();
-            }
-            if (state is ShowQuestion) {
-              return _TestSection(state.currentQuestion, state.totalQuestions);
-            }
-            return Container();
-          },
-        ));
+      if (state is AssessmentError) {
+        Utils.showErrorDialog(context, Strings.optionSubmitError);
+      }
+    }, child: BlocBuilder<AssessmentBloc, AssessmentState>(
+      builder: (context, state) {
+        if (state is AssessmentTestLoading) {
+          return CenteredCircularLoadingIndicator();
+        }
+        if (state is ShowQuestion) {
+          return _TestSection(state.currentQuestion, state.totalQuestions);
+        }
+        return Container();
+      },
+    ));
   }
 }
 
@@ -119,8 +117,18 @@ class _QuestionOptionPageContent extends StatelessWidget {
                 ),
           ),
         ),
+        Visibility(
+          visible: question.answerUpperLimit > 1,
+          child: Padding(
+            padding: const EdgeInsets.fromLTRB(16.0, 8.0, 16.0, 8.0),
+            child: Text(
+              Strings.multiOptionHelper,
+              style: Theme.of(context).textTheme.caption,
+            ),
+          ),
+        ),
         Expanded(
-          child: OptionSection(question.options, question.answerUpperLimit),
+          child: OptionSection(question.options),
         ),
         Padding(
           padding: const EdgeInsets.all(16.0),
@@ -133,24 +141,19 @@ class _QuestionOptionPageContent extends StatelessWidget {
 
 class OptionSection extends StatefulWidget {
   final List<Option> options;
-  final int numberOfSelectableOptions;
 
-  OptionSection(this.options, this.numberOfSelectableOptions);
+  OptionSection(this.options);
 
   @override
   _OptionSectionState createState() => _OptionSectionState();
 }
 
 class _OptionSectionState extends State<OptionSection> {
-  int selectedIndex;
-
   @override
   void initState() {
     super.initState();
-    selectedIndex = -1;
   }
 
-  // TODO: Make this able to select multiple items
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
@@ -159,34 +162,34 @@ class _OptionSectionState extends State<OptionSection> {
           padding: EdgeInsets.symmetric(vertical: 16.0, horizontal: 24.0),
           child: GestureDetector(
             onTap: () {
-              setState(() {
-                selectedIndex = index;
-              });
+              BlocProvider.of<AssessmentBloc>(context)
+                  .add(TrySelectingOption(widget.options[index]));
             },
             child: AnimatedContainer(
               duration: Duration(milliseconds: 300),
               padding: EdgeInsets.all(16.0),
               decoration: BoxDecoration(
-                  color: index == selectedIndex
+                  color: widget.options[index].selected
                       ? Colors.blueAccent.shade100
                       : Colors.white,
                   border: Border.all(
-                      width: selectedIndex >= 0 ? 0.0 : 0.0,
-                      color: index == selectedIndex
+                      width: widget.options[index].selected ? 0.0 : 1.0,
+                      color: widget.options[index].selected
                           ? Colors.blueAccent.shade100
                           : Colors.transparent),
                   borderRadius: BorderRadius.circular(16.0)),
               child: Text(
                 widget.options[index].optionText,
                 style: Theme.of(context).textTheme.subtitle1.copyWith(
-                    color:
-                        index == selectedIndex ? Colors.white : Colors.black),
+                    color: widget.options[index].selected
+                        ? Colors.white
+                        : Colors.black),
               ),
             ),
           ),
         );
       },
-      itemCount: 6,
+      itemCount: widget.options.length,
     );
   }
 }
@@ -200,6 +203,7 @@ class QuestionNavigator extends StatelessWidget {
         FlatButton(
           onPressed: () {
             // TODO: Show previous question (should not be editable)
+            BlocProvider.of<AssessmentBloc>(context).add(ShowPreviousQuestion());
           },
           textColor: Theme.of(context).accentColor,
           child: Text(Strings.back.toUpperCase()),
@@ -208,6 +212,7 @@ class QuestionNavigator extends StatelessWidget {
           padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
           onPressed: () {
             // TODO: Show next question (check if not answered then only editable
+            BlocProvider.of<AssessmentBloc>(context).add(QuestionAnswered());
           },
           color: Theme.of(context).accentColor,
           textColor: Colors.white,

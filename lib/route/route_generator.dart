@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:greycells/bloc/assessment/assessment_bloc.dart';
 import 'package:greycells/bloc/registration/bloc.dart';
 import 'package:greycells/bloc/validation/bloc.dart';
 import 'package:greycells/route/route_name.dart';
@@ -43,7 +44,11 @@ class RouteGenerator {
       case RouteName.ASSESSMENT_TEST_INTRO:
         return MaterialPageRoute(builder: (_) => AssessmentTestIntroPage());
       case RouteName.ASSESSMENT_TEST:
-        return MaterialPageRoute(builder: (_) => AssessmentTestPage());
+        return MaterialPageRoute(
+            builder: (_) => BlocProvider<AssessmentBloc>(
+                  create: (_) => AssessmentBloc(),
+                  child: AssessmentTestPage(),
+                ));
       default:
         // If there is no such named route in the switch statement, e.g. /third
         return _errorRoute();

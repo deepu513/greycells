@@ -1,7 +1,45 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:greycells/bloc/assessment/assessment_bloc.dart';
 import 'package:greycells/constants/strings.dart';
+import 'package:greycells/view/widgets/centered_circular_loading.dart';
 
-class AssessmentTestPage extends StatelessWidget {
+class AssessmentTestPage extends StatefulWidget {
+  @override
+  _AssessmentTestPageState createState() => _AssessmentTestPageState();
+}
+
+class _AssessmentTestPageState extends State<AssessmentTestPage> {
+
+  @override
+  void initState() {
+    super.initState();
+    // TODO: Ask bloc to fetch all questions here
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocListener<AssessmentBloc, AssessmentState>(
+        listener: (context, state) {},
+        child: BlocBuilder<AssessmentBloc, AssessmentState>(
+          builder: (context, state) {
+            if (state is AssessmentQuestionsLoading) {
+              return CenteredCircularLoadingIndicator();
+            }
+            if (state is AssessmentQuestionsLoaded) {
+              return _TestSection();
+            }
+            if (state is AssessmentError) {
+              // TODO: Handle error in a different way
+              return Container();
+            }
+            return Container();
+          },
+        ));
+  }
+}
+
+class _TestSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -22,7 +60,7 @@ class AssessmentTestPage extends StatelessWidget {
           )
         ],
       ),
-      body: QuestionOptionPageContent(),
+      body: _QuestionOptionPageContent(),
     );
   }
 
@@ -53,7 +91,7 @@ class AssessmentTestPage extends StatelessWidget {
   }
 }
 
-class QuestionOptionPageContent extends StatelessWidget {
+class _QuestionOptionPageContent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(

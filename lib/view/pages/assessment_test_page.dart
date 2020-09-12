@@ -5,6 +5,7 @@ import 'package:greycells/constants/strings.dart';
 import 'package:greycells/models/assessment/option.dart';
 import 'package:greycells/models/assessment/question.dart';
 import 'package:greycells/models/assessment/test.dart';
+import 'package:greycells/utils.dart';
 import 'package:greycells/view/widgets/centered_circular_loading.dart';
 
 class AssessmentTestPage extends StatefulWidget {
@@ -16,24 +17,24 @@ class _AssessmentTestPageState extends State<AssessmentTestPage> {
   @override
   void initState() {
     super.initState();
-    // TODO: Ask bloc to fetch all questions here
+    BlocProvider.of<AssessmentBloc>(context).add(LoadAssessmentTest());
   }
 
   @override
   Widget build(BuildContext context) {
     return BlocListener<AssessmentBloc, AssessmentState>(
-        listener: (context, state) {},
+        listener: (context, state) {
+          if (state is AssessmentError) {
+            Utils.showErrorDialog(context, Strings.optionSubmitError);
+          }
+        },
         child: BlocBuilder<AssessmentBloc, AssessmentState>(
           builder: (context, state) {
             if (state is AssessmentTestLoading) {
               return CenteredCircularLoadingIndicator();
             }
-            if (state is ShowQuestion) {
-              return _TestSection();
-            }
-            if (state is AssessmentError) {
-              // TODO: Handle error in a different way
-              return Container();
+            if (state is AssessmentTestLoaded) {
+              return _TestSection(state.test);
             }
             return Container();
           },

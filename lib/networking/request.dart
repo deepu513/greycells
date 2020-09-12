@@ -16,7 +16,7 @@ class Request<T> {
   }
 
   Map<String, dynamic> toJsonMap() {
-    if (_body != null)
+    if (_body != null && _serializable != null)
       return _serializable.toJson(_body);
     else
       return {};

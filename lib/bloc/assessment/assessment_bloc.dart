@@ -3,6 +3,8 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:greycells/models/assessment/option.dart';
 import 'package:greycells/models/assessment/question.dart';
+import 'package:greycells/models/assessment/test.dart';
+import 'package:greycells/repository/assessment_test_repository.dart';
 import 'package:meta/meta.dart';
 
 part 'assessment_event.dart';
@@ -13,12 +15,30 @@ class AssessmentBloc extends Bloc<AssessmentEvent, AssessmentState> {
   List<Question> questions;
   int currentQuestion;
 
-  AssessmentBloc() : super(AssessmentInitial());
+  AssessmentTestRepository _testRepository;
+
+  AssessmentBloc() : super(AssessmentInitial()) {
+    _testRepository = AssessmentTestRepository();
+  }
 
   @override
   Stream<AssessmentState> mapEventToState(
     AssessmentEvent event,
   ) async* {
+    if (event is LoadAssessmentTest) {
+      yield AssessmentTestLoading();
+      try {
+        Test test = await _testRepository.getTest();
+        if (test != null)
+          yield AssessmentTestLoaded(test);
+        else
+          yield AssessmentError();
+      } catch (e) {
+        print(e);
+        yield AssessmentError();
+      }
+    }
+
     if (event is QuestionAnswered) {}
 
     if (event is ShowPreviousQuestion) {}

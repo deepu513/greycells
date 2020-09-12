@@ -1,19 +1,24 @@
-import 'package:flutter/foundation.dart';
 import 'package:greycells/models/assessment/question.dart';
 import 'package:greycells/models/assessment/test_type.dart';
 import 'package:json_annotation/json_annotation.dart';
 
+part 'test.g.dart';
+
+@JsonSerializable(explicitToJson: true)
 class Test {
-  final TestType testType;
-  final List<Question> questions;
+  TestType testType;
+  List<Question> questions;
 
   @JsonKey(ignore: true)
   int currentQuestion;
 
-  Test({@required this.testType, @required this.questions})
-      : assert(testType != null),
-        assert(questions != null) {
+  Test() {
     /// Default value
+    // TODO: This can be changed with lastAttemptedQuestion from home api
     currentQuestion = 1;
   }
+
+  factory Test.fromJson(Map<String, dynamic> json) => _$TestFromJson(json);
+
+  Map<String, dynamic> toJson() => _$TestToJson(this);
 }

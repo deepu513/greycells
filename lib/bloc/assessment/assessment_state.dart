@@ -9,9 +9,10 @@ class AssessmentTestLoading extends AssessmentState {}
 
 class AssessmentError extends AssessmentState {}
 
-class AssessmentTestLoaded extends AssessmentState {}
-
-class ShowQuestion extends AssessmentState {}
+class AssessmentTestLoaded extends AssessmentState {
+  final Test test;
+  AssessmentTestLoaded(this.test);
+}
 
 class OptionSelected extends AssessmentState {}
 

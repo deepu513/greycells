@@ -84,6 +84,7 @@ class _PatientDetailInputState extends State<PatientDetailInput>
     });
   }
 
+  //TODO: Mock and test this. Not working now.
   void _onUploadComplete() {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       setState(() {

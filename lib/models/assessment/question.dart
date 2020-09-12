@@ -17,7 +17,12 @@ class Question {
 
   List<Option> options;
 
-  Question();
+  @JsonKey(ignore: true)
+  List<Option> selectedOptions;
+
+  Question() {
+    selectedOptions = List();
+  }
 
   factory Question.fromJson(Map<String, dynamic> json) =>
       _$QuestionFromJson(json);

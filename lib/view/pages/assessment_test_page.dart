@@ -25,10 +25,10 @@ class _AssessmentTestPageState extends State<AssessmentTestPage> {
         listener: (context, state) {},
         child: BlocBuilder<AssessmentBloc, AssessmentState>(
           builder: (context, state) {
-            if (state is AssessmentQuestionsLoading) {
+            if (state is AssessmentTestLoading) {
               return CenteredCircularLoadingIndicator();
             }
-            if (state is AssessmentQuestionsLoaded) {
+            if (state is ShowQuestion) {
               return _TestSection();
             }
             if (state is AssessmentError) {

@@ -24,7 +24,8 @@ class HttpService {
     SettingsRepository.getInstance()
         .then((value) {
       _settingsRepository = value;
-      _token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6IjEiLCJuYmYiOjE1OTk4NDY1MjcsImV4cCI6MTYwMjQzODUyNywiaWF0IjoxNTk5ODQ2NTI3fQ.kYn5Osqm6f5gBI7hDzJ5GHE5rkQyyjbt0av8R_hKIzo";      //_token = _settingsRepository.get(SettingKey.KEY_REQUEST_TOKEN);
+      _token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6IjEiLCJuYmYiOjE1OTk5MTI3NzAsImV4cCI6MTYwMjUwNDc3MCwiaWF0IjoxNTk5OTEyNzcwfQ.ROaujBUEA8czeAMCufTgDFIwU52Lzah8B97pgmkj9xQ";
+      //_token = _settingsRepository.get(SettingKey.KEY_REQUEST_TOKEN);
     });
   }
 

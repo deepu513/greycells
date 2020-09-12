@@ -13,6 +13,8 @@ extension StringExtensions on String {
 
   bool hasRequiredLength(int length) =>
       this != null && this.isNotEmpty && this.length == length;
+
+  String get titleCase => '${this[0].toUpperCase()}${this.substring(1)}';
 }
 
 extension NumberToWord on int {

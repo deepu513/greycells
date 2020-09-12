@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:greycells/bloc/assessment/assessment_bloc.dart';
 import 'package:greycells/constants/strings.dart';
+import 'package:greycells/extensions.dart';
 import 'package:greycells/models/assessment/option.dart';
 import 'package:greycells/models/assessment/question.dart';
 import 'package:greycells/utils.dart';
@@ -119,17 +120,25 @@ class _QuestionOptionPageContent extends StatelessWidget {
                 ),
           ),
         ),
+        Padding(
+          padding: const EdgeInsets.fromLTRB(24.0, 8.0, 16.0, 0.0),
+          child: Text(
+            "Options:",
+            style: Theme.of(context).textTheme.subtitle1.copyWith(
+              color: Colors.grey[600]
+            ),
+          ),
+        ),
         Expanded(
           child: OptionSection(question.options),
         ),
-        Visibility(
-          visible: question.answerUpperLimit > 1,
-          child: Padding(
-            padding: const EdgeInsets.fromLTRB(24.0, 8.0, 16.0, 8.0),
-            child: Text(
-              Strings.multiOptionHelper,
-              style: Theme.of(context).textTheme.caption,
-            ),
+        Padding(
+          padding: const EdgeInsets.fromLTRB(24.0, 8.0, 16.0, 8.0),
+          child: Text(
+            question.answerUpperLimit > 1
+                ? Strings.multiOptionHelper
+                : Strings.optionHelper,
+            style: Theme.of(context).textTheme.caption,
           ),
         ),
         Padding(
@@ -181,7 +190,7 @@ class _OptionSectionState extends State<OptionSection> {
                           : Colors.black),
                   borderRadius: BorderRadius.circular(16.0)),
               child: Text(
-                widget.options[index].optionText,
+                widget.options[index].optionText.titleCase,
                 style: Theme.of(context).textTheme.subtitle1.copyWith(
                     color: widget.options[index].selected
                         ? Colors.white

@@ -33,8 +33,8 @@ class _AssessmentTestPageState extends State<AssessmentTestPage> {
             if (state is AssessmentTestLoading) {
               return CenteredCircularLoadingIndicator();
             }
-            if (state is AssessmentTestLoaded) {
-              return _TestSection(state.test);
+            if (state is ShowQuestion) {
+              return _TestSection(state.currentQuestion, state.totalQuestions);
             }
             return Container();
           },
@@ -43,9 +43,10 @@ class _AssessmentTestPageState extends State<AssessmentTestPage> {
 }
 
 class _TestSection extends StatelessWidget {
-  final Test test;
+  final Question _currentQuestion;
+  final int _totalQuestions;
 
-  _TestSection(this.test);
+  _TestSection(this._currentQuestion, this._totalQuestions);
 
   @override
   Widget build(BuildContext context) {
@@ -54,7 +55,7 @@ class _TestSection extends StatelessWidget {
         elevation: 4.0,
         brightness: Brightness.light,
         title: Text(
-          "Question ${test.currentQuestion} of ${test.questions.length}}",
+          "Question ${_currentQuestion.sequence} of $_totalQuestions}",
           style: Theme.of(context)
               .textTheme
               .headline6
@@ -67,7 +68,7 @@ class _TestSection extends StatelessWidget {
           )
         ],
       ),
-      body: _QuestionOptionPageContent(test.questions[test.currentQuestion]),
+      body: _QuestionOptionPageContent(_currentQuestion),
     );
   }
 

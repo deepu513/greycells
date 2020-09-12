@@ -12,13 +12,14 @@ part 'assessment_event.dart';
 part 'assessment_state.dart';
 
 class AssessmentBloc extends Bloc<AssessmentEvent, AssessmentState> {
-  List<Question> questions;
-  int currentQuestion;
+  int _currentQuestionNumber;
+  Test _test;
 
   AssessmentTestRepository _testRepository;
 
   AssessmentBloc() : super(AssessmentInitial()) {
     _testRepository = AssessmentTestRepository();
+    _currentQuestionNumber = 1;
   }
 
   @override
@@ -28,10 +29,13 @@ class AssessmentBloc extends Bloc<AssessmentEvent, AssessmentState> {
     if (event is LoadAssessmentTest) {
       yield AssessmentTestLoading();
       try {
-        Test test = await _testRepository.getTest();
-        if (test != null)
-          yield AssessmentTestLoaded(test);
-        else
+        Test receivedTest = await _testRepository.getTest();
+        if (receivedTest != null) {
+          this._test = receivedTest;
+          // TODO: You can modify currentQuestion here and set it according to home api response.
+          yield ShowQuestion(
+              _test.questions[_currentQuestionNumber], _test.questions.length);
+        } else
           yield AssessmentError();
       } catch (e) {
         print(e);
@@ -39,21 +43,27 @@ class AssessmentBloc extends Bloc<AssessmentEvent, AssessmentState> {
       }
     }
 
-    if (event is QuestionAnswered) {}
+    if (event is QuestionAnswered) {
+      // TODO: Hit api and move to next question here
+    }
 
-    if (event is ShowPreviousQuestion) {}
+    if (event is ShowPreviousQuestion) {
+      --_currentQuestionNumber;
 
-    if (event is ShowNextQuestion) {}
+      yield ShowQuestion(
+          _test.questions[_currentQuestionNumber], _test.questions.length);
+    }
 
     if (event is SelectOption) {
-      if (questions[currentQuestion].answerUpperLimit == 1) {
-        questions[currentQuestion].selectedOptions.clear();
-        questions[currentQuestion].selectedOptions.add(event.option);
+      var currentQuestion = _test.questions[_currentQuestionNumber];
+      if (currentQuestion.answerUpperLimit == 1) {
+        currentQuestion.selectedOptions.clear();
+        currentQuestion.selectedOptions.add(event.option);
         yield OptionSelected();
-      } else if (questions[currentQuestion].answerUpperLimit > 1) {
+      } else if (currentQuestion.answerUpperLimit > 1) {
         /// If option already present then remove it.
         var optionRemoved = false;
-        questions[currentQuestion].selectedOptions.removeWhere((element) {
+        currentQuestion.selectedOptions.removeWhere((element) {
           if (element.id == event.option.id) {
             optionRemoved = true;
             return true;
@@ -65,9 +75,9 @@ class AssessmentBloc extends Bloc<AssessmentEvent, AssessmentState> {
           yield OptionDeselected();
         } else {
           /// Option not present, add it.
-          if (questions[currentQuestion].selectedOptions.length <
-              questions[currentQuestion].answerUpperLimit) {
-            questions[currentQuestion].selectedOptions.add(event.option);
+          if (currentQuestion.selectedOptions.length <
+              currentQuestion.answerUpperLimit) {
+            currentQuestion.selectedOptions.add(event.option);
             yield OptionSelected();
           } else {
             yield MaxOptionsSelected();

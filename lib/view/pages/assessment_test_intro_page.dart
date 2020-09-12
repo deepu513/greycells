@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:greycells/constants/strings.dart';
+import 'package:greycells/route/route_name.dart';
 
 class AssessmentTestIntroPage extends StatefulWidget {
   @override
@@ -179,6 +180,7 @@ class _AssessmentTestIntroPageState extends State<AssessmentTestIntroPage>
     if (currentPoint == 1) {
       _secondPointFadeController.forward();
     }
+
     if (currentPoint == 2) {
       _thirdPointFadeController.forward();
     }
@@ -192,8 +194,12 @@ class _AssessmentTestIntroPageState extends State<AssessmentTestIntroPage>
     }
 
     if (currentPoint == 5) {
-      // start test
+      _navigateToAssessmentTestPage();
     }
+  }
+
+  void _navigateToAssessmentTestPage() {
+    Navigator.of(context).pushNamed(RouteName.ASSESSMENT_TEST);
   }
 
   @override

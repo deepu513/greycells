@@ -72,10 +72,7 @@ class AuthenticationBloc
             _settingsRepository = await SettingsRepository.getInstance();
             await _settingsRepository.saveValue(
                 SettingKey.KEY_IS_LOGGED_IN, true);
-            await _settingsRepository.saveValue(
-                SettingKey.KEY_REQUEST_TOKEN, user.token);
-            await _settingsRepository.saveValue(
-                SettingKey.KEY_USER_ID, user.id);
+            await _saveUserDetails(user);
             yield AuthenticationAuthenticated();
           }
 
@@ -105,6 +102,17 @@ class AuthenticationBloc
       shouldObscurePassword = !shouldObscurePassword;
       yield PasswordVisibilityToggled();
     }
+  }
+
+  Future _saveUserDetails(User user) async {
+    await _settingsRepository.saveValue(
+        SettingKey.KEY_REQUEST_TOKEN, user.token);
+    await _settingsRepository.saveValue(SettingKey.KEY_USER_ID, user.id);
+    await _settingsRepository.saveValue(SettingKey.KEY_USERNAME, user.username);
+    await _settingsRepository.saveValue(
+        SettingKey.KEY_USER_FIRST_NAME, user.firstName);
+    await _settingsRepository.saveValue(
+        SettingKey.KEY_USER_MOBILE, user.mobileNumber);
   }
 
   @override

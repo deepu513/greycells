@@ -16,6 +16,8 @@ class ShowQuestion extends AssessmentState {
   ShowQuestion(this.currentQuestion, this.totalQuestions);
 }
 
+class NoMoreQuestions extends AssessmentState {}
+
 class OptionSelected extends AssessmentState {}
 
 class OptionDeselected extends AssessmentState {}

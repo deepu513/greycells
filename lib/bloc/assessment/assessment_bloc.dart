@@ -52,10 +52,12 @@ class AssessmentBloc extends Bloc<AssessmentEvent, AssessmentState> {
     }
 
     if (event is ShowPreviousQuestion) {
-      --_currentQuestionNumber;
+      if(_currentQuestionNumber > 0) {
+        --_currentQuestionNumber;
 
-      yield ShowQuestion(
-          _test.questions[_currentQuestionNumber], _test.questions.length);
+        yield ShowQuestion(
+            _test.questions[_currentQuestionNumber], _test.questions.length);
+      } else yield NoMoreQuestions();
     }
 
     if (event is TrySelectingOption) {

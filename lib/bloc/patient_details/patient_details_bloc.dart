@@ -148,7 +148,7 @@ class PatientDetailsBloc
     if (event is UploadPatientDetails) {
       yield PatientUploadProgress(Strings.uploadingProfilePicture);
       yield PatientUploadProgress(Strings.uploadingMedicalRecord);
-      yield PatientDetailsUploaded();
+      yield PatientDetailsUploaded(Strings.patientDetailsSaved);
 
       // try {
       //

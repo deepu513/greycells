@@ -111,7 +111,7 @@ class _QuestionOptionPageContent extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Padding(
-          padding: const EdgeInsets.fromLTRB(16.0, 24.0, 16.0, 16.0),
+          padding: const EdgeInsets.fromLTRB(16.0, 8.0, 16.0, 16.0),
           child: Text(
             question.questionText,
             style: Theme.of(context).textTheme.headline6.copyWith(
@@ -121,7 +121,7 @@ class _QuestionOptionPageContent extends StatelessWidget {
           ),
         ),
         Padding(
-          padding: const EdgeInsets.fromLTRB(24.0, 8.0, 16.0, 0.0),
+          padding: const EdgeInsets.fromLTRB(24.0, 4.0, 16.0, 4.0),
           child: Text(
             "Options:",
             style: Theme.of(context).textTheme.subtitle1.copyWith(
@@ -221,7 +221,6 @@ class QuestionNavigator extends StatelessWidget {
           child: Text(Strings.back.toUpperCase()),
         ),
         RaisedButton.icon(
-          padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
           onPressed: () {
             // TODO: Show next question (check if not answered then only editable
             BlocProvider.of<AssessmentBloc>(context).add(QuestionAnswered());
@@ -229,7 +228,7 @@ class QuestionNavigator extends StatelessWidget {
           color: Theme.of(context).accentColor,
           textColor: Colors.white,
           shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(20.0)),
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(16.0)),
           icon: Icon(
             Icons.save,
             color: Colors.white,

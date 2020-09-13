@@ -48,6 +48,8 @@ class _PatientUploadPageState extends State<PatientUploadPage> {
         builder: (context, state) {
           if (state is PatientUploadProgress)
             return _PatientUploadProgress(state.message);
+          if (state is PatientDetailsUploaded)
+            return _PatientUploadProgress(state.message);
           if (state is ErrorWhileUploading) {
             return ErrorWithRetry(
               onRetryPressed: _uploadPatientDetails,

@@ -73,9 +73,10 @@ class Strings {
   static const beforeWeBegin = "Before we begin...";
   static const somePoints = "Let's go through some points...";
   static const retry = "Retry";
-  static const uploadingProfilePicture = "Uploading your profile picture";
-  static const uploadingMedicalRecord = "Uploading your medical records";
+  static const uploadingProfilePicture = "Uploading profile picture...";
+  static const uploadingMedicalRecord = "Uploading medical records...";
   static const almostDone = "Almost done...";
+  static const patientDetailsSaved = "Details saved.";
   static const optionSubmitError =
       "Some error occurred while saving your response. Please try again.";
   static const multiOptionHelper = "Tap once to select, twice to remove selection.";

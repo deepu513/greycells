@@ -2,6 +2,8 @@ import 'package:flutter/foundation.dart';
 import 'package:greycells/flavor_config.dart';
 import 'package:greycells/models/login/login_request.dart';
 import 'package:greycells/models/login/login_request_serializable.dart';
+import 'package:greycells/models/patient/create_patient_response.dart';
+import 'package:greycells/models/patient/create_patient_serializable.dart';
 import 'package:greycells/models/patient/patient.dart';
 import 'package:greycells/models/patient/patient_serializable.dart';
 import 'package:greycells/models/registration/registration.dart';
@@ -17,6 +19,7 @@ class UserRepository {
   LoginRequestSerializable _loginRequestSerializable;
   PatientSerializable _patientSerializable;
   UserSerializable _userSerializable;
+  CreatePatientResponseSerializable _createPatientResponseSerializable;
 
   HttpService _httpService;
 
@@ -25,6 +28,7 @@ class UserRepository {
     _registrationSerializable = RegistrationSerializable();
     _loginRequestSerializable = LoginRequestSerializable();
     _patientSerializable = PatientSerializable();
+    _createPatientResponseSerializable = CreatePatientResponseSerializable();
     _userSerializable = UserSerializable();
   }
 
@@ -47,12 +51,13 @@ class UserRepository {
     return await _httpService.post(request, _userSerializable);
   }
 
-  Future<bool> savePatientDetails({@required Patient patient}) async {
+  Future<CreatePatientResponse> savePatientDetails(
+      {@required Patient patient}) async {
     Request<Patient> request = Request(
         "${FlavorConfig.getBaseUrl()}Patient/CreatePatient",
-        _patientSerializable)..setBody(patient);
+        _patientSerializable)
+      ..setBody(patient);
 
-    Response patientResponse = await _httpService.postRaw(request, null);
-    return patientResponse.statusCode == 200;
+    return await _httpService.post(request, _createPatientResponseSerializable);
   }
 }

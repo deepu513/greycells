@@ -45,6 +45,8 @@ class AssessmentBloc extends Bloc<AssessmentEvent, AssessmentState> {
         if (firstTestDone) {
           if (secondTestDone) {
             // TODO: This should never happen here. Should be handled from outside only, don't navigate to assessment page.
+            // TODO: This is temporary
+            testId = 1;
           } else
             testId = 2;
         } else
@@ -76,10 +78,10 @@ class AssessmentBloc extends Bloc<AssessmentEvent, AssessmentState> {
 
         final currentQuestion = _test.questions[_currentQuestionNumber];
         final int patientId =
-            await _settingsRepository.get(SettingKey.KEY_USER_ID);
+            await _settingsRepository.get(SettingKey.KEY_PATIENT_ID);
 
         SaveOptionRequest optionRequest = SaveOptionRequest()
-          ..patientId = 1
+          ..patientId = patientId
           ..questionId = currentQuestion.id
           ..score = currentQuestion.selectedOptions[0].score
           ..testTypeId = _test.testType.id

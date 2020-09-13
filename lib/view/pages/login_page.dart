@@ -29,15 +29,21 @@ class LoginPage extends StatelessWidget {
         child: BlocListener<AuthenticationBloc, AuthenticationState>(
           listener: (context, current) {
             if (current is AuthenticationAuthenticated) {
-              Navigator.pushNamedAndRemoveUntil(
-                  context, RouteName.HOME, (route) => false);
+              // Navigator.pushNamedAndRemoveUntil(
+              //     context, RouteName.HOME, (route) => false);
+
+              Navigator.pushNamedAndRemoveUntil(context,
+                  RouteName.PATIENT_DETAIL_INPUT_PAGE, (route) => false);
             }
 
             if (current is AuthenticationFailure) {
               showErrorDialog(context, current.error);
             }
           },
-          child: LoginInputSection(),
+          child: LoginInputSection(
+            shouldShowRegistrationSuccessfulMessage:
+                shouldShowRegistrationSuccessfulMessage,
+          ),
         ),
       ),
     );
@@ -72,10 +78,7 @@ class LoginInputSection extends StatelessWidget {
                   child: Text(
                     Strings.registrationSuccessMessageOnLogin,
                     overflow: TextOverflow.clip,
-                    style: Theme.of(context).textTheme.subtitle1.copyWith(
-                          fontWeight: FontWeight.w300,
-                          fontSize: 14.0,
-                        ),
+                    style: Theme.of(context).textTheme.caption.copyWith(),
                   ),
                 ),
                 SizedBox(

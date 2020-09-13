@@ -59,12 +59,12 @@ class _MyApp extends StatelessWidget {
 //            }
 
             /// User is logged in
-            if (authenticationState is AuthenticationAuthenticated) {
-              return HomePage();
-            }
+            // if (authenticationState is AuthenticationAuthenticated) {
+            //   return HomePage();
+            // }
 
             // TODO: Handle this/failure, show error or let user login again
-            return PatientDetailInput();
+            return WelcomePage();
           },
         ),
       ),

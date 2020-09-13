@@ -240,7 +240,7 @@ class QuestionNavigator extends StatelessWidget {
           child: Text(Strings.back.toUpperCase()),
         ),
         RaisedButton.icon(
-          onPressed: true
+          onPressed: enableNextButton
               ? () {
                   BlocProvider.of<AssessmentBloc>(context)
                       .add(QuestionAnswered());

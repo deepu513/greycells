@@ -84,7 +84,6 @@ class _PatientDetailInputState extends State<PatientDetailInput>
     });
   }
 
-  //TODO: Mock and test this. Not working now.
   void _onUploadComplete() {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       setState(() {
@@ -203,8 +202,8 @@ class _PatientDetailInputState extends State<PatientDetailInput>
   _handleNextPressed(
       BuildContext context, PageTransitionState transitionState) async {
     if (_shouldValidateCurrentPage(transitionState)) {
-      //var result = await _validateCurrentPage(context, transitionState);
-      var result = true;
+      var result = await _validateCurrentPage(context, transitionState);
+      //var result = true;
       if (result == true) _transitionToNextPage(context, transitionState);
     } else {
       _transitionToNextPage(context, transitionState);

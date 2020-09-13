@@ -8,6 +8,7 @@ import 'package:greycells/constants/setting_key.dart';
 import 'package:greycells/constants/strings.dart';
 import 'package:greycells/extensions.dart';
 import 'package:greycells/models/patient/address/address.dart';
+import 'package:greycells/models/patient/create_patient_response.dart';
 import 'package:greycells/models/patient/guardian/guardian.dart';
 import 'package:greycells/models/patient/health/health_record.dart';
 import 'package:greycells/models/patient/medical/medical_record.dart';
@@ -56,9 +57,8 @@ class PatientDetailsBloc
 
     SettingsRepository.getInstance().then((value) {
       _settingsRepository = value;
-      patient.id = 1;
+      patient.customerId = value.get(SettingKey.KEY_USER_ID);
     });
-
   }
 
   @override
@@ -146,41 +146,39 @@ class PatientDetailsBloc
     }
 
     if (event is UploadPatientDetails) {
-      yield PatientUploadProgress(Strings.uploadingProfilePicture);
-      yield PatientUploadProgress(Strings.uploadingMedicalRecord);
-      yield PatientDetailsUploaded(Strings.patientDetailsSaved);
+      try {
+        if (!patient.localProfilePicFilePath.isNullOrEmpty()) {
+          yield PatientUploadProgress(Strings.uploadingProfilePicture);
+          var profilePicServerFile =
+              await _fileRepository.upload(patient.localProfilePicFilePath);
+          patient.profilePicId = profilePicServerFile.fileId;
+        }
 
-      // try {
-      //
-      //   if (!patient.localProfilePicFilePath.isNullOrEmpty()) {
-      //     yield PatientUploadProgress(Strings.uploadingProfilePicture);
-      //     var profilePicServerFile =
-      //         await _fileRepository.upload(patient.localProfilePicFilePath);
-      //     patient.profilePicId = profilePicServerFile.fileId;
-      //   }
-      //
-      //   if (patient.pickedFiles.isNotEmpty && patient.medicalRecords.isEmpty) {
-      //     yield PatientUploadProgress(Strings.uploadingMedicalRecord);
-      //     var medicalRecordList = List<MedicalRecord>();
-      //     for (var element in patient.pickedFiles) {
-      //       var serverFile =
-      //           await _fileRepository.upload(element.selectedFile.path);
-      //       medicalRecordList.add(MedicalRecord()..fileId = serverFile.fileId);
-      //     }
-      //     patient.medicalRecords.addAll(medicalRecordList);
-      //   }
-      //
-      //   yield PatientUploadProgress(Strings.almostDone);
-      //
-      //   var result = await _userRepository.savePatientDetails(patient: patient);
-      //   if (result)
-      //     yield PatientDetailsUploaded();
-      //   else
-      //     yield ErrorWhileUploading();
-      // } catch (error) {
-      //   print(error);
-      //   yield ErrorWhileUploading();
-      // }
+        if (patient.pickedFiles.isNotEmpty && patient.medicalRecords.isEmpty) {
+          yield PatientUploadProgress(Strings.uploadingMedicalRecord);
+          var medicalRecordList = List<MedicalRecord>();
+          for (var element in patient.pickedFiles) {
+            var serverFile =
+                await _fileRepository.upload(element.selectedFile.path);
+            medicalRecordList.add(MedicalRecord()..fileId = serverFile.fileId);
+          }
+          patient.medicalRecords.addAll(medicalRecordList);
+        }
+
+        yield PatientUploadProgress(Strings.almostDone);
+
+        CreatePatientResponse patientResult =
+            await _userRepository.savePatientDetails(patient: patient);
+        if (patientResult != null) {
+          await _settingsRepository.saveValue(
+              SettingKey.KEY_PATIENT_ID, patientResult.id);
+          yield PatientDetailsUploaded(Strings.patientDetailsSaved);
+        } else
+          yield ErrorWhileUploading();
+      } catch (error) {
+        print(error);
+        yield ErrorWhileUploading();
+      }
     }
   }
 

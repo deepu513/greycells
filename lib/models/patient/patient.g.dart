@@ -8,8 +8,9 @@ part of 'patient.dart';
 
 Patient _$PatientFromJson(Map<String, dynamic> json) {
   return Patient()
+    ..id = json['id'] as int
     ..genderValue = json['Gender'] as int
-    ..id = json['CustomerID'] as int
+    ..customerId = json['CustomerID'] as int
     ..alternativeNumber = json['AlternativeNumber'] as String
     ..profilePicId = json['FileId'] as int
     ..isMinor = json['IsMinor'] as bool
@@ -33,19 +34,29 @@ Patient _$PatientFromJson(Map<String, dynamic> json) {
         ?.toList();
 }
 
-Map<String, dynamic> _$PatientToJson(Patient instance) => <String, dynamic>{
-      'Gender': instance.genderValue,
-      'CustomerID': instance.id,
-      'AlternativeNumber': instance.alternativeNumber,
-      'FileId': instance.profilePicId,
-      'IsMinor': instance.isMinor,
-      'Address': instance.address?.toJson(),
-      'isEligibleForTest': instance.isEligibleForTest,
-      'HealthRecord': instance.healthRecord?.toJson(),
-      'Guardian': instance.guardian?.toJson(),
-      'PlaceOfBirth': instance.placeOfBirth,
-      'DateOfBirth': instance.dateOfBirth,
-      'TimeOfBirth': instance.timeOfBirth,
-      'MedicalRecord':
-          instance.medicalRecords?.map((e) => e?.toJson())?.toList(),
-    };
+Map<String, dynamic> _$PatientToJson(Patient instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('id', instance.id);
+  val['Gender'] = instance.genderValue;
+  val['CustomerID'] = instance.customerId;
+  val['AlternativeNumber'] = instance.alternativeNumber;
+  val['FileId'] = instance.profilePicId;
+  val['IsMinor'] = instance.isMinor;
+  val['Address'] = instance.address?.toJson();
+  val['isEligibleForTest'] = instance.isEligibleForTest;
+  val['HealthRecord'] = instance.healthRecord?.toJson();
+  val['Guardian'] = instance.guardian?.toJson();
+  val['PlaceOfBirth'] = instance.placeOfBirth;
+  val['DateOfBirth'] = instance.dateOfBirth;
+  val['TimeOfBirth'] = instance.timeOfBirth;
+  val['MedicalRecord'] =
+      instance.medicalRecords?.map((e) => e?.toJson())?.toList();
+  return val;
+}

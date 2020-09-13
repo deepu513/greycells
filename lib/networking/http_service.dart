@@ -17,15 +17,11 @@ typedef SessionExpiredCallback = void Function();
 
 class HttpService {
   static HttpService _instance;
-  String _token;
   SettingsRepository _settingsRepository;
 
   HttpService._internal() {
-    SettingsRepository.getInstance()
-        .then((value) {
+    SettingsRepository.getInstance().then((value) {
       _settingsRepository = value;
-      _token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6IjEiLCJuYmYiOjE1OTk5MTI3NzAsImV4cCI6MTYwMjUwNDc3MCwiaWF0IjoxNTk5OTEyNzcwfQ.ROaujBUEA8czeAMCufTgDFIwU52Lzah8B97pgmkj9xQ";
-      //_token = _settingsRepository.get(SettingKey.KEY_REQUEST_TOKEN);
     });
   }
 
@@ -40,24 +36,23 @@ class HttpService {
     print(request.toJsonString());
     return http
         .post(request.url,
-        body: request.toJsonString(),
-        headers: request.headers ??
-            _getDefaultHeaders(url: request.url, token: _token))
+            body: request.toJsonString(),
+            headers: request.headers ?? _getDefaultHeaders(url: request.url))
         .then((http.Response value) =>
-        _processResponse(value, responseSerializable))
+            _processResponse(value, responseSerializable))
         .catchError((e, stackTrace) => _handleError(e, stackTrace));
   }
 
   Future<ResponseType> post<RequestType, ResponseType>(
       Request<RequestType> request,
       Serializable<ResponseType> responseSerializable) {
+    print(request.toJsonString());
     return http
         .post(request.url,
-        body: request.toJsonString(),
-        headers: request.headers ??
-            _getDefaultHeaders(url: request.url, token: _token))
+            body: request.toJsonString(),
+            headers: request.headers ?? _getDefaultHeaders(url: request.url))
         .then((http.Response value) =>
-        _processResponse(value, responseSerializable).getResponseBody())
+            _processResponse(value, responseSerializable).getResponseBody())
         .catchError((e, stackTrace) => _handleError(e, stackTrace));
   }
 
@@ -66,10 +61,9 @@ class HttpService {
       Serializable<ResponseType> responseSerializable) {
     return http
         .get(request.url,
-        headers: request.headers ??
-            _getDefaultHeaders(url: request.url, token: _token))
+            headers: request.headers ?? _getDefaultHeaders(url: request.url))
         .then((http.Response value) =>
-        _processResponse(value, responseSerializable).getResponseBody())
+            _processResponse(value, responseSerializable).getResponseBody())
         .catchError((e, stackTrace) => _handleError(e, stackTrace));
   }
 
@@ -78,11 +72,10 @@ class HttpService {
       Serializable<ResponseType> responseSerializable) {
     return http
         .get(request.url,
-        headers: request.headers ??
-            _getDefaultHeaders(url: request.url, token: _token))
+            headers: request.headers ?? _getDefaultHeaders(url: request.url))
         .then((http.Response value) =>
-        _processResponse(value, responseSerializable)
-            .getResponseBodyAsList())
+            _processResponse(value, responseSerializable)
+                .getResponseBodyAsList())
         .catchError((e, stackTrace) => _handleError(e, stackTrace));
   }
 
@@ -91,11 +84,10 @@ class HttpService {
       Serializable<ResponseType> responseSerializable) {
     return http
         .put(request.url,
-        body: request.toJsonString(),
-        headers: request.headers ??
-            _getDefaultHeaders(url: request.url, token: _token))
+            body: request.toJsonString(),
+            headers: request.headers ?? _getDefaultHeaders(url: request.url))
         .then((http.Response value) =>
-        _processResponse(value, responseSerializable).getResponseBody())
+            _processResponse(value, responseSerializable).getResponseBody())
         .catchError((e, stackTrace) => _handleError(e, stackTrace));
   }
 
@@ -113,7 +105,10 @@ class HttpService {
         ..fields['Type'] = fileType
         ..files.add(await http.MultipartFile.fromPath("File", filePath,
             contentType: mediaType));
-      request.headers.putIfAbsent("Authorization", () => "Bearer $_token");
+      request.headers.putIfAbsent(
+          "Authorization",
+          () =>
+              "Bearer ${_settingsRepository.get(SettingKey.KEY_REQUEST_TOKEN)}");
       var response = await request.send();
 
       if (_isSuccessOrThrow(response.statusCode)) {
@@ -133,8 +128,7 @@ class HttpService {
   Future<bool> delete<RequestType>(Request<RequestType> request) {
     return http
         .delete(request.url,
-        headers: request.headers ??
-            _getDefaultHeaders(url: request.url, token: _token))
+            headers: request.headers ?? _getDefaultHeaders(url: request.url))
         .then((value) => value.statusCode == 200)
         .catchError((e, stackTrace) => _handleError(e, stackTrace));
   }
@@ -177,8 +171,10 @@ class HttpService {
     }
   }
 
-  Map<String, String> _getDefaultHeaders({String url, String token}) {
+  Map<String, String> _getDefaultHeaders({String url}) {
     var map = {"content-type": "application/json"};
+    var token = _settingsRepository.get(SettingKey.KEY_REQUEST_TOKEN,
+        defaultValue: "");
 
     if (!url.contains("authenticate") &&
         !url.contains("register") &&

@@ -10,11 +10,14 @@ part 'patient.g.dart';
 
 @JsonSerializable(explicitToJson: true)
 class Patient {
+  @JsonKey(includeIfNull: false)
+  int id;
+
   @JsonKey(name: "Gender")
   int genderValue;
 
   @JsonKey(name: "CustomerID")
-  int id;
+  int customerId;
 
   @JsonKey(name: "AlternativeNumber")
   String alternativeNumber;

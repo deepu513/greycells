@@ -134,17 +134,24 @@ class _QuestionOptionPageContent extends StatelessWidget {
                 ),
           ),
         ),
-        Padding(
-          padding: const EdgeInsets.fromLTRB(16.0, 4.0, 16.0, 4.0),
-          child: Text(
-            question.answerUpperLimit > 1
-                ? Strings.multiOptionHelper
-                : Strings.optionHelper,
-            style: Theme.of(context).textTheme.caption,
-          ),
-        ),
+
         Expanded(
           child: OptionSection(question.options),
+        ),
+        Padding(
+          padding: const EdgeInsets.fromLTRB(16.0, 4.0, 16.0, 4.0),
+          child: Row(
+            children: [
+              Icon(Icons.info_outline, size: 16.0, color: Colors.blueAccent,),
+              SizedBox(width: 4.0),
+              Text(
+                question.answerUpperLimit > 1
+                    ? Strings.multiOptionHelper
+                    : Strings.optionHelper,
+                style: Theme.of(context).textTheme.caption,
+              ),
+            ],
+          ),
         ),
         Padding(
           padding: const EdgeInsets.all(16.0),

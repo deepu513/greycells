@@ -19,9 +19,6 @@ class SaveOptionRequest {
   @JsonKey(name: "PatientId")
   int patientId;
 
-  @JsonKey(name: "Title")
-  String testTitle;
-
   SaveOptionRequest();
 
   factory SaveOptionRequest.fromJson(Map<String, dynamic> json) =>

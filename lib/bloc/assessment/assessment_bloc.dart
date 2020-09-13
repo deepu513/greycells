@@ -20,10 +20,13 @@ class AssessmentBloc extends Bloc<AssessmentEvent, AssessmentState> {
   Test _test;
 
   AssessmentTestRepository _testRepository;
+  SettingsRepository _settingsRepository;
 
   AssessmentBloc() : super(AssessmentInitial()) {
     _testRepository = AssessmentTestRepository();
     _currentQuestionNumber = 0;
+    SettingsRepository.getInstance()
+        .then((value) => _settingsRepository = value);
   }
 
   @override
@@ -33,10 +36,29 @@ class AssessmentBloc extends Bloc<AssessmentEvent, AssessmentState> {
     if (event is LoadAssessmentTest) {
       yield AssessmentTestLoading();
       try {
-        Test receivedTest = await _testRepository.getTest();
+        final bool firstTestDone = await _settingsRepository
+            .get(SettingKey.KEY_FIRST_TEST_DONE, defaultValue: false);
+        final bool secondTestDone = await _settingsRepository
+            .get(SettingKey.KEY_SECOND_TEST_DONE, defaultValue: false);
+
+        var testId;
+        if (firstTestDone) {
+          if (secondTestDone) {
+            // TODO: This should never happen here. Should be handled from outside only, don't navigate to assessment page.
+          } else
+            testId = 2;
+        } else
+          testId = 1;
+
+        Test receivedTest = await _testRepository.getTest(testId);
         if (receivedTest != null) {
+          /// You can modify currentQuestion here and set it according to
+          /// home api response or from shared prefs
+
           this._test = receivedTest;
-          // TODO: You can modify currentQuestion here and set it according to home api response or from shared prefs
+          _currentQuestionNumber = await _settingsRepository
+              .get(SettingKey.KEY_CURRENT_QUESTION, defaultValue: 0);
+
           yield ShowQuestion(
               _test.questions[_currentQuestionNumber], _test.questions.length);
         } else
@@ -53,15 +75,14 @@ class AssessmentBloc extends Bloc<AssessmentEvent, AssessmentState> {
             _test.questions[_currentQuestionNumber], _test.questions.length);
 
         final currentQuestion = _test.questions[_currentQuestionNumber];
-        final int patientId = await SettingsRepository.getInstance()
-            .then((value) => value.get(SettingKey.KEY_USER_ID));
+        final int patientId =
+            await _settingsRepository.get(SettingKey.KEY_USER_ID);
 
         SaveOptionRequest optionRequest = SaveOptionRequest()
           ..patientId = 1
           ..questionId = currentQuestion.id
           ..score = currentQuestion.selectedOptions[0].score
           ..testTypeId = _test.testType.id
-          ..testTitle = _test.testType.name
           ..selectedOptionIds =
               currentQuestion.selectedOptions.map((e) => e.id).toList();
 
@@ -70,9 +91,23 @@ class AssessmentBloc extends Bloc<AssessmentEvent, AssessmentState> {
         if (optionSaveResult == true) {
           _test.questions[_currentQuestionNumber].answered = true;
           ++_currentQuestionNumber;
-
-          yield ShowQuestion(
-              _test.questions[_currentQuestionNumber], _test.questions.length);
+          if (_currentQuestionNumber < _test.questions.length) {
+            await _settingsRepository.saveValue(
+                SettingKey.KEY_CURRENT_QUESTION, _currentQuestionNumber);
+            yield ShowQuestion(_test.questions[_currentQuestionNumber],
+                _test.questions.length);
+          } else {
+            _currentQuestionNumber = 0;
+            await _settingsRepository.saveValue(
+                SettingKey.KEY_CURRENT_QUESTION, _currentQuestionNumber);
+            if(_test.testType.id == 1)
+              await _settingsRepository
+                  .saveValue(SettingKey.KEY_FIRST_TEST_DONE, true);
+            if(_test.testType.id == 2)
+              await _settingsRepository
+                  .saveValue(SettingKey.KEY_SECOND_TEST_DONE, true);
+            yield TestComplete(_test.testType.id);
+          }
         } else {
           yield ErrorWhileSavingSelectedOption(
               _test.questions[_currentQuestionNumber], _test.questions.length);

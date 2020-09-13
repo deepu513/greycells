@@ -49,3 +49,9 @@ class ErrorWhileSavingSelectedOption extends AssessmentState {
 
   ErrorWhileSavingSelectedOption(this.currentQuestion, this.totalQuestions);
 }
+
+class TestComplete extends AssessmentState {
+  final int testId;
+
+  TestComplete(this.testId);
+}

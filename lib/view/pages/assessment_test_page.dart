@@ -5,16 +5,14 @@ import 'package:greycells/constants/strings.dart';
 import 'package:greycells/extensions.dart';
 import 'package:greycells/models/assessment/option.dart';
 import 'package:greycells/models/assessment/question.dart';
+import 'package:greycells/route/route_name.dart';
 import 'package:greycells/view/widgets/centered_circular_loading.dart';
 
-// TODO: Also integrate second test api
-// Server pe save karo
-// SharedPregs mein save karo
+// TODO: SharedPrefs mein save karo
 class AssessmentTestPage extends StatefulWidget {
   final int testNumber;
-  final int totalTests;
 
-  AssessmentTestPage(this.testNumber, this.totalTests);
+  AssessmentTestPage(this.testNumber);
 
   @override
   _AssessmentTestPageState createState() => _AssessmentTestPageState();
@@ -34,8 +32,19 @@ class _AssessmentTestPageState extends State<AssessmentTestPage> {
         if (state is AssessmentError) {
           widget.showErrorDialog(context, ErrorMessages.GENERIC_ERROR_MESSAGE);
         }
-        if(state is ErrorWhileSavingSelectedOption) {
+        if (state is ErrorWhileSavingSelectedOption) {
           widget.showErrorDialog(context, Strings.optionSubmitError);
+        }
+        if (state is TestComplete) {
+          if (state.testId == 1) {
+            // Start Test 2
+            Navigator.of(context).pushNamedAndRemoveUntil(
+                RouteName.SECOND_TEST_INTRO, (route) => false);
+          } else if (state.testId == 2) {
+            // Navigate to home
+            Navigator.of(context)
+                .pushNamedAndRemoveUntil(RouteName.HOME, (route) => false);
+          }
         }
       },
       child: Scaffold(
@@ -43,7 +52,7 @@ class _AssessmentTestPageState extends State<AssessmentTestPage> {
           elevation: 4.0,
           brightness: Brightness.light,
           title: Text(
-            "Test ${widget.testNumber} of ${widget.totalTests}",
+            "Test ${widget.testNumber} of 2",
             style: Theme.of(context)
                 .textTheme
                 .headline6
@@ -231,7 +240,7 @@ class QuestionNavigator extends StatelessWidget {
           child: Text(Strings.back.toUpperCase()),
         ),
         RaisedButton.icon(
-          onPressed: enableNextButton
+          onPressed: true
               ? () {
                   BlocProvider.of<AssessmentBloc>(context)
                       .add(QuestionAnswered());

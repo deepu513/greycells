@@ -23,9 +23,9 @@ class AssessmentTestRepository {
     _optionRequestSerializable = SaveOptionRequestSerializable();
   }
 
-  Future<Test> getTest() async {
+  Future<Test> getTest(int testId) async {
     Request<Test> request = Request(
-        "${FlavorConfig.getBaseUrl()}Assessment/Questions/1", null);
+        "${FlavorConfig.getBaseUrl()}Assessment/Questions/$testId", null);
 
     return await _httpService.get(request, _testSerializable);
   }

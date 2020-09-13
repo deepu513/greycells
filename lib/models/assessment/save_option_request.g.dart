@@ -13,8 +13,7 @@ SaveOptionRequest _$SaveOptionRequestFromJson(Map<String, dynamic> json) {
     ..selectedOptionIds =
         (json['OptionMasterIds'] as List)?.map((e) => e as int)?.toList()
     ..score = json['Score'] as int
-    ..patientId = json['PatientId'] as int
-    ..testTitle = json['Title'] as String;
+    ..patientId = json['PatientId'] as int;
 }
 
 Map<String, dynamic> _$SaveOptionRequestToJson(SaveOptionRequest instance) =>
@@ -24,5 +23,4 @@ Map<String, dynamic> _$SaveOptionRequestToJson(SaveOptionRequest instance) =>
       'OptionMasterIds': instance.selectedOptionIds,
       'Score': instance.score,
       'PatientId': instance.patientId,
-      'Title': instance.testTitle,
     };

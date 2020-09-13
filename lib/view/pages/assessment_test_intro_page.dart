@@ -199,7 +199,7 @@ class _AssessmentTestIntroPageState extends State<AssessmentTestIntroPage>
   }
 
   void _navigateToAssessmentTestPage() {
-    Navigator.of(context).pushNamed(RouteName.ASSESSMENT_TEST);
+    Navigator.of(context).pushNamed(RouteName.ASSESSMENT_TEST, arguments: 1);
   }
 
   @override

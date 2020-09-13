@@ -8,6 +8,7 @@ import 'package:greycells/models/assessment/question.dart';
 import 'package:greycells/utils.dart';
 import 'package:greycells/view/widgets/centered_circular_loading.dart';
 
+// TODO: Also integrate second test api
 class AssessmentTestPage extends StatefulWidget {
   @override
   _AssessmentTestPageState createState() => _AssessmentTestPageState();
@@ -56,7 +57,7 @@ class _TestSection extends StatelessWidget {
         elevation: 4.0,
         brightness: Brightness.light,
         title: Text(
-          "Question ${_currentQuestion.sequence} of $_totalQuestions",
+          "Test 1 of 2",
           style: Theme.of(context)
               .textTheme
               .headline6
@@ -69,7 +70,9 @@ class _TestSection extends StatelessWidget {
           )
         ],
       ),
-      body: _QuestionOptionPageContent(_currentQuestion),
+      body: SafeArea(
+        child: _QuestionOptionPageContent(_currentQuestion, _totalQuestions),
+      ),
     );
   }
 
@@ -102,8 +105,9 @@ class _TestSection extends StatelessWidget {
 
 class _QuestionOptionPageContent extends StatelessWidget {
   final Question question;
+  final int _totalQuestions;
 
-  _QuestionOptionPageContent(this.question);
+  _QuestionOptionPageContent(this.question, this._totalQuestions);
 
   @override
   Widget build(BuildContext context) {
@@ -111,7 +115,17 @@ class _QuestionOptionPageContent extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Padding(
-          padding: const EdgeInsets.fromLTRB(16.0, 8.0, 16.0, 16.0),
+          padding:  const EdgeInsets.fromLTRB(16.0, 16.0, 16.0, 0.0),
+          child: Text(
+            "# Question ${question.sequence} of $_totalQuestions",
+            style: Theme.of(context)
+                .textTheme
+                .caption
+                .copyWith(color: Colors.black, fontWeight: FontWeight.w400, fontSize: 14.0),
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.fromLTRB(16.0, 16.0, 16.0, 16.0),
           child: Text(
             question.questionText,
             style: Theme.of(context).textTheme.headline6.copyWith(
@@ -121,25 +135,16 @@ class _QuestionOptionPageContent extends StatelessWidget {
           ),
         ),
         Padding(
-          padding: const EdgeInsets.fromLTRB(24.0, 4.0, 16.0, 4.0),
-          child: Text(
-            "Options:",
-            style: Theme.of(context).textTheme.subtitle1.copyWith(
-              color: Colors.grey[600]
-            ),
-          ),
-        ),
-        Expanded(
-          child: OptionSection(question.options),
-        ),
-        Padding(
-          padding: const EdgeInsets.fromLTRB(24.0, 8.0, 16.0, 8.0),
+          padding: const EdgeInsets.fromLTRB(16.0, 4.0, 16.0, 4.0),
           child: Text(
             question.answerUpperLimit > 1
                 ? Strings.multiOptionHelper
                 : Strings.optionHelper,
             style: Theme.of(context).textTheme.caption,
           ),
+        ),
+        Expanded(
+          child: OptionSection(question.options),
         ),
         Padding(
           padding: const EdgeInsets.all(16.0),
@@ -170,7 +175,7 @@ class _OptionSectionState extends State<OptionSection> {
     return ListView.builder(
       itemBuilder: (context, index) {
         return Padding(
-          padding: EdgeInsets.symmetric(vertical: 16.0, horizontal: 24.0),
+          padding: EdgeInsets.symmetric(vertical: 16.0, horizontal: 16.0),
           child: GestureDetector(
             onTap: () {
               BlocProvider.of<AssessmentBloc>(context)

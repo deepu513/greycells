@@ -79,8 +79,8 @@ class Strings {
   static const patientDetailsSaved = "Details saved.";
   static const optionSubmitError =
       "Some error occurred while saving your response. Please try again.";
-  static const multiOptionHelper = "Tap once to select, twice to remove selection.";
-  static const optionHelper = "Tap an option to select.";
+  static const multiOptionHelper = "Tap an option to select, tap it again to remove selection";
+  static const optionHelper = "Tap an option to select";
 }
 
 /// This should contain strings which signify an error message

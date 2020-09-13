@@ -21,8 +21,12 @@ class Question {
   @JsonKey(ignore: true)
   List<Option> selectedOptions;
 
+  @JsonKey(ignore: true)
+  bool answered;
+
   Question() {
     selectedOptions = List();
+    answered = false;
   }
 
   factory Question.fromJson(Map<String, dynamic> json) =>

@@ -45,6 +45,7 @@ class AssessmentBloc extends Bloc<AssessmentEvent, AssessmentState> {
 
     if (event is QuestionAnswered) {
       // TODO: Hit api and move to next question here
+      _test.questions[_currentQuestionNumber].answered = true;
       ++_currentQuestionNumber;
 
       yield ShowQuestion(
@@ -52,7 +53,7 @@ class AssessmentBloc extends Bloc<AssessmentEvent, AssessmentState> {
     }
 
     if (event is ShowPreviousQuestion) {
-      if (_currentQuestionNumber > 1) {
+      if (_currentQuestionNumber >= 1) {
         --_currentQuestionNumber;
 
         yield ShowQuestion(
@@ -63,11 +64,16 @@ class AssessmentBloc extends Bloc<AssessmentEvent, AssessmentState> {
 
     if (event is TrySelectingOption) {
       var currentQuestion = _test.questions[_currentQuestionNumber];
-      if (currentQuestion.answerUpperLimit == 1) {
+      if(currentQuestion.answered) {
+        yield AlreadyAnswered();
+      }
+      else if (currentQuestion.answerUpperLimit == 1) {
+
         /// Make all elements as not selected
         currentQuestion.options.forEach((element) {
           element.selected = false;
         });
+
         /// Clear selected options list
         currentQuestion.selectedOptions.clear();
 
@@ -77,9 +83,10 @@ class AssessmentBloc extends Bloc<AssessmentEvent, AssessmentState> {
         /// Add current option to selected option list
         currentQuestion.selectedOptions.add(event.option);
         yield OptionSelected(currentQuestion, _test.questions.length);
-      } else if (currentQuestion.answerUpperLimit >= 1) {
-        /// If option already present then remove it.
+      } else if (currentQuestion.answerUpperLimit > 1) {
         var optionRemoved = false;
+
+        /// If option already present then remove it.
         currentQuestion.selectedOptions.removeWhere((element) {
           if (element.id == event.option.id) {
             optionRemoved = true;

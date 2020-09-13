@@ -276,14 +276,24 @@ class _AssessmentTestIntroPageState extends State<AssessmentTestIntroPage>
                   children: [
                     FadeTransition(
                       opacity: _listTitleFadeIn,
-                      child: Text("Points to note:",
-                          style: Theme
-                              .of(context)
-                              .textTheme
-                              .headline5
-                              .copyWith(
-                              color: Colors.black,
-                              fontWeight: FontWeight.w300)),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Text("Points to note:",
+                              style: Theme
+                                  .of(context)
+                                  .textTheme
+                                  .headline5
+                                  .copyWith(
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.w300)),
+                          SizedBox(
+                            width: 72.0,
+                            child: Divider(color: Colors.blue,),
+                          )
+                        ],
+                      ),
                     ),
                     SizedBox(height: 16.0),
                     FadeTransition(

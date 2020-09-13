@@ -116,10 +116,10 @@ class _TestPageContent extends StatelessWidget {
           ),
         ),
         Expanded(
-          child: OptionSection(question.options),
+          child: OptionSection(question.options, question.answered),
         ),
-        //TODO: Don't show this is when answered
         Visibility(
+          visible: question.answered == false,
           child: Padding(
             padding: const EdgeInsets.fromLTRB(16.0, 8.0, 16.0, 0.0),
             child: Row(
@@ -142,7 +142,8 @@ class _TestPageContent extends StatelessWidget {
         ),
         Padding(
           padding: const EdgeInsets.all(16.0),
-          child: QuestionNavigator(),
+          child: QuestionNavigator(
+              question.answered || question.selectedOptions.isNotEmpty),
         )
       ],
     );
@@ -151,8 +152,9 @@ class _TestPageContent extends StatelessWidget {
 
 class OptionSection extends StatelessWidget {
   final List<Option> options;
+  final bool answered;
 
-  OptionSection(this.options);
+  OptionSection(this.options, this.answered);
 
   @override
   Widget build(BuildContext context) {
@@ -162,22 +164,24 @@ class OptionSection extends StatelessWidget {
           padding: EdgeInsets.symmetric(vertical: 16.0, horizontal: 16.0),
           child: GestureDetector(
             onTap: () {
-              BlocProvider.of<AssessmentBloc>(context)
-                  .add(TrySelectingOption(options[index]));
+              if (!answered)
+                BlocProvider.of<AssessmentBloc>(context)
+                    .add(TrySelectingOption(options[index]));
             },
             child: AnimatedContainer(
-              duration: Duration(milliseconds: 300),
+              duration: Duration(milliseconds: 200),
               padding: EdgeInsets.all(16.0),
               decoration: BoxDecoration(
-                  color: options[index].selected
-                      ? Colors.blueAccent.shade100
-                      : Colors.white,
-                  border: Border.all(
-                      width: options[index].selected ? 0.0 : 0.5,
-                      color: options[index].selected
-                          ? Colors.blueAccent.shade100
-                          : Colors.black),
-                  borderRadius: BorderRadius.circular(16.0)),
+                color: options[index].selected
+                    ? Colors.blueAccent.shade100
+                    : Colors.white,
+                border: Border.all(
+                    width: options[index].selected ? 0.0 : 0.5,
+                    color: options[index].selected
+                        ? Colors.blueAccent.shade100
+                        : answered ? Colors.transparent : Colors.black),
+                borderRadius: BorderRadius.circular(16.0),
+              ),
               child: Text(
                 options[index].optionText.titleCase,
                 style: Theme.of(context).textTheme.subtitle1.copyWith(
@@ -194,6 +198,10 @@ class OptionSection extends StatelessWidget {
 }
 
 class QuestionNavigator extends StatelessWidget {
+  final bool enableNextButton;
+
+  QuestionNavigator(this.enableNextButton);
+
   @override
   Widget build(BuildContext context) {
     return Row(
@@ -201,7 +209,6 @@ class QuestionNavigator extends StatelessWidget {
       children: <Widget>[
         FlatButton(
           onPressed: () {
-            // TODO: Show previous question (should not be editable)
             BlocProvider.of<AssessmentBloc>(context)
                 .add(ShowPreviousQuestion());
           },
@@ -209,14 +216,17 @@ class QuestionNavigator extends StatelessWidget {
           child: Text(Strings.back.toUpperCase()),
         ),
         RaisedButton.icon(
-          onPressed: () {
-            // TODO: Show next question (check if not answered then only editable
-            BlocProvider.of<AssessmentBloc>(context).add(QuestionAnswered());
-          },
+          onPressed: enableNextButton
+              ? () {
+                  BlocProvider.of<AssessmentBloc>(context)
+                      .add(QuestionAnswered());
+                }
+              : null,
           color: Theme.of(context).accentColor,
           textColor: Colors.white,
-          shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(16.0)),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(16.0),
+          ),
           icon: Icon(
             Icons.save,
             color: Colors.white,

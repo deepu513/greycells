@@ -33,3 +33,5 @@ class OptionDeselected extends AssessmentState {
 }
 
 class MaxOptionsSelected extends AssessmentState {}
+
+class AlreadyAnswered extends AssessmentState {}

@@ -54,11 +54,24 @@ class _AssessmentTestPageState extends State<AssessmentTestPage> {
         ),
         body: SafeArea(
           child: BlocBuilder<AssessmentBloc, AssessmentState>(
+            buildWhen: (previous, current) =>
+                current is AssessmentTestLoading ||
+                current is ShowQuestion ||
+                current is OptionSelected ||
+                current is OptionDeselected,
             builder: (context, state) {
               if (state is AssessmentTestLoading) {
                 return CenteredCircularLoadingIndicator();
               }
               if (state is ShowQuestion) {
+                return _TestPageContent(
+                    state.currentQuestion, state.totalQuestions);
+              }
+              if (state is OptionSelected) {
+                return _TestPageContent(
+                    state.currentQuestion, state.totalQuestions);
+              }
+              if (state is OptionDeselected) {
                 return _TestPageContent(
                     state.currentQuestion, state.totalQuestions);
               }

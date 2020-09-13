@@ -52,22 +52,32 @@ class AssessmentBloc extends Bloc<AssessmentEvent, AssessmentState> {
     }
 
     if (event is ShowPreviousQuestion) {
-      if(_currentQuestionNumber > 1) {
+      if (_currentQuestionNumber > 1) {
         --_currentQuestionNumber;
 
         yield ShowQuestion(
             _test.questions[_currentQuestionNumber], _test.questions.length);
-      } else yield NoMoreQuestions();
+      } else
+        yield NoMoreQuestions();
     }
 
     if (event is TrySelectingOption) {
       var currentQuestion = _test.questions[_currentQuestionNumber];
       if (currentQuestion.answerUpperLimit == 1) {
+        /// Make all elements as not selected
+        currentQuestion.options.forEach((element) {
+          element.selected = false;
+        });
+        /// Clear selected options list
         currentQuestion.selectedOptions.clear();
-        currentQuestion.selectedOptions.add(event.option);
+
+        /// Make current option selected
         event.option.selected = true;
-        yield OptionSelected();
-      } else if (currentQuestion.answerUpperLimit > 1) {
+
+        /// Add current option to selected option list
+        currentQuestion.selectedOptions.add(event.option);
+        yield OptionSelected(currentQuestion, _test.questions.length);
+      } else if (currentQuestion.answerUpperLimit >= 1) {
         /// If option already present then remove it.
         var optionRemoved = false;
         currentQuestion.selectedOptions.removeWhere((element) {
@@ -80,14 +90,14 @@ class AssessmentBloc extends Bloc<AssessmentEvent, AssessmentState> {
 
         if (optionRemoved) {
           event.option.selected = false;
-          yield OptionDeselected();
+          yield OptionDeselected(currentQuestion, _test.questions.length);
         } else {
           /// Option not present, add it.
           if (currentQuestion.selectedOptions.length <
               currentQuestion.answerUpperLimit) {
             currentQuestion.selectedOptions.add(event.option);
             event.option.selected = true;
-            yield OptionSelected();
+            yield OptionSelected(currentQuestion, _test.questions.length);
           } else {
             yield MaxOptionsSelected();
           }

@@ -18,8 +18,18 @@ class ShowQuestion extends AssessmentState {
 
 class NoMoreQuestions extends AssessmentState {}
 
-class OptionSelected extends AssessmentState {}
+class OptionSelected extends AssessmentState {
+  final int totalQuestions;
+  final Question currentQuestion;
 
-class OptionDeselected extends AssessmentState {}
+  OptionSelected(this.currentQuestion, this.totalQuestions);
+}
+
+class OptionDeselected extends AssessmentState {
+  final int totalQuestions;
+  final Question currentQuestion;
+
+  OptionDeselected(this.currentQuestion, this.totalQuestions);
+}
 
 class MaxOptionsSelected extends AssessmentState {}

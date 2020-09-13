@@ -1,3 +1,5 @@
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:greycells/bloc/validation/bloc.dart';
 import 'package:greycells/bloc/validation/validation_field.dart';
 
@@ -15,6 +17,34 @@ extension StringExtensions on String {
       this != null && this.isNotEmpty && this.length == length;
 
   String get titleCase => '${this[0].toUpperCase()}${this.substring(1)}';
+}
+
+extension dialogs on Widget {
+  void showErrorDialog(BuildContext context, String errorMessage) {
+    showDialog<void>(
+        context: context,
+        barrierDismissible: true,
+        builder: (dialogContext) {
+          return AlertDialog(
+            title: Text("Error"),
+            content: SingleChildScrollView(
+              child: ListBody(
+                children: <Widget>[
+                  Text(errorMessage),
+                ],
+              ),
+            ),
+            actions: [
+              FlatButton(
+                child: Text('OK'),
+                onPressed: () async {
+                  Navigator.of(context).pop();
+                },
+              )
+            ],
+          );
+        });
+  }
 }
 
 extension NumberToWord on int {

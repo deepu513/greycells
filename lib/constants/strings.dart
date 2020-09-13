@@ -1,5 +1,6 @@
 /// This should contain the strings which are to be labeled on the UI
 class Strings {
+  static const ok = "ok";
   static const back = "back";
   static const next = "next";
   static const saveAndNext = "Save & next";

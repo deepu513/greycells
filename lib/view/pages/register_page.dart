@@ -6,7 +6,6 @@ import 'package:greycells/bloc/validation/validation_field.dart';
 import 'package:greycells/constants/strings.dart';
 import 'package:greycells/extensions.dart';
 import 'package:greycells/route/route_name.dart';
-import 'package:greycells/utils.dart';
 
 class RegisterPage extends StatelessWidget {
   @override
@@ -31,7 +30,7 @@ class RegisterPage extends StatelessWidget {
                   }
 
                   if (current is RegistrationUnsuccessful) {
-                    Utils.showErrorDialog(context, current.error);
+                    showErrorDialog(context, current.error);
                   }
                 },
                 child: RegisterInputSection(),

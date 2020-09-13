@@ -9,7 +9,6 @@ import 'package:greycells/bloc/validation/validation_field.dart';
 import 'package:greycells/constants/strings.dart';
 import 'package:greycells/extensions.dart';
 import 'package:greycells/route/route_name.dart';
-import 'package:greycells/utils.dart';
 
 class LoginPage extends StatelessWidget {
   final bool shouldShowRegistrationSuccessfulMessage;
@@ -35,7 +34,7 @@ class LoginPage extends StatelessWidget {
             }
 
             if (current is AuthenticationFailure) {
-              Utils.showErrorDialog(context, current.error);
+              showErrorDialog(context, current.error);
             }
           },
           child: LoginInputSection(),

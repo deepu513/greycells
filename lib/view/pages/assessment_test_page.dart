@@ -5,8 +5,8 @@ import 'package:greycells/constants/strings.dart';
 import 'package:greycells/extensions.dart';
 import 'package:greycells/models/assessment/option.dart';
 import 'package:greycells/models/assessment/question.dart';
-import 'package:greycells/utils.dart';
 import 'package:greycells/view/widgets/centered_circular_loading.dart';
+import 'package:greycells/extensions.dart';
 
 // TODO: Also integrate second test api
 class AssessmentTestPage extends StatefulWidget {
@@ -26,7 +26,7 @@ class _AssessmentTestPageState extends State<AssessmentTestPage> {
     return BlocListener<AssessmentBloc, AssessmentState>(
       listener: (context, state) {
         if (state is AssessmentError) {
-          Utils.showErrorDialog(context, Strings.optionSubmitError);
+          widget.showErrorDialog(context, Strings.optionSubmitError);
         }
       },
       child: BlocBuilder<AssessmentBloc, AssessmentState>(
@@ -92,7 +92,7 @@ class _TestSection extends StatelessWidget {
             ),
             actions: [
               FlatButton(
-                child: Text('OK'),
+                child: Text(Strings.ok),
                 onPressed: () {
                   Navigator.of(context).pop();
                 },

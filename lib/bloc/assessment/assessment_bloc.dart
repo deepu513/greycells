@@ -1,16 +1,20 @@
 import 'dart:async';
 
 import 'package:bloc/bloc.dart';
+import 'package:greycells/constants/setting_key.dart';
 import 'package:greycells/models/assessment/option.dart';
 import 'package:greycells/models/assessment/question.dart';
+import 'package:greycells/models/assessment/save_option_request.dart';
 import 'package:greycells/models/assessment/test.dart';
 import 'package:greycells/repository/assessment_test_repository.dart';
+import 'package:greycells/repository/settings_repository.dart';
 import 'package:meta/meta.dart';
 
 part 'assessment_event.dart';
 
 part 'assessment_state.dart';
 
+// TODO: Refine states. IT IS A CLUTTER OVER THERE
 class AssessmentBloc extends Bloc<AssessmentEvent, AssessmentState> {
   int _currentQuestionNumber;
   Test _test;
@@ -32,7 +36,7 @@ class AssessmentBloc extends Bloc<AssessmentEvent, AssessmentState> {
         Test receivedTest = await _testRepository.getTest();
         if (receivedTest != null) {
           this._test = receivedTest;
-          // TODO: You can modify currentQuestion here and set it according to home api response.
+          // TODO: You can modify currentQuestion here and set it according to home api response or from shared prefs
           yield ShowQuestion(
               _test.questions[_currentQuestionNumber], _test.questions.length);
         } else
@@ -44,12 +48,40 @@ class AssessmentBloc extends Bloc<AssessmentEvent, AssessmentState> {
     }
 
     if (event is QuestionAnswered) {
-      // TODO: Hit api and move to next question here
-      _test.questions[_currentQuestionNumber].answered = true;
-      ++_currentQuestionNumber;
+      try {
+        yield SavingSelectedOption(
+            _test.questions[_currentQuestionNumber], _test.questions.length);
 
-      yield ShowQuestion(
-          _test.questions[_currentQuestionNumber], _test.questions.length);
+        final currentQuestion = _test.questions[_currentQuestionNumber];
+        final int patientId = await SettingsRepository.getInstance()
+            .then((value) => value.get(SettingKey.KEY_USER_ID));
+
+        SaveOptionRequest optionRequest = SaveOptionRequest()
+          ..patientId = 1
+          ..questionId = currentQuestion.id
+          ..score = currentQuestion.selectedOptions[0].score
+          ..testTypeId = _test.testType.id
+          ..testTitle = _test.testType.name
+          ..selectedOptionIds =
+              currentQuestion.selectedOptions.map((e) => e.id).toList();
+
+        bool optionSaveResult =
+            await _testRepository.saveOption(saveOptionRequest: optionRequest);
+        if (optionSaveResult == true) {
+          _test.questions[_currentQuestionNumber].answered = true;
+          ++_currentQuestionNumber;
+
+          yield ShowQuestion(
+              _test.questions[_currentQuestionNumber], _test.questions.length);
+        } else {
+          yield ErrorWhileSavingSelectedOption(
+              _test.questions[_currentQuestionNumber], _test.questions.length);
+        }
+      } catch (e) {
+        print(e);
+        yield ErrorWhileSavingSelectedOption(
+            _test.questions[_currentQuestionNumber], _test.questions.length);
+      }
     }
 
     if (event is ShowPreviousQuestion) {
@@ -64,11 +96,9 @@ class AssessmentBloc extends Bloc<AssessmentEvent, AssessmentState> {
 
     if (event is TrySelectingOption) {
       var currentQuestion = _test.questions[_currentQuestionNumber];
-      if(currentQuestion.answered) {
+      if (currentQuestion.answered) {
         yield AlreadyAnswered();
-      }
-      else if (currentQuestion.answerUpperLimit == 1) {
-
+      } else if (currentQuestion.answerUpperLimit == 1) {
         /// Make all elements as not selected
         currentQuestion.options.forEach((element) {
           element.selected = false;

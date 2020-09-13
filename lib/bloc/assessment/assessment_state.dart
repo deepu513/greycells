@@ -35,3 +35,17 @@ class OptionDeselected extends AssessmentState {
 class MaxOptionsSelected extends AssessmentState {}
 
 class AlreadyAnswered extends AssessmentState {}
+
+class SavingSelectedOption extends AssessmentState {
+  final int totalQuestions;
+  final Question currentQuestion;
+
+  SavingSelectedOption(this.currentQuestion, this.totalQuestions);
+}
+
+class ErrorWhileSavingSelectedOption extends AssessmentState {
+  final int totalQuestions;
+  final Question currentQuestion;
+
+  ErrorWhileSavingSelectedOption(this.currentQuestion, this.totalQuestions);
+}

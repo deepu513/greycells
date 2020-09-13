@@ -8,6 +8,8 @@ import 'package:greycells/models/assessment/question.dart';
 import 'package:greycells/view/widgets/centered_circular_loading.dart';
 
 // TODO: Also integrate second test api
+// Server pe save karo
+// SharedPregs mein save karo
 class AssessmentTestPage extends StatefulWidget {
   final int testNumber;
   final int totalTests;
@@ -30,6 +32,9 @@ class _AssessmentTestPageState extends State<AssessmentTestPage> {
     return BlocListener<AssessmentBloc, AssessmentState>(
       listener: (context, state) {
         if (state is AssessmentError) {
+          widget.showErrorDialog(context, ErrorMessages.GENERIC_ERROR_MESSAGE);
+        }
+        if(state is ErrorWhileSavingSelectedOption) {
           widget.showErrorDialog(context, Strings.optionSubmitError);
         }
       },
@@ -58,7 +63,9 @@ class _AssessmentTestPageState extends State<AssessmentTestPage> {
                 current is AssessmentTestLoading ||
                 current is ShowQuestion ||
                 current is OptionSelected ||
-                current is OptionDeselected,
+                current is OptionDeselected ||
+                current is SavingSelectedOption ||
+                current is ErrorWhileSavingSelectedOption,
             builder: (context, state) {
               if (state is AssessmentTestLoading) {
                 return CenteredCircularLoadingIndicator();
@@ -72,6 +79,14 @@ class _AssessmentTestPageState extends State<AssessmentTestPage> {
                     state.currentQuestion, state.totalQuestions);
               }
               if (state is OptionDeselected) {
+                return _TestPageContent(
+                    state.currentQuestion, state.totalQuestions);
+              }
+              if (state is SavingSelectedOption) {
+                return _TestPageContent(
+                    state.currentQuestion, state.totalQuestions);
+              }
+              if (state is ErrorWhileSavingSelectedOption) {
                 return _TestPageContent(
                     state.currentQuestion, state.totalQuestions);
               }

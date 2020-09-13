@@ -6,10 +6,14 @@ import 'package:greycells/extensions.dart';
 import 'package:greycells/models/assessment/option.dart';
 import 'package:greycells/models/assessment/question.dart';
 import 'package:greycells/view/widgets/centered_circular_loading.dart';
-import 'package:greycells/extensions.dart';
 
 // TODO: Also integrate second test api
 class AssessmentTestPage extends StatefulWidget {
+  final int testNumber;
+  final int totalTests;
+
+  AssessmentTestPage(this.testNumber, this.totalTests);
+
   @override
   _AssessmentTestPageState createState() => _AssessmentTestPageState();
 }
@@ -29,85 +33,49 @@ class _AssessmentTestPageState extends State<AssessmentTestPage> {
           widget.showErrorDialog(context, Strings.optionSubmitError);
         }
       },
-      child: BlocBuilder<AssessmentBloc, AssessmentState>(
-        builder: (context, state) {
-          if (state is AssessmentTestLoading) {
-            return CenteredCircularLoadingIndicator();
-          }
-          if (state is ShowQuestion) {
-            return _TestSection(state.currentQuestion, state.totalQuestions);
-          }
-          return Container();
-        },
-      ),
-    );
-  }
-}
-
-class _TestSection extends StatelessWidget {
-  final Question _currentQuestion;
-  final int _totalQuestions;
-
-  _TestSection(this._currentQuestion, this._totalQuestions);
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        elevation: 4.0,
-        brightness: Brightness.light,
-        title: Text(
-          "Test 1 of 2",
-          style: Theme.of(context)
-              .textTheme
-              .headline6
-              .copyWith(color: Colors.black, fontWeight: FontWeight.w400),
+      child: Scaffold(
+        appBar: AppBar(
+          elevation: 4.0,
+          brightness: Brightness.light,
+          title: Text(
+            "Test ${widget.testNumber} of ${widget.totalTests}",
+            style: Theme.of(context)
+                .textTheme
+                .headline6
+                .copyWith(color: Colors.black, fontWeight: FontWeight.w400),
+          ),
+          actions: [
+            IconButton(
+              onPressed: () =>
+                  widget.showHelpDialog(context, Strings.assessmentHelp),
+              icon: Icon(Icons.help_outline),
+            )
+          ],
         ),
-        actions: [
-          IconButton(
-            onPressed: () => showHelpDialog(context),
-            icon: Icon(Icons.help_outline),
-          )
-        ],
-      ),
-      body: SafeArea(
-        child: _QuestionOptionPageContent(_currentQuestion, _totalQuestions),
+        body: SafeArea(
+          child: BlocBuilder<AssessmentBloc, AssessmentState>(
+            builder: (context, state) {
+              if (state is AssessmentTestLoading) {
+                return CenteredCircularLoadingIndicator();
+              }
+              if (state is ShowQuestion) {
+                return _TestPageContent(
+                    state.currentQuestion, state.totalQuestions);
+              }
+              return Container();
+            },
+          ),
+        ),
       ),
     );
   }
-
-  void showHelpDialog(BuildContext context) {
-    showDialog<void>(
-        context: context,
-        barrierDismissible: true,
-        builder: (context) {
-          return AlertDialog(
-            title: Text(Strings.help),
-            content: SingleChildScrollView(
-              child: ListBody(
-                children: <Widget>[
-                  Text(Strings.assessmentHelp),
-                ],
-              ),
-            ),
-            actions: [
-              FlatButton(
-                child: Text(Strings.ok),
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-              )
-            ],
-          );
-        });
-  }
 }
 
-class _QuestionOptionPageContent extends StatelessWidget {
+class _TestPageContent extends StatelessWidget {
   final Question question;
   final int _totalQuestions;
 
-  _QuestionOptionPageContent(this.question, this._totalQuestions);
+  _TestPageContent(this.question, this._totalQuestions);
 
   @override
   Widget build(BuildContext context) {
@@ -115,13 +83,13 @@ class _QuestionOptionPageContent extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Padding(
-          padding:  const EdgeInsets.fromLTRB(16.0, 16.0, 16.0, 0.0),
+          padding: const EdgeInsets.fromLTRB(16.0, 16.0, 16.0, 0.0),
           child: Text(
             "# Question ${question.sequence} of $_totalQuestions",
-            style: Theme.of(context)
-                .textTheme
-                .caption
-                .copyWith(color: Colors.black, fontWeight: FontWeight.w400, fontSize: 14.0),
+            style: Theme.of(context).textTheme.caption.copyWith(
+                color: Colors.black,
+                fontWeight: FontWeight.w400,
+                fontSize: 14.0),
           ),
         ),
         Padding(
@@ -134,23 +102,29 @@ class _QuestionOptionPageContent extends StatelessWidget {
                 ),
           ),
         ),
-
         Expanded(
           child: OptionSection(question.options),
         ),
-        Padding(
-          padding: const EdgeInsets.fromLTRB(16.0, 4.0, 16.0, 4.0),
-          child: Row(
-            children: [
-              Icon(Icons.info_outline, size: 16.0, color: Colors.blueAccent,),
-              SizedBox(width: 4.0),
-              Text(
-                question.answerUpperLimit > 1
-                    ? Strings.multiOptionHelper
-                    : Strings.optionHelper,
-                style: Theme.of(context).textTheme.caption,
-              ),
-            ],
+        //TODO: Don't show this is when answered
+        Visibility(
+          child: Padding(
+            padding: const EdgeInsets.fromLTRB(16.0, 8.0, 16.0, 0.0),
+            child: Row(
+              children: [
+                Icon(
+                  Icons.info_outline,
+                  size: 16.0,
+                  color: Colors.blueAccent,
+                ),
+                SizedBox(width: 4.0),
+                Text(
+                  question.answerUpperLimit > 1
+                      ? Strings.multiOptionHelper
+                      : Strings.optionHelper,
+                  style: Theme.of(context).textTheme.caption,
+                ),
+              ],
+            ),
           ),
         ),
         Padding(
@@ -162,20 +136,10 @@ class _QuestionOptionPageContent extends StatelessWidget {
   }
 }
 
-class OptionSection extends StatefulWidget {
+class OptionSection extends StatelessWidget {
   final List<Option> options;
 
   OptionSection(this.options);
-
-  @override
-  _OptionSectionState createState() => _OptionSectionState();
-}
-
-class _OptionSectionState extends State<OptionSection> {
-  @override
-  void initState() {
-    super.initState();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -186,33 +150,32 @@ class _OptionSectionState extends State<OptionSection> {
           child: GestureDetector(
             onTap: () {
               BlocProvider.of<AssessmentBloc>(context)
-                  .add(TrySelectingOption(widget.options[index]));
+                  .add(TrySelectingOption(options[index]));
             },
             child: AnimatedContainer(
               duration: Duration(milliseconds: 300),
               padding: EdgeInsets.all(16.0),
               decoration: BoxDecoration(
-                  color: widget.options[index].selected
+                  color: options[index].selected
                       ? Colors.blueAccent.shade100
                       : Colors.white,
                   border: Border.all(
-                      width: widget.options[index].selected ? 0.0 : 0.5,
-                      color: widget.options[index].selected
+                      width: options[index].selected ? 0.0 : 0.5,
+                      color: options[index].selected
                           ? Colors.blueAccent.shade100
                           : Colors.black),
                   borderRadius: BorderRadius.circular(16.0)),
               child: Text(
-                widget.options[index].optionText.titleCase,
+                options[index].optionText.titleCase,
                 style: Theme.of(context).textTheme.subtitle1.copyWith(
-                    color: widget.options[index].selected
-                        ? Colors.white
-                        : Colors.black),
+                    color:
+                        options[index].selected ? Colors.white : Colors.black),
               ),
             ),
           ),
         );
       },
-      itemCount: widget.options.length,
+      itemCount: options.length,
     );
   }
 }

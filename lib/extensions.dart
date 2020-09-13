@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:greycells/bloc/validation/bloc.dart';
 import 'package:greycells/bloc/validation/validation_field.dart';
 
+import 'constants/strings.dart';
+
 extension Validation on ValidationState {
   bool isFieldInvalid(ValidationField field) =>
       this is ValidationInvalidField &&
@@ -38,6 +40,32 @@ extension dialogs on Widget {
               FlatButton(
                 child: Text('OK'),
                 onPressed: () async {
+                  Navigator.of(context).pop();
+                },
+              )
+            ],
+          );
+        });
+  }
+
+  void showHelpDialog(BuildContext context, String message) {
+    showDialog<void>(
+        context: context,
+        barrierDismissible: true,
+        builder: (context) {
+          return AlertDialog(
+            title: Text(Strings.help),
+            content: SingleChildScrollView(
+              child: ListBody(
+                children: <Widget>[
+                  Text(message),
+                ],
+              ),
+            ),
+            actions: [
+              FlatButton(
+                child: Text(Strings.ok),
+                onPressed: () {
                   Navigator.of(context).pop();
                 },
               )

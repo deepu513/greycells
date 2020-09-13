@@ -47,7 +47,7 @@ class RouteGenerator {
         return MaterialPageRoute(
             builder: (_) => BlocProvider<AssessmentBloc>(
                   create: (_) => AssessmentBloc(),
-                  child: AssessmentTestPage(),
+                  child: AssessmentTestPage(1, 2),
                 ));
       default:
         // If there is no such named route in the switch statement, e.g. /third

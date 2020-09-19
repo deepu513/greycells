@@ -8,7 +8,7 @@ void main() async {
       flavor: Flavor.PRODUCTION,
       initialRoute: RouteName.INITIAL,
       flavorValues:
-          FlavorValues(baseUrl: "http://www.greycellswellness.com/api/"));
+          FlavorValues(baseUrl: "https://www.greycellswellness.com/api/"));
 
   runApp(GreyCellsApp());
 }

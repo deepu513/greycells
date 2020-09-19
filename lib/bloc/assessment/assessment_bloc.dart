@@ -14,7 +14,6 @@ part 'assessment_event.dart';
 
 part 'assessment_state.dart';
 
-// TODO: Refine states. IT IS A CLUTTER OVER THERE
 class AssessmentBloc extends Bloc<AssessmentEvent, AssessmentState> {
   int _currentQuestionNumber;
   Test _test;
@@ -73,6 +72,12 @@ class AssessmentBloc extends Bloc<AssessmentEvent, AssessmentState> {
 
     if (event is QuestionAnswered) {
       try {
+        if(_test.questions[_currentQuestionNumber].answered == true) {
+          ++_currentQuestionNumber;
+          yield ShowQuestion(_test.questions[_currentQuestionNumber],
+              _test.questions.length);
+        }
+
         yield SavingSelectedOption(
             _test.questions[_currentQuestionNumber], _test.questions.length);
 

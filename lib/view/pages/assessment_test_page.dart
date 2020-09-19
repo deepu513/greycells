@@ -93,7 +93,10 @@ class _AssessmentTestPageState extends State<AssessmentTestPage> {
               }
               if (state is SavingSelectedOption) {
                 return _TestPageContent(
-                    state.currentQuestion, state.totalQuestions);
+                  state.currentQuestion,
+                  state.totalQuestions,
+                  loading: true,
+                );
               }
               if (state is ErrorWhileSavingSelectedOption) {
                 return _TestPageContent(
@@ -111,8 +114,9 @@ class _AssessmentTestPageState extends State<AssessmentTestPage> {
 class _TestPageContent extends StatelessWidget {
   final Question question;
   final int _totalQuestions;
+  final bool loading;
 
-  _TestPageContent(this.question, this._totalQuestions);
+  _TestPageContent(this.question, this._totalQuestions, {this.loading = false});
 
   @override
   Widget build(BuildContext context) {
@@ -167,7 +171,8 @@ class _TestPageContent extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.all(16.0),
           child: QuestionNavigator(
-              question.answered || question.selectedOptions.isNotEmpty),
+              question.answered || question.selectedOptions.isNotEmpty,
+              loading ? Strings.saving : Strings.saveAndNext),
         )
       ],
     );
@@ -200,7 +205,7 @@ class OptionSection extends StatelessWidget {
                     ? Colors.blueAccent.shade100
                     : Colors.white,
                 border: Border.all(
-                    width: options[index].selected ? 0.0 : 0.5,
+                    width: 0.5,
                     color: options[index].selected
                         ? Colors.blueAccent.shade100
                         : answered ? Colors.transparent : Colors.black),
@@ -223,8 +228,9 @@ class OptionSection extends StatelessWidget {
 
 class QuestionNavigator extends StatelessWidget {
   final bool enableNextButton;
+  final String nextButtonText;
 
-  QuestionNavigator(this.enableNextButton);
+  QuestionNavigator(this.enableNextButton, this.nextButtonText);
 
   @override
   Widget build(BuildContext context) {
@@ -257,7 +263,7 @@ class QuestionNavigator extends StatelessWidget {
             size: 20.0,
           ),
           label: Text(
-            Strings.saveAndNext.toUpperCase(),
+            nextButtonText.toUpperCase(),
           ),
         )
       ],

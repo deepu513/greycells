@@ -5,10 +5,10 @@ import 'package:greycells/route/route_name.dart';
 
 void main() async {
   FlavorConfig(
-      flavor: Flavor.DEVELOPMENT,
+      flavor: Flavor.PRODUCTION,
       initialRoute: RouteName.INITIAL,
       flavorValues:
-          FlavorValues(baseUrl: "https://www.greycellswellness.com/api/"));
+      FlavorValues(baseUrl: "https://www.greycellswellness.com/api/"));
 
   runApp(GreyCellsApp());
 }

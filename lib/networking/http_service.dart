@@ -167,7 +167,7 @@ class HttpService {
         throw ResourceConflictException();
       case 500:
       default:
-        throw UnknownException();
+       throw UnknownException();
     }
   }
 

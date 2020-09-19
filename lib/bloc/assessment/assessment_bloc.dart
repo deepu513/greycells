@@ -14,6 +14,7 @@ part 'assessment_event.dart';
 
 part 'assessment_state.dart';
 
+// TODO: Shared preferences are not required, remove it from here
 class AssessmentBloc extends Bloc<AssessmentEvent, AssessmentState> {
   int _currentQuestionNumber;
   Test _test;

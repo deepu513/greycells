@@ -3,14 +3,15 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:greycells/app_theme.dart';
 import 'package:greycells/bloc/authentication/bloc.dart';
+import 'package:greycells/bloc/decider/decider_bloc.dart';
 import 'package:greycells/bloc/validation/validation_bloc.dart';
 import 'package:greycells/route/route_generator.dart';
 import 'package:greycells/simple_bloc_observer.dart';
-import 'package:greycells/view/pages/assessment_test_intro_page.dart';
-import 'package:greycells/view/pages/home_page.dart';
-import 'package:greycells/view/pages/patient_detail_input.dart';
-import 'package:greycells/view/pages/register_page.dart';
+import 'package:greycells/view/pages/decider_page.dart';
+import 'package:greycells/view/pages/splash_page.dart';
 import 'package:greycells/view/pages/welcome_page.dart';
+
+import 'constants/strings.dart';
 
 class GreyCellsApp extends StatelessWidget {
   @override
@@ -20,10 +21,19 @@ class GreyCellsApp extends StatelessWidget {
     /// Providing authentication bloc at the app level ensures that
     /// the whole app has access to authentication.
 
-    return BlocProvider<AuthenticationBloc>(
-      create: (context) {
-        return AuthenticationBloc(ValidationBloc())..add(AppStarted());
-      },
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider<AuthenticationBloc>(
+          create: (context) {
+            return AuthenticationBloc(ValidationBloc())..add(AppStarted());
+          },
+        ),
+        BlocProvider<DeciderBloc>(
+          create: (context) {
+            return DeciderBloc();
+          },
+        )
+      ],
       child: _MyApp(),
     );
   }
@@ -34,7 +44,7 @@ class _MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'SoundMind',
+      title: Strings.appName,
       theme: AppTheme.lightTheme,
       home: AnnotatedRegion<SystemUiOverlayStyle>(
         value: SystemUiOverlayStyle.light.copyWith(
@@ -42,29 +52,18 @@ class _MyApp extends StatelessWidget {
             statusBarBrightness: Brightness.light,
             statusBarIconBrightness: Brightness.dark),
         child: BlocBuilder<AuthenticationBloc, AuthenticationState>(
-          // TODO: Check if it is better to have a BlocListener for navigation here.
           builder: (context, authenticationState) {
-            /// The initial state of AuthenticationBloc
-            if (authenticationState is AuthenticationInitial) {
-              /* TODO: Check the performance in profile mode,
-                  if good then remove this
-                  else create a good looking splash page
-               */
-              //return SplashPage();
+            /// User is not logged in
+            if (authenticationState is AuthenticationUnauthenticated) {
+              return WelcomePage();
             }
 
-            /// User is not logged in
-//            if (authenticationState is AuthenticationUnauthenticated) {
-//              return WelcomePage();
-//            }
-
             /// User is logged in
-            // if (authenticationState is AuthenticationAuthenticated) {
-            //   return HomePage();
-            // }
+            if (authenticationState is AuthenticationAuthenticated) {
+              return DeciderPage();
+            }
 
-            // TODO: Handle this/failure, show error or let user login again
-            return WelcomePage();
+            return SplashPage();
           },
         ),
       ),

@@ -7,7 +7,7 @@ class SplashPage extends StatelessWidget {
       body: Container(
         child: Center(
           child: Text(
-            "Splash Page",
+            "Please wait...",
             style: TextStyle(fontSize: 24.0),
           ),
         ),

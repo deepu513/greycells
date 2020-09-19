@@ -13,6 +13,7 @@ class Strings {
   static const registrationSuccessMessageOnLogin =
       "Registration successful! Please Login to continue.";
   static const register = "Register";
+  static const appName = "GreyCells";
   static const grey = "Grey";
   static const cells = "Cells";
   static const subtitle = "Your first step towards self-care";

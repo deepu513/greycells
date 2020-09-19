@@ -1,5 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:greycells/flavor_config.dart';
+import 'package:greycells/models/home/home.dart';
+import 'package:greycells/models/home/home_serializable.dart';
 import 'package:greycells/models/login/login_request.dart';
 import 'package:greycells/models/login/login_request_serializable.dart';
 import 'package:greycells/models/patient/create_patient_response.dart';
@@ -20,6 +22,7 @@ class UserRepository {
   PatientSerializable _patientSerializable;
   UserSerializable _userSerializable;
   CreatePatientResponseSerializable _createPatientResponseSerializable;
+  HomeSerializable _homeSerializable;
 
   HttpService _httpService;
 
@@ -30,6 +33,7 @@ class UserRepository {
     _patientSerializable = PatientSerializable();
     _createPatientResponseSerializable = CreatePatientResponseSerializable();
     _userSerializable = UserSerializable();
+    _homeSerializable = HomeSerializable();
   }
 
   Future<bool> register({@required Registration registration}) async {
@@ -59,5 +63,12 @@ class UserRepository {
       ..setBody(patient);
 
     return await _httpService.post(request, _createPatientResponseSerializable);
+  }
+
+  Future<Home> getHomeData() async {
+    Request<Home> request =
+        Request("${FlavorConfig.getBaseUrl()}Account/home", null);
+
+    return await _httpService.get(request, _homeSerializable);
   }
 }

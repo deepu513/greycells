@@ -3,15 +3,16 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:greycells/bloc/assessment/assessment_bloc.dart';
 import 'package:greycells/constants/strings.dart';
 import 'package:greycells/extensions.dart';
+import 'package:greycells/models/assessment/assessment_test_args.dart';
 import 'package:greycells/models/assessment/option.dart';
 import 'package:greycells/models/assessment/question.dart';
 import 'package:greycells/route/route_name.dart';
 import 'package:greycells/view/widgets/centered_circular_loading.dart';
 
 class AssessmentTestPage extends StatefulWidget {
-  final int testNumber;
+  final AssessmentTestArguments _assessmentTestArguments;
 
-  AssessmentTestPage(this.testNumber);
+  AssessmentTestPage(this._assessmentTestArguments);
 
   @override
   _AssessmentTestPageState createState() => _AssessmentTestPageState();
@@ -51,7 +52,7 @@ class _AssessmentTestPageState extends State<AssessmentTestPage> {
           elevation: 4.0,
           brightness: Brightness.light,
           title: Text(
-            "Test ${widget.testNumber} of 2",
+            "Test ${widget._assessmentTestArguments.testType.intValue()} of 2",
             style: Theme.of(context)
                 .textTheme
                 .headline6

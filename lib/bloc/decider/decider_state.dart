@@ -7,8 +7,9 @@ class DeciderInitial extends DeciderState {}
 
 class NextPageDecided extends DeciderState {
   final String routeName;
+  final AssessmentTestArguments assessmentTestArguments;
 
-  NextPageDecided(this.routeName);
+  NextPageDecided(this.routeName, {this.assessmentTestArguments});
 }
 
 class NextPageDeciding extends DeciderState {}

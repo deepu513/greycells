@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:greycells/constants/strings.dart';
+import 'package:greycells/constants/test_types.dart';
+import 'package:greycells/models/assessment/assessment_test_args.dart';
 import 'package:greycells/route/route_name.dart';
 
 class AssessmentTestIntroPage extends StatefulWidget {
@@ -199,7 +201,11 @@ class _AssessmentTestIntroPageState extends State<AssessmentTestIntroPage>
   }
 
   void _navigateToAssessmentTestPage() {
-    Navigator.of(context).pushNamed(RouteName.ASSESSMENT_TEST, arguments: 1);
+    Navigator.of(context).pushNamed(
+      RouteName.ASSESSMENT_TEST,
+      arguments: AssessmentTestArguments(
+          testType: TestTypes.BEHAVIOUR, resumeFromQuestionNumber: 1),
+    );
   }
 
   @override
@@ -215,8 +221,7 @@ class _AssessmentTestIntroPageState extends State<AssessmentTestIntroPage>
                 child: Center(
                   child: Text(
                     Strings.beforeWeBegin,
-                    style: Theme
-                        .of(context)
+                    style: Theme.of(context)
                         .textTheme
                         .headline5
                         .copyWith(fontWeight: FontWeight.w300, fontSize: 24.0),
@@ -227,11 +232,7 @@ class _AssessmentTestIntroPageState extends State<AssessmentTestIntroPage>
                 opacity: _secondMessageFadeInOut,
                 child: Center(
                   child: Text(Strings.somePoints,
-                      style: Theme
-                          .of(context)
-                          .textTheme
-                          .headline5
-                          .copyWith(
+                      style: Theme.of(context).textTheme.headline5.copyWith(
                           fontWeight: FontWeight.w300, fontSize: 24.0)),
                 ),
               ),
@@ -241,29 +242,24 @@ class _AssessmentTestIntroPageState extends State<AssessmentTestIntroPage>
                   opacity: _buttonFadeIn,
                   child: FlatButton(
                     child: AnimatedCrossFade(
-                        duration: Duration(milliseconds: 200),
-                        crossFadeState: currentPoint < 5 ? CrossFadeState
-                            .showFirst : CrossFadeState.showSecond,
-                        firstChild: Text(
-                          Strings.next.toUpperCase(),
-                          style: Theme
-                              .of(context)
-                              .textTheme
-                              .button
-                              .copyWith(color: Theme
-                              .of(context)
-                              .accentColor),
-                        ),
-                        secondChild: Text(
-                          "Let's begin".toUpperCase(),
-                          style: Theme
-                              .of(context)
-                              .textTheme
-                              .button
-                              .copyWith(color: Theme
-                              .of(context)
-                              .accentColor),
-                        ),
+                      duration: Duration(milliseconds: 200),
+                      crossFadeState: currentPoint < 5
+                          ? CrossFadeState.showFirst
+                          : CrossFadeState.showSecond,
+                      firstChild: Text(
+                        Strings.next.toUpperCase(),
+                        style: Theme.of(context)
+                            .textTheme
+                            .button
+                            .copyWith(color: Theme.of(context).accentColor),
+                      ),
+                      secondChild: Text(
+                        "Let's begin".toUpperCase(),
+                        style: Theme.of(context)
+                            .textTheme
+                            .button
+                            .copyWith(color: Theme.of(context).accentColor),
+                      ),
                     ),
                     onPressed: showNextPoint,
                   ),
@@ -281,16 +277,17 @@ class _AssessmentTestIntroPageState extends State<AssessmentTestIntroPage>
                         mainAxisSize: MainAxisSize.min,
                         children: [
                           Text("Points to note:",
-                              style: Theme
-                                  .of(context)
+                              style: Theme.of(context)
                                   .textTheme
                                   .headline5
                                   .copyWith(
-                                  color: Colors.black,
-                                  fontWeight: FontWeight.w300)),
+                                      color: Colors.black,
+                                      fontWeight: FontWeight.w300)),
                           SizedBox(
                             width: 72.0,
-                            child: Divider(color: Colors.blue,),
+                            child: Divider(
+                              color: Colors.blue,
+                            ),
                           )
                         ],
                       ),
@@ -302,28 +299,23 @@ class _AssessmentTestIntroPageState extends State<AssessmentTestIntroPage>
                         text: TextSpan(
                             text: "1.  ",
                             style:
-                            Theme
-                                .of(context)
-                                .textTheme
-                                .bodyText1
-                                .copyWith(
-                              fontWeight: FontWeight.w400,
-                              fontSize: 20.0,
-                            ),
+                                Theme.of(context).textTheme.bodyText1.copyWith(
+                                      fontWeight: FontWeight.w400,
+                                      fontSize: 20.0,
+                                    ),
                             children: [
                               TextSpan(
                                 text:
-                                "This questionnaire is designed to help you explore the typical ways you interact with people.",
-                                style: Theme
-                                    .of(context)
+                                    "This questionnaire is designed to help you explore the typical ways you interact with people.",
+                                style: Theme.of(context)
                                     .textTheme
                                     .bodyText2
                                     .copyWith(
-                                    color: Colors.black,
-                                    fontWeight: FontWeight.w300,
-                                    fontSize: 18.0,
-                                    height: 1.4,
-                                    letterSpacing: 0.7),
+                                        color: Colors.black,
+                                        fontWeight: FontWeight.w300,
+                                        fontSize: 18.0,
+                                        height: 1.4,
+                                        letterSpacing: 0.7),
                               ),
                             ]),
                       ),
@@ -335,40 +327,34 @@ class _AssessmentTestIntroPageState extends State<AssessmentTestIntroPage>
                         text: TextSpan(
                             text: "2.  ",
                             style:
-                            Theme
-                                .of(context)
-                                .textTheme
-                                .bodyText1
-                                .copyWith(
-                              fontWeight: FontWeight.w400,
-                              fontSize: 20.0,
-                            ),
+                                Theme.of(context).textTheme.bodyText1.copyWith(
+                                      fontWeight: FontWeight.w400,
+                                      fontSize: 20.0,
+                                    ),
                             children: [
                               TextSpan(
                                 text: "There are ",
-                                style: Theme
-                                    .of(context)
+                                style: Theme.of(context)
                                     .textTheme
                                     .bodyText2
                                     .copyWith(
-                                    color: Colors.black,
-                                    fontWeight: FontWeight.w300,
-                                    fontSize: 18.0,
-                                    height: 1.4,
-                                    letterSpacing: 0.6),
+                                        color: Colors.black,
+                                        fontWeight: FontWeight.w300,
+                                        fontSize: 18.0,
+                                        height: 1.4,
+                                        letterSpacing: 0.6),
                               ),
                               TextSpan(
                                 text: "no right or wrong answers.",
-                                style: Theme
-                                    .of(context)
+                                style: Theme.of(context)
                                     .textTheme
                                     .bodyText2
                                     .copyWith(
-                                    color: Colors.black,
-                                    fontWeight: FontWeight.w400,
-                                    fontSize: 18.0,
-                                    height: 1.4,
-                                    letterSpacing: 0.6),
+                                        color: Colors.black,
+                                        fontWeight: FontWeight.w400,
+                                        fontSize: 18.0,
+                                        height: 1.4,
+                                        letterSpacing: 0.6),
                               )
                             ]),
                       ),
@@ -380,41 +366,35 @@ class _AssessmentTestIntroPageState extends State<AssessmentTestIntroPage>
                         text: TextSpan(
                             text: "3.  ",
                             style:
-                            Theme
-                                .of(context)
-                                .textTheme
-                                .bodyText1
-                                .copyWith(
-                              fontWeight: FontWeight.w400,
-                              fontSize: 20.0,
-                            ),
+                                Theme.of(context).textTheme.bodyText1.copyWith(
+                                      fontWeight: FontWeight.w400,
+                                      fontSize: 20.0,
+                                    ),
                             children: [
                               TextSpan(
                                 text:
-                                "Each person has his own ways of behaving. Sometimes people are tempted to answer questions like this in terms of what they think a person should do.",
-                                style: Theme
-                                    .of(context)
+                                    "Each person has his own ways of behaving. Sometimes people are tempted to answer questions like this in terms of what they think a person should do.",
+                                style: Theme.of(context)
                                     .textTheme
                                     .bodyText2
                                     .copyWith(
-                                    color: Colors.black,
-                                    fontWeight: FontWeight.w300,
-                                    fontSize: 18.0,
-                                    height: 1.4,
-                                    letterSpacing: 0.6),
+                                        color: Colors.black,
+                                        fontWeight: FontWeight.w300,
+                                        fontSize: 18.0,
+                                        height: 1.4,
+                                        letterSpacing: 0.6),
                               ),
                               TextSpan(
                                 text: "This is not what is desired here.",
-                                style: Theme
-                                    .of(context)
+                                style: Theme.of(context)
                                     .textTheme
                                     .bodyText2
                                     .copyWith(
-                                    color: Colors.black,
-                                    fontWeight: FontWeight.w400,
-                                    fontSize: 18.0,
-                                    height: 1.4,
-                                    letterSpacing: 0.6),
+                                        color: Colors.black,
+                                        fontWeight: FontWeight.w400,
+                                        fontSize: 18.0,
+                                        height: 1.4,
+                                        letterSpacing: 0.6),
                               )
                             ]),
                       ),
@@ -426,28 +406,23 @@ class _AssessmentTestIntroPageState extends State<AssessmentTestIntroPage>
                         text: TextSpan(
                             text: "4.  ",
                             style:
-                            Theme
-                                .of(context)
-                                .textTheme
-                                .bodyText1
-                                .copyWith(
-                              fontWeight: FontWeight.w400,
-                              fontSize: 20.0,
-                            ),
+                                Theme.of(context).textTheme.bodyText1.copyWith(
+                                      fontWeight: FontWeight.w400,
+                                      fontSize: 20.0,
+                                    ),
                             children: [
                               TextSpan(
                                 text:
-                                "The questionnaire is an attempt to help you learn more about yourself and how you actually behave.",
-                                style: Theme
-                                    .of(context)
+                                    "The questionnaire is an attempt to help you learn more about yourself and how you actually behave.",
+                                style: Theme.of(context)
                                     .textTheme
                                     .bodyText2
                                     .copyWith(
-                                    color: Colors.black,
-                                    fontWeight: FontWeight.w300,
-                                    fontSize: 18.0,
-                                    height: 1.4,
-                                    letterSpacing: 0.6),
+                                        color: Colors.black,
+                                        fontWeight: FontWeight.w300,
+                                        fontSize: 18.0,
+                                        height: 1.4,
+                                        letterSpacing: 0.6),
                               ),
                             ]),
                       ),
@@ -459,42 +434,36 @@ class _AssessmentTestIntroPageState extends State<AssessmentTestIntroPage>
                         text: TextSpan(
                             text: "5.  ",
                             style:
-                            Theme
-                                .of(context)
-                                .textTheme
-                                .bodyText1
-                                .copyWith(
-                              fontWeight: FontWeight.w400,
-                              fontSize: 20.0,
-                            ),
+                                Theme.of(context).textTheme.bodyText1.copyWith(
+                                      fontWeight: FontWeight.w400,
+                                      fontSize: 20.0,
+                                    ),
                             children: [
                               TextSpan(
                                 text:
-                                "Some of the questions which follow may seem similar to others.",
-                                style: Theme
-                                    .of(context)
+                                    "Some of the questions which follow may seem similar to others.",
+                                style: Theme.of(context)
                                     .textTheme
                                     .bodyText2
                                     .copyWith(
-                                    color: Colors.black,
-                                    fontWeight: FontWeight.w300,
-                                    fontSize: 18.0,
-                                    height: 1.4,
-                                    letterSpacing: 0.6),
+                                        color: Colors.black,
+                                        fontWeight: FontWeight.w300,
+                                        fontSize: 18.0,
+                                        height: 1.4,
+                                        letterSpacing: 0.6),
                               ),
                               TextSpan(
                                 text:
-                                " Please tick the answer that best applies to you. Be honest with yourself",
-                                style: Theme
-                                    .of(context)
+                                    " Please tick the answer that best applies to you. Be honest with yourself",
+                                style: Theme.of(context)
                                     .textTheme
                                     .bodyText2
                                     .copyWith(
-                                    color: Colors.black,
-                                    fontWeight: FontWeight.w400,
-                                    fontSize: 18.0,
-                                    height: 1.4,
-                                    letterSpacing: 0.6),
+                                        color: Colors.black,
+                                        fontWeight: FontWeight.w400,
+                                        fontSize: 18.0,
+                                        height: 1.4,
+                                        letterSpacing: 0.6),
                               )
                             ]),
                       ),

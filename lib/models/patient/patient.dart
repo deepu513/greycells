@@ -4,6 +4,7 @@ import 'package:greycells/models/patient/address/address.dart';
 import 'package:greycells/models/patient/guardian/guardian.dart';
 import 'package:greycells/models/patient/health/health_record.dart';
 import 'package:greycells/models/patient/medical/medical_record.dart';
+import 'package:greycells/models/user/user.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'patient.g.dart';
@@ -13,16 +14,19 @@ class Patient {
   @JsonKey(includeIfNull: false)
   int id;
 
-  @JsonKey(name: "Gender")
+  @JsonKey(name: "gender")
   int genderValue;
 
-  @JsonKey(name: "CustomerID")
+  @JsonKey(name: "customerID")
   int customerId;
 
-  @JsonKey(name: "AlternativeNumber")
+  @JsonKey(name: "customer", includeIfNull: false)
+  User user;
+
+  @JsonKey(name: "alternativeNumber")
   String alternativeNumber;
 
-  @JsonKey(name: "FileId")
+  @JsonKey(name: "fileId")
   int profilePicId;
 
   @JsonKey(ignore: true)
@@ -32,30 +36,27 @@ class Patient {
   bool isMinor = true;
 
   @JsonKey(name: "Address")
-
   /// Not a atomic value
   Address address;
 
   @JsonKey(name: "isEligibleForTest")
   bool isEligibleForTest;
 
-  @JsonKey(name: "HealthRecord")
-
   /// Not a atomic value
+  @JsonKey(name: "HealthRecord")
   HealthRecord healthRecord;
 
-  @JsonKey(name: "Guardian")
-
   /// Not a atomic value
+  @JsonKey(name: "guardian")
   Guardian guardian;
 
-  @JsonKey(name: "PlaceOfBirth")
+  @JsonKey(name: "placeOfBirth")
   String placeOfBirth;
 
-  @JsonKey(name: "DateOfBirth")
+  @JsonKey(name: "dateOfBirth")
   String dateOfBirth;
 
-  @JsonKey(name: "TimeOfBirth")
+  @JsonKey(name: "timeOfBirth")
   String timeOfBirth;
 
   // Date of birth
@@ -85,7 +86,7 @@ class Patient {
   @JsonKey(ignore: true)
   String readableGender;
 
-  @JsonKey(name: "MedicalRecord")
+  @JsonKey(name: "medicalRecord")
   List<MedicalRecord> medicalRecords;
 
   @JsonKey(ignore: true)

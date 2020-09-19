@@ -36,10 +36,17 @@ class DeciderBloc extends Bloc<DeciderEvent, DeciderState> {
             yield NextPageDecided(RouteName.HOME, home);
           } else if (home.patient != null &&
               home.patient.isEligibleForTest == true) {
-            if (home.behaviourLastAttemptedQuestion == null &&
-                home.personalityLastAttemptedQuestion == null) {
+            if (home.behaviourLastAttemptedQuestion == null) {
               yield NextPageDecided(RouteName.ASSESSMENT_TEST_INTRO, home);
-            } else if (home.behaviourLastAttemptedQuestion != null &&
+            } else if(home.personalityLastAttemptedQuestion == null) {
+              yield NextPageDecided(
+                  RouteName.ASSESSMENT_TEST, home,
+                  assessmentTestArguments: AssessmentTestArguments(
+                      testType: TestTypes.PERSONALITY,
+                      resumeFromQuestionNumber: 0),
+              );
+            }
+            else if (home.behaviourLastAttemptedQuestion != null &&
                 home.behaviourLastAttemptedQuestion.isLastQuestion == false) {
               // Open test page and show this question number and test type
               yield NextPageDecided(
@@ -47,7 +54,7 @@ class DeciderBloc extends Bloc<DeciderEvent, DeciderState> {
                 assessmentTestArguments: AssessmentTestArguments(
                     testType: TestTypes.BEHAVIOUR,
                     resumeFromQuestionNumber:
-                        home.behaviourLastAttemptedQuestion.sequence - 1),
+                        home.behaviourLastAttemptedQuestion.sequence),
               );
             } else if (home.personalityLastAttemptedQuestion != null &&
                 home.personalityLastAttemptedQuestion.isLastQuestion == false) {
@@ -57,7 +64,7 @@ class DeciderBloc extends Bloc<DeciderEvent, DeciderState> {
                 assessmentTestArguments: AssessmentTestArguments(
                     testType: TestTypes.PERSONALITY,
                     resumeFromQuestionNumber:
-                        home.personalityLastAttemptedQuestion.sequence - 1),
+                        home.personalityLastAttemptedQuestion.sequence),
               );
             }
           }

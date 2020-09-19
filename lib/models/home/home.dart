@@ -7,20 +7,13 @@ part 'home.g.dart';
 
 @JsonSerializable(explicitToJson: true)
 class Home {
-  int id;
-  String email;
-  String firstName;
-  String lastName;
-  String mobileNumber;
-
-  //  TODO: Fix me
-  String userType;
-
   Patient patient;
 
+  @JsonKey(name: "behaviourLastattemtedques")
   Question behaviourLastAttemptedQuestion;
-  Question personalityLastAttemptedQuestion;
 
+  @JsonKey(name: "personalityLastattemtedques")
+  Question personalityLastAttemptedQuestion;
 
   List<Score> personalityScore;
   List<Score> behaviourScore;

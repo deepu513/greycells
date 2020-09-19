@@ -33,7 +33,6 @@ class HttpService {
   Future<Response<ResponseType>> postRaw<RequestType, ResponseType>(
       Request<RequestType> request,
       Serializable<ResponseType> responseSerializable) {
-    print(request.toJsonString());
     return http
         .post(request.url,
             body: request.toJsonString(),
@@ -46,7 +45,6 @@ class HttpService {
   Future<ResponseType> post<RequestType, ResponseType>(
       Request<RequestType> request,
       Serializable<ResponseType> responseSerializable) {
-    print(request.toJsonString());
     return http
         .post(request.url,
             body: request.toJsonString(),
@@ -167,14 +165,14 @@ class HttpService {
         throw ResourceConflictException();
       case 500:
       default:
-       throw UnknownException();
+        throw UnknownException();
     }
   }
 
   Map<String, String> _getDefaultHeaders({String url}) {
     var map = {"content-type": "application/json"};
-    var token = _settingsRepository.get(SettingKey.KEY_REQUEST_TOKEN,
-        defaultValue: "");
+    var token =
+        _settingsRepository.get(SettingKey.KEY_REQUEST_TOKEN, defaultValue: "");
 
     if (!url.contains("authenticate") &&
         !url.contains("register") &&

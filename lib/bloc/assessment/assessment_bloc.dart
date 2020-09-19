@@ -16,6 +16,7 @@ part 'assessment_state.dart';
 
 class AssessmentBloc extends Bloc<AssessmentEvent, AssessmentState> {
   int _currentQuestionNumber;
+  int _resumedQuestionNumber;
   Test _test;
 
   AssessmentTestRepository _testRepository;
@@ -32,8 +33,9 @@ class AssessmentBloc extends Bloc<AssessmentEvent, AssessmentState> {
   Stream<AssessmentState> mapEventToState(
     AssessmentEvent event,
   ) async* {
-    if(event is UpdateCurrentQuestionNumber) {
+    if (event is UpdateCurrentQuestionNumber) {
       _currentQuestionNumber = event.currentQuestionNumber;
+      _resumedQuestionNumber = _currentQuestionNumber;
       yield CurrentQuestionNumberUpdated();
     }
 
@@ -57,58 +59,60 @@ class AssessmentBloc extends Bloc<AssessmentEvent, AssessmentState> {
     }
 
     if (event is QuestionAnswered) {
-      try {
-        if(_test.questions[_currentQuestionNumber].answered == true) {
-          ++_currentQuestionNumber;
-          if (_currentQuestionNumber < _test.questions.length) {
-            yield ShowQuestion(_test.questions[_currentQuestionNumber],
-                _test.questions.length);
-          } else {
-            _currentQuestionNumber = 0;
-            yield TestComplete(_test.testType.id);
-          }
-        }
-
-        yield SavingSelectedOption(
-            _test.questions[_currentQuestionNumber], _test.questions.length);
-
-        final currentQuestion = _test.questions[_currentQuestionNumber];
-        final int patientId =
-            await _settingsRepository.get(SettingKey.KEY_PATIENT_ID);
-
-        SaveOptionRequest optionRequest = SaveOptionRequest()
-          ..patientId = patientId
-          ..questionId = currentQuestion.id
-          ..score = currentQuestion.selectedOptions[0].score
-          ..testTypeId = _test.testType.id
-          ..selectedOptionIds =
-              currentQuestion.selectedOptions.map((e) => e.id).toList();
-
-        bool optionSaveResult =
-            await _testRepository.saveOption(saveOptionRequest: optionRequest);
-        if (optionSaveResult == true) {
-          _test.questions[_currentQuestionNumber].answered = true;
-          ++_currentQuestionNumber;
-          if (_currentQuestionNumber < _test.questions.length) {
-            yield ShowQuestion(_test.questions[_currentQuestionNumber],
-                _test.questions.length);
-          } else {
-            _currentQuestionNumber = 0;
-            yield TestComplete(_test.testType.id);
-          }
+      if (_test.questions[_currentQuestionNumber].answered == true) {
+        ++_currentQuestionNumber;
+        if (_currentQuestionNumber < _test.questions.length) {
+          yield ShowQuestion(
+              _test.questions[_currentQuestionNumber], _test.questions.length);
         } else {
+          _currentQuestionNumber = 0;
+          yield TestComplete(_test.testType.id);
+        }
+      } else {
+        try {
+          yield SavingSelectedOption(
+              _test.questions[_currentQuestionNumber], _test.questions.length);
+
+          final currentQuestion = _test.questions[_currentQuestionNumber];
+          final int patientId =
+              await _settingsRepository.get(SettingKey.KEY_PATIENT_ID);
+
+          SaveOptionRequest optionRequest = SaveOptionRequest()
+            ..patientId = patientId
+            ..questionId = currentQuestion.id
+            ..score = currentQuestion.selectedOptions[0].score
+            ..testTypeId = _test.testType.id
+            ..selectedOptionIds =
+                currentQuestion.selectedOptions.map((e) => e.id).toList();
+
+          bool optionSaveResult = await _testRepository.saveOption(
+              saveOptionRequest: optionRequest);
+          if (optionSaveResult == true) {
+            _test.questions[_currentQuestionNumber].answered = true;
+            ++_currentQuestionNumber;
+            if (_currentQuestionNumber < _test.questions.length) {
+              yield ShowQuestion(_test.questions[_currentQuestionNumber],
+                  _test.questions.length);
+            } else {
+              _currentQuestionNumber = 0;
+              yield TestComplete(_test.testType.id);
+            }
+          } else {
+            yield ErrorWhileSavingSelectedOption(
+                _test.questions[_currentQuestionNumber],
+                _test.questions.length);
+          }
+        } catch (e) {
+          print(e);
           yield ErrorWhileSavingSelectedOption(
               _test.questions[_currentQuestionNumber], _test.questions.length);
         }
-      } catch (e) {
-        print(e);
-        yield ErrorWhileSavingSelectedOption(
-            _test.questions[_currentQuestionNumber], _test.questions.length);
       }
     }
 
     if (event is ShowPreviousQuestion) {
-      if (_currentQuestionNumber >= 1) {
+      if (_currentQuestionNumber >= 1 &&
+          _currentQuestionNumber > _resumedQuestionNumber) {
         --_currentQuestionNumber;
 
         yield ShowQuestion(

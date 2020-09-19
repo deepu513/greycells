@@ -10,19 +10,19 @@ class Guardian {
   @JsonKey(ignore: true)
   Relationship relationShip;
 
-  @JsonKey(name: "Relationship")
+  @JsonKey(name: "relationship")
   String readableRelationship;
 
-  @JsonKey(name: "FirstName")
+  @JsonKey(name: "firstName")
   String firstName;
 
-  @JsonKey(name: "LastName")
+  @JsonKey(name: "lastName")
   String lastName;
 
-  @JsonKey(name: "MobileNumber")
+  @JsonKey(name: "mobileNumber")
   String mobileNumber;
 
-  @JsonKey(name: "Address")
+  @JsonKey(name: "address")
   Address address;
 
   Guardian() {

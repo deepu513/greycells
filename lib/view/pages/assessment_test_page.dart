@@ -174,7 +174,7 @@ class _TestPageContent extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.all(16.0),
           child: QuestionNavigator(
-              question.answered || question.selectedOptions.isNotEmpty,
+              !loading && (question.answered || question.selectedOptions.isNotEmpty),
               loading ? Strings.saving : Strings.saveAndNext),
         )
       ],
@@ -248,25 +248,28 @@ class QuestionNavigator extends StatelessWidget {
           textColor: Theme.of(context).accentColor,
           child: Text(Strings.back.toUpperCase()),
         ),
-        RaisedButton.icon(
-          onPressed: enableNextButton
-              ? () {
-                  BlocProvider.of<AssessmentBloc>(context)
-                      .add(QuestionAnswered());
-                }
-              : null,
-          color: Theme.of(context).accentColor,
-          textColor: Colors.white,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(16.0),
-          ),
-          icon: Icon(
-            Icons.save,
-            color: Colors.white,
-            size: 20.0,
-          ),
-          label: Text(
-            nextButtonText.toUpperCase(),
+        ButtonTheme(
+          minWidth: 150.0,
+          child: RaisedButton.icon(
+            onPressed: enableNextButton
+                ? () {
+                    BlocProvider.of<AssessmentBloc>(context)
+                        .add(QuestionAnswered());
+                  }
+                : null,
+            color: Theme.of(context).accentColor,
+            textColor: Colors.white,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(16.0),
+            ),
+            icon: Icon(
+              Icons.save,
+              color: Colors.white,
+              size: 20.0,
+            ),
+            label: Text(
+              nextButtonText.toUpperCase(),
+            ),
           ),
         )
       ],

@@ -7,7 +7,7 @@ import 'package:greycells/route/route_name.dart';
 import 'package:greycells/view/pages/assessment_test_intro_page.dart';
 import 'package:greycells/view/pages/assessment_test_page.dart';
 import 'package:greycells/view/pages/forgot_password_page.dart';
-import 'package:greycells/view/pages/home_page.dart';
+import 'package:greycells/view/pages/patient_home_page.dart';
 import 'package:greycells/view/pages/login_page.dart';
 import 'package:greycells/view/pages/patient_detail_input.dart';
 import 'package:greycells/view/pages/register_page.dart';
@@ -37,7 +37,7 @@ class RouteGenerator {
                 create: (_) => RegistrationBloc(ValidationBloc()),
                 child: RegisterPage()));
       case RouteName.HOME:
-        return MaterialPageRoute(builder: (_) => HomePage());
+        return MaterialPageRoute(builder: (_) => PatientHomePage());
       case RouteName.FORGOT_PASSWORD:
         return MaterialPageRoute(builder: (_) => ForgotPasswordPage());
       case RouteName.PATIENT_DETAIL_INPUT_PAGE:

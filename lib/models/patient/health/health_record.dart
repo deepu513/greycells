@@ -4,19 +4,19 @@ part 'health_record.g.dart';
 
 @JsonSerializable(explicitToJson: true)
 class HealthRecord {
-  @JsonKey(name: "Width")
+  @JsonKey(name: "width")
   int weightInKg;
 
-  @JsonKey(name: "Height", toJson: _heightToJson, fromJson: _heightFromJson)
+  @JsonKey(name: "height", toJson: _heightToJson, fromJson: _heightFromJson)
   int heightInCm;
 
-  @JsonKey(name: "BloodGroup")
+  @JsonKey(name: "bloodGroup")
   int bloodGroup;
 
-  @JsonKey(name: "BMI")
+  @JsonKey(name: "bmi")
   int bmi;
 
-  @JsonKey(name: "MedicalHistory")
+  @JsonKey(name: "medicalHistory")
   String medicalHistory;
 
   HealthRecord();

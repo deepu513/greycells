@@ -8,7 +8,7 @@ class MedicalRecord {
 	@JsonKey(name : "PatientId")
 	int patientId;
 
-	@JsonKey(name: "FileId")
+	@JsonKey(name: "fileId")
 	int fileId;
 
 	MedicalRecord() {

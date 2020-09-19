@@ -8,19 +8,19 @@ part of 'guardian.dart';
 
 Guardian _$GuardianFromJson(Map<String, dynamic> json) {
   return Guardian()
-    ..readableRelationship = json['Relationship'] as String
-    ..firstName = json['FirstName'] as String
-    ..lastName = json['LastName'] as String
-    ..mobileNumber = json['MobileNumber'] as String
-    ..address = json['Address'] == null
+    ..readableRelationship = json['relationship'] as String
+    ..firstName = json['firstName'] as String
+    ..lastName = json['lastName'] as String
+    ..mobileNumber = json['mobileNumber'] as String
+    ..address = json['address'] == null
         ? null
-        : Address.fromJson(json['Address'] as Map<String, dynamic>);
+        : Address.fromJson(json['address'] as Map<String, dynamic>);
 }
 
 Map<String, dynamic> _$GuardianToJson(Guardian instance) => <String, dynamic>{
-      'Relationship': instance.readableRelationship,
-      'FirstName': instance.firstName,
-      'LastName': instance.lastName,
-      'MobileNumber': instance.mobileNumber,
-      'Address': instance.address?.toJson(),
+      'relationship': instance.readableRelationship,
+      'firstName': instance.firstName,
+      'lastName': instance.lastName,
+      'mobileNumber': instance.mobileNumber,
+      'address': instance.address?.toJson(),
     };

@@ -4,19 +4,19 @@ part 'address.g.dart';
 
 @JsonSerializable(explicitToJson: true)
 class Address {
-  @JsonKey(name: "Readable_Address")
+  @JsonKey(name: "readable_Address")
   String readableAddress;
 
-  @JsonKey(name: "City")
+  @JsonKey(name: "city")
   String city;
 
-  @JsonKey(name: "State")
+  @JsonKey(name: "state")
   String state;
 
-  @JsonKey(name: "Country")
+  @JsonKey(name: "country")
   String country;
 
-  @JsonKey(name: "PostalCode")
+  @JsonKey(name: "postalCode")
   String pincode;
 
   @JsonKey(ignore: true)

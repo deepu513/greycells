@@ -16,7 +16,7 @@ extension StringExtensions on String {
       this == null ? true : this != null && this.trim().isEmpty;
 
   bool hasRequiredLength(int length) =>
-      this != null && this.isNotEmpty && this.length == length;
+      this != null && this.isNotEmpty && this.length >= length;
 
   String get titleCase => '${this[0].toUpperCase()}${this.substring(1)}';
 }

@@ -8,18 +8,18 @@ part of 'health_record.dart';
 
 HealthRecord _$HealthRecordFromJson(Map<String, dynamic> json) {
   return HealthRecord()
-    ..weightInKg = json['Width'] as int
-    ..heightInCm = HealthRecord._heightFromJson(json['Height'] as String)
-    ..bloodGroup = json['BloodGroup'] as int
-    ..bmi = json['BMI'] as int
-    ..medicalHistory = json['MedicalHistory'] as String;
+    ..weightInKg = json['width'] as int
+    ..heightInCm = HealthRecord._heightFromJson(json['height'] as String)
+    ..bloodGroup = json['bloodGroup'] as int
+    ..bmi = json['bmi'] as int
+    ..medicalHistory = json['medicalHistory'] as String;
 }
 
 Map<String, dynamic> _$HealthRecordToJson(HealthRecord instance) =>
     <String, dynamic>{
-      'Width': instance.weightInKg,
-      'Height': HealthRecord._heightToJson(instance.heightInCm),
-      'BloodGroup': instance.bloodGroup,
-      'BMI': instance.bmi,
-      'MedicalHistory': instance.medicalHistory,
+      'width': instance.weightInKg,
+      'height': HealthRecord._heightToJson(instance.heightInCm),
+      'bloodGroup': instance.bloodGroup,
+      'bmi': instance.bmi,
+      'medicalHistory': instance.medicalHistory,
     };

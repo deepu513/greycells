@@ -9,11 +9,11 @@ part of 'medical_record.dart';
 MedicalRecord _$MedicalRecordFromJson(Map<String, dynamic> json) {
   return MedicalRecord()
     ..patientId = json['PatientId'] as int
-    ..fileId = json['FileId'] as int;
+    ..fileId = json['fileId'] as int;
 }
 
 Map<String, dynamic> _$MedicalRecordToJson(MedicalRecord instance) =>
     <String, dynamic>{
       'PatientId': instance.patientId,
-      'FileId': instance.fileId,
+      'fileId': instance.fileId,
     };

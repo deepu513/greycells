@@ -24,42 +24,41 @@ class _DeciderPageState extends State<DeciderPage> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<DeciderBloc, DeciderState>(
-      listener: (context, state) {
-        if (state is NextPageDecided) {
-          // Update home data
-          var homeData = state.homeData;
+    return Scaffold(
+      body: SafeArea(
+        child: BlocConsumer<DeciderBloc, DeciderState>(
+          listener: (context, state) {
+            if (state is NextPageDecided) {
+              // Update home data
+              var homeData = state.homeData;
 
-          Provider.of<Home>(context)
-            ..id = homeData.id
-            ..email = homeData.email
-            ..firstName = homeData.firstName
-            ..lastName = homeData.lastName
-            ..mobileNumber = homeData.mobileNumber
-            ..userType = homeData.userType
-            ..patient = homeData.patient
-            ..behaviourLastAttemptedQuestion =
-                homeData.behaviourLastAttemptedQuestion
-            ..personalityLastAttemptedQuestion =
-                homeData.personalityLastAttemptedQuestion
-            ..personalityScore = homeData.personalityScore
-            ..behaviourScore = homeData.behaviourScore;
-          // Navigate to decided page
-          Navigator.of(context)
-              .pushNamedAndRemoveUntil(state.routeName, (route) => false);
-        }
-      },
-      builder: (context, state) {
-        if (state is NextPageDeciding) {
-          return CenteredCircularLoadingIndicator();
-        }
+              Provider.of<Home>(context, listen: false)
+                ..patient = homeData.patient
+                ..behaviourLastAttemptedQuestion =
+                    homeData.behaviourLastAttemptedQuestion
+                ..personalityLastAttemptedQuestion =
+                    homeData.personalityLastAttemptedQuestion
+                ..personalityScore = homeData.personalityScore
+                ..behaviourScore = homeData.behaviourScore;
+              // Navigate to decided page
+              Navigator.of(context).pushNamedAndRemoveUntil(
+                  state.routeName, (route) => false,
+                  arguments: state.assessmentTestArguments);
+            }
+          },
+          builder: (context, state) {
+            if (state is NextPageDeciding) {
+              return CenteredCircularLoadingIndicator();
+            }
 
-        if (state is DeciderError) {
-          return ErrorWithRetry(onRetryPressed: decideNextPage);
-        }
+            if (state is DeciderError) {
+              return ErrorWithRetry(onRetryPressed: decideNextPage);
+            }
 
-        return Container();
-      },
+            return Container();
+          },
+        ),
+      ),
     );
   }
 }

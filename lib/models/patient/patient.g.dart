@@ -9,10 +9,13 @@ part of 'patient.dart';
 Patient _$PatientFromJson(Map<String, dynamic> json) {
   return Patient()
     ..id = json['id'] as int
-    ..genderValue = json['Gender'] as int
-    ..customerId = json['CustomerID'] as int
-    ..alternativeNumber = json['AlternativeNumber'] as String
-    ..profilePicId = json['FileId'] as int
+    ..genderValue = json['gender'] as int
+    ..customerId = json['customerID'] as int
+    ..user = json['customer'] == null
+        ? null
+        : User.fromJson(json['customer'] as Map<String, dynamic>)
+    ..alternativeNumber = json['alternativeNumber'] as String
+    ..profilePicId = json['fileId'] as int
     ..isMinor = json['IsMinor'] as bool
     ..address = json['Address'] == null
         ? null
@@ -21,13 +24,13 @@ Patient _$PatientFromJson(Map<String, dynamic> json) {
     ..healthRecord = json['HealthRecord'] == null
         ? null
         : HealthRecord.fromJson(json['HealthRecord'] as Map<String, dynamic>)
-    ..guardian = json['Guardian'] == null
+    ..guardian = json['guardian'] == null
         ? null
-        : Guardian.fromJson(json['Guardian'] as Map<String, dynamic>)
-    ..placeOfBirth = json['PlaceOfBirth'] as String
-    ..dateOfBirth = json['DateOfBirth'] as String
-    ..timeOfBirth = json['TimeOfBirth'] as String
-    ..medicalRecords = (json['MedicalRecord'] as List)
+        : Guardian.fromJson(json['guardian'] as Map<String, dynamic>)
+    ..placeOfBirth = json['placeOfBirth'] as String
+    ..dateOfBirth = json['dateOfBirth'] as String
+    ..timeOfBirth = json['timeOfBirth'] as String
+    ..medicalRecords = (json['medicalRecord'] as List)
         ?.map((e) => e == null
             ? null
             : MedicalRecord.fromJson(e as Map<String, dynamic>))
@@ -44,19 +47,20 @@ Map<String, dynamic> _$PatientToJson(Patient instance) {
   }
 
   writeNotNull('id', instance.id);
-  val['Gender'] = instance.genderValue;
-  val['CustomerID'] = instance.customerId;
-  val['AlternativeNumber'] = instance.alternativeNumber;
-  val['FileId'] = instance.profilePicId;
+  val['gender'] = instance.genderValue;
+  val['customerID'] = instance.customerId;
+  writeNotNull('customer', instance.user?.toJson());
+  val['alternativeNumber'] = instance.alternativeNumber;
+  val['fileId'] = instance.profilePicId;
   val['IsMinor'] = instance.isMinor;
   val['Address'] = instance.address?.toJson();
   val['isEligibleForTest'] = instance.isEligibleForTest;
   val['HealthRecord'] = instance.healthRecord?.toJson();
-  val['Guardian'] = instance.guardian?.toJson();
-  val['PlaceOfBirth'] = instance.placeOfBirth;
-  val['DateOfBirth'] = instance.dateOfBirth;
-  val['TimeOfBirth'] = instance.timeOfBirth;
-  val['MedicalRecord'] =
+  val['guardian'] = instance.guardian?.toJson();
+  val['placeOfBirth'] = instance.placeOfBirth;
+  val['dateOfBirth'] = instance.dateOfBirth;
+  val['timeOfBirth'] = instance.timeOfBirth;
+  val['medicalRecord'] =
       instance.medicalRecords?.map((e) => e?.toJson())?.toList();
   return val;
 }

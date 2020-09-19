@@ -204,7 +204,7 @@ class _AssessmentTestIntroPageState extends State<AssessmentTestIntroPage>
     Navigator.of(context).pushNamed(
       RouteName.ASSESSMENT_TEST,
       arguments: AssessmentTestArguments(
-          testType: TestTypes.BEHAVIOUR, resumeFromQuestionNumber: 1),
+          testType: TestTypes.BEHAVIOUR, resumeFromQuestionNumber: 0),
     );
   }
 

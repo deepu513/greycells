@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:greycells/bloc/decider/decider_bloc.dart';
+import 'package:greycells/models/home/home.dart';
 import 'package:greycells/view/widgets/centered_circular_loading.dart';
 import 'package:greycells/view/widgets/error_with_retry.dart';
+import 'package:provider/provider.dart';
 
 class DeciderPage extends StatefulWidget {
   @override
@@ -25,6 +27,23 @@ class _DeciderPageState extends State<DeciderPage> {
     return BlocConsumer<DeciderBloc, DeciderState>(
       listener: (context, state) {
         if (state is NextPageDecided) {
+          // Update home data
+          var homeData = state.homeData;
+
+          Provider.of<Home>(context)
+            ..id = homeData.id
+            ..email = homeData.email
+            ..firstName = homeData.firstName
+            ..lastName = homeData.lastName
+            ..mobileNumber = homeData.mobileNumber
+            ..userType = homeData.userType
+            ..patient = homeData.patient
+            ..behaviourLastAttemptedQuestion =
+                homeData.behaviourLastAttemptedQuestion
+            ..personalityLastAttemptedQuestion =
+                homeData.personalityLastAttemptedQuestion
+            ..personalityScore = homeData.personalityScore
+            ..behaviourScore = homeData.behaviourScore;
           // Navigate to decided page
           Navigator.of(context)
               .pushNamedAndRemoveUntil(state.routeName, (route) => false);

@@ -14,7 +14,6 @@ part 'assessment_event.dart';
 
 part 'assessment_state.dart';
 
-// TODO: Shared preferences are not required, remove it from here
 class AssessmentBloc extends Bloc<AssessmentEvent, AssessmentState> {
   int _currentQuestionNumber;
   Test _test;
@@ -33,33 +32,19 @@ class AssessmentBloc extends Bloc<AssessmentEvent, AssessmentState> {
   Stream<AssessmentState> mapEventToState(
     AssessmentEvent event,
   ) async* {
+    if(event is UpdateCurrentQuestionNumber) {
+      _currentQuestionNumber = event.currentQuestionNumber;
+      yield CurrentQuestionNumberUpdated();
+    }
+
     if (event is LoadAssessmentTest) {
       yield AssessmentTestLoading();
       try {
-        final bool firstTestDone = await _settingsRepository
-            .get(SettingKey.KEY_FIRST_TEST_DONE, defaultValue: false);
-        final bool secondTestDone = await _settingsRepository
-            .get(SettingKey.KEY_SECOND_TEST_DONE, defaultValue: false);
-
-        var testId;
-        if (firstTestDone) {
-          if (secondTestDone) {
-            // TODO: This should never happen here. Should be handled from outside only, don't navigate to assessment page.
-            // TODO: This is temporary
-            testId = 1;
-          } else
-            testId = 2;
-        } else
-          testId = 1;
-
-        Test receivedTest = await _testRepository.getTest(testId);
+        Test receivedTest = await _testRepository.getTest(event.testTypeId);
         if (receivedTest != null) {
           /// You can modify currentQuestion here and set it according to
           /// home api response or from shared prefs
-
           this._test = receivedTest;
-          _currentQuestionNumber = await _settingsRepository
-              .get(SettingKey.KEY_CURRENT_QUESTION, defaultValue: 0);
 
           yield ShowQuestion(
               _test.questions[_currentQuestionNumber], _test.questions.length);
@@ -75,8 +60,13 @@ class AssessmentBloc extends Bloc<AssessmentEvent, AssessmentState> {
       try {
         if(_test.questions[_currentQuestionNumber].answered == true) {
           ++_currentQuestionNumber;
-          yield ShowQuestion(_test.questions[_currentQuestionNumber],
-              _test.questions.length);
+          if (_currentQuestionNumber < _test.questions.length) {
+            yield ShowQuestion(_test.questions[_currentQuestionNumber],
+                _test.questions.length);
+          } else {
+            _currentQuestionNumber = 0;
+            yield TestComplete(_test.testType.id);
+          }
         }
 
         yield SavingSelectedOption(
@@ -100,20 +90,10 @@ class AssessmentBloc extends Bloc<AssessmentEvent, AssessmentState> {
           _test.questions[_currentQuestionNumber].answered = true;
           ++_currentQuestionNumber;
           if (_currentQuestionNumber < _test.questions.length) {
-            await _settingsRepository.saveValue(
-                SettingKey.KEY_CURRENT_QUESTION, _currentQuestionNumber);
             yield ShowQuestion(_test.questions[_currentQuestionNumber],
                 _test.questions.length);
           } else {
             _currentQuestionNumber = 0;
-            await _settingsRepository.saveValue(
-                SettingKey.KEY_CURRENT_QUESTION, _currentQuestionNumber);
-            if(_test.testType.id == 1)
-              await _settingsRepository
-                  .saveValue(SettingKey.KEY_FIRST_TEST_DONE, true);
-            if(_test.testType.id == 2)
-              await _settingsRepository
-                  .saveValue(SettingKey.KEY_SECOND_TEST_DONE, true);
             yield TestComplete(_test.testType.id);
           }
         } else {

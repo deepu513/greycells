@@ -22,7 +22,10 @@ class _AssessmentTestPageState extends State<AssessmentTestPage> {
   @override
   void initState() {
     super.initState();
-    BlocProvider.of<AssessmentBloc>(context).add(LoadAssessmentTest());
+    BlocProvider.of<AssessmentBloc>(context).add(UpdateCurrentQuestionNumber(
+        widget._assessmentTestArguments.resumeFromQuestionNumber));
+    BlocProvider.of<AssessmentBloc>(context).add(LoadAssessmentTest(
+        widget._assessmentTestArguments.testType.intValue()));
   }
 
   @override

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:greycells/constants/strings.dart';
+import 'package:greycells/constants/test_types.dart';
+import 'package:greycells/models/assessment/assessment_test_args.dart';
 import 'package:greycells/route/route_name.dart';
 
 class SecondTestIntroPage extends StatefulWidget {
@@ -58,6 +60,7 @@ class _SecondTestIntroPageState extends State<SecondTestIntroPage>
   _navigateToAssessmentTest() {
     Navigator.of(context).pushNamedAndRemoveUntil(
         RouteName.ASSESSMENT_TEST, (route) => false,
-        arguments: 2);
+        arguments: AssessmentTestArguments(
+            testType: TestTypes.PERSONALITY, resumeFromQuestionNumber: 0));
   }
 }

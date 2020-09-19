@@ -55,3 +55,5 @@ class TestComplete extends AssessmentState {
 
   TestComplete(this.testId);
 }
+
+class CurrentQuestionNumberUpdated extends AssessmentState {}

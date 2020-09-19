@@ -30,34 +30,34 @@ class DeciderBloc extends Bloc<DeciderEvent, DeciderState> {
         Home home = await _userRepository.getHomeData();
         if (home != null) {
           if (home.patient == null) {
-            yield NextPageDecided(RouteName.PATIENT_DETAIL_INPUT_PAGE);
+            yield NextPageDecided(RouteName.PATIENT_DETAIL_INPUT_PAGE, home);
           } else if (home.patient != null &&
               home.patient.isEligibleForTest == false) {
-            yield NextPageDecided(RouteName.HOME);
+            yield NextPageDecided(RouteName.HOME, home);
           } else if (home.patient != null &&
               home.patient.isEligibleForTest == true) {
             if (home.behaviourLastAttemptedQuestion == null &&
                 home.personalityLastAttemptedQuestion == null) {
-              yield NextPageDecided(RouteName.ASSESSMENT_TEST_INTRO);
+              yield NextPageDecided(RouteName.ASSESSMENT_TEST_INTRO, home);
             } else if (home.behaviourLastAttemptedQuestion != null &&
                 home.behaviourLastAttemptedQuestion.isLastQuestion == false) {
               // Open test page and show this question number and test type
               yield NextPageDecided(
-                RouteName.ASSESSMENT_TEST,
+                RouteName.ASSESSMENT_TEST, home,
                 assessmentTestArguments: AssessmentTestArguments(
                     testType: TestTypes.BEHAVIOUR,
                     resumeFromQuestionNumber:
-                        home.behaviourLastAttemptedQuestion.sequence),
+                        home.behaviourLastAttemptedQuestion.sequence - 1),
               );
             } else if (home.personalityLastAttemptedQuestion != null &&
                 home.personalityLastAttemptedQuestion.isLastQuestion == false) {
               // Open test page and show this question number and test type
               yield NextPageDecided(
-                RouteName.ASSESSMENT_TEST,
+                RouteName.ASSESSMENT_TEST, home,
                 assessmentTestArguments: AssessmentTestArguments(
                     testType: TestTypes.PERSONALITY,
                     resumeFromQuestionNumber:
-                        home.personalityLastAttemptedQuestion.sequence),
+                        home.personalityLastAttemptedQuestion.sequence - 1),
               );
             }
           }

@@ -82,13 +82,31 @@ class Strings {
   static const patientDetailsSaved = "Details saved.";
   static const optionSubmitError =
       "Some error occurred while saving your response. Please try again.";
-  static const multiOptionHelper = "Tap an option to select, tap it again to remove selection";
+  static const multiOptionHelper =
+      "Tap an option to select, tap it again to remove selection";
   static const optionHelper = "Tap an option to select";
-  static const secondTestIntroMessage = "Great job!\nJust a few more questions in the second one :)";
+  static const secondTestIntroMessage =
+      "Great job!\nJust a few more questions in the second one :)";
   static const scores = "Your Score";
   static const scoreMeaningQuestion = "What do these scores mean?";
-  static const firstTest= "First Test";
+  static const firstTest = "First Test";
   static const secondTest = "Second Test";
+  static const extrovertDescription =
+      "are energized by people, enjoy a variety of tasks, a quick pace, and are good at multitasking.";
+  static const introvertDescription =
+      "often like working alone or in a small groups, prefer a more deliberate pace, and like to focus on one task at a time.";
+  static const sensorDescription =
+      "are realistic people who like to focus on the facts and details, and apply common sense and past experience to come up with practical solutions to problems.";
+  static const intuitiveDescription =
+      "prefer to focus on possibilities and the big picture, easily see patterns, value innovation and seek creative solutions to problems.";
+  static const thinkerDescription =
+      "tend to make decisions using logical analysis, objectively weigh pros and cons, and value honesty, consistency, and fairness.";
+  static const feelerDescription =
+      "tend to be sensitive and cooperative, and decide based on their own personal values and how others will be affected by their actions";
+  static const judgerDescription =
+      "tend to be organized and prepared, like to make and stick to plans, and are comfortable following most rules.";
+  static const perceiverDescription =
+      "prefer to keep their options open, like to be able to act spontaneously, and like to be flexible with making plans";
 }
 
 /// This should contain strings which signify an error message

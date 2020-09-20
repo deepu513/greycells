@@ -28,13 +28,6 @@ class LoginPage extends StatelessWidget {
         minimum: EdgeInsets.fromLTRB(24.0, 8.0, 24.0, 16.0),
         child: BlocListener<AuthenticationBloc, AuthenticationState>(
           listener: (context, current) {
-            if (current is AuthenticationAuthenticated) {
-              // Navigator.pushNamedAndRemoveUntil(
-              //     context, RouteName.HOME, (route) => false);
-
-              Navigator.pushNamedAndRemoveUntil(context,
-                  RouteName.DECIDER_PAGE, (route) => false);
-            }
 
             if (current is AuthenticationFailure) {
               showErrorDialog(context, current.error);

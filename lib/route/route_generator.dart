@@ -6,6 +6,7 @@ import 'package:greycells/bloc/validation/bloc.dart';
 import 'package:greycells/route/route_name.dart';
 import 'package:greycells/view/pages/assessment_test_intro_page.dart';
 import 'package:greycells/view/pages/assessment_test_page.dart';
+import 'package:greycells/view/pages/decider_page.dart';
 import 'package:greycells/view/pages/forgot_password_page.dart';
 import 'package:greycells/view/pages/patient_home_page.dart';
 import 'package:greycells/view/pages/login_page.dart';
@@ -36,7 +37,7 @@ class RouteGenerator {
             builder: (context) => BlocProvider<RegistrationBloc>(
                 create: (_) => RegistrationBloc(ValidationBloc()),
                 child: RegisterPage()));
-      case RouteName.HOME:
+      case RouteName.PATIENT_HOME:
         return MaterialPageRoute(builder: (_) => PatientHomePage());
       case RouteName.FORGOT_PASSWORD:
         return MaterialPageRoute(builder: (_) => ForgotPasswordPage());
@@ -52,6 +53,8 @@ class RouteGenerator {
                   create: (_) => AssessmentBloc(),
                   child: AssessmentTestPage(args),
                 ));
+      case RouteName.DECIDER_PAGE:
+        return MaterialPageRoute(builder: (_) => DeciderPage());
       default:
         // If there is no such named route in the switch statement, e.g. /third
         return _errorRoute();

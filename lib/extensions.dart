@@ -38,7 +38,7 @@ extension dialogs on Widget {
             ),
             actions: [
               FlatButton(
-                child: Text('OK'),
+                child: Text(Strings.ok.toUpperCase()),
                 onPressed: () async {
                   Navigator.of(context).pop();
                 },
@@ -64,7 +64,7 @@ extension dialogs on Widget {
             ),
             actions: [
               FlatButton(
-                child: Text(Strings.ok),
+                child: Text(Strings.ok.toUpperCase()),
                 onPressed: () {
                   Navigator.of(context).pop();
                 },

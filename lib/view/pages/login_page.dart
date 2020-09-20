@@ -33,7 +33,7 @@ class LoginPage extends StatelessWidget {
               //     context, RouteName.HOME, (route) => false);
 
               Navigator.pushNamedAndRemoveUntil(context,
-                  RouteName.PATIENT_DETAIL_INPUT_PAGE, (route) => false);
+                  RouteName.DECIDER_PAGE, (route) => false);
             }
 
             if (current is AuthenticationFailure) {

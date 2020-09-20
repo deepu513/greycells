@@ -33,6 +33,7 @@ class HttpService {
   Future<Response<ResponseType>> postRaw<RequestType, ResponseType>(
       Request<RequestType> request,
       Serializable<ResponseType> responseSerializable) {
+    print(request.toJsonString());
     return http
         .post(request.url,
             body: request.toJsonString(),
@@ -45,6 +46,7 @@ class HttpService {
   Future<ResponseType> post<RequestType, ResponseType>(
       Request<RequestType> request,
       Serializable<ResponseType> responseSerializable) {
+    print(request.toJsonString());
     return http
         .post(request.url,
             body: request.toJsonString(),
@@ -134,6 +136,7 @@ class HttpService {
   Response<ResponseType> _processResponse<ResponseType>(
       http.Response actualResponse,
       Serializable<ResponseType> responseSerializable) {
+    print(actualResponse.body);
     if (_isSuccessOrThrow(actualResponse.statusCode)) {
       if (responseSerializable == null) {
         return Response(null, null, statusCode: actualResponse.statusCode);

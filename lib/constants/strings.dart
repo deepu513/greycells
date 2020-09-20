@@ -85,6 +85,10 @@ class Strings {
   static const multiOptionHelper = "Tap an option to select, tap it again to remove selection";
   static const optionHelper = "Tap an option to select";
   static const secondTestIntroMessage = "Great job!\nJust a few more questions in the second one :)";
+  static const scores = "Your Score";
+  static const scoreMeaningQuestion = "What do these scores mean?";
+  static const firstTest= "First Test";
+  static const secondTest = "Second Test";
 }
 
 /// This should contain strings which signify an error message

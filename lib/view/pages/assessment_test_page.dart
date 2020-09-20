@@ -45,8 +45,8 @@ class _AssessmentTestPageState extends State<AssessmentTestPage> {
                 RouteName.SECOND_TEST_INTRO, (route) => false);
           } else if (state.testId == 2) {
             // Navigate to home
-            Navigator.of(context)
-                .pushNamedAndRemoveUntil(RouteName.HOME, (route) => false);
+            Navigator.of(context).pushNamedAndRemoveUntil(
+                RouteName.DECIDER_PAGE, (route) => false);
           }
         }
       },
@@ -174,7 +174,8 @@ class _TestPageContent extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.all(16.0),
           child: QuestionNavigator(
-              !loading && (question.answered || question.selectedOptions.isNotEmpty),
+              !loading &&
+                  (question.answered || question.selectedOptions.isNotEmpty),
               loading ? Strings.saving : Strings.saveAndNext),
         )
       ],

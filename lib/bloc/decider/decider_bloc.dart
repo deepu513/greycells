@@ -33,7 +33,7 @@ class DeciderBloc extends Bloc<DeciderEvent, DeciderState> {
             yield NextPageDecided(RouteName.PATIENT_DETAIL_INPUT_PAGE, home);
           } else if (home.patient != null &&
               home.patient.isEligibleForTest == false) {
-            yield NextPageDecided(RouteName.HOME, home);
+            yield NextPageDecided(RouteName.PATIENT_HOME, home);
           } else if (home.patient != null &&
               home.patient.isEligibleForTest == true) {
             if (home.behaviourLastAttemptedQuestion == null) {

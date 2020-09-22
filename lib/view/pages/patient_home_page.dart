@@ -24,7 +24,8 @@ class _PatientHomePageState extends State<PatientHomePage> {
         appBar: AppBar(
           title: Text(
             'Home',
-            style: Theme.of(context)
+            style: Theme
+                .of(context)
                 .textTheme
                 .headline6
                 .copyWith(color: Colors.black, fontWeight: FontWeight.w400),
@@ -36,9 +37,173 @@ class _PatientHomePageState extends State<PatientHomePage> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              Card(
+                elevation: 4.0,
+                margin: EdgeInsets.symmetric(vertical: 16.0, horizontal: 8.0),
+                child: Table(
+                  defaultVerticalAlignment: TableCellVerticalAlignment.middle,
+                  border: TableBorder(
+                      horizontalInside:
+                      BorderSide(color: Colors.grey.shade300)),
+                  columnWidths: {0: FractionColumnWidth(.3)},
+                  children: [
+                    TableRow(
+                        decoration: BoxDecoration(color: Colors.blueGrey.shade50),
+                        children: [
+                      Padding(
+                        padding: const EdgeInsets.only(top: 20.0, bottom: 20.0),
+                        child: Text("Needs",
+                            textAlign: TextAlign.center,
+                            style: Theme
+                                .of(context)
+                                .textTheme
+                                .subtitle2.copyWith(
+                              fontSize: 16.0
+                            )),
+                      ),
+                      Text("Expressed",
+                          textAlign: TextAlign.center,
+                          style: Theme
+                              .of(context)
+                              .textTheme
+                              .subtitle2.copyWith(
+                              fontSize: 16.0
+                          )),
+                      Text("Wanted",
+                          textAlign: TextAlign.center,
+                          style: Theme
+                              .of(context)
+                              .textTheme
+                              .subtitle2.copyWith(
+                              fontSize: 16.0
+                          )),
+                    ]),
+                    TableRow(children: [
+                      Padding(
+                        padding: const EdgeInsets.only(top: 20.0, bottom: 20.0),
+                        child: Text(
+                          "Inclusion",
+                          textAlign: TextAlign.center,
+                          style: Theme
+                              .of(context)
+                              .textTheme
+                              .bodyText2.copyWith(
+                              fontSize: 16.0
+                          ),
+                        ),
+                      ),
+                      Container(
+                        alignment: Alignment.center,
+                        padding: EdgeInsets.all(8.0),
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          ),
+                        child: Text(
+                          "2", style: Theme.of(context).textTheme.bodyText1.copyWith(
+                            color: Colors.black,
+                          fontSize: 16.0
+                        ),
+                        ),
+                      ),
+                      Container(
+                        alignment: Alignment.center,
+                        padding: EdgeInsets.all(8.0),
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: Colors.blue.shade400,),
+                        child: Text(
+                          "2", style: Theme.of(context).textTheme.bodyText1.copyWith(
+                            color: Colors.white,
+                          fontSize: 16.0
+                        ),
+                        ),
+                      ),
+                    ]),
+                    TableRow(
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.only(top: 20.0, bottom: 20.0),
+                            child: Text(
+                              "Control",
+                              textAlign: TextAlign.center,
+                              style: Theme
+                                  .of(context)
+                                  .textTheme
+                                  .bodyText2.copyWith(
+                                  fontSize: 16.0
+                              ),
+                            ),
+                          ),
+                          Container(
+                            alignment: Alignment.center,
+                            padding: EdgeInsets.all(8.0),
+                            child: Text(
+                              "2", style: Theme.of(context).textTheme.bodyText1.copyWith(
+                              color: Colors.black,
+                              fontSize: 16.0
+                            ),
+                            ),
+                          ),
+                          Container(
+                            alignment: Alignment.center,
+                            padding: EdgeInsets.all(8.0),
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              color: Colors.blue.shade400,),
+                            child: Text(
+                              "2", style: Theme.of(context).textTheme.bodyText1.copyWith(
+                                color: Colors.white,
+                              fontSize: 16.0
+                            ),
+                            ),
+                          ),
+                        ]),
+
+                    TableRow(
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.only(top: 20.0, bottom: 20.0),
+                            child: Text(
+                              "Affection",
+                              textAlign: TextAlign.center,
+                              style: Theme
+                                  .of(context)
+                                  .textTheme
+                                  .bodyText2.copyWith(
+                                  fontSize: 16.0
+                              ),
+                            ),
+                          ),
+                          Container(
+                            alignment: Alignment.center,
+                            padding: EdgeInsets.all(8.0),
+                            child: Text(
+                              "2", style: Theme.of(context).textTheme.bodyText1.copyWith(
+                                color: Colors.black,
+                              fontSize: 16.0
+                            ),
+                            ),
+                          ),
+                          Container(
+                            alignment: Alignment.center,
+                            padding: EdgeInsets.all(8.0),
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              color: Colors.blue.shade400,),
+                            child: Text(
+                              "2", style: Theme.of(context).textTheme.bodyText1.copyWith(
+                                color: Colors.white,
+                              fontSize: 16.0
+                            ),
+                            ),
+                          ),
+                        ]),
+                  ],
+                ),
+              ),
               Divider(),
               Padding(
-                  padding: const EdgeInsets.all(8.0),
+                  padding: const EdgeInsets.all(16.0),
                   child: Row(
                     children: [
                       Text("Your personality type"),
@@ -51,10 +216,13 @@ class _PatientHomePageState extends State<PatientHomePage> {
                   )),
               Divider(),
               Padding(
-                padding: const EdgeInsets.all(8.0),
+                padding: const EdgeInsets.fromLTRB(16.0, 8.0, 16.0, 16.0),
                 child: Text(
                   "All personality types",
-                  style: Theme.of(context).textTheme.caption,
+                  style: Theme
+                      .of(context)
+                      .textTheme
+                      .caption,
                 ),
               ),
               Expanded(
@@ -65,7 +233,7 @@ class _PatientHomePageState extends State<PatientHomePage> {
                           PersonalityType.values[index].title(),
                         ),
                         subtitle:
-                            Text(PersonalityType.values[index].description()),
+                        Text(PersonalityType.values[index].description()),
                         leading: letterBox(
                             PersonalityType.values[index].initials(),
                             PersonalityType.values[index].color()));
@@ -86,9 +254,12 @@ class _PatientHomePageState extends State<PatientHomePage> {
     List<PersonalityType> personalityTypes = PersonalityType.values;
     for (int i = 0; i < receivedScore.length; i++) {
       PersonalityType type = personalityTypes.firstWhere(
-          (element) => element.initials() == receivedScore[i].groupName);
-      letterBoxes.add(letterBox(type.initials(), type.color(), width: 35.0, height: 35.0));
-      letterBoxes.add(SizedBox(width: 8.0,));
+              (element) => element.initials() == receivedScore[i].groupName);
+      letterBoxes.add(
+          letterBox(type.initials(), type.color(), width: 35.0, height: 35.0));
+      letterBoxes.add(SizedBox(
+        width: 8.0,
+      ));
     }
     return letterBoxes;
   }
@@ -99,10 +270,13 @@ class _PatientHomePageState extends State<PatientHomePage> {
       width: width,
       height: height,
       alignment: Alignment.center,
-      decoration: BoxDecoration(shape: BoxShape.rectangle, color: boxColor),
+      decoration: BoxDecoration(
+          shape: BoxShape.circle,
+          color: boxColor,),
       child: Text(
         letter,
-        style: Theme.of(context)
+        style: Theme
+            .of(context)
             .textTheme
             .headline5
             .copyWith(color: Colors.white, fontWeight: FontWeight.w500),

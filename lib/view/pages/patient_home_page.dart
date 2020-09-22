@@ -36,6 +36,10 @@ class _PatientHomePageState extends State<PatientHomePage> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              Padding(
+                padding: const EdgeInsets.fromLTRB(16.0, 16.0, 16.0, 0.0),
+                child: Text("Behaviour", style: Theme.of(context).textTheme.headline4,),
+              ),
               Card(
                 elevation: 4.0,
                 margin: EdgeInsets.symmetric(vertical: 16.0, horizontal: 8.0),
@@ -295,17 +299,20 @@ class _PatientHomePageState extends State<PatientHomePage> {
               ),
               Divider(),
               Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: Row(
-                    children: [
-                      Text("Your personality type"),
-                      SizedBox(
-                        width: 16.0,
-                      ),
-                      ...getLetterBoxesForPersonality(
-                          homeData.personalityScore),
-                    ],
-                  )),
+                padding: const EdgeInsets.fromLTRB(16.0, 0.0, 16.0, 16.0),
+                child: Text("Personality", style: Theme.of(context).textTheme.headline4,),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(left: 16.0, bottom: 8.0),
+                child: Row(
+                  children: [
+                    Text("Your type", style: Theme.of(context).textTheme.subtitle1),
+                    SizedBox(width: 16.0,),
+                    ...getLetterBoxesForPersonality(
+                        homeData.personalityScore),
+                  ],
+                ),
+              ),
               Divider(),
               Padding(
                 padding: const EdgeInsets.fromLTRB(16.0, 8.0, 16.0, 16.0),

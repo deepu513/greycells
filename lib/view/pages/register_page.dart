@@ -6,6 +6,7 @@ import 'package:greycells/bloc/validation/validation_field.dart';
 import 'package:greycells/constants/strings.dart';
 import 'package:greycells/extensions.dart';
 import 'package:greycells/route/route_name.dart';
+import 'package:greycells/view/widgets/title_with_loading.dart';
 
 class RegisterPage extends StatelessWidget {
   @override
@@ -54,10 +55,14 @@ class RegisterInputSection extends StatelessWidget {
             return Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                Text(
-                  Strings.register,
-                  style: Theme.of(context).textTheme.headline4.copyWith(
-                      color: Colors.black, fontWeight: FontWeight.w400),
+                TitleWithLoading(
+                 text: Text(
+                   Strings.register,
+                   style: Theme.of(context).textTheme.headline4.copyWith(
+                       color: Colors.black, fontWeight: FontWeight.w400),
+                 ),
+                 loadingVisibility: registrationState is RegistrationInProgress,
+                  loadingBackgroundColor: Colors.white,
                 ),
                 SizedBox(
                   height: 48.0,
@@ -291,18 +296,6 @@ class RegisterInputSection extends StatelessWidget {
                           .registration
                           .confirmPassword = value.trim(),
                   onSubmitted: (_) => FocusScope.of(context).unfocus(),
-                ),
-                SizedBox(
-                  height: 24.0,
-                ),
-                Visibility(
-                  visible: registrationState is RegistrationInProgress,
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 24.0),
-                    child: LinearProgressIndicator(
-                      minHeight: 2.0,
-                    ),
-                  ),
                 ),
                 SizedBox(
                   height: 24.0,

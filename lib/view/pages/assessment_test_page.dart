@@ -174,9 +174,9 @@ class _TestPageContent extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.all(16.0),
           child: QuestionNavigator(
-              !loading &&
-                  (question.answered || question.selectedOptions.isNotEmpty),
-              loading ? Strings.saving : Strings.saveAndNext),
+            !loading &&
+                (question.answered || question.selectedOptions.isNotEmpty),
+          ),
         )
       ],
     );
@@ -232,9 +232,8 @@ class OptionSection extends StatelessWidget {
 
 class QuestionNavigator extends StatelessWidget {
   final bool enableNextButton;
-  final String nextButtonText;
 
-  QuestionNavigator(this.enableNextButton, this.nextButtonText);
+  QuestionNavigator(this.enableNextButton);
 
   @override
   Widget build(BuildContext context) {
@@ -269,7 +268,7 @@ class QuestionNavigator extends StatelessWidget {
               size: 20.0,
             ),
             label: Text(
-              nextButtonText.toUpperCase(),
+              Strings.saveAndNext.toUpperCase(),
             ),
           ),
         )

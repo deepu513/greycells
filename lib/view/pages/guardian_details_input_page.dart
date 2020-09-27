@@ -46,7 +46,7 @@ class GuardianDetailsInputPage extends StatelessWidget implements Validatable {
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 24.0),
             child: BlocBuilder<PatientDetailsBloc, PatientDetailsState>(
-              builder: (context, guardianDetailsState) {
+              builder: (context, state) {
                 return GuardianRelationshipInput(
                     BlocProvider.of<PatientDetailsBloc>(context)
                         .patient
@@ -54,13 +54,27 @@ class GuardianDetailsInputPage extends StatelessWidget implements Validatable {
                         .relationShip, (relationShip) {
                   BlocProvider.of<PatientDetailsBloc>(context)
                       .add(UpdateGuardianRelationship(relationShip));
-                }, (actualValue) {
-                  BlocProvider.of<PatientDetailsBloc>(context).add(
-                      UpdateGuardianRelationship(Relationship.other,
-                          actualValue: actualValue));
                 });
               },
             ),
+          ),
+          SizedBox(
+            height: 16.0,
+          ),
+          BlocBuilder<PatientDetailsBloc, PatientDetailsState>(
+            builder: (context, state) {
+              return Visibility(
+                visible: BlocProvider.of<PatientDetailsBloc>(context)
+                        .patient
+                        .guardian
+                        .relationShip ==
+                    Relationship.other,
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 24.0),
+                  child: _SpecifyRelationshipInput(),
+                ),
+              );
+            },
           ),
           SizedBox(
             height: 24.0,
@@ -144,10 +158,9 @@ class GuardianDetailsInputPage extends StatelessWidget implements Validatable {
 class GuardianRelationshipInput extends StatefulWidget {
   final Relationship initialRelationship;
   final ValueChanged<Relationship> onRelationshipSelected;
-  final ValueChanged<String> onOtherValueChanged;
 
-  GuardianRelationshipInput(this.initialRelationship,
-      this.onRelationshipSelected, this.onOtherValueChanged);
+  GuardianRelationshipInput(
+      this.initialRelationship, this.onRelationshipSelected);
 
   @override
   _GuardianRelationshipInputState createState() =>
@@ -201,46 +214,45 @@ class _GuardianRelationshipInputState extends State<GuardianRelationshipInput> {
             );
           },
         ),
-        SizedBox(height: 16.0),
-        Visibility(
-            visible: BlocProvider.of<PatientDetailsBloc>(context)
-                    .patient
-                    .guardian
-                    .relationShip ==
-                Relationship.other,
-            child: BlocBuilder<ValidationBloc, ValidationState>(
-              builder: (context, validationState) {
-                return TextField(
-                  controller: TextEditingController(
-                      text: BlocProvider.of<PatientDetailsBloc>(context)
-                              .patient
-                              .guardian
-                              .readableRelationship ??
-                          ""),
-                  maxLines: 1,
-                  decoration: InputDecoration(
-                    border: InputBorder.none,
-                    helperText: Strings.tapToEnter,
-                    labelText: Strings.specifyRelationship,
-                    contentPadding: EdgeInsets.zero,
-                    labelStyle: TextStyle(color: Theme.of(context).accentColor),
-                    errorText: validationState
-                            .isFieldInvalid(ValidationField.OTHER_RELATION)
-                        ? ValidationField.OTHER_RELATION.errorMessage()
-                        : null,
-                  ),
-                  autofocus: false,
-                  keyboardType: TextInputType.text,
-                  enabled: true,
-                  textCapitalization: TextCapitalization.words,
-                  onChanged: (value) {
-                    widget.onOtherValueChanged.call(value);
-                  },
-                  onSubmitted: (_) => FocusScope.of(context).nextFocus(),
-                );
-              },
-            )),
       ],
+    );
+  }
+}
+
+class _SpecifyRelationshipInput extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<ValidationBloc, ValidationState>(
+      builder: (context, validationState) {
+        return TextField(
+          controller: TextEditingController(
+              text: BlocProvider.of<PatientDetailsBloc>(context)
+                      .patient
+                      .guardian
+                      .readableRelationship ??
+                  ""),
+          maxLines: 1,
+          decoration: InputDecoration(
+            border: InputBorder.none,
+            helperText: Strings.tapToEnter,
+            labelText: Strings.specifyRelationship,
+            contentPadding: EdgeInsets.zero,
+            labelStyle: TextStyle(color: Theme.of(context).accentColor),
+            errorText:
+                validationState.isFieldInvalid(ValidationField.OTHER_RELATION)
+                    ? ValidationField.OTHER_RELATION.errorMessage()
+                    : null,
+          ),
+          keyboardType: TextInputType.name,
+          onChanged: (value) {
+            BlocProvider.of<PatientDetailsBloc>(context)
+                .patient
+                .guardian
+                .readableRelationship = value.trim();
+          },
+          onSubmitted: (_) => FocusScope.of(context).nextFocus(),
+        );
+      },
     );
   }
 }
@@ -273,10 +285,10 @@ class GuardianMobileNumberInput extends StatelessWidget {
               Icons.phone,
               size: 20.0,
             ),
-            errorText: validationState
-                    .isFieldInvalid(ValidationField.CONTACT_NUMBER)
-                ? ValidationField.CONTACT_NUMBER.errorMessage()
-                : null,
+            errorText:
+                validationState.isFieldInvalid(ValidationField.CONTACT_NUMBER)
+                    ? ValidationField.CONTACT_NUMBER.errorMessage()
+                    : null,
           ),
           autofocus: false,
           keyboardType: TextInputType.phone,
@@ -323,7 +335,7 @@ class GuardianEmailInput extends StatelessWidget {
         ),
       ),
       autofocus: false,
-      keyboardType: TextInputType.text,
+      keyboardType: TextInputType.emailAddress,
       autocorrect: false,
       onChanged: (value) {
         onEmailChanged.call(value.trim());

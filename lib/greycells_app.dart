@@ -9,6 +9,7 @@ import 'package:greycells/models/home/home.dart';
 import 'package:greycells/route/route_generator.dart';
 import 'package:greycells/simple_bloc_observer.dart';
 import 'package:greycells/view/pages/decider_page.dart';
+import 'package:greycells/view/pages/patient_detail_input.dart';
 import 'package:greycells/view/pages/splash_page.dart';
 import 'package:greycells/view/pages/welcome_page.dart';
 import 'package:provider/provider.dart';
@@ -65,7 +66,7 @@ class _MyApp extends StatelessWidget {
 
             /// User is logged in
             if (authenticationState is AuthenticationAuthenticated) {
-              return DeciderPage();
+              return PatientDetailInput();
             }
 
             return SplashPage();

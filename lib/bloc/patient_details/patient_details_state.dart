@@ -5,11 +5,7 @@ abstract class PatientDetailsState {}
 
 class PatientDetailsInitial extends PatientDetailsState {}
 
-class GuardianRelationshipUpdated extends PatientDetailsState {
-  final Relationship relationship;
-
-  GuardianRelationshipUpdated(this.relationship);
-}
+class OtherRelationshipSelected extends PatientDetailsState {}
 
 class GenderUpdated extends PatientDetailsState {
   final Gender updatedGender;

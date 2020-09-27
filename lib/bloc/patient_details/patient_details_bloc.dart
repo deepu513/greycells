@@ -69,9 +69,11 @@ class PatientDetailsBloc
       patient.guardian.relationShip = event.relationship;
       if (event.relationship != Relationship.other)
         patient.guardian.readableRelationship = event.relationship.toString();
-      else
-        patient.guardian.readableRelationship = event.actualValue;
-      yield GuardianRelationshipUpdated(event.relationship);
+      else if(event.relationship == Relationship.other) {
+        patient.guardian.readableRelationship = "";
+        yield OtherRelationshipSelected();
+      }
+      yield StateOK();
     }
 
     if (event is UpdateGender) {

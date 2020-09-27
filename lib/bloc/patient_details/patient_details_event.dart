@@ -4,9 +4,8 @@ abstract class PatientDetailsEvent {}
 
 class UpdateGuardianRelationship extends PatientDetailsEvent {
   final Relationship relationship;
-  String actualValue;
 
-  UpdateGuardianRelationship(this.relationship, {this.actualValue});
+  UpdateGuardianRelationship(this.relationship);
 }
 
 class UpdateGender extends PatientDetailsEvent {

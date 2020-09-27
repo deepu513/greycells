@@ -53,7 +53,7 @@ class _PatientHomePageState extends State<PatientHomePage> {
                 ),
               ),
               Card(
-                elevation: 4.0,
+                elevation: 3.0,
                 margin: EdgeInsets.fromLTRB(8.0, 8.0, 8.0, 8.0),
                 child: Table(
                   defaultVerticalAlignment: TableCellVerticalAlignment.middle,

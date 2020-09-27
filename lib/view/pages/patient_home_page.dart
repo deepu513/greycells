@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:greycells/models/assessment/personality_type.dart';
 import 'package:greycells/models/assessment/score.dart';
 import 'package:greycells/models/home/home.dart';
+import 'package:greycells/view/widgets/text_in_solid_circle.dart';
 import 'package:provider/provider.dart';
 
 class PatientHomePage extends StatefulWidget {
@@ -10,12 +12,19 @@ class PatientHomePage extends StatefulWidget {
 }
 
 class _PatientHomePageState extends State<PatientHomePage> {
-  Home homeData;
+  Home _homeData;
+  List<PersonalityType> _filteredList;
 
   @override
   void initState() {
     super.initState();
-    homeData = Provider.of<Home>(context, listen: false);
+    _homeData = Provider.of<Home>(context, listen: false);
+    _filteredList = List();
+    for (int i = 0; i < _homeData.personalityScore.length; i++) {
+      PersonalityType type = PersonalityType.values.firstWhere((element) =>
+          element.initials() == _homeData.personalityScore[i].groupName);
+      _filteredList.add(type);
+    }
   }
 
   @override
@@ -37,12 +46,15 @@ class _PatientHomePageState extends State<PatientHomePage> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Padding(
-                padding: const EdgeInsets.fromLTRB(16.0, 16.0, 16.0, 0.0),
-                child: Text("Behaviour", style: Theme.of(context).textTheme.headline4,),
+                padding: const EdgeInsets.fromLTRB(16.0, 16.0, 16.0, 8.0),
+                child: Text(
+                  "Your Behaviour",
+                  style: Theme.of(context).textTheme.headline5,
+                ),
               ),
               Card(
                 elevation: 4.0,
-                margin: EdgeInsets.symmetric(vertical: 16.0, horizontal: 8.0),
+                margin: EdgeInsets.fromLTRB(8.0, 8.0, 8.0, 8.0),
                 child: Table(
                   defaultVerticalAlignment: TableCellVerticalAlignment.middle,
                   border: TableBorder(
@@ -129,15 +141,9 @@ class _PatientHomePageState extends State<PatientHomePage> {
                               ]),
                         ),
                       ),
-                      Container(
-                        alignment: Alignment.center,
-                        padding: EdgeInsets.all(8.0),
-                        decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          color: Colors.pink.shade400,
-                        ),
-                        child: Text(
-                          homeData.behaviourScore
+                      TextInSolidCircle(
+                        text: Text(
+                          _homeData.behaviourScore
                               .firstWhere(
                                   (element) => element.groupName == "EI")
                               .score
@@ -147,16 +153,12 @@ class _PatientHomePageState extends State<PatientHomePage> {
                               .bodyText1
                               .copyWith(color: Colors.white, fontSize: 16.0),
                         ),
-                      ),
-                      Container(
-                        alignment: Alignment.center,
+                        circleColor: Colors.pink.shade400,
                         padding: EdgeInsets.all(8.0),
-                        decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          color: Colors.green.shade400,
-                        ),
-                        child: Text(
-                          homeData.behaviourScore
+                      ),
+                      TextInSolidCircle(
+                        text: Text(
+                          _homeData.behaviourScore
                               .firstWhere(
                                   (element) => element.groupName == "WI")
                               .score
@@ -166,6 +168,8 @@ class _PatientHomePageState extends State<PatientHomePage> {
                               .bodyText1
                               .copyWith(color: Colors.white, fontSize: 16.0),
                         ),
+                        circleColor: Colors.green.shade400,
+                        padding: EdgeInsets.all(8.0),
                       ),
                     ]),
                     TableRow(children: [
@@ -192,15 +196,9 @@ class _PatientHomePageState extends State<PatientHomePage> {
                               ]),
                         ),
                       ),
-                      Container(
-                        alignment: Alignment.center,
-                        padding: EdgeInsets.all(8.0),
-                        decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          color: Colors.pink.shade400,
-                        ),
-                        child: Text(
-                          homeData.behaviourScore
+                      TextInSolidCircle(
+                        text: Text(
+                          _homeData.behaviourScore
                               .firstWhere(
                                   (element) => element.groupName == "EC")
                               .score
@@ -210,16 +208,12 @@ class _PatientHomePageState extends State<PatientHomePage> {
                               .bodyText1
                               .copyWith(color: Colors.white, fontSize: 16.0),
                         ),
-                      ),
-                      Container(
-                        alignment: Alignment.center,
+                        circleColor: Colors.pink.shade400,
                         padding: EdgeInsets.all(8.0),
-                        decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          color: Colors.green.shade400,
-                        ),
-                        child: Text(
-                          homeData.behaviourScore
+                      ),
+                      TextInSolidCircle(
+                        text: Text(
+                          _homeData.behaviourScore
                               .firstWhere(
                                   (element) => element.groupName == "WC")
                               .score
@@ -229,6 +223,8 @@ class _PatientHomePageState extends State<PatientHomePage> {
                               .bodyText1
                               .copyWith(color: Colors.white, fontSize: 16.0),
                         ),
+                        circleColor: Colors.green.shade400,
+                        padding: EdgeInsets.all(8.0),
                       ),
                     ]),
                     TableRow(children: [
@@ -255,15 +251,9 @@ class _PatientHomePageState extends State<PatientHomePage> {
                               ]),
                         ),
                       ),
-                      Container(
-                        alignment: Alignment.center,
-                        padding: EdgeInsets.all(8.0),
-                        decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          color: Colors.pink.shade400,
-                        ),
-                        child: Text(
-                          homeData.behaviourScore
+                      TextInSolidCircle(
+                        text: Text(
+                          _homeData.behaviourScore
                               .firstWhere(
                                   (element) => element.groupName == "EA")
                               .score
@@ -273,16 +263,12 @@ class _PatientHomePageState extends State<PatientHomePage> {
                               .bodyText1
                               .copyWith(color: Colors.white, fontSize: 16.0),
                         ),
-                      ),
-                      Container(
-                        alignment: Alignment.center,
+                        circleColor: Colors.pink.shade400,
                         padding: EdgeInsets.all(8.0),
-                        decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          color: Colors.green.shade400,
-                        ),
-                        child: Text(
-                          homeData.behaviourScore
+                      ),
+                      TextInSolidCircle(
+                        text: Text(
+                          _homeData.behaviourScore
                               .firstWhere(
                                   (element) => element.groupName == "WA")
                               .score
@@ -292,52 +278,82 @@ class _PatientHomePageState extends State<PatientHomePage> {
                               .bodyText1
                               .copyWith(color: Colors.white, fontSize: 16.0),
                         ),
+                        circleColor: Colors.green.shade400,
+                        padding: EdgeInsets.all(8.0),
                       ),
                     ]),
                   ],
                 ),
               ),
-              Divider(),
-              Padding(
-                padding: const EdgeInsets.fromLTRB(16.0, 0.0, 16.0, 16.0),
-                child: Text("Personality", style: Theme.of(context).textTheme.headline4,),
+              Divider(
+                indent: 16.0,
+                endIndent: 16.0,
               ),
               Padding(
-                padding: const EdgeInsets.only(left: 16.0, bottom: 8.0),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
                 child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    Text("Your type", style: Theme.of(context).textTheme.subtitle1),
-                    SizedBox(width: 16.0,),
-                    ...getLetterBoxesForPersonality(
-                        homeData.personalityScore),
+                    Text(
+                      "Your Personality",
+                      style: Theme.of(context).textTheme.headline5,
+                    ),
+                    Spacer(),
+                    ...List<Widget>.generate(_filteredList.length, (index) {
+                      return Container(
+                        margin: index == _filteredList.length - 1
+                            ? null
+                            : EdgeInsets.only(right: 8.0),
+                        child: TextInSolidCircle(
+                          text: Text(
+                            _filteredList[index].initials(),
+                            style: Theme.of(context)
+                                .textTheme
+                                .headline5
+                                .copyWith(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.w500),
+                          ),
+                          circleColor: _filteredList[index].color(),
+                          padding: EdgeInsets.all(8.0),
+                        ),
+                      );
+                    }, growable: false),
                   ],
-                ),
-              ),
-              Divider(),
-              Padding(
-                padding: const EdgeInsets.fromLTRB(16.0, 8.0, 16.0, 16.0),
-                child: Text(
-                  "All personality types",
-                  style: Theme.of(context).textTheme.caption,
                 ),
               ),
               Expanded(
                 child: ListView.separated(
                   itemBuilder: (context, index) {
                     return ListTile(
-                        title: Text(
-                          PersonalityType.values[index].title(),
+                      title: Text(
+                        _filteredList[index].title(),
+                      ),
+                      subtitle: Text(_filteredList[index].description()),
+                      isThreeLine: true,
+                      leading: SizedBox(
+                        width: 45.0,
+                        child: TextInSolidCircle(
+                          text: Text(
+                            _filteredList[index].initials(),
+                            style: Theme.of(context)
+                                .textTheme
+                                .headline5
+                                .copyWith(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.w500),
+                          ),
+                          circleColor: _filteredList[index].color(),
+                          padding: EdgeInsets.all(8.0),
                         ),
-                        subtitle:
-                            Text(PersonalityType.values[index].description()),
-                        leading: letterBox(
-                            PersonalityType.values[index].initials(),
-                            PersonalityType.values[index].color()));
+                      ),
+                    );
                   },
                   separatorBuilder: (context, index) {
                     return Divider();
                   },
-                  itemCount: PersonalityType.values.length,
+                  itemCount: _filteredList.length,
                 ),
               ),
             ],
@@ -345,38 +361,27 @@ class _PatientHomePageState extends State<PatientHomePage> {
         ));
   }
 
-  List<Widget> getLetterBoxesForPersonality(List<Score> receivedScore) {
-    List<Widget> letterBoxes = List();
+  List<Widget> _getTextInCircle(List<Score> receivedScore) {
+    List<Widget> textInCircle = List();
     List<PersonalityType> personalityTypes = PersonalityType.values;
     for (int i = 0; i < receivedScore.length; i++) {
       PersonalityType type = personalityTypes.firstWhere(
           (element) => element.initials() == receivedScore[i].groupName);
-      letterBoxes.add(
-          letterBox(type.initials(), type.color(), width: 35.0, height: 35.0));
-      letterBoxes.add(SizedBox(
+      textInCircle.add(TextInSolidCircle(
+        text: Text(
+          type.initials(),
+          style: Theme.of(context)
+              .textTheme
+              .headline5
+              .copyWith(color: Colors.white, fontWeight: FontWeight.w500),
+        ),
+        circleColor: type.color(),
+        padding: EdgeInsets.all(8.0),
+      ));
+      textInCircle.add(SizedBox(
         width: 8.0,
       ));
     }
-    return letterBoxes;
-  }
-
-  Widget letterBox(String letter, Color boxColor,
-      {double width = 60.0, double height = 80.0}) {
-    return Container(
-      width: width,
-      height: height,
-      alignment: Alignment.center,
-      decoration: BoxDecoration(
-        shape: BoxShape.circle,
-        color: boxColor,
-      ),
-      child: Text(
-        letter,
-        style: Theme.of(context)
-            .textTheme
-            .headline5
-            .copyWith(color: Colors.white, fontWeight: FontWeight.w500),
-      ),
-    );
+    return textInCircle;
   }
 }

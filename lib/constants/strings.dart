@@ -41,7 +41,7 @@ class Strings {
   static const dateOfBirthMessage = "Please enter your date of birth";
   static const timeOfBirthMessage = "Time of birth";
   static const optionalMessage = "(if you remember)";
-  static const relationshipWithGuardian = "Specify relationship";
+  static const specifyRelationship = "Specify relationship";
   static const houseNumber = "House no. or Building name";
   static const roadName = "Road name, Area, Colony";
   static const city = "City";
@@ -107,6 +107,9 @@ class Strings {
       "tend to be organized and prepared, like to make and stick to plans, and are comfortable following most rules.";
   static const perceiverDescription =
       "prefer to keep their options open, like to be able to act spontaneously, and like to be flexible with making plans";
+  static const relationshipWithGuardian = "Your relationship with guardian";
+  static const guardianMobileNumber = "Guardian mobile number";
+  static const guardianEmailId = "Guardian email ID";
 }
 
 /// This should contain strings which signify an error message

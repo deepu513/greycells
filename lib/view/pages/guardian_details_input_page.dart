@@ -221,7 +221,7 @@ class _GuardianRelationshipInputState extends State<GuardianRelationshipInput> {
                   decoration: InputDecoration(
                     border: InputBorder.none,
                     helperText: Strings.tapToEnter,
-                    labelText: Strings.relationshipWithGuardian,
+                    labelText: Strings.specifyRelationship,
                     contentPadding: EdgeInsets.zero,
                     labelStyle: TextStyle(color: Theme.of(context).accentColor),
                     errorText: validationState
@@ -252,54 +252,47 @@ class GuardianMobileNumberInput extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: <Widget>[
-        Text("Guardian mobile number",
-            style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.w400)),
-        BlocBuilder<ValidationBloc, ValidationState>(
-          builder: (context, validationState) {
-            return TextField(
-              controller: TextEditingController(
-                  text: BlocProvider.of<PatientDetailsBloc>(context)
-                          .patient
-                          .guardian
-                          .mobileNumber ??
-                      ""),
-              maxLines: 1,
-              maxLength: 10,
-              style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.w400),
-              decoration: InputDecoration(
-                border: InputBorder.none,
-                hintText: Strings.tapToEnter,
-                hintStyle:
-                    TextStyle(fontSize: 20.0, fontWeight: FontWeight.w400),
-                icon: Icon(
-                  Icons.phone,
-                  size: 20.0,
-                ),
-                errorText: validationState
-                        .isFieldInvalid(ValidationField.CONTACT_NUMBER)
-                    ? ValidationField.CONTACT_NUMBER.errorMessage()
-                    : null,
-              ),
-              autofocus: false,
-              keyboardType: TextInputType.phone,
-              inputFormatters: <TextInputFormatter>[
-                WhitelistingTextInputFormatter.digitsOnly
-              ],
-              autocorrect: false,
-              buildCounter: (BuildContext context,
-                      {int currentLength, int maxLength, bool isFocused}) =>
-                  null,
-              onChanged: (value) {
-                onMobileNumberValueChanged.call(value);
-              },
-              onSubmitted: (_) => FocusScope.of(context).nextFocus(),
-            );
+    return BlocBuilder<ValidationBloc, ValidationState>(
+      builder: (context, validationState) {
+        return TextField(
+          controller: TextEditingController(
+              text: BlocProvider.of<PatientDetailsBloc>(context)
+                      .patient
+                      .guardian
+                      .mobileNumber ??
+                  ""),
+          maxLines: 1,
+          maxLength: 10,
+          style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.w400),
+          decoration: InputDecoration(
+            border: InputBorder.none,
+            helperText: Strings.tapToEnter,
+            labelText: Strings.guardianMobileNumber,
+            contentPadding: EdgeInsets.zero,
+            icon: Icon(
+              Icons.phone,
+              size: 20.0,
+            ),
+            errorText: validationState
+                    .isFieldInvalid(ValidationField.CONTACT_NUMBER)
+                ? ValidationField.CONTACT_NUMBER.errorMessage()
+                : null,
+          ),
+          autofocus: false,
+          keyboardType: TextInputType.phone,
+          inputFormatters: <TextInputFormatter>[
+            WhitelistingTextInputFormatter.digitsOnly
+          ],
+          autocorrect: false,
+          buildCounter: (BuildContext context,
+                  {int currentLength, int maxLength, bool isFocused}) =>
+              null,
+          onChanged: (value) {
+            onMobileNumberValueChanged.call(value);
           },
-        ),
-      ],
+          onSubmitted: (_) => FocusScope.of(context).nextFocus(),
+        );
+      },
     );
   }
 }
@@ -311,38 +304,31 @@ class GuardianEmailInput extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: <Widget>[
-        Text("Guardian Email ID",
-            style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.w400)),
-        TextField(
-          controller: TextEditingController(
-              text: BlocProvider.of<PatientDetailsBloc>(context)
-                      .patient
-                      .guardian
-                      .email ??
-                  ""),
-          maxLines: 1,
-          style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.w400),
-          decoration: InputDecoration(
-            border: InputBorder.none,
-            hintText: Strings.tapToEnter,
-            hintStyle: TextStyle(fontSize: 20.0, fontWeight: FontWeight.w400),
-            icon: Icon(
-              Icons.alternate_email,
-              size: 20.0,
-            ),
-          ),
-          autofocus: false,
-          keyboardType: TextInputType.text,
-          autocorrect: false,
-          onChanged: (value) {
-            onEmailChanged.call(value.trim());
-          },
-          onSubmitted: (_) => FocusScope.of(context).unfocus(),
-        )
-      ],
+    return TextField(
+      controller: TextEditingController(
+          text: BlocProvider.of<PatientDetailsBloc>(context)
+                  .patient
+                  .guardian
+                  .email ??
+              ""),
+      maxLines: 1,
+      decoration: InputDecoration(
+        border: InputBorder.none,
+        helperText: Strings.tapToEnter,
+        labelText: Strings.guardianEmailId,
+        contentPadding: EdgeInsets.zero,
+        icon: Icon(
+          Icons.alternate_email,
+          size: 20.0,
+        ),
+      ),
+      autofocus: false,
+      keyboardType: TextInputType.text,
+      autocorrect: false,
+      onChanged: (value) {
+        onEmailChanged.call(value.trim());
+      },
+      onSubmitted: (_) => FocusScope.of(context).unfocus(),
     );
   }
 }

@@ -89,14 +89,14 @@ class _PatientDetailInputState extends State<PatientDetailInput>
       setState(() {
         _patientDetailUploading = false;
         _patientDetailUploadComplete = true;
-        
+
         Future.delayed(Duration(seconds: 1), () {
           _navigateToTestPage();
         });
       });
     });
   }
-  
+
   void _navigateToTestPage() {
     Navigator.of(context).pushNamed(RouteName.ASSESSMENT_TEST_INTRO);
   }
@@ -227,20 +227,12 @@ class _PatientDetailInputState extends State<PatientDetailInput>
 
   void _handleBackPressed(
       BuildContext context, PageTransitionState transitionState) {
-    if (transitionState.currentPageNumber == 5 &&
-        BlocProvider.of<PatientDetailsBloc>(context).patient.isMinor == false) {
-      BlocProvider.of<PageTransitionBloc>(context).add(SkipPages(-2));
-    } else
-      BlocProvider.of<PageTransitionBloc>(context)
-          .add(TransitionToPreviousPage());
+    BlocProvider.of<PageTransitionBloc>(context)
+        .add(TransitionToPreviousPage());
   }
 
   void _transitionToNextPage(
       BuildContext context, PageTransitionState transitionState) {
-    if (transitionState.currentPageNumber == 3 &&
-        BlocProvider.of<PatientDetailsBloc>(context).patient.isMinor == false) {
-      BlocProvider.of<PageTransitionBloc>(context).add(SkipPages(2));
-    } else
-      BlocProvider.of<PageTransitionBloc>(context).add(TransitionToNextPage());
+    BlocProvider.of<PageTransitionBloc>(context).add(TransitionToNextPage());
   }
 }

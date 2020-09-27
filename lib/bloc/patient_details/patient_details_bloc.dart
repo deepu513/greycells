@@ -95,7 +95,6 @@ class PatientDetailsBloc
               int.parse(patient.monthPart), int.parse(patient.dayPart))) <
           18;
 
-      if (!patient.isMinor) patient.guardian = null;
       yield StateOK();
     }
 

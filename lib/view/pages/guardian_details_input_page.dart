@@ -39,14 +39,6 @@ class GuardianDetailsInputPage extends StatelessWidget implements Validatable {
               ],
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16.0),
-            child: Text(Strings.mandatoryFields,
-                style: Theme.of(context)
-                    .textTheme
-                    .subtitle1
-                    .copyWith(color: Colors.grey[600], fontSize: 14.0)),
-          ),
           SizedBox(
             height: 36.0,
           ),
@@ -80,6 +72,18 @@ class GuardianDetailsInputPage extends StatelessWidget implements Validatable {
                   .patient
                   .guardian
                   .mobileNumber = mobileNumber;
+            }),
+          ),
+          SizedBox(
+            height: 12.0,
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 24.0),
+            child: GuardianEmailInput((email) {
+              BlocProvider.of<PatientDetailsBloc>(context)
+                  .patient
+                  .guardian
+                  .email = email;
             }),
           ),
         ],
@@ -200,7 +204,8 @@ class _GuardianRelationshipInputState extends State<GuardianRelationshipInput> {
         SizedBox(height: 16.0),
         Visibility(
             visible: BlocProvider.of<PatientDetailsBloc>(context)
-                    .patient.guardian
+                    .patient
+                    .guardian
                     .relationShip ==
                 Relationship.other,
             child: BlocBuilder<ValidationBloc, ValidationState>(
@@ -208,7 +213,8 @@ class _GuardianRelationshipInputState extends State<GuardianRelationshipInput> {
                 return TextField(
                   controller: TextEditingController(
                       text: BlocProvider.of<PatientDetailsBloc>(context)
-                              .patient.guardian
+                              .patient
+                              .guardian
                               .readableRelationship ??
                           ""),
                   maxLines: 1,
@@ -239,7 +245,6 @@ class _GuardianRelationshipInputState extends State<GuardianRelationshipInput> {
   }
 }
 
-// TODO: Optimize it and DRY when integrating bloc
 class GuardianMobileNumberInput extends StatelessWidget {
   final ValueChanged<String> onMobileNumberValueChanged;
 
@@ -257,7 +262,8 @@ class GuardianMobileNumberInput extends StatelessWidget {
             return TextField(
               controller: TextEditingController(
                   text: BlocProvider.of<PatientDetailsBloc>(context)
-                          .patient.guardian
+                          .patient
+                          .guardian
                           .mobileNumber ??
                       ""),
               maxLines: 1,
@@ -289,10 +295,53 @@ class GuardianMobileNumberInput extends StatelessWidget {
               onChanged: (value) {
                 onMobileNumberValueChanged.call(value);
               },
-              onSubmitted: (_) => FocusScope.of(context).unfocus(),
+              onSubmitted: (_) => FocusScope.of(context).nextFocus(),
             );
           },
         ),
+      ],
+    );
+  }
+}
+
+class GuardianEmailInput extends StatelessWidget {
+  final ValueChanged<String> onEmailChanged;
+
+  GuardianEmailInput(this.onEmailChanged);
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        Text("Guardian Email ID",
+            style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.w400)),
+        TextField(
+          controller: TextEditingController(
+              text: BlocProvider.of<PatientDetailsBloc>(context)
+                      .patient
+                      .guardian
+                      .email ??
+                  ""),
+          maxLines: 1,
+          style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.w400),
+          decoration: InputDecoration(
+            border: InputBorder.none,
+            hintText: Strings.tapToEnter,
+            hintStyle: TextStyle(fontSize: 20.0, fontWeight: FontWeight.w400),
+            icon: Icon(
+              Icons.alternate_email,
+              size: 20.0,
+            ),
+          ),
+          autofocus: false,
+          keyboardType: TextInputType.text,
+          autocorrect: false,
+          onChanged: (value) {
+            onEmailChanged.call(value.trim());
+          },
+          onSubmitted: (_) => FocusScope.of(context).unfocus(),
+        )
       ],
     );
   }

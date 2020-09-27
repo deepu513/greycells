@@ -22,6 +22,9 @@ class Guardian {
   @JsonKey(name: "mobileNumber")
   String mobileNumber;
 
+  @JsonKey(name: "email")
+  String email;
+
   @JsonKey(name: "address")
   Address address;
 

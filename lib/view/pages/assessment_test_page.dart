@@ -143,7 +143,7 @@ class _TestPageContent extends StatelessWidget {
           ),
         ),
         Padding(
-          padding: const EdgeInsets.fromLTRB(16.0, 16.0, 16.0, 16.0),
+          padding: const EdgeInsets.fromLTRB(16.0, 8.0, 16.0, 16.0),
           child: Text(
             question.questionText,
             style: Theme.of(context).textTheme.headline6.copyWith(

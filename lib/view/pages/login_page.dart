@@ -9,6 +9,7 @@ import 'package:greycells/bloc/validation/validation_field.dart';
 import 'package:greycells/constants/strings.dart';
 import 'package:greycells/extensions.dart';
 import 'package:greycells/route/route_name.dart';
+import 'package:greycells/view/widgets/title_with_loading.dart';
 
 class LoginPage extends StatelessWidget {
   final bool shouldShowRegistrationSuccessfulMessage;
@@ -58,13 +59,14 @@ class LoginInputSection extends StatelessWidget {
             return Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                Text(
-                  Strings.login,
-                  style: Theme.of(context).textTheme.headline4.copyWith(
-                      color: Colors.black, fontWeight: FontWeight.w400),
-                ),
-                SizedBox(
-                  height: 8.0,
+                TitleWithLoading(
+                  text: Text(
+                    Strings.login,
+                    style: Theme.of(context).textTheme.headline4.copyWith(
+                        color: Colors.black, fontWeight: FontWeight.w400),
+                  ),
+                  loadingVisibility: authenticationState is AuthenticationLoading,
+                  loadingBackgroundColor: Colors.white,
                 ),
                 Visibility(
                   visible: shouldShowRegistrationSuccessfulMessage,
@@ -160,15 +162,6 @@ class LoginInputSection extends StatelessWidget {
                 ),
                 SizedBox(
                   height: 24.0,
-                ),
-                Visibility(
-                  visible: authenticationState is AuthenticationLoading,
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 24.0),
-                    child: LinearProgressIndicator(
-                      minHeight: 2.0,
-                    ),
-                  ),
                 ),
                 SizedBox(
                   height: 24.0,

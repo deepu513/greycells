@@ -8,6 +8,7 @@ import 'package:greycells/models/assessment/option.dart';
 import 'package:greycells/models/assessment/question.dart';
 import 'package:greycells/route/route_name.dart';
 import 'package:greycells/view/widgets/centered_circular_loading.dart';
+import 'package:greycells/view/widgets/title_with_loading.dart';
 
 class AssessmentTestPage extends StatefulWidget {
   final AssessmentTestArguments _assessmentTestArguments;
@@ -128,12 +129,17 @@ class _TestPageContent extends StatelessWidget {
       children: [
         Padding(
           padding: const EdgeInsets.fromLTRB(16.0, 16.0, 16.0, 0.0),
-          child: Text(
-            "# Question ${question.sequence} of $_totalQuestions",
-            style: Theme.of(context).textTheme.caption.copyWith(
-                color: Colors.black,
-                fontWeight: FontWeight.w400,
-                fontSize: 14.0),
+          child:
+          TitleWithLoading(
+            text: Text(
+              "# Question ${question.sequence} of $_totalQuestions",
+              style: Theme.of(context).textTheme.caption.copyWith(
+                  color: Colors.black,
+                  fontWeight: FontWeight.w400,
+                  fontSize: 14.0),
+            ),
+            loadingVisibility: loading,
+            loadingBackgroundColor: Colors.white,
           ),
         ),
         Padding(

@@ -43,18 +43,8 @@ class AddressDetailInputPage extends StatelessWidget implements Validatable {
             height: 16.0,
           ),
           PatientAddressInput(),
-          Visibility(
-              visible: BlocProvider.of<PatientDetailsBloc>(context)
-                      .patient
-                      .isMinor ==
-                  true,
-              child: Divider()),
-          Visibility(
-              visible: BlocProvider.of<PatientDetailsBloc>(context)
-                      .patient
-                      .isMinor ==
-                  true,
-              child: GuardianAddressInput())
+          Divider(),
+          GuardianAddressInput()
         ],
       ),
     );
@@ -327,7 +317,6 @@ class PatientAddressInput extends StatelessWidget {
   }
 }
 
-// Show this only if patient is a minor
 class GuardianAddressInput extends StatelessWidget {
   @override
   Widget build(BuildContext context) {

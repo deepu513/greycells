@@ -137,6 +137,10 @@ class ValidationBloc extends Bloc<ValidationEvent, ValidationState> {
         patient.guardian.readableRelationship.isNullOrEmpty()) {
       return ValidationField.OTHER_RELATION;
     }
+    if(patient.guardian.firstName.isNullOrEmpty())
+      return ValidationField.GUARDIAN_FIRST_NAME;
+    if(patient.guardian.lastName.isNullOrEmpty())
+      return ValidationField.GUARDIAN_LAST_NAME;
     if (patient.guardian.mobileNumber.isNullOrEmpty())
       return ValidationField.CONTACT_NUMBER;
     return ValidationField.NONE;

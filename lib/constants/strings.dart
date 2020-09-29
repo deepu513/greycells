@@ -19,6 +19,8 @@ class Strings {
   static const subtitle = "Your first step towards self-care";
   static const firstName = "First name";
   static const lastName = "Last name";
+  static const guardianFirstName = "Guardian first name";
+  static const guardianLastName = "Guardian last name";
   static const mobileNumber = "Mobile number";
   static const confirmPassword = "Confirm password";
   static const forgotPasswordTitle = "Forgot password";
@@ -118,6 +120,8 @@ class ErrorMessages {
   static const PASSWORD_ERROR_MESSAGE = "Please enter your password";
   static const FIRST_NAME_ERROR_MESSAGE = "Please enter your first name";
   static const LAST_NAME_ERROR_MESSAGE = "Please enter your last name";
+  static const GUARDIAN_FIRST_NAME_ERROR_MESSAGE = "Please enter guardian first name";
+  static const GUARDIAN_LAST_NAME_ERROR_MESSAGE = "Please enter guardian last name";
   static const MOBILE_ERROR_MESSAGE = "Please enter a valid mobile number";
   static const CONFIRM_PASSWORD_ERROR_MESSAGE = "Passwords do not match";
   static const MINIMUM_LENGTH_ERROR_MESSAGE =

@@ -46,7 +46,9 @@ class PatientDetailsBloc
     patient.address = Address();
 
     /// Initialize Guardian with a default relationship
-    patient.guardian = Guardian()..relationShip = Relationship.father;
+    patient.guardian = Guardian()
+      ..relationShip = Relationship.father
+      ..readableRelationship = Relationship.father.toString();
 
     /// Initialize HealthRecord with a default values
     patient.healthRecord = HealthRecord()
@@ -69,7 +71,7 @@ class PatientDetailsBloc
       patient.guardian.relationShip = event.relationship;
       if (event.relationship != Relationship.other)
         patient.guardian.readableRelationship = event.relationship.toString();
-      else if(event.relationship == Relationship.other) {
+      else if (event.relationship == Relationship.other) {
         patient.guardian.readableRelationship = "";
         yield OtherRelationshipSelected();
       }
@@ -111,11 +113,10 @@ class PatientDetailsBloc
       patient.address.readableAddress =
           patient.address.houseNumber + ", " + patient.address.roadName;
 
-      if (patient.isMinor)
-        patient.guardian.address.readableAddress =
-            patient.guardian.address.houseNumber +
-                ", " +
-                patient.guardian.address.roadName;
+      patient.guardian.address.readableAddress =
+          patient.guardian.address.houseNumber +
+              ", " +
+              patient.guardian.address.roadName;
       yield StateOK();
     }
 

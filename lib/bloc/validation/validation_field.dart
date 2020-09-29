@@ -78,4 +78,10 @@ class ValidationField {
 
   static const LENGTH =
       ValidationField._internal(ErrorMessages.MINIMUM_LENGTH_ERROR_MESSAGE, 23);
+
+  static const GUARDIAN_FIRST_NAME = ValidationField._internal(
+      ErrorMessages.GUARDIAN_FIRST_NAME_ERROR_MESSAGE, 24);
+
+  static const GUARDIAN_LAST_NAME = ValidationField._internal(
+      ErrorMessages.GUARDIAN_LAST_NAME_ERROR_MESSAGE, 25);
 }

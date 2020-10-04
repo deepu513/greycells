@@ -41,6 +41,23 @@ class PaymentPage extends StatelessWidget {
                 ButtonTheme(
                   minWidth: double.infinity,
                   height: 48.0,
+                  child: RaisedButton(
+                    onPressed: () {},
+                    color: Theme.of(context).primaryColor,
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(8.0)),
+                    child: Text(
+                      "MAKE PAYMENT",
+                      style: Theme.of(context).textTheme.button.copyWith(
+                            color: Colors.white,
+                          ),
+                    ),
+                  ),
+                ),
+                SizedBox(height: 16.0,),
+                ButtonTheme(
+                  minWidth: double.infinity,
+                  height: 48.0,
                   child: OutlineButton(
                     onPressed: () {},
                     borderSide: BorderSide(
@@ -50,10 +67,10 @@ class PaymentPage extends StatelessWidget {
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(8.0)),
                     child: Text(
-                      "MAKE PAYMENT",
+                      "GO BACK",
                       style: Theme.of(context).textTheme.button.copyWith(
-                            color: Theme.of(context).primaryColor,
-                          ),
+                        color: Theme.of(context).primaryColor,
+                      ),
                     ),
                   ),
                 )

@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
-class TextInSolidCircle extends StatelessWidget {
+class CircleText extends StatelessWidget {
   final Text text;
   final Color circleColor;
   final EdgeInsetsGeometry padding;
 
-  TextInSolidCircle(
+  CircleText(
       {@required this.text, @required this.circleColor, this.padding})
       : assert(text != null),
         assert(circleColor != null);

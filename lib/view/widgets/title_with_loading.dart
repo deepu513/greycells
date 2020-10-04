@@ -22,8 +22,9 @@ class TitleWithLoading extends StatelessWidget {
           SizedBox(
             height: 12.0,
           ),
-          Visibility(
-            visible: loadingVisibility,
+          AnimatedOpacity(
+            duration: Duration(milliseconds: 100),
+            opacity: loadingVisibility ? 1.0 : 0.0,
             child: LinearProgressIndicator(
               backgroundColor: loadingBackgroundColor ?? null,
               minHeight: 2.0,

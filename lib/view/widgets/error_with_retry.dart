@@ -39,15 +39,15 @@ class ErrorWithRetry extends StatelessWidget {
                 SizedBox(
                   height: 48.0,
                 ),
-                RaisedButton(
+                OutlinedButton.icon(
                   onPressed: onRetryPressed,
-                  padding: EdgeInsets.symmetric(horizontal: 32.0),
-                  color: Theme.of(context).accentColor,
-                  child: Text(
+                  icon: Icon(
+                    Icons.refresh_outlined, color: Theme.of(context).accentColor,
+                  ),
+                  label: Text(
                     Strings.retry.toUpperCase(),
                     style: Theme.of(context).textTheme.button.copyWith(
-                      color: Colors.white,
-                      letterSpacing: 1.0
+                        color: Theme.of(context).accentColor,
                     ),
                   ),
                 )

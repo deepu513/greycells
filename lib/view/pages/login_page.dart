@@ -73,7 +73,7 @@ class LoginInputSection extends StatelessWidget {
                   child: Text(
                     Strings.registrationSuccessMessageOnLogin,
                     overflow: TextOverflow.clip,
-                    style: Theme.of(context).textTheme.caption.copyWith(),
+                    style: Theme.of(context).textTheme.caption,
                   ),
                 ),
                 SizedBox(

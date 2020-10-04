@@ -3,7 +3,7 @@ import 'package:flutter/rendering.dart';
 import 'package:greycells/models/assessment/personality_type.dart';
 import 'package:greycells/models/assessment/score.dart';
 import 'package:greycells/models/home/home.dart';
-import 'package:greycells/view/widgets/text_in_solid_circle.dart';
+import 'package:greycells/view/widgets/circle_text.dart';
 import 'package:provider/provider.dart';
 
 class PatientScorePage extends StatefulWidget {
@@ -141,7 +141,7 @@ class _PatientScorePageState extends State<PatientScorePage> {
                               ]),
                         ),
                       ),
-                      TextInSolidCircle(
+                      CircleText(
                         text: Text(
                           _homeData.behaviourScore
                               .firstWhere(
@@ -156,7 +156,7 @@ class _PatientScorePageState extends State<PatientScorePage> {
                         circleColor: Colors.pink.shade400,
                         padding: EdgeInsets.all(8.0),
                       ),
-                      TextInSolidCircle(
+                      CircleText(
                         text: Text(
                           _homeData.behaviourScore
                               .firstWhere(
@@ -196,7 +196,7 @@ class _PatientScorePageState extends State<PatientScorePage> {
                               ]),
                         ),
                       ),
-                      TextInSolidCircle(
+                      CircleText(
                         text: Text(
                           _homeData.behaviourScore
                               .firstWhere(
@@ -211,7 +211,7 @@ class _PatientScorePageState extends State<PatientScorePage> {
                         circleColor: Colors.pink.shade400,
                         padding: EdgeInsets.all(8.0),
                       ),
-                      TextInSolidCircle(
+                      CircleText(
                         text: Text(
                           _homeData.behaviourScore
                               .firstWhere(
@@ -251,7 +251,7 @@ class _PatientScorePageState extends State<PatientScorePage> {
                               ]),
                         ),
                       ),
-                      TextInSolidCircle(
+                      CircleText(
                         text: Text(
                           _homeData.behaviourScore
                               .firstWhere(
@@ -266,7 +266,7 @@ class _PatientScorePageState extends State<PatientScorePage> {
                         circleColor: Colors.pink.shade400,
                         padding: EdgeInsets.all(8.0),
                       ),
-                      TextInSolidCircle(
+                      CircleText(
                         text: Text(
                           _homeData.behaviourScore
                               .firstWhere(
@@ -305,7 +305,7 @@ class _PatientScorePageState extends State<PatientScorePage> {
                         margin: index == _filteredList.length - 1
                             ? null
                             : EdgeInsets.only(right: 8.0),
-                        child: TextInSolidCircle(
+                        child: CircleText(
                           text: Text(
                             _filteredList[index].initials(),
                             style: Theme.of(context)
@@ -334,7 +334,7 @@ class _PatientScorePageState extends State<PatientScorePage> {
                       isThreeLine: true,
                       leading: SizedBox(
                         width: 45.0,
-                        child: TextInSolidCircle(
+                        child: CircleText(
                           text: Text(
                             _filteredList[index].initials(),
                             style: Theme.of(context)
@@ -367,7 +367,7 @@ class _PatientScorePageState extends State<PatientScorePage> {
     for (int i = 0; i < receivedScore.length; i++) {
       PersonalityType type = personalityTypes.firstWhere(
           (element) => element.initials() == receivedScore[i].groupName);
-      textInCircle.add(TextInSolidCircle(
+      textInCircle.add(CircleText(
         text: Text(
           type.initials(),
           style: Theme.of(context)

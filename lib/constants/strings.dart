@@ -112,6 +112,7 @@ class Strings {
   static const relationshipWithGuardian = "Your relationship with guardian";
   static const guardianMobileNumber = "Guardian mobile number";
   static const guardianEmailId = "Guardian email ID";
+  static const rupeeSymbol = "₹";
 }
 
 /// This should contain strings which signify an error message

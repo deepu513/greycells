@@ -40,8 +40,12 @@ class FilePickerBloc extends Bloc<FilePickerEvent, FilePickerState> {
     }
 
     if (event is PickPdfFile) {
-      File file = await FilePicker.getFile(
-          type: FileType.custom, allowedExtensions: ["pdf"]);
+      FilePickerResult result = await FilePicker.platform.pickFiles();
+      File file;
+
+      if(result != null) {
+        file = File(result.files.single.path);
+      }
 
       if (file != null) {
         if (extension(file.path) == ".pdf") {

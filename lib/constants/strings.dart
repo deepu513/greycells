@@ -1,6 +1,7 @@
 /// This should contain the strings which are to be labeled on the UI
 class Strings {
   static const ok = "ok";
+  static const goBack = "Go back";
   static const back = "back";
   static const next = "next";
   static const saveAndNext = "Save & next";
@@ -112,6 +113,14 @@ class Strings {
   static const guardianMobileNumber = "Guardian mobile number";
   static const guardianEmailId = "Guardian email ID";
   static const rupeeSymbol = "₹";
+  static const proceedToPayment = "Proceed to payment";
+  static const paymentDetails = "Payment Details";
+  static const total = "Total";
+  static const promoCodeQuestion = "Do you have a promo code?";
+  static const enterPromoCode = "Enter promo code";
+  static const apply = "Apply";
+  static const remove = "Remove";
+  static const promoApplied = "Promo code applied";
 }
 
 /// This should contain strings which signify an error message

@@ -1,100 +1,127 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:greycells/bloc/payment/payment_bloc.dart';
 import 'package:greycells/constants/strings.dart';
+import 'package:greycells/models/payment/payment.dart';
+import 'package:greycells/models/payment/payment_item.dart';
+import 'package:greycells/models/payment/payment_type.dart';
 
 class PaymentPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        elevation: 4.0,
-        brightness: Brightness.light,
-        title: Text(
-          "Book Appointment",
-          style: Theme.of(context)
-              .textTheme
-              .headline6
-              .copyWith(color: Colors.black, fontWeight: FontWeight.w400),
-        ),
-      ),
-      body: SafeArea(
-        child: SingleChildScrollView(
-          child: Container(
-            padding: EdgeInsets.all(24.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                PaymentHeaderSection(),
-                SizedBox(
-                  height: 8.0,
-                ),
-                Divider(),
-                PaymentDetailsSection(),
-                Divider(),
-                SizedBox(
-                  height: 16.0,
-                ),
-                PromoCodeInputSection(),
-                SizedBox(
-                  height: 56.0,
-                ),
-                ButtonTheme(
-                  minWidth: double.infinity,
-                  height: 48.0,
-                  child: RaisedButton(
-                    onPressed: () {},
-                    color: Theme.of(context).primaryColor,
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(8.0)),
-                    child: Text(
-                      "MAKE PAYMENT",
-                      style: Theme.of(context).textTheme.button.copyWith(
-                            color: Colors.white,
-                          ),
-                    ),
-                  ),
-                ),
-                SizedBox(height: 16.0,),
-                ButtonTheme(
-                  minWidth: double.infinity,
-                  height: 48.0,
-                  child: OutlineButton(
-                    onPressed: () {},
-                    borderSide: BorderSide(
-                      color: Theme.of(context).primaryColor,
-                    ),
-                    color: Theme.of(context).primaryColor,
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(8.0)),
-                    child: Text(
-                      "GO BACK",
-                      style: Theme.of(context).textTheme.button.copyWith(
-                        color: Theme.of(context).primaryColor,
-                      ),
-                    ),
-                  ),
-                )
-              ],
+    return BlocConsumer<PaymentBloc, PaymentState>(
+      listener: (context, state) {},
+      builder: (context, state) {
+        return Scaffold(
+          appBar: AppBar(
+            elevation: 4.0,
+            brightness: Brightness.light,
+            title: Text(
+              state.payment.title,
+              style: Theme.of(context)
+                  .textTheme
+                  .headline6
+                  .copyWith(color: Colors.black, fontWeight: FontWeight.w400),
             ),
           ),
-        ),
-      ),
+          body: SafeArea(
+            child: SingleChildScrollView(
+              child: Container(
+                padding: EdgeInsets.all(24.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    PaymentHeaderSection(state.payment),
+                    SizedBox(
+                      height: 8.0,
+                    ),
+                    Divider(),
+                    PaymentDetailsSection(state.payment),
+                    Divider(),
+                    SizedBox(
+                      height: 16.0,
+                    ),
+                    PromoCodeInputSection(),
+                    SizedBox(
+                      height: 56.0,
+                    ),
+                    ButtonTheme(
+                      minWidth: double.infinity,
+                      height: 48.0,
+                      child: RaisedButton(
+                        onPressed: () {},
+                        color: Theme.of(context).primaryColor,
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(8.0)),
+                        child: Text(
+                          Strings.proceedToPayment.toUpperCase(),
+                          style: Theme.of(context).textTheme.button.copyWith(
+                                color: Colors.white,
+                              ),
+                        ),
+                      ),
+                    ),
+                    SizedBox(
+                      height: 16.0,
+                    ),
+                    ButtonTheme(
+                      minWidth: double.infinity,
+                      height: 48.0,
+                      child: OutlineButton(
+                        onPressed: () {},
+                        borderSide: BorderSide(
+                          color: Theme.of(context).primaryColor,
+                        ),
+                        color: Theme.of(context).primaryColor,
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(8.0)),
+                        child: Text(
+                          Strings.goBack.toUpperCase(),
+                          style: Theme.of(context).textTheme.button.copyWith(
+                                color: Theme.of(context).primaryColor,
+                              ),
+                        ),
+                      ),
+                    )
+                  ],
+                ),
+              ),
+            ),
+          ),
+        );
+      },
     );
   }
 }
 
 class PaymentHeaderSection extends StatelessWidget {
+  final Payment payment;
+
+  PaymentHeaderSection(this.payment) : assert(payment != null);
+
   @override
   Widget build(BuildContext context) {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        // TODO: Check if image available else show initials
-        // For Assessment test show icon
-        CircleAvatar(
-          backgroundImage: NetworkImage(
-              "https://urbanbalance.com/wp-content/uploads/2019/04/new-therapist.jpg"),
-          radius: 40.0,
+        Visibility(
+            visible: payment.type == PaymentType.ASSESSMENT,
+            child: Icon(
+              Icons.assignment,
+              size: 40.0,
+            )),
+        Visibility(
+          visible: payment.type == PaymentType.APPOINTMENT,
+          child: CircleAvatar(
+            backgroundImage: payment.itemImageUrl != null
+                ? NetworkImage(payment.itemImageUrl)
+                : null,
+            child: payment.itemImageUrl == null
+                ? Text(payment.title[0].toUpperCase())
+                : null,
+            radius: 40.0,
+          ),
         ),
         SizedBox(
           width: 16.0,
@@ -104,7 +131,7 @@ class PaymentHeaderSection extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                "Dr. Anne Hathaway",
+                payment.itemTitle,
                 style: Theme.of(context)
                     .textTheme
                     .headline5
@@ -112,7 +139,7 @@ class PaymentHeaderSection extends StatelessWidget {
                 overflow: TextOverflow.clip,
               ),
               Text(
-                "Clinical Psychologist",
+                payment.itemSubtitle,
                 style: Theme.of(context).textTheme.subtitle1,
               )
             ],
@@ -124,38 +151,28 @@ class PaymentHeaderSection extends StatelessWidget {
 }
 
 class PaymentDetailsSection extends StatelessWidget {
+  final Payment payment;
+
+  PaymentDetailsSection(this.payment) : assert(payment != null);
+
   @override
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text("Payment Details",
+        Text(Strings.paymentDetails,
             style: Theme.of(context).textTheme.caption.copyWith(
                   fontWeight: FontWeight.w500,
                 )),
         SizedBox(
           height: 8.0,
         ),
-        Row(
-          children: [
-            Text("1 Session",
-                style: Theme.of(context)
-                    .textTheme
-                    .headline5
-                    .copyWith(fontWeight: FontWeight.w300)),
-            Spacer(),
-            Text(Strings.rupeeSymbol + "300",
-                style: Theme.of(context)
-                    .textTheme
-                    .headline6
-                    .copyWith(fontWeight: FontWeight.w300))
-          ],
-        ),
+        PaymentItems(payment.items),
         SizedBox(
           height: 8.0,
         ),
         Visibility(
-          visible: true,
+          visible: payment.promoCodeApplied,
           child: Row(
             children: [
               Container(
@@ -186,7 +203,7 @@ class PaymentDetailsSection extends StatelessWidget {
                 ),
               ),
               Spacer(),
-              Text("- " + Strings.rupeeSymbol + "100",
+              Text("- " + Strings.rupeeSymbol + "${payment.discountAmount}",
                   style: Theme.of(context).textTheme.headline6.copyWith(
                       fontWeight: FontWeight.w400, color: Colors.green))
             ],
@@ -200,13 +217,13 @@ class PaymentDetailsSection extends StatelessWidget {
           padding: const EdgeInsets.symmetric(vertical: 8.0),
           child: Row(
             children: [
-              Text("Total",
+              Text(Strings.total,
                   style: Theme.of(context)
                       .textTheme
                       .headline6
                       .copyWith(fontWeight: FontWeight.w500)),
               Spacer(),
-              Text(Strings.rupeeSymbol + "200",
+              Text(Strings.rupeeSymbol + "${payment.totalAmount}",
                   style: Theme.of(context).textTheme.headline6.copyWith(
                       color: Colors.black, fontWeight: FontWeight.w500))
             ],
@@ -217,13 +234,43 @@ class PaymentDetailsSection extends StatelessWidget {
   }
 }
 
+class PaymentItems extends StatelessWidget {
+  final List<PaymentItem> items;
+
+  PaymentItems(this.items) : assert(items != null);
+
+  @override
+  Widget build(BuildContext context) {
+    return ListView.builder(
+        shrinkWrap: true,
+        itemCount: items.length,
+        itemBuilder: (context, index) {
+          return Row(
+            children: [
+              Text(items[index].itemName,
+                  style: Theme.of(context)
+                      .textTheme
+                      .headline5
+                      .copyWith(fontWeight: FontWeight.w300)),
+              Spacer(),
+              Text(Strings.rupeeSymbol + "${items[index].itemPrice}",
+                  style: Theme.of(context)
+                      .textTheme
+                      .headline6
+                      .copyWith(fontWeight: FontWeight.w300))
+            ],
+          );
+        });
+  }
+}
+
 class PromoCodeInputSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text("Do you have a promo code?",
+        Text(Strings.promoCodeQuestion,
             style: Theme.of(context).textTheme.caption.copyWith(
                   fontWeight: FontWeight.w500,
                 )),
@@ -236,7 +283,7 @@ class PromoCodeInputSection extends StatelessWidget {
                 textInputAction: TextInputAction.next,
                 textCapitalization: TextCapitalization.characters,
                 decoration: InputDecoration(
-                  labelText: "Enter promo code",
+                  labelText: Strings.enterPromoCode,
                 ),
                 autofocus: false,
                 keyboardType: TextInputType.text,
@@ -263,7 +310,7 @@ class PromoCodeInputSection extends StatelessWidget {
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(8.0)),
               label: Text(
-                "APPLY",
+                Strings.apply.toUpperCase(),
                 style: Theme.of(context).textTheme.button.copyWith(
                       color: Theme.of(context).primaryColor,
                     ),

@@ -4,16 +4,16 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:greycells/app_theme.dart';
 import 'package:greycells/bloc/authentication/bloc.dart';
 import 'package:greycells/bloc/decider/decider_bloc.dart';
+import 'package:greycells/bloc/payment/payment_bloc.dart';
 import 'package:greycells/bloc/validation/validation_bloc.dart';
 import 'package:greycells/models/home/home.dart';
+import 'package:greycells/models/payment/payment.dart';
+import 'package:greycells/models/payment/payment_item.dart';
+import 'package:greycells/models/payment/payment_type.dart';
 import 'package:greycells/route/route_generator.dart';
 import 'package:greycells/simple_bloc_observer.dart';
-import 'package:greycells/view/pages/decider_page.dart';
-import 'package:greycells/view/pages/patient_detail_input.dart';
 import 'package:greycells/view/pages/payment_page.dart';
 import 'package:greycells/view/pages/splash_page.dart';
-import 'package:greycells/view/pages/welcome_page.dart';
-import 'package:greycells/view/widgets/error_with_retry.dart';
 import 'package:provider/provider.dart';
 
 import 'constants/strings.dart';
@@ -36,6 +36,24 @@ class GreyCellsApp extends StatelessWidget {
         BlocProvider<DeciderBloc>(
           create: (context) {
             return DeciderBloc();
+          },
+        ),
+        BlocProvider<PaymentBloc>(
+          create: (context) {
+            return PaymentBloc(Payment()
+              ..type = PaymentType.APPOINTMENT
+              ..title = "Book Appointment"
+              ..itemImageUrl = "https://urbanbalance.com/wp-content/uploads/2019/04/new-therapist.jpg"
+              ..itemTitle = "Dr. Anne Hathaway"
+              ..itemSubtitle = "Clinical Psychologist"
+              ..promoCodeApplied = true
+              ..discountAmount = 100
+              ..items = [
+                PaymentItem()
+                  ..itemName = "1 Session"
+                  ..itemPrice = 300
+              ]
+              ..totalAmount = 300);
           },
         )
       ],
@@ -63,7 +81,7 @@ class _MyApp extends StatelessWidget {
           builder: (context, authenticationState) {
             /// User is not logged in
             if (authenticationState is AuthenticationUnauthenticated) {
-              return  PaymentPage();
+              return PaymentPage();
             }
 
             /// User is logged in

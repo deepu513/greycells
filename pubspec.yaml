@@ -14,7 +14,7 @@ description: GreyCells app
 version: 1.0.0+1
 
 environment:
-  sdk: ">=2.8.0 <3.0.0"
+  sdk: ">=2.10.0 <3.0.0"
 
 dependencies:
   flutter:
@@ -31,7 +31,7 @@ dependencies:
   file_picker: ^2.0.6
   path: ^1.7.0
   filesize: ^1.0.4
-  flutter_svg: ^0.18.0
+  flutter_svg: ^0.19.0
   image_picker: ^0.6.7+6
   intl: ^0.16.1
   razorpay_flutter: ^1.2.2

@@ -10,8 +10,10 @@ import 'package:greycells/route/route_generator.dart';
 import 'package:greycells/simple_bloc_observer.dart';
 import 'package:greycells/view/pages/decider_page.dart';
 import 'package:greycells/view/pages/patient_detail_input.dart';
+import 'package:greycells/view/pages/payment_page.dart';
 import 'package:greycells/view/pages/splash_page.dart';
 import 'package:greycells/view/pages/welcome_page.dart';
+import 'package:greycells/view/widgets/error_with_retry.dart';
 import 'package:provider/provider.dart';
 
 import 'constants/strings.dart';
@@ -61,12 +63,12 @@ class _MyApp extends StatelessWidget {
           builder: (context, authenticationState) {
             /// User is not logged in
             if (authenticationState is AuthenticationUnauthenticated) {
-              return WelcomePage();
+              return  PaymentPage();
             }
 
             /// User is logged in
             if (authenticationState is AuthenticationAuthenticated) {
-              return DeciderPage();
+              return PaymentPage();
             }
 
             return SplashPage();

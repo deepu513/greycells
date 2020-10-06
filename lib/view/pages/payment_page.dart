@@ -42,7 +42,7 @@ class PaymentPage extends StatelessWidget {
                     SizedBox(
                       height: 16.0,
                     ),
-                    PromoCodeInputSection(),
+                    PromoCodeInputSection(state.payment),
                     SizedBox(
                       height: 56.0,
                     ),
@@ -106,12 +106,6 @@ class PaymentHeaderSection extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Visibility(
-            visible: payment.type == PaymentType.ASSESSMENT,
-            child: Icon(
-              Icons.assignment,
-              size: 40.0,
-            )),
-        Visibility(
           visible: payment.type == PaymentType.APPOINTMENT,
           child: CircleAvatar(
             backgroundImage: payment.itemImageUrl != null
@@ -124,7 +118,7 @@ class PaymentHeaderSection extends StatelessWidget {
           ),
         ),
         SizedBox(
-          width: 16.0,
+          width: payment.type == PaymentType.APPOINTMENT ? 16.0 : 0.0,
         ),
         Expanded(
           child: Column(
@@ -265,6 +259,10 @@ class PaymentItems extends StatelessWidget {
 }
 
 class PromoCodeInputSection extends StatelessWidget {
+  final Payment _payment;
+
+  PromoCodeInputSection(this._payment) : assert(_payment != null);
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -278,6 +276,7 @@ class PromoCodeInputSection extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.end,
           children: [
             Expanded(
+              flex: 3,
               child: TextField(
                 maxLines: 1,
                 textInputAction: TextInputAction.next,
@@ -292,28 +291,59 @@ class PromoCodeInputSection extends StatelessWidget {
             SizedBox(
               width: 48.0,
             ),
-            OutlineButton.icon(
-              icon: Visibility(
-                visible: false,
-                child: SizedBox(
-                    width: 12.0,
-                    height: 12.0,
-                    child: CircularProgressIndicator(
-                      strokeWidth: 2.0,
-                    )),
+            Visibility(
+              visible: !_payment.promoCodeApplied,
+              child: Expanded(
+                flex: 2,
+                child: OutlineButton.icon(
+                  icon: Visibility(
+                    visible: false,
+                    child: SizedBox(
+                        width: 12.0,
+                        height: 12.0,
+                        child: CircularProgressIndicator(
+                          strokeWidth: 2.0,
+                        )),
+                  ),
+                  onPressed: () {},
+                  color: Theme.of(context).primaryColor,
+                  borderSide: BorderSide(
+                    color: Theme.of(context).primaryColor,
+                  ),
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(8.0)),
+                  label: Text(
+                    Strings.apply.toUpperCase(),
+                    style: Theme.of(context).textTheme.button.copyWith(
+                          color: Theme.of(context).primaryColor,
+                        ),
+                  ),
+                ),
               ),
-              onPressed: () {},
-              color: Theme.of(context).primaryColor,
-              borderSide: BorderSide(
-                color: Theme.of(context).primaryColor,
-              ),
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(8.0)),
-              label: Text(
-                Strings.apply.toUpperCase(),
-                style: Theme.of(context).textTheme.button.copyWith(
-                      color: Theme.of(context).primaryColor,
+            ),
+            Visibility(
+              visible: _payment.promoCodeApplied,
+              child: Expanded(
+                flex: 2,
+                child: OutlineButton.icon(
+                  icon: Icon(
+                    Icons.cancel,
+                    color: Colors.brown,
+                    size: 20.0,
+                  ),
+                  onPressed: () {},
+                  color: Colors.brown,
+                  borderSide: BorderSide(
+                    color:  Colors.brown,
+                  ),
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(8.0)),
+                  label: Text(Strings.remove.toUpperCase(),
+                    style: Theme.of(context).textTheme.button.copyWith(
+                      color: Colors.brown,
                     ),
+                  ),
+                ),
               ),
             ),
           ],

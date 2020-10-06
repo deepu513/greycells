@@ -9,6 +9,7 @@ class Payment {
   String itemSubtitle;
   bool promoCodeApplied;
   int discountAmount;
+  int originalAmount;
   List<PaymentItem> items;
   int totalAmount;
 }

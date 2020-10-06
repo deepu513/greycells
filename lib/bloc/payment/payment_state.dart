@@ -11,14 +11,6 @@ class PaymentInitial extends PaymentState {
   PaymentInitial(Payment payment) : super(payment);
 }
 
-class ApplyingPromoCode extends PaymentState {
-  ApplyingPromoCode(Payment payment) : super(payment);
-}
-
-class PromoCodeApplied extends PaymentState {
-  PromoCodeApplied(Payment payment) : super(payment);
-}
-
 class PaymentProcessing extends PaymentState {
   PaymentProcessing(Payment payment) : super(payment);
 }

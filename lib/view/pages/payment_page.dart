@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:greycells/bloc/payment/discount_bloc.dart';
 import 'package:greycells/bloc/payment/payment_bloc.dart';
 import 'package:greycells/constants/strings.dart';
+import 'package:greycells/extensions.dart';
 import 'package:greycells/models/payment/payment.dart';
 import 'package:greycells/models/payment/payment_item.dart';
 import 'package:greycells/models/payment/payment_type.dart';
@@ -42,7 +44,9 @@ class PaymentPage extends StatelessWidget {
                     SizedBox(
                       height: 16.0,
                     ),
-                    PromoCodeInputSection(state.payment),
+                    BlocProvider<DiscountBloc>(
+                        create: (context) => DiscountBloc(),
+                        child: PromoCodeInputSection(state.payment)),
                     SizedBox(
                       height: 56.0,
                     ),
@@ -265,90 +269,123 @@ class PromoCodeInputSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(Strings.promoCodeQuestion,
-            style: Theme.of(context).textTheme.caption.copyWith(
-                  fontWeight: FontWeight.w500,
-                )),
-        Row(
-          crossAxisAlignment: CrossAxisAlignment.end,
+    return BlocConsumer<DiscountBloc, DiscountState>(
+      listener: (context, state) {
+        if (state is PromoCodeFailed) {
+          showErrorDialog(context, ErrorMessages.GENERIC_ERROR_MESSAGE);
+        }
+
+        if (state is PromoCodeApplied) {
+          BlocProvider.of<PaymentBloc>(context)
+              .add(PaymentUpdated(state.updatedPayment));
+        }
+
+        if (state is PromoCodeRemoved) {
+          BlocProvider.of<PaymentBloc>(context)
+              .add(PaymentUpdated(state.updatedPayment));
+        }
+      },
+      builder: (context, state) {
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Expanded(
-              flex: 3,
-              child: TextField(
-                maxLines: 1,
-                textInputAction: TextInputAction.next,
-                textCapitalization: TextCapitalization.characters,
-                decoration: InputDecoration(
-                  labelText: Strings.enterPromoCode,
-                ),
-                autofocus: false,
-                keyboardType: TextInputType.text,
-              ),
-            ),
-            SizedBox(
-              width: 48.0,
-            ),
-            Visibility(
-              visible: !_payment.promoCodeApplied,
-              child: Expanded(
-                flex: 2,
-                child: OutlineButton.icon(
-                  icon: Visibility(
-                    visible: false,
-                    child: SizedBox(
-                        width: 12.0,
-                        height: 12.0,
-                        child: CircularProgressIndicator(
-                          strokeWidth: 2.0,
-                        )),
-                  ),
-                  onPressed: () {},
-                  color: Theme.of(context).primaryColor,
-                  borderSide: BorderSide(
-                    color: Theme.of(context).primaryColor,
-                  ),
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(8.0)),
-                  label: Text(
-                    Strings.apply.toUpperCase(),
-                    style: Theme.of(context).textTheme.button.copyWith(
-                          color: Theme.of(context).primaryColor,
-                        ),
+            Text(Strings.promoCodeQuestion,
+                style: Theme.of(context).textTheme.caption.copyWith(
+                      fontWeight: FontWeight.w500,
+                    )),
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: [
+                Expanded(
+                  flex: 3,
+                  child: TextField(
+                    controller: TextEditingController(
+                        text:
+                            BlocProvider.of<DiscountBloc>(context).promoCode ??
+                                ""),
+                    maxLines: 1,
+                    textInputAction: TextInputAction.next,
+                    textCapitalization: TextCapitalization.characters,
+                    decoration: InputDecoration(
+                      labelText: Strings.enterPromoCode,
+                    ),
+                    autofocus: false,
+                    keyboardType: TextInputType.text,
+                    onChanged: (value) {
+                      BlocProvider.of<DiscountBloc>(context).promoCode = value;
+                    },
                   ),
                 ),
-              ),
-            ),
-            Visibility(
-              visible: _payment.promoCodeApplied,
-              child: Expanded(
-                flex: 2,
-                child: OutlineButton.icon(
-                  icon: Icon(
-                    Icons.cancel,
-                    color: Colors.brown,
-                    size: 20.0,
-                  ),
-                  onPressed: () {},
-                  color: Colors.brown,
-                  borderSide: BorderSide(
-                    color:  Colors.brown,
-                  ),
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(8.0)),
-                  label: Text(Strings.remove.toUpperCase(),
-                    style: Theme.of(context).textTheme.button.copyWith(
-                      color: Colors.brown,
+                SizedBox(
+                  width: 48.0,
+                ),
+                Visibility(
+                  visible: state is! PromoCodeApplied,
+                  child: Expanded(
+                    flex: 2,
+                    child: OutlineButton.icon(
+                      icon: Visibility(
+                        visible: state is ApplyingPromoCode,
+                        child: SizedBox(
+                            width: 12.0,
+                            height: 12.0,
+                            child: CircularProgressIndicator(
+                              strokeWidth: 2.0,
+                            )),
+                      ),
+                      onPressed: () {
+                        BlocProvider.of<DiscountBloc>(context)
+                            .add(ApplyPromoCode(_payment));
+                      },
+                      color: Theme.of(context).primaryColor,
+                      borderSide: BorderSide(
+                        color: Theme.of(context).primaryColor,
+                      ),
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(8.0)),
+                      label: Text(
+                        Strings.apply.toUpperCase(),
+                        style: Theme.of(context).textTheme.button.copyWith(
+                              color: Theme.of(context).primaryColor,
+                            ),
+                      ),
                     ),
                   ),
                 ),
-              ),
+                Visibility(
+                  visible: state is PromoCodeApplied,
+                  child: Expanded(
+                    flex: 2,
+                    child: OutlineButton.icon(
+                      icon: Icon(
+                        Icons.cancel,
+                        color: Colors.brown,
+                        size: 20.0,
+                      ),
+                      onPressed: () {
+                        BlocProvider.of<DiscountBloc>(context)
+                            .add(RemovePromoCode());
+                      },
+                      color: Colors.brown,
+                      borderSide: BorderSide(
+                        color: Colors.brown,
+                      ),
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(8.0)),
+                      label: Text(
+                        Strings.remove.toUpperCase(),
+                        style: Theme.of(context).textTheme.button.copyWith(
+                              color: Colors.brown,
+                            ),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
             ),
           ],
-        ),
-      ],
+        );
+      },
     );
   }
 }

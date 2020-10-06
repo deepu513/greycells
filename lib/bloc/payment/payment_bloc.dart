@@ -14,9 +14,13 @@ class PaymentBloc extends Bloc<PaymentEvent, PaymentState> {
         super(PaymentInitial(payment));
 
   @override
-  Stream<PaymentState> mapEventToState(
-    PaymentEvent event,
-  ) async* {
-    // TODO: implement mapEventToState
+  Stream<PaymentState> mapEventToState(PaymentEvent event,) async* {
+    if(event is ProcessPayment) {
+
+    }
+
+    if(event is PaymentUpdated) {
+      yield PaymentInitial(event.updatedPayment);
+    }
   }
 }

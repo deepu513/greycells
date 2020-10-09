@@ -272,7 +272,7 @@ class PromoCodeInputSection extends StatelessWidget {
     return BlocConsumer<DiscountBloc, DiscountState>(
       listener: (context, state) {
         if (state is PromoCodeFailed) {
-          showErrorDialog(context, ErrorMessages.GENERIC_ERROR_MESSAGE);
+          showErrorDialog(context, ErrorMessages.PROMO_CODER_ERROR_MESSAGE);
         }
 
         if (state is PromoCodeApplied) {

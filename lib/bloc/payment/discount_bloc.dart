@@ -8,6 +8,7 @@ import 'package:greycells/models/payment/discount_request.dart';
 import 'package:greycells/models/payment/discount_response.dart';
 import 'package:greycells/repository/settings_repository.dart';
 import 'package:meta/meta.dart';
+import 'package:greycells/extensions.dart';
 
 part 'discount_event.dart';
 
@@ -29,29 +30,33 @@ class DiscountBloc extends Bloc<DiscountEvent, DiscountState> {
   @override
   Stream<DiscountState> mapEventToState(DiscountEvent event,) async* {
     if (event is ApplyPromoCode) {
-      yield ApplyingPromoCode();
-      try {
-        DiscountRequest discountRequest = DiscountRequest();
-        discountRequest.promoCode = promoCode;
-        discountRequest.userId =
-            _settingsRepository.get(SettingKey.KEY_USER_ID);
-        DiscountResponse response = await _paymentRepository.requestDiscount(
-            discountRequest);
-        if (response != null && response.result == true) {
-          event.payment.discountId = response.discountId;
-          event.payment.discountAmount =
-              ((response.discountPercent / 100) * event.payment.originalAmount)
-                  .floor();
-          event.payment.totalAmount =
-              event.payment.originalAmount - event.payment.discountAmount;
-          event.payment.promoCodeApplied = true;
-
-          yield PromoCodeApplied(event.payment);
-        } else
-          yield PromoCodeFailed();
-      } catch (e) {
-        print(e);
+      if(promoCode.isNullOrEmpty()) {
         yield PromoCodeFailed();
+      } else {
+        yield ApplyingPromoCode();
+        try {
+          DiscountRequest discountRequest = DiscountRequest();
+          discountRequest.promoCode = promoCode;
+          discountRequest.userId =
+              _settingsRepository.get(SettingKey.KEY_USER_ID);
+          DiscountResponse response = await _paymentRepository.requestDiscount(
+              discountRequest);
+          if (response != null && response.result == true) {
+            event.payment.discountId = response.discountId;
+            event.payment.discountAmount =
+                ((response.discountPercent / 100) * event.payment.originalAmount)
+                    .floor();
+            event.payment.totalAmount =
+                event.payment.originalAmount - event.payment.discountAmount;
+            event.payment.promoCodeApplied = true;
+
+            yield PromoCodeApplied(event.payment);
+          } else
+            yield PromoCodeFailed();
+        } catch (e) {
+          print(e);
+          yield PromoCodeFailed();
+        }
       }
     }
 

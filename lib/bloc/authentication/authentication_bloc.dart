@@ -108,7 +108,7 @@ class AuthenticationBloc
     await _settingsRepository.saveValue(
         SettingKey.KEY_REQUEST_TOKEN, user.token);
     await _settingsRepository.saveValue(SettingKey.KEY_USER_ID, user.id);
-    await _settingsRepository.saveValue(SettingKey.KEY_USERNAME, user.username);
+    await _settingsRepository.saveValue(SettingKey.KEY_USERNAME, user.email);
     await _settingsRepository.saveValue(
         SettingKey.KEY_USER_FIRST_NAME, user.firstName);
     await _settingsRepository.saveValue(

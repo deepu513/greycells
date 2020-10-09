@@ -176,6 +176,7 @@ class HttpService {
     var map = {"content-type": "application/json"};
     var token =
         _settingsRepository.get(SettingKey.KEY_REQUEST_TOKEN, defaultValue: "");
+    print("token $token");
 
     if (!url.contains("authenticate") &&
         !url.contains("register") &&

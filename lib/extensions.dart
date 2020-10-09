@@ -1,3 +1,4 @@
+import 'package:animations/animations.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:greycells/bloc/validation/bloc.dart';
@@ -23,10 +24,10 @@ extension StringExtensions on String {
 
 extension dialogs on Widget {
   void showErrorDialog(BuildContext context, String errorMessage) {
-    showDialog<void>(
+    showModal(
         context: context,
-        barrierDismissible: true,
-        builder: (dialogContext) {
+        configuration: FadeScaleTransitionConfiguration(),
+        builder: (context) {
           return AlertDialog(
             title: Text("Error"),
             content: SingleChildScrollView(
@@ -49,9 +50,9 @@ extension dialogs on Widget {
   }
 
   void showHelpDialog(BuildContext context, String message) {
-    showDialog<void>(
+    showModal(
         context: context,
-        barrierDismissible: true,
+        configuration: FadeScaleTransitionConfiguration(),
         builder: (context) {
           return AlertDialog(
             title: Text(Strings.help),

@@ -1,3 +1,4 @@
+import 'package:greycells/constants/user_type.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'user.g.dart';
@@ -5,10 +6,11 @@ part 'user.g.dart';
 @JsonSerializable(explicitToJson: true)
 class User {
   int id;
-  String username;
+  String email;
   String firstName;
   String lastName;
   String mobileNumber;
+  UserType userType;
   String token;
 
   User();

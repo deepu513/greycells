@@ -12,8 +12,13 @@ import 'package:greycells/models/payment/payment_item.dart';
 import 'package:greycells/models/payment/payment_type.dart';
 import 'package:greycells/route/route_generator.dart';
 import 'package:greycells/simple_bloc_observer.dart';
+import 'package:greycells/view/pages/decider_page.dart';
+import 'package:greycells/view/pages/login_page.dart';
+import 'package:greycells/view/pages/patient_main_page.dart';
 import 'package:greycells/view/pages/payment_page.dart';
+import 'package:greycells/view/pages/register_page.dart';
 import 'package:greycells/view/pages/splash_page.dart';
+import 'package:greycells/view/pages/welcome_page.dart';
 import 'package:provider/provider.dart';
 
 import 'constants/strings.dart';
@@ -81,12 +86,12 @@ class _MyApp extends StatelessWidget {
           builder: (context, authenticationState) {
             /// User is not logged in
             if (authenticationState is AuthenticationUnauthenticated) {
-              return PaymentPage();
+              return WelcomePage();
             }
 
             /// User is logged in
             if (authenticationState is AuthenticationAuthenticated) {
-              return PaymentPage();
+              return DeciderPage();
             }
 
             return SplashPage();

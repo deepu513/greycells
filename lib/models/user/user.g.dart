@@ -9,18 +9,57 @@ part of 'user.dart';
 User _$UserFromJson(Map<String, dynamic> json) {
   return User()
     ..id = json['id'] as int
-    ..username = json['username'] as String
+    ..email = json['email'] as String
     ..firstName = json['firstName'] as String
     ..lastName = json['lastName'] as String
     ..mobileNumber = json['mobileNumber'] as String
+    ..userType = _$enumDecodeNullable(_$UserTypeEnumMap, json['userType'])
     ..token = json['token'] as String;
 }
 
 Map<String, dynamic> _$UserToJson(User instance) => <String, dynamic>{
       'id': instance.id,
-      'username': instance.username,
+      'email': instance.email,
       'firstName': instance.firstName,
       'lastName': instance.lastName,
       'mobileNumber': instance.mobileNumber,
+      'userType': _$UserTypeEnumMap[instance.userType],
       'token': instance.token,
     };
+
+T _$enumDecode<T>(
+  Map<T, dynamic> enumValues,
+  dynamic source, {
+  T unknownValue,
+}) {
+  if (source == null) {
+    throw ArgumentError('A value must be provided. Supported values: '
+        '${enumValues.values.join(', ')}');
+  }
+
+  final value = enumValues.entries
+      .singleWhere((e) => e.value == source, orElse: () => null)
+      ?.key;
+
+  if (value == null && unknownValue == null) {
+    throw ArgumentError('`$source` is not one of the supported values: '
+        '${enumValues.values.join(', ')}');
+  }
+  return value ?? unknownValue;
+}
+
+T _$enumDecodeNullable<T>(
+  Map<T, dynamic> enumValues,
+  dynamic source, {
+  T unknownValue,
+}) {
+  if (source == null) {
+    return null;
+  }
+  return _$enumDecode<T>(enumValues, source, unknownValue: unknownValue);
+}
+
+const _$UserTypeEnumMap = {
+  UserType.PATIENT: 0,
+  UserType.THERAPIST: 1,
+};

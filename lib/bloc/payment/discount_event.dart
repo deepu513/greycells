@@ -9,4 +9,8 @@ class ApplyPromoCode extends DiscountEvent {
   ApplyPromoCode(this.payment);
 }
 
-class RemovePromoCode extends DiscountEvent {}
+class RemovePromoCode extends DiscountEvent {
+  final Payment payment;
+
+  RemovePromoCode(this.payment);
+}

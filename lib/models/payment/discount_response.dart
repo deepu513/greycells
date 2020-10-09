@@ -5,10 +5,14 @@ part 'discount_response.g.dart';
 @JsonSerializable(explicitToJson: true)
 class DiscountResponse {
   bool result;
-  String message;
+
   int discountId;
-  String promoCode;
   int discountPercent;
+
+  @JsonKey(name: "code")
+  String promoCode;
+
+  String message;
 
   DiscountResponse();
 

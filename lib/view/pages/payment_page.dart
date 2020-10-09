@@ -364,7 +364,7 @@ class PromoCodeInputSection extends StatelessWidget {
                       ),
                       onPressed: () {
                         BlocProvider.of<DiscountBloc>(context)
-                            .add(RemovePromoCode());
+                            .add(RemovePromoCode(_payment));
                       },
                       color: Colors.brown,
                       borderSide: BorderSide(

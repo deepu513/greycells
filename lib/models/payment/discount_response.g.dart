@@ -9,17 +9,17 @@ part of 'discount_response.dart';
 DiscountResponse _$DiscountResponseFromJson(Map<String, dynamic> json) {
   return DiscountResponse()
     ..result = json['result'] as bool
-    ..message = json['message'] as String
     ..discountId = json['discountId'] as int
-    ..promoCode = json['promoCode'] as String
-    ..discountPercent = json['discountPercent'] as int;
+    ..discountPercent = json['discountPercent'] as int
+    ..promoCode = json['code'] as String
+    ..message = json['message'] as String;
 }
 
 Map<String, dynamic> _$DiscountResponseToJson(DiscountResponse instance) =>
     <String, dynamic>{
       'result': instance.result,
-      'message': instance.message,
       'discountId': instance.discountId,
-      'promoCode': instance.promoCode,
       'discountPercent': instance.discountPercent,
+      'code': instance.promoCode,
+      'message': instance.message,
     };

@@ -7,7 +7,6 @@ class DiscountResponse {
   bool result;
   String message;
   int discountId;
-  int userId;
   String promoCode;
   int discountPercent;
 

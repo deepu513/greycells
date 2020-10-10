@@ -16,9 +16,13 @@ class PaymentProcessing extends PaymentState {
 }
 
 class PaymentSuccess extends PaymentState {
-  PaymentSuccess(Payment payment) : super(payment);
+  PaymentSuccess() : super(null);
 }
 
 class PaymentFailure extends PaymentState {
-  PaymentFailure(Payment payment) : super(payment);
+  PaymentFailure() : super(null);
+}
+
+class PaymentStatusUnknown extends PaymentState {
+  PaymentStatusUnknown() : super(null);
 }

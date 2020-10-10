@@ -91,7 +91,7 @@ class _MyApp extends StatelessWidget {
 
             /// User is logged in
             if (authenticationState is AuthenticationAuthenticated) {
-              return PaymentPage();
+              return DeciderPage();
             }
 
             return SplashPage();

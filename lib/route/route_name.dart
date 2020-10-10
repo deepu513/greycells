@@ -9,4 +9,5 @@ abstract class RouteName {
   static const ASSESSMENT_TEST = "/assessment_test";
   static const SECOND_TEST_INTRO = "/second_test_intro";
   static const DECIDER_PAGE = "/decider";
+  static const PAYMENT_PAGE = "/payment";
 }

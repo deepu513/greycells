@@ -8,9 +8,10 @@ import 'package:greycells/view/pages/assessment_test_intro_page.dart';
 import 'package:greycells/view/pages/assessment_test_page.dart';
 import 'package:greycells/view/pages/decider_page.dart';
 import 'package:greycells/view/pages/forgot_password_page.dart';
-import 'package:greycells/view/pages/patient_score_page.dart';
 import 'package:greycells/view/pages/login_page.dart';
 import 'package:greycells/view/pages/patient_detail_input.dart';
+import 'package:greycells/view/pages/patient_score_page.dart';
+import 'package:greycells/view/pages/payment_page.dart';
 import 'package:greycells/view/pages/register_page.dart';
 import 'package:greycells/view/pages/second_test_intro_page.dart';
 import 'package:greycells/view/pages/welcome_page.dart';
@@ -55,6 +56,8 @@ class RouteGenerator {
                 ));
       case RouteName.DECIDER_PAGE:
         return MaterialPageRoute(builder: (_) => DeciderPage());
+      case RouteName.PAYMENT_PAGE:
+        return MaterialPageRoute(builder: (_) => PaymentPage());
       default:
         // If there is no such named route in the switch statement, e.g. /third
         return _errorRoute();

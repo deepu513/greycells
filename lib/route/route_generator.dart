@@ -11,6 +11,7 @@ import 'package:greycells/view/pages/decider_page.dart';
 import 'package:greycells/view/pages/forgot_password_page.dart';
 import 'package:greycells/view/pages/login_page.dart';
 import 'package:greycells/view/pages/patient_detail_input.dart';
+import 'package:greycells/view/pages/patient_main_page.dart';
 import 'package:greycells/view/pages/patient_score_page.dart';
 import 'package:greycells/view/pages/payment_page.dart';
 import 'package:greycells/view/pages/register_page.dart';
@@ -36,11 +37,13 @@ class RouteGenerator {
                 ));
       case RouteName.REGISTER:
         return MaterialPageRoute(
-            builder: (context) => BlocProvider<RegistrationBloc>(
-                create: (_) => RegistrationBloc(ValidationBloc()),
-                child: RegisterPage()));
-      case RouteName.PATIENT_HOME:
-        return MaterialPageRoute(builder: (_) => PatientScorePage());
+          builder: (context) => BlocProvider<RegistrationBloc>(
+            create: (_) => RegistrationBloc(ValidationBloc()),
+            child: RegisterPage(),
+          ),
+        );
+      case RouteName.PATIENT_MAIN:
+        return MaterialPageRoute(builder: (_) => PatientMainPage());
       case RouteName.FORGOT_PASSWORD:
         return MaterialPageRoute(
             builder: (_) => BlocProvider<ForgotPasswordBloc>(
@@ -62,6 +65,8 @@ class RouteGenerator {
         return MaterialPageRoute(builder: (_) => DeciderPage());
       case RouteName.PAYMENT_PAGE:
         return MaterialPageRoute(builder: (_) => PaymentPage());
+      case RouteName.PATIENT_SCORE_PAGE:
+        return MaterialPageRoute(builder: (_) => PatientScorePage());
       default:
         // If there is no such named route in the switch statement, e.g. /third
         return _errorRoute();

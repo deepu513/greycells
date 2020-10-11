@@ -22,7 +22,9 @@ class _PatientMainPageState extends State<PatientMainPage>
       body: SafeArea(
         child: IndexedStack(
           index: _currentIndex,
-          children: [],
+          children: allDestinations.map((destination) {
+            return destination.body;
+          }).toList(),
         ),
       ),
       bottomNavigationBar: BottomNavigationBar(

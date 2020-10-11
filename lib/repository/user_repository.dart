@@ -71,4 +71,13 @@ class UserRepository {
 
     return await _httpService.get(request, _homeSerializable);
   }
+
+  Future<int> resetPassword({@required String email}) async {
+    Request request = Request(
+        "${FlavorConfig.getBaseUrl()}Account/ForgotPassword?email=$email",
+        null);
+
+    Response response = await _httpService.postRaw(request, null);
+    return response.statusCode;
+  }
 }

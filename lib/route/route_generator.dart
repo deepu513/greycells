@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:greycells/bloc/assessment/assessment_bloc.dart';
+import 'package:greycells/bloc/authentication/forgot_password_bloc.dart';
 import 'package:greycells/bloc/registration/bloc.dart';
 import 'package:greycells/bloc/validation/bloc.dart';
 import 'package:greycells/route/route_name.dart';
@@ -41,7 +42,10 @@ class RouteGenerator {
       case RouteName.PATIENT_HOME:
         return MaterialPageRoute(builder: (_) => PatientScorePage());
       case RouteName.FORGOT_PASSWORD:
-        return MaterialPageRoute(builder: (_) => ForgotPasswordPage());
+        return MaterialPageRoute(
+            builder: (_) => BlocProvider<ForgotPasswordBloc>(
+                create: (_) => ForgotPasswordBloc(),
+                child: ForgotPasswordPage()));
       case RouteName.PATIENT_DETAIL_INPUT_PAGE:
         return MaterialPageRoute(builder: (_) => PatientDetailInput());
       case RouteName.ASSESSMENT_TEST_INTRO:

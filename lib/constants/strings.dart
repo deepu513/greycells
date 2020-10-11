@@ -127,6 +127,10 @@ class Strings {
   static const paymentStatusUnknown =
       "We were unable to identify the status of this payment. If amount is deducted from your account and doesn't show up in system, please send an email on:";
   static const paymentSuccess = "Congratulations! Your payment was successfull";
+  static const forgotPasswordNotFound =
+      "We couldn't find any accounts with this email ID.";
+  static const forgotPasswordSuccess =
+      "We have sent you a password reset link via email. If you don't find the email in your inbox, please check the spam folder.";
 }
 
 /// This should contain strings which signify an error message
@@ -162,7 +166,7 @@ class ErrorMessages {
       "The Email ID you submitted is already registered.\nPlease try with a different Email ID";
   static const USER_NOT_FOUND_ERROR_MESSAGE = "Invalid username or password.";
   static const GENERIC_ERROR_MESSAGE =
-      "Something went wrong!\nPlease try again.";
+      "Something went wrong! Please try again.";
   static const PROMO_CODER_ERROR_MESSAGE = "Couldn't apply entered promo code";
   static const PAYMENT_ERROR_MESSAGE =
       "There was an error processing payment. Please try again later";

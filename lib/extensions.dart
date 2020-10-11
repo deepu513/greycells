@@ -83,7 +83,7 @@ extension dialogs on Widget {
       @required VoidCallback onPressed}) {
     _showDialog(
         context: context,
-        title: Strings.help,
+        title: Strings.info,
         message: message,
         icon: showIcon
             ? Icon(

@@ -87,7 +87,7 @@ class _MyApp extends StatelessWidget {
           builder: (context, authenticationState) {
             /// User is not logged in
             if (authenticationState is AuthenticationUnauthenticated) {
-              return PaymentPage();
+              return WelcomePage();
             }
 
             /// User is logged in

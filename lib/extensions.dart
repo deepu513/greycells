@@ -23,56 +23,93 @@ extension StringExtensions on String {
 }
 
 extension dialogs on Widget {
-  void showErrorDialog(BuildContext context, String errorMessage) {
+  _showDialog(
+      {@required BuildContext context,
+      @required String title,
+      @required String message,
+      Icon icon,
+      @required VoidCallback onPressed}) {
     showModal(
         context: context,
         configuration: FadeScaleTransitionConfiguration(),
         builder: (context) {
           return AlertDialog(
-            title: Text("Error"),
+            title: Row(
+              children: [
+                Visibility(
+                    visible: icon != null,
+                    child: Padding(
+                      padding: const EdgeInsets.only(right: 8.0),
+                      child: icon,
+                    )),
+                Text(title),
+              ],
+            ),
             content: SingleChildScrollView(
-              child: ListBody(
-                children: <Widget>[
-                  Text(errorMessage),
-                ],
-              ),
+              child: Text(message),
             ),
             actions: [
               FlatButton(
                 child: Text(Strings.ok.toUpperCase()),
-                onPressed: () async {
-                  Navigator.of(context).pop();
-                },
+                onPressed: onPressed,
               )
             ],
           );
         });
   }
 
-  void showHelpDialog(BuildContext context, String message) {
-    showModal(
+  void showErrorDialog(
+      {@required BuildContext context,
+      @required String message,
+      @required bool showIcon,
+      @required VoidCallback onPressed}) {
+    _showDialog(
         context: context,
-        configuration: FadeScaleTransitionConfiguration(),
-        builder: (context) {
-          return AlertDialog(
-            title: Text(Strings.help),
-            content: SingleChildScrollView(
-              child: ListBody(
-                children: <Widget>[
-                  Text(message),
-                ],
-              ),
-            ),
-            actions: [
-              FlatButton(
-                child: Text(Strings.ok.toUpperCase()),
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
+        title: Strings.error,
+        message: message,
+        icon: showIcon
+            ? Icon(
+                Icons.error_outline,
+                color: Colors.red,
               )
-            ],
-          );
-        });
+            : null,
+        onPressed: onPressed);
+  }
+
+  void showHelpDialog(
+      {@required BuildContext context,
+      @required String message,
+      @required bool showIcon,
+      @required VoidCallback onPressed}) {
+    _showDialog(
+        context: context,
+        title: Strings.help,
+        message: message,
+        icon: showIcon
+            ? Icon(
+                Icons.help_outline,
+                color: Colors.yellow,
+              )
+            : null,
+        onPressed: onPressed);
+  }
+
+  void showSuccessDialog(
+      {@required BuildContext context,
+      @required String message,
+      @required bool showIcon,
+      @required VoidCallback onPressed}) {
+    _showDialog(
+        context: context,
+        title: Strings.success,
+        message: message,
+        icon: showIcon
+            ? Icon(
+                Icons.done,
+                color: Colors.green,
+              )
+            : null,
+        onPressed: onPressed);
   }
 }
 

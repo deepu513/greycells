@@ -34,10 +34,22 @@ class _AssessmentTestPageState extends State<AssessmentTestPage> {
     return BlocListener<AssessmentBloc, AssessmentState>(
       listener: (context, state) {
         if (state is AssessmentError) {
-          widget.showErrorDialog(context, ErrorMessages.GENERIC_ERROR_MESSAGE);
+          widget.showErrorDialog(
+              context: context,
+              message: ErrorMessages.GENERIC_ERROR_MESSAGE,
+              showIcon: true,
+              onPressed: () async {
+                Navigator.of(context).pop();
+              });
         }
         if (state is ErrorWhileSavingSelectedOption) {
-          widget.showErrorDialog(context, Strings.optionSubmitError);
+          widget.showErrorDialog(
+              context: context,
+              message: Strings.optionSubmitError,
+              showIcon: true,
+              onPressed: () async {
+                Navigator.of(context).pop();
+              });
         }
         if (state is TestComplete) {
           if (state.testId == 1) {
@@ -64,8 +76,13 @@ class _AssessmentTestPageState extends State<AssessmentTestPage> {
           ),
           actions: [
             IconButton(
-              onPressed: () =>
-                  widget.showHelpDialog(context, Strings.assessmentHelp),
+              onPressed: () => widget.showHelpDialog(
+                  context: context,
+                  message: Strings.assessmentHelp,
+                  showIcon: true,
+                  onPressed: () async {
+                    Navigator.of(context).pop();
+                  }),
               icon: Icon(Icons.help_outline),
             )
           ],
@@ -129,8 +146,7 @@ class _TestPageContent extends StatelessWidget {
       children: [
         Padding(
           padding: const EdgeInsets.fromLTRB(16.0, 16.0, 16.0, 0.0),
-          child:
-          TitleWithLoading(
+          child: TitleWithLoading(
             text: Text(
               "# Question ${question.sequence} of $_totalQuestions",
               style: Theme.of(context).textTheme.caption.copyWith(
@@ -218,7 +234,9 @@ class OptionSection extends StatelessWidget {
                     width: 0.5,
                     color: options[index].selected
                         ? Colors.blueAccent.shade100
-                        : answered ? Colors.transparent : Colors.black),
+                        : answered
+                            ? Colors.transparent
+                            : Colors.black),
                 borderRadius: BorderRadius.circular(16.0),
               ),
               child: Text(

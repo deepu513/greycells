@@ -15,15 +15,33 @@ class PaymentPage extends StatelessWidget {
     return BlocConsumer<PaymentBloc, PaymentState>(
       listener: (context, state) {
         if (state is PaymentFailure) {
-          showErrorDialog(context, "Error during payment");
+          showErrorDialog(
+              context: context,
+              message: ErrorMessages.PAYMENT_ERROR_MESSAGE,
+              showIcon: true,
+              onPressed: () async {
+                Navigator.of(context).pop();
+              });
         }
 
-        if(state is PaymentStatusUnknown) {
-          showErrorDialog(context, "Error during payment");
+        if (state is PaymentStatusUnknown) {
+          showErrorDialog(
+              context: context,
+              message: Strings.paymentStatusUnknown,
+              showIcon: true,
+              onPressed: () async {
+                Navigator.of(context).pop();
+              });
         }
 
         if (state is PaymentSuccess) {
-          showHelpDialog(context, "Payment success");
+          showSuccessDialog(
+              context: context,
+              message: Strings.paymentSuccess,
+              showIcon: true,
+              onPressed: () async {
+                Navigator.of(context).pop();
+              });
         }
       },
       buildWhen: (previous, current) {
@@ -292,7 +310,13 @@ class PromoCodeInputSection extends StatelessWidget {
     return BlocConsumer<DiscountBloc, DiscountState>(
       listener: (context, state) {
         if (state is PromoCodeFailed) {
-          showErrorDialog(context, ErrorMessages.PROMO_CODER_ERROR_MESSAGE);
+          showErrorDialog(
+              context: context,
+              message: ErrorMessages.PROMO_CODER_ERROR_MESSAGE,
+              showIcon: true,
+              onPressed: () async {
+                Navigator.of(context).pop();
+              });
         }
 
         if (state is PromoCodeApplied) {

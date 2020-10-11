@@ -31,7 +31,13 @@ class RegisterPage extends StatelessWidget {
                   }
 
                   if (current is RegistrationUnsuccessful) {
-                    showErrorDialog(context, current.error);
+                    showErrorDialog(
+                        context: context,
+                        message: current.error,
+                        showIcon: true,
+                        onPressed: () async {
+                          Navigator.of(context).pop();
+                        });
                   }
                 },
                 child: RegisterInputSection(),
@@ -56,12 +62,13 @@ class RegisterInputSection extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 TitleWithLoading(
-                 text: Text(
-                   Strings.register,
-                   style: Theme.of(context).textTheme.headline4.copyWith(
-                       color: Colors.black, fontWeight: FontWeight.w400),
-                 ),
-                 loadingVisibility: registrationState is RegistrationInProgress,
+                  text: Text(
+                    Strings.register,
+                    style: Theme.of(context).textTheme.headline4.copyWith(
+                        color: Colors.black, fontWeight: FontWeight.w400),
+                  ),
+                  loadingVisibility:
+                      registrationState is RegistrationInProgress,
                   loadingBackgroundColor: Colors.white,
                 ),
                 SizedBox(

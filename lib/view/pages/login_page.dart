@@ -31,7 +31,13 @@ class LoginPage extends StatelessWidget {
           listener: (context, current) {
 
             if (current is AuthenticationFailure) {
-              showErrorDialog(context, current.error);
+              showErrorDialog(
+              context: context,
+              message: current.error,
+              showIcon: true,
+              onPressed: () async {
+                Navigator.of(context).pop();
+              });
             }
           },
           child: LoginInputSection(

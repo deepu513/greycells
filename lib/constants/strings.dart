@@ -121,6 +121,12 @@ class Strings {
   static const apply = "Apply";
   static const remove = "Remove";
   static const promoApplied = "Promo code applied";
+  static const error = "Error";
+  static const success = "Success";
+  // TODO: Add email address here
+  static const paymentStatusUnknown =
+      "We were unable to identify the status of this payment. If amount is deducted from your account and doesn't show up in system, please send an email on:";
+  static const paymentSuccess = "Congratulations! Your payment was successfull";
 }
 
 /// This should contain strings which signify an error message
@@ -158,4 +164,6 @@ class ErrorMessages {
   static const GENERIC_ERROR_MESSAGE =
       "Something went wrong!\nPlease try again.";
   static const PROMO_CODER_ERROR_MESSAGE = "Couldn't apply entered promo code";
+  static const PAYMENT_ERROR_MESSAGE =
+      "There was an error processing payment. Please try again later";
 }

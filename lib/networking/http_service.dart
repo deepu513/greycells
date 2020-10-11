@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:greycells/constants/setting_key.dart';
 import 'package:greycells/extensions.dart';
@@ -150,6 +151,9 @@ class HttpService {
   void _handleError(e, stackTrace) {
     print(e);
     print(stackTrace.toString());
+    if (e is SocketException) {
+      throw FetchDataException();
+    }
     throw e;
   }
 
@@ -167,8 +171,9 @@ class HttpService {
       case 409:
         throw ResourceConflictException();
       case 500:
-      default:
         throw UnknownException();
+      default:
+        throw FetchDataException();
     }
   }
 

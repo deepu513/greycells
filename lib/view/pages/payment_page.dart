@@ -184,11 +184,17 @@ class PaymentHeaderSection extends StatelessWidget {
   }
 }
 
-class PaymentDetailsSection extends StatelessWidget {
+class PaymentDetailsSection extends StatefulWidget {
   final Payment payment;
 
   PaymentDetailsSection(this.payment) : assert(payment != null);
 
+  @override
+  _PaymentDetailsSectionState createState() => _PaymentDetailsSectionState();
+}
+
+class _PaymentDetailsSectionState extends State<PaymentDetailsSection>
+    with SingleTickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -201,46 +207,53 @@ class PaymentDetailsSection extends StatelessWidget {
         SizedBox(
           height: 8.0,
         ),
-        PaymentItems(payment.items),
+        PaymentItems(widget.payment.items),
         SizedBox(
           height: 8.0,
         ),
-        Visibility(
-          visible: payment.promoCodeApplied == true,
-          child: Row(
-            children: [
-              Container(
-                child: Row(
-                  children: [
-                    Icon(
-                      Icons.check,
-                      color: Colors.green,
-                      size: 16.0,
-                    ),
-                    SizedBox(
-                      width: 4.0,
-                    ),
-                    Text(
-                      "Promo code applied",
-                      style: Theme.of(context)
-                          .textTheme
-                          .caption
-                          .copyWith(color: Colors.green),
-                    ),
-                  ],
+        AnimatedSize(
+          duration: Duration(milliseconds: 300),
+          vsync: this,
+          child: Visibility(
+            visible: widget.payment.promoCodeApplied == true,
+            child: Row(
+              children: [
+                Container(
+                  child: Row(
+                    children: [
+                      Icon(
+                        Icons.check,
+                        color: Colors.green,
+                        size: 16.0,
+                      ),
+                      SizedBox(
+                        width: 4.0,
+                      ),
+                      Text(
+                        "Promo code applied",
+                        style: Theme.of(context)
+                            .textTheme
+                            .caption
+                            .copyWith(color: Colors.green),
+                      ),
+                    ],
+                  ),
+                  alignment: Alignment.center,
+                  padding: EdgeInsets.all(4.0),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(4.0),
+                    color: Colors.green.shade50,
+                  ),
                 ),
-                alignment: Alignment.center,
-                padding: EdgeInsets.all(4.0),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(4.0),
-                  color: Colors.green.shade50,
-                ),
-              ),
-              Spacer(),
-              Text("- " + Strings.rupeeSymbol + " ${payment.discountAmount}",
-                  style: Theme.of(context).textTheme.headline6.copyWith(
-                      fontWeight: FontWeight.w400, color: Colors.green))
-            ],
+                Spacer(),
+                Text(
+                    "- " +
+                        Strings.rupeeSymbol +
+                        " ${widget.payment.discountAmount}",
+                    style: Theme.of(context).textTheme.headline6.copyWith(
+                        fontWeight: FontWeight.w400, color: Colors.green))
+              ],
+            ),
           ),
         ),
         SizedBox(
@@ -257,7 +270,7 @@ class PaymentDetailsSection extends StatelessWidget {
                       .headline6
                       .copyWith(fontWeight: FontWeight.w500)),
               Spacer(),
-              Text(Strings.rupeeSymbol + " ${payment.totalAmount}",
+              Text(Strings.rupeeSymbol + " ${widget.payment.totalAmount}",
                   style: Theme.of(context).textTheme.headline6.copyWith(
                       color: Colors.black, fontWeight: FontWeight.w500))
             ],

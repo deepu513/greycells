@@ -51,7 +51,7 @@ class GreyCellsApp extends StatelessWidget {
               ..itemImageUrl = "https://urbanbalance.com/wp-content/uploads/2019/04/new-therapist.jpg"
               ..itemTitle = "Dr. Anne Hathaway"
               ..itemSubtitle = "Clinical Psychologist"
-              ..promoCodeApplied = true
+              ..promoCodeApplied = false
               ..discountAmount = 100
               ..originalAmount = 300
               ..items = [

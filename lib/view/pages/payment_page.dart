@@ -63,71 +63,69 @@ class PaymentPage extends StatelessWidget {
             ),
           ),
           body: SafeArea(
-            child: SingleChildScrollView(
-              child: Container(
-                padding: EdgeInsets.all(24.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    PaymentHeaderSection(state.payment),
-                    SizedBox(
-                      height: 8.0,
-                    ),
-                    Divider(),
-                    PaymentDetailsSection(state.payment),
-                    Divider(),
-                    SizedBox(
-                      height: 48.0,
-                    ),
-                    BlocProvider<DiscountBloc>(
-                        create: (context) => DiscountBloc(),
-                        child: PromoCodeInputSection(state.payment)),
-                    SizedBox(
-                      height: 48.0,
-                    ),
-                    ButtonTheme(
-                      minWidth: double.infinity,
-                      height: 48.0,
-                      child: RaisedButton(
-                        onPressed: () {
-                          BlocProvider.of<PaymentBloc>(context)
-                              .add(ProcessPayment(state.payment));
-                        },
-                        color: Theme.of(context).primaryColor,
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(8.0)),
-                        child: Text(
-                          Strings.proceedToPayment.toUpperCase(),
-                          style: Theme.of(context).textTheme.button.copyWith(
-                                color: Colors.white,
-                              ),
-                        ),
+            child: Container(
+              padding: EdgeInsets.all(24.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  PaymentHeaderSection(state.payment),
+                  SizedBox(
+                    height: 8.0,
+                  ),
+                  Divider(),
+                  PaymentDetailsSection(state.payment),
+                  Divider(),
+                  SizedBox(
+                    height: 16.0,
+                  ),
+                  BlocProvider<DiscountBloc>(
+                      create: (context) => DiscountBloc(),
+                      child: PromoCodeInputSection(state.payment)),
+                  SizedBox(
+                    height: 16.0,
+                  ),
+                  Divider(),
+                  Spacer(),
+                  ButtonTheme(
+                    minWidth: double.maxFinite,
+                    height: 42.0,
+                    child: RaisedButton(
+                      onPressed: () {
+                        BlocProvider.of<PaymentBloc>(context)
+                            .add(ProcessPayment(state.payment));
+                      },
+                      color: Theme.of(context).primaryColor,
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(8.0)),
+                      child: Text(
+                        Strings.proceedToPayment.toUpperCase(),
+                        style: Theme.of(context).textTheme.button.copyWith(
+                              color: Colors.white,
+                            ),
                       ),
                     ),
-                    SizedBox(
-                      height: 16.0,
-                    ),
-                    ButtonTheme(
-                      minWidth: double.infinity,
-                      height: 48.0,
-                      child: OutlineButton(
-                        onPressed: () {},
-                        borderSide: BorderSide(
-                          color: Theme.of(context).primaryColor,
-                        ),
+                  ),
+                  SizedBox(height: 12.0),
+                  ButtonTheme(
+                    minWidth: double.maxFinite,
+                    height: 42.0,
+                    child: OutlineButton(
+                      onPressed: () {},
+                      borderSide: BorderSide(
                         color: Theme.of(context).primaryColor,
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(8.0)),
-                        child: Text(
-                          Strings.goBack.toUpperCase(),
-                          style: Theme.of(context).textTheme.button.copyWith(
-                                color: Theme.of(context).primaryColor,
-                              ),
-                        ),
                       ),
-                    )
-                  ],
-                ),
+                      color: Theme.of(context).primaryColor,
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(8.0)),
+                      child: Text(
+                        Strings.goBack.toUpperCase(),
+                        style: Theme.of(context).textTheme.button.copyWith(
+                              color: Theme.of(context).primaryColor,
+                            ),
+                      ),
+                    ),
+                  ),
+                ],
               ),
             ),
           ),
@@ -156,7 +154,7 @@ class PaymentHeaderSection extends StatelessWidget {
             child: payment.itemImageUrl == null
                 ? Text(payment.title[0].toUpperCase())
                 : null,
-            radius: 40.0,
+            radius: 35.0,
           ),
         ),
         SizedBox(
@@ -208,7 +206,7 @@ class PaymentDetailsSection extends StatelessWidget {
           height: 8.0,
         ),
         Visibility(
-          visible: payment.promoCodeApplied,
+          visible: payment.promoCodeApplied == true,
           child: Row(
             children: [
               Container(
@@ -239,7 +237,7 @@ class PaymentDetailsSection extends StatelessWidget {
                 ),
               ),
               Spacer(),
-              Text("- " + Strings.rupeeSymbol + "${payment.discountAmount}",
+              Text("- " + Strings.rupeeSymbol + " ${payment.discountAmount}",
                   style: Theme.of(context).textTheme.headline6.copyWith(
                       fontWeight: FontWeight.w400, color: Colors.green))
             ],
@@ -259,7 +257,7 @@ class PaymentDetailsSection extends StatelessWidget {
                       .headline6
                       .copyWith(fontWeight: FontWeight.w500)),
               Spacer(),
-              Text(Strings.rupeeSymbol + "${payment.totalAmount}",
+              Text(Strings.rupeeSymbol + " ${payment.totalAmount}",
                   style: Theme.of(context).textTheme.headline6.copyWith(
                       color: Colors.black, fontWeight: FontWeight.w500))
             ],
@@ -289,7 +287,7 @@ class PaymentItems extends StatelessWidget {
                       .headline5
                       .copyWith(fontWeight: FontWeight.w300)),
               Spacer(),
-              Text(Strings.rupeeSymbol + "${items[index].itemPrice}",
+              Text(Strings.rupeeSymbol + " ${items[index].itemPrice}",
                   style: Theme.of(context)
                       .textTheme
                       .headline6

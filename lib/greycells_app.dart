@@ -51,7 +51,8 @@ class GreyCellsApp extends StatelessWidget {
               ..itemImageUrl = "https://urbanbalance.com/wp-content/uploads/2019/04/new-therapist.jpg"
               ..itemTitle = "Dr. Anne Hathaway"
               ..itemSubtitle = "Clinical Psychologist"
-              ..promoCodeApplied = false
+              ..promoCodeApplied = true
+              ..discountAmount = 100
               ..originalAmount = 300
               ..items = [
                 PaymentItem()
@@ -86,7 +87,7 @@ class _MyApp extends StatelessWidget {
           builder: (context, authenticationState) {
             /// User is not logged in
             if (authenticationState is AuthenticationUnauthenticated) {
-              return WelcomePage();
+              return PaymentPage();
             }
 
             /// User is logged in

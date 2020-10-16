@@ -12,8 +12,10 @@ import 'package:greycells/models/payment/payment_item.dart';
 import 'package:greycells/models/payment/payment_type.dart';
 import 'package:greycells/route/route_generator.dart';
 import 'package:greycells/simple_bloc_observer.dart';
+import 'package:greycells/view/pages/birth_details_input_page.dart';
 import 'package:greycells/view/pages/decider_page.dart';
 import 'package:greycells/view/pages/login_page.dart';
+import 'package:greycells/view/pages/patient_detail_input.dart';
 import 'package:greycells/view/pages/patient_main_page.dart';
 import 'package:greycells/view/pages/payment_page.dart';
 import 'package:greycells/view/pages/register_page.dart';
@@ -48,7 +50,8 @@ class GreyCellsApp extends StatelessWidget {
             return PaymentBloc(Payment()
               ..type = PaymentType.APPOINTMENT
               ..title = "Book Appointment"
-              ..itemImageUrl = "https://urbanbalance.com/wp-content/uploads/2019/04/new-therapist.jpg"
+              ..itemImageUrl =
+                  "https://urbanbalance.com/wp-content/uploads/2019/04/new-therapist.jpg"
               ..itemTitle = "Dr. Anne Hathaway"
               ..itemSubtitle = "Clinical Psychologist"
               ..promoCodeApplied = false
@@ -87,12 +90,12 @@ class _MyApp extends StatelessWidget {
           builder: (context, authenticationState) {
             /// User is not logged in
             if (authenticationState is AuthenticationUnauthenticated) {
-              return WelcomePage();
+              return PatientMainPage();
             }
 
             /// User is logged in
             if (authenticationState is AuthenticationAuthenticated) {
-              return DeciderPage();
+              return PatientMainPage();
             }
 
             return SplashPage();

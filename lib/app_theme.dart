@@ -14,7 +14,7 @@ class AppTheme {
   static final ThemeData lightTheme = ThemeData(
     snackBarTheme: SnackBarThemeData(behavior: SnackBarBehavior.floating),
     scaffoldBackgroundColor: Colors.white,
-    fontFamily: 'Rubik',
+    fontFamily: 'Lato',
     accentColorBrightness: Brightness.dark,
     canvasColor: Colors.transparent,
     bottomSheetTheme: BottomSheetThemeData(modalBackgroundColor: Colors.white),

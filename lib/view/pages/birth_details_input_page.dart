@@ -39,25 +39,25 @@ class BirthDetailsInputPage extends StatelessWidget implements Validatable {
               style: Theme.of(context)
                   .textTheme
                   .subtitle1
-                  .copyWith(color: Colors.grey[600], fontSize: 14.0)),
+                  .copyWith(color: Colors.grey[600], fontSize: 12.0)),
           SizedBox(
             height: 32.0,
           ),
-          Expanded(
-              child: Padding(
+          Padding(
             padding: const EdgeInsets.symmetric(horizontal: 8.0),
             child: PlaceOfBirthInput(),
-          )),
-          Expanded(
-              child: Padding(
+          ),
+          Spacer(),
+          Padding(
             padding: const EdgeInsets.symmetric(horizontal: 8.0),
             child: DateOfBirthInput(),
-          )),
-          Expanded(
-              child: Padding(
+          ),
+          Spacer(),
+          Padding(
             padding: const EdgeInsets.symmetric(horizontal: 8.0),
             child: TimeOfBirthWidget(),
-          )),
+          ),
+          Spacer(),
         ],
       ),
     );
@@ -129,7 +129,6 @@ class PlaceOfBirthInput extends StatelessWidget {
           maxLines: 1,
           maxLength: 50,
           textInputAction: TextInputAction.next,
-          style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.w400),
           decoration: InputDecoration(
             border: InputBorder.none,
             icon: Icon(
@@ -137,7 +136,6 @@ class PlaceOfBirthInput extends StatelessWidget {
               size: 20.0,
             ),
             helperText: Strings.tapToEnter,
-            helperStyle: TextStyle(fontSize: 14.0, color: Colors.grey),
             labelText: Strings.placeOfBirth,
             contentPadding: EdgeInsets.zero,
             errorText:
@@ -172,20 +170,19 @@ class DateOfBirthInput extends StatelessWidget {
             Icon(
               Icons.event,
               color: Colors.black54,
-              size: 20.0,
+              size: 18.0,
             ),
             SizedBox(
               width: 16.0,
             ),
             Text(Strings.dateOfBirth,
-                style: TextStyle(
-                    fontSize: 20.0,
+                style: Theme.of(context).textTheme.subtitle1.copyWith(
                     fontWeight: FontWeight.w400,
                     color: Colors.black54)),
           ],
         ),
         SizedBox(
-          height: 16.0,
+          height: 12.0,
         ),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 8.0),
@@ -207,7 +204,7 @@ class DateOfBirthInput extends StatelessWidget {
                         maxLength: 2,
                         textInputAction: TextInputAction.next,
                         style: TextStyle(
-                            fontSize: 18.0, fontWeight: FontWeight.w400),
+                            fontSize: 16.0, fontWeight: FontWeight.w400),
                         decoration: InputDecoration(
                             labelText: "dd",
                             labelStyle:
@@ -236,7 +233,7 @@ class DateOfBirthInput extends StatelessWidget {
                         padding: const EdgeInsets.symmetric(vertical: 8.0),
                         child: Text("/",
                             style: TextStyle(
-                                fontSize: 18.0, fontWeight: FontWeight.w400)),
+                                fontSize: 16.0, fontWeight: FontWeight.w400)),
                       )),
                   Expanded(
                     flex: 2,
@@ -249,7 +246,7 @@ class DateOfBirthInput extends StatelessWidget {
                         maxLength: 2,
                         textInputAction: TextInputAction.next,
                         style: TextStyle(
-                            fontSize: 18.0, fontWeight: FontWeight.w400),
+                            fontSize: 16.0, fontWeight: FontWeight.w400),
                         decoration: InputDecoration(
                             labelText: "mm",
                             labelStyle:
@@ -278,7 +275,7 @@ class DateOfBirthInput extends StatelessWidget {
                         padding: const EdgeInsets.symmetric(vertical: 8.0),
                         child: Text("/",
                             style: TextStyle(
-                                fontSize: 18.0, fontWeight: FontWeight.w400)),
+                                fontSize: 16.0, fontWeight: FontWeight.w400)),
                       )),
                   Expanded(
                     flex: 2,
@@ -291,7 +288,7 @@ class DateOfBirthInput extends StatelessWidget {
                         maxLength: 4,
                         textInputAction: TextInputAction.next,
                         style: TextStyle(
-                            fontSize: 18.0, fontWeight: FontWeight.w400),
+                            fontSize: 16.0, fontWeight: FontWeight.w400),
                         decoration: InputDecoration(
                             labelText: "yyyy",
                             labelStyle:
@@ -358,20 +355,19 @@ class TimeOfBirthWidget extends StatelessWidget {
             Icon(
               Icons.access_time,
               color: Colors.black54,
-              size: 20.0,
+              size: 18.0,
             ),
             SizedBox(
               width: 16.0,
             ),
             Text(Strings.timeOfBirth,
-                style: TextStyle(
-                    fontSize: 20.0,
+                style: Theme.of(context).textTheme.subtitle1.copyWith(
                     fontWeight: FontWeight.w400,
                     color: Colors.black54)),
           ],
         ),
         SizedBox(
-          height: 16.0,
+          height: 12.0,
         ),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 8.0),
@@ -393,7 +389,7 @@ class TimeOfBirthWidget extends StatelessWidget {
                         maxLength: 2,
                         textInputAction: TextInputAction.next,
                         style: TextStyle(
-                            fontSize: 18.0, fontWeight: FontWeight.w400),
+                            fontSize: 16.0, fontWeight: FontWeight.w400),
                         decoration: InputDecoration(
                             labelText: "hrs",
                             labelStyle:
@@ -421,7 +417,7 @@ class TimeOfBirthWidget extends StatelessWidget {
                         padding: const EdgeInsets.symmetric(vertical: 8.0),
                         child: Text(":",
                             style: TextStyle(
-                                fontSize: 18.0, fontWeight: FontWeight.w400)),
+                                fontSize: 16.0, fontWeight: FontWeight.w400)),
                       )),
                   Expanded(
                     flex: 2,
@@ -434,7 +430,7 @@ class TimeOfBirthWidget extends StatelessWidget {
                         maxLength: 2,
                         textInputAction: TextInputAction.done,
                         style: TextStyle(
-                            fontSize: 18.0, fontWeight: FontWeight.w400),
+                            fontSize: 16.0, fontWeight: FontWeight.w400),
                         decoration: InputDecoration(
                             labelText: "min",
                             labelStyle:

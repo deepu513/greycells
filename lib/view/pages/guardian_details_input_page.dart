@@ -122,6 +122,9 @@ class GuardianDetailsInputPage extends StatelessWidget implements Validatable {
                   .email = email;
             }),
           ),
+          SizedBox(
+            height: 16.0,
+          ),
         ],
       ),
     );

@@ -19,54 +19,25 @@ class _PatientHomePageState extends State<PatientHomePage> {
         behavior: NoGlowScrollBehaviour(),
         child: CustomScrollView(
           slivers: [
-            SliverAppBar(
-              title: Text(
-                'Hi Deepak',
-                style: Theme.of(context)
-                    .textTheme
-                    .headline5
-                    .copyWith(color: Colors.black),
-              ),
-              actions: [
-                Padding(
-                  padding: const EdgeInsets.only(right: 12.0),
-                  child: IconButton(
-                    onPressed: () {},
-                    icon: CircleAvatar(
-                      backgroundImage: NetworkImage(
-                          "https://urbanbalance.com/wp-content/uploads/2019/04/new-therapist.jpg"),
-                      radius: 16.0,
-                    ),
-                  ),
-                ),
-              ],
-              // Allows the user to reveal the app bar if they begin scrolling back
-              // up the list of items.
-              floating: true,
-            ),
+            MySliverAppBar(),
             SliverList(
               delegate: SliverChildListDelegate(
                 [
                   Padding(
                     padding: const EdgeInsets.only(top: 8.0, bottom: 8.0),
-                    child: HeaderPageView(),
+                    child: ScoreAndReportSection(),
                   ),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.all(16.0),
-                        child: Text(
-                          "Upcoming Appointments",
-                          style: Theme.of(context)
-                              .textTheme
-                              .headline5
-                              .copyWith(fontWeight: FontWeight.w700),
-                        ),
-                      ),
-                      HeaderPageView()
-                    ],
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(16.0, 16.0, 16.0, 8.0),
+                    child: Text(
+                      "Upcoming Appointments",
+                      style: Theme.of(context)
+                          .textTheme
+                          .headline5
+                          .copyWith(fontWeight: FontWeight.w700),
+                    ),
                   ),
+                  UpcomingAppointmentsPageView(),
                   Padding(
                     padding: const EdgeInsets.all(16.0),
                     child: Row(
@@ -79,7 +50,10 @@ class _PatientHomePageState extends State<PatientHomePage> {
                               .copyWith(fontWeight: FontWeight.w700),
                         ),
                         Spacer(),
-                        Text("View All")
+                        FlatButton(
+                          child: Text("View All"),
+                          onPressed: () {},
+                        )
                       ],
                     ),
                   )
@@ -98,8 +72,140 @@ class _PatientHomePageState extends State<PatientHomePage> {
   }
 }
 
-class HeaderPageView extends StatelessWidget {
-  const HeaderPageView({
+class MySliverAppBar extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return SliverAppBar(
+      title: Text(
+        'Hi Deepak',
+        style:
+            Theme.of(context).textTheme.headline5.copyWith(color: Colors.black),
+      ),
+      actions: [
+        Padding(
+          padding: const EdgeInsets.only(right: 12.0),
+          child: IconButton(
+            onPressed: () {},
+            icon: CircleAvatar(
+              backgroundImage: NetworkImage(
+                  "https://urbanbalance.com/wp-content/uploads/2019/04/new-therapist.jpg"),
+              radius: 16.0,
+            ),
+          ),
+        ),
+      ],
+      // Allows the user to reveal the app bar if they begin scrolling back
+      // up the list of items.
+      floating: true,
+    );
+  }
+}
+
+class UpcomingAppointmentsPageView extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      height: 230.0,
+      child: PageView.builder(
+        itemCount: 2,
+        controller: PageController(viewportFraction: 0.9),
+        itemBuilder: (context, index) => UpcomingAppointmentCard(),
+        scrollDirection: Axis.horizontal,
+      ),
+    );
+  }
+}
+
+class UpcomingAppointmentCard extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+      elevation: 4.0,
+      margin: EdgeInsets.all(8.0),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16.0)),
+      child: Container(
+          padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 16.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  CircleAvatar(
+                    backgroundImage: NetworkImage(
+                        "https://urbanbalance.com/wp-content/uploads/2019/04/new-therapist.jpg"),
+                    radius: 24.0,
+                  ),
+                  SizedBox(width: 16.0),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        "Dr. Anne Hathaway",
+                        style: Theme.of(context).textTheme.headline6,
+                        overflow: TextOverflow.clip,
+                      ),
+                      Text(
+                        "Clinical Psychologist",
+                        style: Theme.of(context).textTheme.subtitle2,
+                        overflow: TextOverflow.clip,
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+              Divider(
+                indent: 64.0,
+                height: 24.0,
+              ),
+              Row(
+                children: [
+                  Container(
+                    padding: EdgeInsets.all(8.0),
+                    decoration: BoxDecoration(
+                        shape: BoxShape.circle, color: Colors.purple.shade50),
+                    child: Icon(
+                      Icons.date_range,
+                      color: Colors.purple,
+                    ),
+                  ),
+                  SizedBox(width: 24.0),
+                  Text(
+                    "Wednesday, 26 October",
+                    style: Theme.of(context).textTheme.subtitle1,
+                  ),
+                ],
+              ),
+              Divider(
+                indent: 64.0,
+                height: 24.0,
+              ),
+              Row(
+                children: [
+                  Container(
+                    padding: EdgeInsets.all(8.0),
+                    decoration: BoxDecoration(
+                        shape: BoxShape.circle, color: Colors.pink.shade50),
+                    child: Icon(
+                      Icons.access_time,
+                      color: Colors.pink,
+                    ),
+                  ),
+                  SizedBox(width: 24.0),
+                  Text(
+                    "12:30 PM",
+                    style: Theme.of(context).textTheme.subtitle1,
+                  ),
+                ],
+              ),
+            ],
+          )),
+    );
+  }
+}
+
+class ScoreAndReportSection extends StatelessWidget {
+  const ScoreAndReportSection({
     Key key,
   }) : super(key: key);
 

@@ -2,8 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:greycells/view/widgets/no_glow_scroll_behaviour.dart';
 
-class PatientHomePage extends StatelessWidget {
+class PatientHomePage extends StatefulWidget {
   const PatientHomePage();
+
+  @override
+  _PatientHomePageState createState() => _PatientHomePageState();
+}
+
+class _PatientHomePageState extends State<PatientHomePage> {
+  int _index = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -37,15 +44,52 @@ class PatientHomePage extends StatelessWidget {
               // up the list of items.
               floating: true,
             ),
-            // Create a SliverList.
             SliverList(
-              // Use a delegate to build items as they're scrolled on screen.
-              delegate: SliverChildListDelegate([
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: HeaderCard(),
-                )
-              ]),
+              delegate: SliverChildListDelegate(
+                [
+                  Padding(
+                    padding: const EdgeInsets.only(top: 8.0, bottom: 8.0),
+                    child: HeaderPageView(),
+                  ),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.all(16.0),
+                        child: Text(
+                          "Upcoming Appointments",
+                          style: Theme.of(context)
+                              .textTheme
+                              .headline5
+                              .copyWith(fontWeight: FontWeight.w700),
+                        ),
+                      ),
+                      HeaderPageView()
+                    ],
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: Row(
+                      children: [
+                        Text(
+                          "Therapists",
+                          style: Theme.of(context)
+                              .textTheme
+                              .headline5
+                              .copyWith(fontWeight: FontWeight.w700),
+                        ),
+                        Spacer(),
+                        Text("View All")
+                      ],
+                    ),
+                  )
+                ],
+              ),
+            ),
+            SliverList(
+              delegate: SliverChildBuilderDelegate((context, index) {
+                return Text(index.toString());
+              }),
             )
           ],
         ),
@@ -54,12 +98,24 @@ class PatientHomePage extends StatelessWidget {
   }
 }
 
-// * For horizonatally scrollable sliver list
-// SliverToBoxAdapter(
-//   child: ListView(
-//     scrollDirection: Axis.horizontal,
-//   )
-// ),
+class HeaderPageView extends StatelessWidget {
+  const HeaderPageView({
+    Key key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      height: 100.0,
+      child: PageView.builder(
+        itemCount: 2,
+        controller: PageController(viewportFraction: 0.90),
+        itemBuilder: (context, index) => HeaderCard(),
+        scrollDirection: Axis.horizontal,
+      ),
+    );
+  }
+}
 
 // TODO: Accept image, text and ontap parameters here
 class HeaderCard extends StatelessWidget {
@@ -83,6 +139,7 @@ class HeaderCard extends StatelessWidget {
               ),
             ),
             child: Row(
+              mainAxisSize: MainAxisSize.min,
               children: [
                 SvgPicture.asset(
                   "images/self_care_illustration.svg",

@@ -28,12 +28,12 @@ class _PatientHomePageState extends State<PatientHomePage> {
                     child: ScoreAndReportSection(),
                   ),
                   Padding(
-                    padding: const EdgeInsets.fromLTRB(16.0, 16.0, 16.0, 8.0),
+                    padding: const EdgeInsets.all(16.0),
                     child: Text(
                       "Upcoming Appointments",
                       style: Theme.of(context)
                           .textTheme
-                          .headline5
+                          .headline6
                           .copyWith(fontWeight: FontWeight.w700),
                     ),
                   ),
@@ -46,7 +46,7 @@ class _PatientHomePageState extends State<PatientHomePage> {
                           "Therapists",
                           style: Theme.of(context)
                               .textTheme
-                              .headline5
+                              .headline6
                               .copyWith(fontWeight: FontWeight.w700),
                         ),
                         Spacer(),
@@ -62,8 +62,59 @@ class _PatientHomePageState extends State<PatientHomePage> {
             ),
             SliverList(
               delegate: SliverChildBuilderDelegate((context, index) {
-                return Text(index.toString());
-              }),
+                return InkWell(
+                  onTap: () {},
+                  child: Container(
+                    padding:
+                        EdgeInsets.symmetric(horizontal: 16.0, vertical: 16.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            CircleAvatar(
+                              backgroundImage: NetworkImage(
+                                  "https://urbanbalance.com/wp-content/uploads/2019/04/new-therapist.jpg"),
+                              radius: 32.0,
+                            ),
+                            SizedBox(width: 16.0),
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  "Dr. Anne Hathaway",
+                                  style: Theme.of(context).textTheme.headline6,
+                                  overflow: TextOverflow.clip,
+                                ),
+                                Text(
+                                  "Clinical Psychologist",
+                                  style: Theme.of(context).textTheme.subtitle2,
+                                  overflow: TextOverflow.clip,
+                                ),
+                                SizedBox(
+                                  height: 8.0,
+                                ),
+                                Text(
+                                  "Speaks: English, Hindi, Marathi",
+                                  style: Theme.of(context).textTheme.caption,
+                                  overflow: TextOverflow.clip,
+                                ),
+                              ],
+                            ),
+                            Spacer(),
+                            Text(
+                              "5 years exp",
+                              style: Theme.of(context).textTheme.caption,
+                              overflow: TextOverflow.clip,
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                );
+              }, childCount: 20),
             )
           ],
         ),
@@ -79,7 +130,7 @@ class MySliverAppBar extends StatelessWidget {
       title: Text(
         'Hi Deepak',
         style:
-            Theme.of(context).textTheme.headline5.copyWith(color: Colors.black),
+            Theme.of(context).textTheme.headline6.copyWith(color: Colors.black),
       ),
       actions: [
         Padding(
@@ -123,83 +174,87 @@ class UpcomingAppointmentCard extends StatelessWidget {
       elevation: 4.0,
       margin: EdgeInsets.all(8.0),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16.0)),
-      child: Container(
-          padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 16.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  CircleAvatar(
-                    backgroundImage: NetworkImage(
-                        "https://urbanbalance.com/wp-content/uploads/2019/04/new-therapist.jpg"),
-                    radius: 24.0,
-                  ),
-                  SizedBox(width: 16.0),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        "Dr. Anne Hathaway",
-                        style: Theme.of(context).textTheme.headline6,
-                        overflow: TextOverflow.clip,
-                      ),
-                      Text(
-                        "Clinical Psychologist",
-                        style: Theme.of(context).textTheme.subtitle2,
-                        overflow: TextOverflow.clip,
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-              Divider(
-                indent: 64.0,
-                height: 24.0,
-              ),
-              Row(
-                children: [
-                  Container(
-                    padding: EdgeInsets.all(8.0),
-                    decoration: BoxDecoration(
-                        shape: BoxShape.circle, color: Colors.purple.shade50),
-                    child: Icon(
-                      Icons.date_range,
-                      color: Colors.purple,
+      child: InkWell(
+        onTap: () {},
+        borderRadius: BorderRadius.circular(16.0),
+        child: Container(
+            padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 16.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    CircleAvatar(
+                      backgroundImage: NetworkImage(
+                          "https://urbanbalance.com/wp-content/uploads/2019/04/new-therapist.jpg"),
+                      radius: 24.0,
                     ),
-                  ),
-                  SizedBox(width: 24.0),
-                  Text(
-                    "Wednesday, 26 October",
-                    style: Theme.of(context).textTheme.subtitle1,
-                  ),
-                ],
-              ),
-              Divider(
-                indent: 64.0,
-                height: 24.0,
-              ),
-              Row(
-                children: [
-                  Container(
-                    padding: EdgeInsets.all(8.0),
-                    decoration: BoxDecoration(
-                        shape: BoxShape.circle, color: Colors.pink.shade50),
-                    child: Icon(
-                      Icons.access_time,
-                      color: Colors.pink,
+                    SizedBox(width: 16.0),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          "Dr. Anne Hathaway",
+                          style: Theme.of(context).textTheme.headline6,
+                          overflow: TextOverflow.clip,
+                        ),
+                        Text(
+                          "Clinical Psychologist",
+                          style: Theme.of(context).textTheme.subtitle2,
+                          overflow: TextOverflow.clip,
+                        ),
+                      ],
                     ),
-                  ),
-                  SizedBox(width: 24.0),
-                  Text(
-                    "12:30 PM",
-                    style: Theme.of(context).textTheme.subtitle1,
-                  ),
-                ],
-              ),
-            ],
-          )),
+                  ],
+                ),
+                Divider(
+                  indent: 64.0,
+                  height: 24.0,
+                ),
+                Row(
+                  children: [
+                    Container(
+                      padding: EdgeInsets.all(8.0),
+                      decoration: BoxDecoration(
+                          shape: BoxShape.circle, color: Colors.purple.shade50),
+                      child: Icon(
+                        Icons.date_range,
+                        color: Colors.purple,
+                      ),
+                    ),
+                    SizedBox(width: 24.0),
+                    Text(
+                      "on Wednesday, 26 October",
+                      style: Theme.of(context).textTheme.subtitle1,
+                    ),
+                  ],
+                ),
+                Divider(
+                  indent: 64.0,
+                  height: 24.0,
+                ),
+                Row(
+                  children: [
+                    Container(
+                      padding: EdgeInsets.all(8.0),
+                      decoration: BoxDecoration(
+                          shape: BoxShape.circle, color: Colors.pink.shade50),
+                      child: Icon(
+                        Icons.access_time,
+                        color: Colors.pink,
+                      ),
+                    ),
+                    SizedBox(width: 24.0),
+                    Text(
+                      "at 12:30 pm",
+                      style: Theme.of(context).textTheme.subtitle1,
+                    ),
+                  ],
+                ),
+              ],
+            )),
+      ),
     );
   }
 }
@@ -259,10 +314,8 @@ class HeaderCard extends StatelessWidget {
                   child: Text(
                     "Checkout your assessment score",
                     textAlign: TextAlign.center,
-                    style: Theme.of(context)
-                        .textTheme
-                        .subtitle1
-                        .copyWith(color: Colors.white),
+                    style: Theme.of(context).textTheme.subtitle1.copyWith(
+                        color: Colors.white, fontStyle: FontStyle.italic),
                     overflow: TextOverflow.clip,
                   ),
                 ),

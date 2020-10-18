@@ -1,0 +1,69 @@
+{
+  "project_info": {
+    "project_number": "35833534238",
+    "firebase_url": "https://greycells-7d5dc.firebaseio.com",
+    "project_id": "greycells-7d5dc",
+    "storage_bucket": "greycells-7d5dc.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:35833534238:android:edf89521c3b09543911b0f",
+        "android_client_info": {
+          "package_name": "com.yeti.greycells"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "35833534238-73lg2dr8nrlhvpp0okcpe11grbs56iu4.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAvY1zEMoLaDRTZNjIykJaus2VXAFDWvlY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "35833534238-73lg2dr8nrlhvpp0okcpe11grbs56iu4.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:35833534238:android:9e929a8bd07053c8911b0f",
+        "android_client_info": {
+          "package_name": "com.yeti.greycells.dev"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "35833534238-73lg2dr8nrlhvpp0okcpe11grbs56iu4.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAvY1zEMoLaDRTZNjIykJaus2VXAFDWvlY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "35833534238-73lg2dr8nrlhvpp0okcpe11grbs56iu4.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:greycells/app_theme.dart';
 import 'package:greycells/bloc/authentication/bloc.dart';
 import 'package:greycells/bloc/decider/decider_bloc.dart';
+import 'package:greycells/bloc/notification/bloc/notification_bloc.dart';
 import 'package:greycells/bloc/payment/payment_bloc.dart';
 import 'package:greycells/bloc/validation/validation_bloc.dart';
 import 'package:greycells/models/home/home.dart';
@@ -68,7 +69,12 @@ class GreyCellsApp extends StatelessWidget {
       ],
       child: Provider<Home>(
         create: (_) => Home(),
-        child: _MyApp(),
+        child: BlocConsumer<NotificationBloc, NotificationState>(
+          listener: (context, state) {},
+          builder: (context, state) {
+            return _MyApp();
+          },
+        ),
       ),
     );
   }

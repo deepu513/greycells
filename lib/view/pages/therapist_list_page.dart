@@ -7,6 +7,7 @@ class TherapistListPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        elevation: 4.0,
         title: Text(
           'All Therapists',
           style: Theme.of(context)

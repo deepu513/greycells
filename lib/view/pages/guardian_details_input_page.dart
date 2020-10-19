@@ -28,11 +28,7 @@ class GuardianDetailsInputPage extends StatelessWidget implements Validatable {
               children: <Widget>[
                 Text(
                   Strings.guardianDetails,
-                  style: Theme
-                      .of(context)
-                      .textTheme
-                      .headline6
-                      .copyWith(
+                  style: Theme.of(context).textTheme.headline6.copyWith(
                       color: Colors.black, fontWeight: FontWeight.w400),
                 ),
                 Spacer(),
@@ -52,8 +48,7 @@ class GuardianDetailsInputPage extends StatelessWidget implements Validatable {
             child: BlocBuilder<PatientDetailsBloc, PatientDetailsState>(
               builder: (context, state) {
                 return GuardianRelationshipInput(
-                    BlocProvider
-                        .of<PatientDetailsBloc>(context)
+                    BlocProvider.of<PatientDetailsBloc>(context)
                         .patient
                         .guardian
                         .relationShip, (relationShip) {
@@ -69,11 +64,10 @@ class GuardianDetailsInputPage extends StatelessWidget implements Validatable {
           BlocBuilder<PatientDetailsBloc, PatientDetailsState>(
             builder: (context, state) {
               return Visibility(
-                visible: BlocProvider
-                    .of<PatientDetailsBloc>(context)
-                    .patient
-                    .guardian
-                    .relationShip ==
+                visible: BlocProvider.of<PatientDetailsBloc>(context)
+                        .patient
+                        .guardian
+                        .relationShip ==
                     Relationship.other,
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 24.0),
@@ -102,8 +96,7 @@ class GuardianDetailsInputPage extends StatelessWidget implements Validatable {
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 24.0),
             child: GuardianMobileNumberInput((mobileNumber) {
-              BlocProvider
-                  .of<PatientDetailsBloc>(context)
+              BlocProvider.of<PatientDetailsBloc>(context)
                   .patient
                   .guardian
                   .mobileNumber = mobileNumber;
@@ -115,8 +108,7 @@ class GuardianDetailsInputPage extends StatelessWidget implements Validatable {
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 24.0),
             child: GuardianEmailInput((email) {
-              BlocProvider
-                  .of<PatientDetailsBloc>(context)
+              BlocProvider.of<PatientDetailsBloc>(context)
                   .patient
                   .guardian
                   .email = email;
@@ -174,9 +166,7 @@ class GuardianDetailsInputPage extends StatelessWidget implements Validatable {
     });
 
     validationBloc.add(ValidateGuardianDetailsFields(
-        BlocProvider
-            .of<PatientDetailsBloc>(context)
-            .patient));
+        BlocProvider.of<PatientDetailsBloc>(context).patient));
 
     return completer.future;
   }
@@ -186,8 +176,8 @@ class GuardianRelationshipInput extends StatefulWidget {
   final Relationship initialRelationship;
   final ValueChanged<Relationship> onRelationshipSelected;
 
-  GuardianRelationshipInput(this.initialRelationship,
-      this.onRelationshipSelected);
+  GuardianRelationshipInput(
+      this.initialRelationship, this.onRelationshipSelected);
 
   @override
   _GuardianRelationshipInputState createState() =>
@@ -227,15 +217,15 @@ class _GuardianRelationshipInputState extends State<GuardianRelationshipInput> {
                   .toList(),
               constraints: BoxConstraints.expand(
                   width:
-                  (constraints.maxWidth - 24.0) / relationShipList.length,
+                      (constraints.maxWidth - 24.0) / relationShipList.length,
                   height: 48.0),
               isSelected: _toggleStateList,
               onPressed: (index) {
                 _toggleStateList[_selectedIndex] =
-                !_toggleStateList[_selectedIndex];
+                    !_toggleStateList[_selectedIndex];
                 _selectedIndex = index;
                 _toggleStateList[_selectedIndex] =
-                !_toggleStateList[_selectedIndex];
+                    !_toggleStateList[_selectedIndex];
                 widget.onRelationshipSelected.call(relationShipList[index]);
               },
             );
@@ -253,11 +243,10 @@ class _SpecifyRelationshipInput extends StatelessWidget {
       builder: (context, validationState) {
         return TextField(
           controller: TextEditingController(
-              text: BlocProvider
-                  .of<PatientDetailsBloc>(context)
-                  .patient
-                  .guardian
-                  .readableRelationship ??
+              text: BlocProvider.of<PatientDetailsBloc>(context)
+                      .patient
+                      .guardian
+                      .readableRelationship ??
                   ""),
           maxLines: 1,
           decoration: InputDecoration(
@@ -265,24 +254,21 @@ class _SpecifyRelationshipInput extends StatelessWidget {
             helperText: Strings.tapToEnter,
             labelText: Strings.specifyRelationship,
             contentPadding: EdgeInsets.zero,
-            labelStyle: TextStyle(color: Theme
-                .of(context)
-                .accentColor),
+            labelStyle: TextStyle(color: Theme.of(context).accentColor),
             errorText:
-            validationState.isFieldInvalid(ValidationField.OTHER_RELATION)
-                ? ValidationField.OTHER_RELATION.errorMessage()
-                : null,
+                validationState.isFieldInvalid(ValidationField.OTHER_RELATION)
+                    ? ValidationField.OTHER_RELATION.errorMessage()
+                    : null,
           ),
           autofocus: false,
           keyboardType: TextInputType.name,
           onChanged: (value) {
-            BlocProvider
-                .of<PatientDetailsBloc>(context)
+            BlocProvider.of<PatientDetailsBloc>(context)
                 .patient
                 .guardian
                 .readableRelationship = value.trim();
           },
-          onSubmitted: (_) => FocusScope.of(context).nextFocus(),
+          onEditingComplete: () => FocusScope.of(context).nextFocus(),
         );
       },
     );
@@ -300,11 +286,10 @@ class GuardianMobileNumberInput extends StatelessWidget {
       builder: (context, validationState) {
         return TextField(
           controller: TextEditingController(
-              text: BlocProvider
-                  .of<PatientDetailsBloc>(context)
-                  .patient
-                  .guardian
-                  .mobileNumber ??
+              text: BlocProvider.of<PatientDetailsBloc>(context)
+                      .patient
+                      .guardian
+                      .mobileNumber ??
                   ""),
           maxLines: 1,
           maxLength: 10,
@@ -318,9 +303,9 @@ class GuardianMobileNumberInput extends StatelessWidget {
               size: 20.0,
             ),
             errorText:
-            validationState.isFieldInvalid(ValidationField.CONTACT_NUMBER)
-                ? ValidationField.CONTACT_NUMBER.errorMessage()
-                : null,
+                validationState.isFieldInvalid(ValidationField.CONTACT_NUMBER)
+                    ? ValidationField.CONTACT_NUMBER.errorMessage()
+                    : null,
           ),
           autofocus: false,
           keyboardType: TextInputType.phone,
@@ -329,12 +314,12 @@ class GuardianMobileNumberInput extends StatelessWidget {
           ],
           autocorrect: false,
           buildCounter: (BuildContext context,
-              {int currentLength, int maxLength, bool isFocused}) =>
-          null,
+                  {int currentLength, int maxLength, bool isFocused}) =>
+              null,
           onChanged: (value) {
             onMobileNumberValueChanged.call(value);
           },
-          onSubmitted: (_) => FocusScope.of(context).nextFocus(),
+          onEditingComplete: () => FocusScope.of(context).nextFocus(),
         );
       },
     );
@@ -350,11 +335,10 @@ class GuardianEmailInput extends StatelessWidget {
   Widget build(BuildContext context) {
     return TextField(
       controller: TextEditingController(
-          text: BlocProvider
-              .of<PatientDetailsBloc>(context)
-              .patient
-              .guardian
-              .email ??
+          text: BlocProvider.of<PatientDetailsBloc>(context)
+                  .patient
+                  .guardian
+                  .email ??
               ""),
       maxLines: 1,
       decoration: InputDecoration(
@@ -373,24 +357,22 @@ class GuardianEmailInput extends StatelessWidget {
       onChanged: (value) {
         onEmailChanged.call(value.trim());
       },
-      onSubmitted: (_) => FocusScope.of(context).unfocus(),
+      onEditingComplete: () => FocusScope.of(context).unfocus(),
     );
   }
 }
 
 class GuardianFirstNameInput extends StatelessWidget {
-
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<ValidationBloc, ValidationState>(
       builder: (context, state) {
         return TextField(
             controller: TextEditingController(
-                text: BlocProvider
-                    .of<PatientDetailsBloc>(context)
-                    .patient
-                    .guardian
-                    .firstName ??
+                text: BlocProvider.of<PatientDetailsBloc>(context)
+                        .patient
+                        .guardian
+                        .firstName ??
                     ""),
             maxLines: 1,
             textInputAction: TextInputAction.next,
@@ -403,27 +385,24 @@ class GuardianFirstNameInput extends StatelessWidget {
               helperText: Strings.tapToEnter,
               labelText: Strings.guardianFirstName,
               contentPadding: EdgeInsets.zero,
-              errorText: state
-                  .isFieldInvalid(ValidationField.GUARDIAN_FIRST_NAME)
-                  ? ValidationField.GUARDIAN_FIRST_NAME.errorMessage()
-                  : null,
+              errorText:
+                  state.isFieldInvalid(ValidationField.GUARDIAN_FIRST_NAME)
+                      ? ValidationField.GUARDIAN_FIRST_NAME.errorMessage()
+                      : null,
             ),
             autofocus: false,
             keyboardType: TextInputType.text,
-            onChanged: (value) =>
-            BlocProvider
-                .of<PatientDetailsBloc>(context)
+            onChanged: (value) => BlocProvider.of<PatientDetailsBloc>(context)
                 .patient
                 .guardian
                 .firstName = value.trim(),
-            onSubmitted: (_) => FocusScope.of(context).nextFocus());
+            onEditingComplete: () => FocusScope.of(context).nextFocus());
       },
     );
   }
 }
 
 class GuardianLastNameInput extends StatelessWidget {
-
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<ValidationBloc, ValidationState>(
@@ -441,30 +420,25 @@ class GuardianLastNameInput extends StatelessWidget {
               helperText: Strings.tapToEnter,
               labelText: Strings.guardianLastName,
               contentPadding: EdgeInsets.zero,
-              errorText: state
-                  .isFieldInvalid(ValidationField.GUARDIAN_LAST_NAME)
-                  ? ValidationField.GUARDIAN_LAST_NAME.errorMessage()
-                  : null,
+              errorText:
+                  state.isFieldInvalid(ValidationField.GUARDIAN_LAST_NAME)
+                      ? ValidationField.GUARDIAN_LAST_NAME.errorMessage()
+                      : null,
             ),
             autofocus: false,
             keyboardType: TextInputType.text,
             controller: TextEditingController(
-                text: BlocProvider
-                    .of<PatientDetailsBloc>(context)
-                    .patient
-                    .guardian
-                    .lastName ??
+                text: BlocProvider.of<PatientDetailsBloc>(context)
+                        .patient
+                        .guardian
+                        .lastName ??
                     ""),
-            onChanged: (value) =>
-            BlocProvider
-                .of<PatientDetailsBloc>(context)
+            onChanged: (value) => BlocProvider.of<PatientDetailsBloc>(context)
                 .patient
                 .guardian
                 .lastName = value.trim(),
-            onSubmitted: (_) => FocusScope.of(context).nextFocus());
+            onEditingComplete: () => FocusScope.of(context).nextFocus());
       },
     );
   }
 }
-
-

@@ -152,7 +152,7 @@ class PlaceOfBirthInput extends StatelessWidget {
           onChanged: (value) => BlocProvider.of<PatientDetailsBloc>(context)
               .patient
               .placeOfBirth = value,
-          onSubmitted: (_) => FocusScope.of(context).nextFocus(),
+          onEditingComplete: () => FocusScope.of(context).nextFocus(),
         );
       },
     );
@@ -177,8 +177,7 @@ class DateOfBirthInput extends StatelessWidget {
             ),
             Text(Strings.dateOfBirth,
                 style: Theme.of(context).textTheme.subtitle1.copyWith(
-                    fontWeight: FontWeight.w400,
-                    color: Colors.black54)),
+                    fontWeight: FontWeight.w400, color: Colors.black54)),
           ],
         ),
         SizedBox(
@@ -225,7 +224,8 @@ class DateOfBirthInput extends StatelessWidget {
                               .patient
                               .dayPart = value.padLeft(2, '0');
                         },
-                        onSubmitted: (_) => FocusScope.of(context).nextFocus()),
+                        onEditingComplete: () =>
+                            FocusScope.of(context).nextFocus()),
                   ),
                   Expanded(
                       flex: 1,
@@ -267,7 +267,8 @@ class DateOfBirthInput extends StatelessWidget {
                               .patient
                               .monthPart = value.padLeft(2, '0');
                         },
-                        onSubmitted: (_) => FocusScope.of(context).nextFocus()),
+                        onEditingComplete: () =>
+                            FocusScope.of(context).nextFocus()),
                   ),
                   Expanded(
                       flex: 1,
@@ -308,7 +309,8 @@ class DateOfBirthInput extends StatelessWidget {
                               .patient
                               .yearPart = value.padLeft(4, '0');
                         },
-                        onSubmitted: (_) => FocusScope.of(context).nextFocus()),
+                        onEditingComplete: () =>
+                            FocusScope.of(context).nextFocus()),
                   ),
                   Expanded(
                     flex: 2,
@@ -362,8 +364,7 @@ class TimeOfBirthWidget extends StatelessWidget {
             ),
             Text(Strings.timeOfBirth,
                 style: Theme.of(context).textTheme.subtitle1.copyWith(
-                    fontWeight: FontWeight.w400,
-                    color: Colors.black54)),
+                    fontWeight: FontWeight.w400, color: Colors.black54)),
           ],
         ),
         SizedBox(
@@ -409,7 +410,8 @@ class TimeOfBirthWidget extends StatelessWidget {
                               .patient
                               .hourPart = value.padLeft(2, '0');
                         },
-                        onSubmitted: (_) => FocusScope.of(context).nextFocus()),
+                        onEditingComplete: () =>
+                            FocusScope.of(context).nextFocus()),
                   ),
                   Expanded(
                       flex: 1,
@@ -451,7 +453,8 @@ class TimeOfBirthWidget extends StatelessWidget {
                               .patient
                               .minutePart = value.padLeft(2, '0');
                         },
-                        onSubmitted: (_) => FocusScope.of(context).nextFocus()),
+                        onEditingComplete: () =>
+                            FocusScope.of(context).nextFocus()),
                   ),
                   SizedBox(width: 8.0),
                   _AmPmToggle(),

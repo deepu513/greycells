@@ -105,7 +105,7 @@ class RegisterInputSection extends StatelessWidget {
                         BlocProvider.of<RegistrationBloc>(context)
                             .registration
                             .firstName = value.trim(),
-                    onSubmitted: (_) => FocusScope.of(context).nextFocus()),
+                    onEditingComplete: () => FocusScope.of(context).nextFocus()),
                 SizedBox(
                   height: 24.0,
                 ),
@@ -140,7 +140,7 @@ class RegisterInputSection extends StatelessWidget {
                         BlocProvider.of<RegistrationBloc>(context)
                             .registration
                             .lastName = value.trim(),
-                    onSubmitted: (_) => FocusScope.of(context).nextFocus()),
+                    onEditingComplete: () => FocusScope.of(context).nextFocus()),
                 SizedBox(
                   height: 24.0,
                 ),
@@ -175,7 +175,7 @@ class RegisterInputSection extends StatelessWidget {
                         BlocProvider.of<RegistrationBloc>(context)
                             .registration
                             .mobileNumber = value.trim(),
-                    onSubmitted: (_) => FocusScope.of(context).nextFocus()),
+                    onEditingComplete: () => FocusScope.of(context).nextFocus()),
                 SizedBox(
                   height: 24.0,
                 ),
@@ -209,7 +209,7 @@ class RegisterInputSection extends StatelessWidget {
                         BlocProvider.of<RegistrationBloc>(context)
                             .registration
                             .email = value.trim(),
-                    onSubmitted: (_) => FocusScope.of(context).nextFocus()),
+                    onEditingComplete: () => FocusScope.of(context).nextFocus()),
                 SizedBox(
                   height: 24.0,
                 ),
@@ -253,7 +253,7 @@ class RegisterInputSection extends StatelessWidget {
                       BlocProvider.of<RegistrationBloc>(context)
                           .registration
                           .password = value.trim(),
-                  onSubmitted: (_) => FocusScope.of(context).nextFocus(),
+                  onEditingComplete: () => FocusScope.of(context).nextFocus(),
                 ),
                 SizedBox(
                   height: 24.0,
@@ -302,7 +302,7 @@ class RegisterInputSection extends StatelessWidget {
                       BlocProvider.of<RegistrationBloc>(context)
                           .registration
                           .confirmPassword = value.trim(),
-                  onSubmitted: (_) => FocusScope.of(context).unfocus(),
+                  onEditingComplete: () => FocusScope.of(context).unfocus(),
                 ),
                 SizedBox(
                   height: 24.0,

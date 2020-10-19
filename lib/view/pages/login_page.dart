@@ -29,15 +29,14 @@ class LoginPage extends StatelessWidget {
         minimum: EdgeInsets.fromLTRB(24.0, 8.0, 24.0, 16.0),
         child: BlocListener<AuthenticationBloc, AuthenticationState>(
           listener: (context, current) {
-
             if (current is AuthenticationFailure) {
               showErrorDialog(
-              context: context,
-              message: current.error,
-              showIcon: true,
-              onPressed: () async {
-                Navigator.of(context).pop();
-              });
+                  context: context,
+                  message: current.error,
+                  showIcon: true,
+                  onPressed: () async {
+                    Navigator.of(context).pop();
+                  });
             }
           },
           child: LoginInputSection(
@@ -71,7 +70,8 @@ class LoginInputSection extends StatelessWidget {
                     style: Theme.of(context).textTheme.headline4.copyWith(
                         color: Colors.black, fontWeight: FontWeight.w400),
                   ),
-                  loadingVisibility: authenticationState is AuthenticationLoading,
+                  loadingVisibility:
+                      authenticationState is AuthenticationLoading,
                   loadingBackgroundColor: Colors.white,
                 ),
                 Visibility(
@@ -115,7 +115,7 @@ class LoginInputSection extends StatelessWidget {
                       BlocProvider.of<AuthenticationBloc>(context)
                           .loginRequest
                           .email = value.trim(),
-                  onSubmitted: (_) => FocusScope.of(context).nextFocus(),
+                  onEditingComplete: () => FocusScope.of(context).nextFocus(),
                 ),
                 SizedBox(
                   height: 36.0,
@@ -164,7 +164,7 @@ class LoginInputSection extends StatelessWidget {
                       BlocProvider.of<AuthenticationBloc>(context)
                           .loginRequest
                           .password = value.trim(),
-                  onSubmitted: (_) => FocusScope.of(context).unfocus(),
+                  onEditingComplete: () => FocusScope.of(context).unfocus(),
                 ),
                 SizedBox(
                   height: 24.0,

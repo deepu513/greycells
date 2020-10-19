@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:greycells/view/widgets/appointment_card.dart';
+import 'package:greycells/view/widgets/appointment_list_tile.dart';
 import 'package:greycells/view/widgets/no_glow_scroll_behaviour.dart';
 
 class PatientAppointmentPage extends StatelessWidget {
@@ -62,7 +62,7 @@ class AppointmentList extends StatelessWidget {
   Widget build(BuildContext context) {
     return SliverList(
         delegate: SliverChildBuilderDelegate((context, index) {
-      return AppointmentCard();
+      return AppointmentListTile();
     }, childCount: 20));
   }
 }

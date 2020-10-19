@@ -16,6 +16,7 @@ import 'package:greycells/view/pages/patient_score_page.dart';
 import 'package:greycells/view/pages/payment_page.dart';
 import 'package:greycells/view/pages/register_page.dart';
 import 'package:greycells/view/pages/second_test_intro_page.dart';
+import 'package:greycells/view/pages/therapist_list_page.dart';
 import 'package:greycells/view/pages/welcome_page.dart';
 
 class RouteGenerator {
@@ -67,6 +68,8 @@ class RouteGenerator {
         return MaterialPageRoute(builder: (_) => PaymentPage());
       case RouteName.PATIENT_SCORE_PAGE:
         return MaterialPageRoute(builder: (_) => PatientScorePage());
+      case RouteName.THERAPIST_LIST_PAGE:
+        return MaterialPageRoute(builder: (_) => TherapistListPage());
       default:
         // If there is no such named route in the switch statement, e.g. /third
         return _errorRoute();

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:greycells/route/route_name.dart';
 import 'package:greycells/view/widgets/no_glow_scroll_behaviour.dart';
+import 'package:greycells/view/widgets/therapist_list_tile.dart';
 
 class PatientHomePage extends StatefulWidget {
   const PatientHomePage();
@@ -10,8 +12,6 @@ class PatientHomePage extends StatefulWidget {
 }
 
 class _PatientHomePageState extends State<PatientHomePage> {
-  int _index = 0;
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -19,7 +19,7 @@ class _PatientHomePageState extends State<PatientHomePage> {
         behavior: NoGlowScrollBehaviour(),
         child: CustomScrollView(
           slivers: [
-            MySliverAppBar(),
+            AppBarSection(),
             SliverList(
               delegate: SliverChildListDelegate(
                 [
@@ -29,91 +29,19 @@ class _PatientHomePageState extends State<PatientHomePage> {
                   ),
                   Padding(
                     padding: const EdgeInsets.all(16.0),
-                    child: Text(
-                      "Upcoming Appointments",
-                      style: Theme.of(context)
-                          .textTheme
-                          .headline6
-                          .copyWith(fontWeight: FontWeight.w700),
-                    ),
+                    child: UpcomingAppointmentHeaderSection(),
                   ),
-                  UpcomingAppointmentsPageView(),
+                  UpcomingAppointmentSection(),
                   Padding(
                     padding: const EdgeInsets.all(16.0),
-                    child: Row(
-                      children: [
-                        Text(
-                          "Therapists",
-                          style: Theme.of(context)
-                              .textTheme
-                              .headline6
-                              .copyWith(fontWeight: FontWeight.w700),
-                        ),
-                        Spacer(),
-                        FlatButton(
-                          child: Text("View All"),
-                          onPressed: () {},
-                        )
-                      ],
-                    ),
+                    child: TherapistHeaderSection(),
                   )
                 ],
               ),
             ),
             SliverList(
               delegate: SliverChildBuilderDelegate((context, index) {
-                return InkWell(
-                  onTap: () {},
-                  child: Container(
-                    padding:
-                        EdgeInsets.symmetric(horizontal: 16.0, vertical: 16.0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Row(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            CircleAvatar(
-                              backgroundImage: NetworkImage(
-                                  "https://urbanbalance.com/wp-content/uploads/2019/04/new-therapist.jpg"),
-                              radius: 32.0,
-                            ),
-                            SizedBox(width: 16.0),
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  "Dr. Anne Hathaway",
-                                  style: Theme.of(context).textTheme.headline6,
-                                  overflow: TextOverflow.clip,
-                                ),
-                                Text(
-                                  "Clinical Psychologist",
-                                  style: Theme.of(context).textTheme.subtitle2,
-                                  overflow: TextOverflow.clip,
-                                ),
-                                SizedBox(
-                                  height: 8.0,
-                                ),
-                                Text(
-                                  "Speaks: English, Hindi, Marathi",
-                                  style: Theme.of(context).textTheme.caption,
-                                  overflow: TextOverflow.clip,
-                                ),
-                              ],
-                            ),
-                            Spacer(),
-                            Text(
-                              "5 years exp",
-                              style: Theme.of(context).textTheme.caption,
-                              overflow: TextOverflow.clip,
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                  ),
-                );
+                return TherapistListTile();
               }, childCount: 20),
             )
           ],
@@ -123,7 +51,52 @@ class _PatientHomePageState extends State<PatientHomePage> {
   }
 }
 
-class MySliverAppBar extends StatelessWidget {
+class UpcomingAppointmentHeaderSection extends StatelessWidget {
+  const UpcomingAppointmentHeaderSection({
+    Key key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Text(
+      "Upcoming Appointments",
+      style: Theme.of(context)
+          .textTheme
+          .headline6
+          .copyWith(fontWeight: FontWeight.w700),
+    );
+  }
+}
+
+class TherapistHeaderSection extends StatelessWidget {
+  const TherapistHeaderSection({
+    Key key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        Text(
+          "Therapists",
+          style: Theme.of(context)
+              .textTheme
+              .headline6
+              .copyWith(fontWeight: FontWeight.w700),
+        ),
+        Spacer(),
+        FlatButton(
+          child: Text("View All"),
+          onPressed: () {
+            Navigator.of(context).pushNamed(RouteName.THERAPIST_LIST_PAGE);
+          },
+        )
+      ],
+    );
+  }
+}
+
+class AppBarSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SliverAppBar(
@@ -152,7 +125,7 @@ class MySliverAppBar extends StatelessWidget {
   }
 }
 
-class UpcomingAppointmentsPageView extends StatelessWidget {
+class UpcomingAppointmentSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(

@@ -5,19 +5,20 @@ import 'package:greycells/bloc/authentication/forgot_password_bloc.dart';
 import 'package:greycells/bloc/registration/bloc.dart';
 import 'package:greycells/bloc/validation/bloc.dart';
 import 'package:greycells/route/route_name.dart';
-import 'package:greycells/view/pages/assessment_test_intro_page.dart';
-import 'package:greycells/view/pages/assessment_test_page.dart';
+import 'package:greycells/view/pages/patient/assessment_test_intro_page.dart';
+import 'package:greycells/view/pages/patient/assessment_test_page.dart';
 import 'package:greycells/view/pages/decider_page.dart';
 import 'package:greycells/view/pages/forgot_password_page.dart';
 import 'package:greycells/view/pages/login_page.dart';
-import 'package:greycells/view/pages/patient_appointment_page.dart';
-import 'package:greycells/view/pages/patient_detail_input.dart';
-import 'package:greycells/view/pages/patient_main_page.dart';
-import 'package:greycells/view/pages/patient_score_page.dart';
-import 'package:greycells/view/pages/payment_page.dart';
+import 'package:greycells/view/pages/patient/patient_appointment_page.dart';
+import 'package:greycells/view/pages/patient/patient_detail_input.dart';
+import 'package:greycells/view/pages/patient/patient_main_page.dart';
+import 'package:greycells/view/pages/patient/patient_score_page.dart';
+import 'package:greycells/view/pages/patient/payment_page.dart';
 import 'package:greycells/view/pages/register_page.dart';
-import 'package:greycells/view/pages/second_test_intro_page.dart';
-import 'package:greycells/view/pages/therapist_list_page.dart';
+import 'package:greycells/view/pages/patient/second_test_intro_page.dart';
+import 'package:greycells/view/pages/patient/therapist_list_page.dart';
+import 'package:greycells/view/pages/therapist/therapist_all_appointment_page.dart';
 import 'package:greycells/view/pages/welcome_page.dart';
 
 class RouteGenerator {
@@ -73,6 +74,9 @@ class RouteGenerator {
         return MaterialPageRoute(builder: (_) => TherapistListPage());
       case RouteName.PATIENT_APPOINTMENT_LIST_PAGE:
         return MaterialPageRoute(builder: (_) => PatientAppointmentPage());
+      case RouteName.THERAPIST_APPOINTMENT_LIST_PAGE:
+        return MaterialPageRoute(
+            builder: (_) => TherapistAllAppointmentsPage());
       default:
         // If there is no such named route in the switch statement, e.g. /third
         return _errorRoute();

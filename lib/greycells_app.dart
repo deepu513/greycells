@@ -13,14 +13,15 @@ import 'package:greycells/models/payment/payment_item.dart';
 import 'package:greycells/models/payment/payment_type.dart';
 import 'package:greycells/route/route_generator.dart';
 import 'package:greycells/simple_bloc_observer.dart';
-import 'package:greycells/view/pages/birth_details_input_page.dart';
+import 'package:greycells/view/pages/patient/birth_details_input_page.dart';
 import 'package:greycells/view/pages/decider_page.dart';
 import 'package:greycells/view/pages/login_page.dart';
-import 'package:greycells/view/pages/patient_detail_input.dart';
-import 'package:greycells/view/pages/patient_main_page.dart';
-import 'package:greycells/view/pages/payment_page.dart';
+import 'package:greycells/view/pages/patient/patient_detail_input.dart';
+import 'package:greycells/view/pages/patient/patient_main_page.dart';
+import 'package:greycells/view/pages/patient/payment_page.dart';
 import 'package:greycells/view/pages/register_page.dart';
 import 'package:greycells/view/pages/splash_page.dart';
+import 'package:greycells/view/pages/therapist/therapist_main_page.dart';
 import 'package:greycells/view/pages/welcome_page.dart';
 import 'package:provider/provider.dart';
 
@@ -96,12 +97,12 @@ class _MyApp extends StatelessWidget {
           builder: (context, authenticationState) {
             /// User is not logged in
             if (authenticationState is AuthenticationUnauthenticated) {
-              return PatientMainPage();
+              return TherapistMainPage();
             }
 
             /// User is logged in
             if (authenticationState is AuthenticationAuthenticated) {
-              return PatientMainPage();
+              return TherapistMainPage();
             }
 
             return SplashPage();

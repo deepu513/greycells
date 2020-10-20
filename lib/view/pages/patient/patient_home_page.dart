@@ -19,7 +19,7 @@ class _PatientHomePageState extends State<PatientHomePage> {
         behavior: NoGlowScrollBehaviour(),
         child: CustomScrollView(
           slivers: [
-            AppBarSection(),
+            _AppBarSection(),
             SliverList(
               delegate: SliverChildListDelegate(
                 [
@@ -96,7 +96,7 @@ class TherapistHeaderSection extends StatelessWidget {
   }
 }
 
-class AppBarSection extends StatelessWidget {
+class _AppBarSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SliverAppBar(

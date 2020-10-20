@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:greycells/view/pages/patient_appointment_page.dart';
-import 'package:greycells/view/pages/patient_goals_page.dart';
-import 'package:greycells/view/pages/patient_home_page.dart';
-import 'package:greycells/view/pages/patient_tasks_page.dart';
+import 'package:greycells/view/pages/patient/patient_appointment_page.dart';
+import 'package:greycells/view/pages/patient/patient_goals_page.dart';
+import 'package:greycells/view/pages/patient/patient_home_page.dart';
+import 'package:greycells/view/pages/patient/patient_tasks_page.dart';
 import 'package:greycells/view/pages/therapist/therapist_appointment_page.dart';
 import 'package:greycells/view/pages/therapist/therapist_patient_page.dart';
 import 'package:greycells/view/pages/therapist/thrapist_profile_page.dart';
@@ -54,14 +54,14 @@ const List<Destination> therapistDestinations = <Destination>[
   ),
   Destination(
     "Patients",
-    Icons.how_to_reg_outlined,
-    Icons.how_to_reg,
+    Icons.people_alt_outlined,
+    Icons.people_alt,
     TherapistPatientsPage()
   ),
   Destination(
     "Tasks",
-    Icons.how_to_reg_outlined,
-    Icons.how_to_reg,
+    Icons.fact_check_outlined,
+    Icons.fact_check,
     TherapistTasksPage()
   ),
   Destination(

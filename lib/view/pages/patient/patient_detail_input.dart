@@ -9,13 +9,13 @@ import 'package:greycells/bloc/picker/image_picker_bloc.dart';
 import 'package:greycells/bloc/validation/bloc.dart';
 import 'package:greycells/interface/validatable.dart';
 import 'package:greycells/route/route_name.dart';
-import 'package:greycells/view/pages/address_details_input_page.dart';
-import 'package:greycells/view/pages/birth_details_input_page.dart';
-import 'package:greycells/view/pages/guardian_details_input_page.dart';
-import 'package:greycells/view/pages/health_details_input_page.dart';
-import 'package:greycells/view/pages/medical_records_input_page.dart';
-import 'package:greycells/view/pages/patient_upload_page.dart';
-import 'package:greycells/view/pages/profile_pic_input_page.dart';
+import 'package:greycells/view/pages/patient/address_details_input_page.dart';
+import 'package:greycells/view/pages/patient/birth_details_input_page.dart';
+import 'package:greycells/view/pages/patient/guardian_details_input_page.dart';
+import 'package:greycells/view/pages/patient/health_details_input_page.dart';
+import 'package:greycells/view/pages/patient/medical_records_input_page.dart';
+import 'package:greycells/view/pages/patient/patient_upload_page.dart';
+import 'package:greycells/view/pages/patient/profile_pic_input_page.dart';
 import 'package:greycells/view/widgets/navigation_button_row.dart';
 
 class PatientDetailInput extends StatefulWidget {

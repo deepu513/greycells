@@ -5,7 +5,7 @@ class AppointmentListTile extends StatelessWidget {
   Widget build(BuildContext context) {
     return Card(
       elevation: 3.0,
-      margin: EdgeInsets.symmetric(horizontal:16.0, vertical: 8.0),
+      margin: EdgeInsets.symmetric(horizontal: 8.0, vertical: 8.0),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16.0)),
       child: InkWell(
         onTap: () {},

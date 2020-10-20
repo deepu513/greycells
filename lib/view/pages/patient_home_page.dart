@@ -129,7 +129,7 @@ class UpcomingAppointmentSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 230.0,
+      height: 224.0,
       child: PageView.builder(
         itemCount: 2,
         controller: PageController(viewportFraction: 0.9),

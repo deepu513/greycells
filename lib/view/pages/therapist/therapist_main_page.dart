@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:greycells/destination.dart';
-
-class PatientMainPage extends StatefulWidget {
+class TherapistMainPage extends StatefulWidget {
   @override
-  _PatientMainPageState createState() => _PatientMainPageState();
+  _TherapistMainPageState createState() => _TherapistMainPageState();
 }
 
-class _PatientMainPageState extends State<PatientMainPage>
-    with TickerProviderStateMixin<PatientMainPage> {
+class _TherapistMainPageState extends State<TherapistMainPage>
+    with TickerProviderStateMixin<TherapistMainPage> {
   int _currentIndex;
 
   @override
@@ -22,7 +21,7 @@ class _PatientMainPageState extends State<PatientMainPage>
       body: SafeArea(
         child: IndexedStack(
           index: _currentIndex,
-          children: patientDestinations.map((destination) {
+          children: therapistDestinations.map((destination) {
             return destination.body;
           }).toList(),
         ),
@@ -37,7 +36,7 @@ class _PatientMainPageState extends State<PatientMainPage>
             _currentIndex = index;
           });
         },
-        items: patientDestinations.map((destination) {
+        items: therapistDestinations.map((destination) {
           return BottomNavigationBarItem(
               icon: Icon(destination.icon),
               label: destination.title,

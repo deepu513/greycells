@@ -9,6 +9,7 @@ class SettingKey {
   static const KEY_USER_ID = const SettingKey._internal("user_id");
   static const KEY_PATIENT_ID = const SettingKey._internal("patient_id");
   static const KEY_USERNAME = const SettingKey._internal("username");
+  static const KEY_USERTYPE = const SettingKey._internal("usertype");
   static const KEY_USER_FIRST_NAME = const SettingKey._internal("first_name");
   static const KEY_USER_MOBILE = const SettingKey._internal("mobile_number");
   static const KEY_REQUEST_TOKEN = const SettingKey._internal("request_token");

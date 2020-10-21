@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:greycells/route/route_name.dart';
 import 'package:greycells/view/widgets/no_glow_scroll_behaviour.dart';
-
+// TODO: Add empty state
 class TherapistAppointmentsPage extends StatelessWidget {
   const TherapistAppointmentsPage();
 

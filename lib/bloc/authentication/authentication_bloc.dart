@@ -113,6 +113,7 @@ class AuthenticationBloc
         SettingKey.KEY_USER_FIRST_NAME, user.firstName);
     await _settingsRepository.saveValue(
         SettingKey.KEY_USER_MOBILE, user.mobileNumber);
+    await _settingsRepository.saveValue(SettingKey.KEY_USERTYPE, user.userType);
   }
 
   @override

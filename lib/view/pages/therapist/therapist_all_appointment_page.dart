@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:greycells/view/widgets/appointment_list_tile.dart';
-
+// TODO: Add empty state
 class TherapistAllAppointmentsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {

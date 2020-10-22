@@ -13,5 +13,6 @@ abstract class RouteName {
   static const PATIENT_SCORE_PAGE = "/patient_score";
   static const THERAPIST_LIST_PAGE = "/therapist_list";
   static const PATIENT_APPOINTMENT_LIST_PAGE = "/patient_appointment_list";
-  static const THERAPIST_APPOINTMENT_LIST_PAGE = "therapist_appointment_list";
+  static const THERAPIST_APPOINTMENT_LIST_PAGE = "/therapist_appointment_list";
+  static const PATIENT_PROFILE_PAGE = "/patient_profile_page";
 }

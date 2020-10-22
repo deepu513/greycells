@@ -109,11 +109,16 @@ class _AppBarSection extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.only(right: 12.0),
           child: IconButton(
-            onPressed: () {},
-            icon: CircleAvatar(
-              backgroundImage: NetworkImage(
-                  "https://urbanbalance.com/wp-content/uploads/2019/04/new-therapist.jpg"),
-              radius: 16.0,
+            onPressed: () {
+              Navigator.of(context).pushNamed(RouteName.PATIENT_PROFILE_PAGE);
+            },
+            icon: Hero(
+              tag: "profile_pic",
+              child: CircleAvatar(
+                backgroundImage: NetworkImage(
+                    "https://urbanbalance.com/wp-content/uploads/2019/04/new-therapist.jpg"),
+                radius: 16.0,
+              ),
             ),
           ),
         ),

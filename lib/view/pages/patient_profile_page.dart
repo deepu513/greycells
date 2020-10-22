@@ -23,10 +23,13 @@ class PatientProfilePage extends StatelessWidget {
               Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  CircleAvatar(
-                    backgroundImage: NetworkImage(
-                        "https://urbanbalance.com/wp-content/uploads/2019/04/new-therapist.jpg"),
-                    radius: 32.0,
+                  Hero(
+                    tag: "profile_pic",
+                    child: CircleAvatar(
+                      backgroundImage: NetworkImage(
+                          "https://urbanbalance.com/wp-content/uploads/2019/04/new-therapist.jpg"),
+                      radius: 32.0,
+                    ),
                   ),
                   SizedBox(width: 16.0),
                   Column(

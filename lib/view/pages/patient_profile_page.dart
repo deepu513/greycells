@@ -11,7 +11,7 @@ class PatientProfilePage extends StatelessWidget {
           style: Theme.of(context)
               .textTheme
               .headline6
-              .copyWith(color: Colors.black),
+              .copyWith(color: Colors.black87),
         ),
       ),
       body: SafeArea(
@@ -38,7 +38,7 @@ class PatientProfilePage extends StatelessWidget {
                       Text(
                         "Deepak Ramrakhyani",
                         style: Theme.of(context).textTheme.headline6.copyWith(
-                            color: Colors.black, fontWeight: FontWeight.w700),
+                            color: Colors.black87, fontWeight: FontWeight.w700),
                       ),
                       SizedBox(
                         height: 4.0,

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:greycells/route/route_name.dart';
 import 'package:greycells/view/widgets/no_glow_scroll_behaviour.dart';
+
 // TODO: Add empty state
 class TherapistAppointmentsPage extends StatelessWidget {
   const TherapistAppointmentsPage();
@@ -125,8 +126,10 @@ class _AppBarSection extends StatelessWidget {
     return SliverAppBar(
       title: Text(
         'Upcoming Appointments (3)',
-        style:
-            Theme.of(context).textTheme.headline6.copyWith(color: Colors.black),
+        style: Theme.of(context)
+            .textTheme
+            .headline6
+            .copyWith(color: Colors.black87),
       ),
       actions: [
         FlatButton(

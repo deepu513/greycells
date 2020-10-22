@@ -36,7 +36,7 @@ class _PatientScorePageState extends State<PatientScorePage> {
             style: Theme.of(context)
                 .textTheme
                 .headline6
-                .copyWith(color: Colors.black, fontWeight: FontWeight.w400),
+                .copyWith(color: Colors.black87, fontWeight: FontWeight.w400),
           ),
           elevation: 4.0,
           brightness: Brightness.light,

@@ -22,7 +22,7 @@ class LoginPage extends StatelessWidget {
       appBar: AppBar(
         elevation: 0.0,
         backgroundColor: Colors.white,
-        iconTheme: IconThemeData(color: Colors.black),
+        iconTheme: IconThemeData(color: Colors.black87),
         brightness: Brightness.light,
       ),
       body: SafeArea(
@@ -68,7 +68,7 @@ class LoginInputSection extends StatelessWidget {
                   text: Text(
                     Strings.login,
                     style: Theme.of(context).textTheme.headline4.copyWith(
-                        color: Colors.black, fontWeight: FontWeight.w400),
+                        color: Colors.black87, fontWeight: FontWeight.w400),
                   ),
                   loadingVisibility:
                       authenticationState is AuthenticationLoading,

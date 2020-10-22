@@ -15,7 +15,7 @@ class RegisterPage extends StatelessWidget {
       appBar: AppBar(
         elevation: 0.0,
         backgroundColor: Colors.white,
-        iconTheme: IconThemeData(color: Colors.black),
+        iconTheme: IconThemeData(color: Colors.black87),
         brightness: Brightness.light,
       ),
       body: SafeArea(
@@ -65,7 +65,7 @@ class RegisterInputSection extends StatelessWidget {
                   text: Text(
                     Strings.register,
                     style: Theme.of(context).textTheme.headline4.copyWith(
-                        color: Colors.black, fontWeight: FontWeight.w400),
+                        color: Colors.black87, fontWeight: FontWeight.w400),
                   ),
                   loadingVisibility:
                       registrationState is RegistrationInProgress,
@@ -105,7 +105,8 @@ class RegisterInputSection extends StatelessWidget {
                         BlocProvider.of<RegistrationBloc>(context)
                             .registration
                             .firstName = value.trim(),
-                    onEditingComplete: () => FocusScope.of(context).nextFocus()),
+                    onEditingComplete: () =>
+                        FocusScope.of(context).nextFocus()),
                 SizedBox(
                   height: 24.0,
                 ),
@@ -140,7 +141,8 @@ class RegisterInputSection extends StatelessWidget {
                         BlocProvider.of<RegistrationBloc>(context)
                             .registration
                             .lastName = value.trim(),
-                    onEditingComplete: () => FocusScope.of(context).nextFocus()),
+                    onEditingComplete: () =>
+                        FocusScope.of(context).nextFocus()),
                 SizedBox(
                   height: 24.0,
                 ),
@@ -175,7 +177,8 @@ class RegisterInputSection extends StatelessWidget {
                         BlocProvider.of<RegistrationBloc>(context)
                             .registration
                             .mobileNumber = value.trim(),
-                    onEditingComplete: () => FocusScope.of(context).nextFocus()),
+                    onEditingComplete: () =>
+                        FocusScope.of(context).nextFocus()),
                 SizedBox(
                   height: 24.0,
                 ),
@@ -209,7 +212,8 @@ class RegisterInputSection extends StatelessWidget {
                         BlocProvider.of<RegistrationBloc>(context)
                             .registration
                             .email = value.trim(),
-                    onEditingComplete: () => FocusScope.of(context).nextFocus()),
+                    onEditingComplete: () =>
+                        FocusScope.of(context).nextFocus()),
                 SizedBox(
                   height: 24.0,
                 ),

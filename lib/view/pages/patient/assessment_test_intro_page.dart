@@ -281,7 +281,7 @@ class _AssessmentTestIntroPageState extends State<AssessmentTestIntroPage>
                                   .textTheme
                                   .headline5
                                   .copyWith(
-                                      color: Colors.black,
+                                      color: Colors.black87,
                                       fontWeight: FontWeight.w300)),
                           SizedBox(
                             width: 72.0,
@@ -311,7 +311,7 @@ class _AssessmentTestIntroPageState extends State<AssessmentTestIntroPage>
                                     .textTheme
                                     .bodyText2
                                     .copyWith(
-                                        color: Colors.black,
+                                        color: Colors.black87,
                                         fontWeight: FontWeight.w300,
                                         fontSize: 18.0,
                                         height: 1.4,
@@ -338,7 +338,7 @@ class _AssessmentTestIntroPageState extends State<AssessmentTestIntroPage>
                                     .textTheme
                                     .bodyText2
                                     .copyWith(
-                                        color: Colors.black,
+                                        color: Colors.black87,
                                         fontWeight: FontWeight.w300,
                                         fontSize: 18.0,
                                         height: 1.4,
@@ -350,7 +350,7 @@ class _AssessmentTestIntroPageState extends State<AssessmentTestIntroPage>
                                     .textTheme
                                     .bodyText2
                                     .copyWith(
-                                        color: Colors.black,
+                                        color: Colors.black87,
                                         fontWeight: FontWeight.w400,
                                         fontSize: 18.0,
                                         height: 1.4,
@@ -378,7 +378,7 @@ class _AssessmentTestIntroPageState extends State<AssessmentTestIntroPage>
                                     .textTheme
                                     .bodyText2
                                     .copyWith(
-                                        color: Colors.black,
+                                        color: Colors.black87,
                                         fontWeight: FontWeight.w300,
                                         fontSize: 18.0,
                                         height: 1.4,
@@ -390,7 +390,7 @@ class _AssessmentTestIntroPageState extends State<AssessmentTestIntroPage>
                                     .textTheme
                                     .bodyText2
                                     .copyWith(
-                                        color: Colors.black,
+                                        color: Colors.black87,
                                         fontWeight: FontWeight.w400,
                                         fontSize: 18.0,
                                         height: 1.4,
@@ -418,7 +418,7 @@ class _AssessmentTestIntroPageState extends State<AssessmentTestIntroPage>
                                     .textTheme
                                     .bodyText2
                                     .copyWith(
-                                        color: Colors.black,
+                                        color: Colors.black87,
                                         fontWeight: FontWeight.w300,
                                         fontSize: 18.0,
                                         height: 1.4,
@@ -446,7 +446,7 @@ class _AssessmentTestIntroPageState extends State<AssessmentTestIntroPage>
                                     .textTheme
                                     .bodyText2
                                     .copyWith(
-                                        color: Colors.black,
+                                        color: Colors.black87,
                                         fontWeight: FontWeight.w300,
                                         fontSize: 18.0,
                                         height: 1.4,
@@ -459,7 +459,7 @@ class _AssessmentTestIntroPageState extends State<AssessmentTestIntroPage>
                                     .textTheme
                                     .bodyText2
                                     .copyWith(
-                                        color: Colors.black,
+                                        color: Colors.black87,
                                         fontWeight: FontWeight.w400,
                                         fontSize: 18.0,
                                         height: 1.4,

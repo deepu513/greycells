@@ -72,7 +72,7 @@ class _AssessmentTestPageState extends State<AssessmentTestPage> {
             style: Theme.of(context)
                 .textTheme
                 .headline6
-                .copyWith(color: Colors.black, fontWeight: FontWeight.w400),
+                .copyWith(color: Colors.black87, fontWeight: FontWeight.w400),
           ),
           actions: [
             IconButton(
@@ -150,7 +150,7 @@ class _TestPageContent extends StatelessWidget {
             text: Text(
               "# Question ${question.sequence} of $_totalQuestions",
               style: Theme.of(context).textTheme.caption.copyWith(
-                  color: Colors.black,
+                  color: Colors.black87,
                   fontWeight: FontWeight.w400,
                   fontSize: 14.0),
             ),

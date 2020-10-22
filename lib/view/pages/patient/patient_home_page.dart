@@ -102,8 +102,10 @@ class _AppBarSection extends StatelessWidget {
     return SliverAppBar(
       title: Text(
         'Hi Deepak',
-        style:
-            Theme.of(context).textTheme.headline6.copyWith(color: Colors.black),
+        style: Theme.of(context)
+            .textTheme
+            .headline6
+            .copyWith(color: Colors.black87),
       ),
       actions: [
         Padding(

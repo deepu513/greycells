@@ -23,6 +23,7 @@ import 'package:greycells/view/pages/patient_profile_page.dart';
 import 'package:greycells/view/pages/register_page.dart';
 import 'package:greycells/view/pages/splash_page.dart';
 import 'package:greycells/view/pages/therapist/therapist_main_page.dart';
+import 'package:greycells/view/pages/therapist_profile_page.dart';
 import 'package:greycells/view/pages/welcome_page.dart';
 import 'package:provider/provider.dart';
 
@@ -98,13 +99,13 @@ class _MyApp extends StatelessWidget {
           builder: (context, authenticationState) {
             /// User is not logged in
             if (authenticationState is AuthenticationUnauthenticated) {
-              return PatientProfilePage();
+              return TherapistProfilePage();
               //return WelcomePage();
             }
 
             /// User is logged in
             if (authenticationState is AuthenticationAuthenticated) {
-              return PatientProfilePage();
+              return TherapistProfilePage();
               //return DeciderPage();
             }
 

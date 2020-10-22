@@ -29,7 +29,7 @@ class AddressDetailInputPage extends StatelessWidget implements Validatable {
                 Text(
                   Strings.addressDetails,
                   style: Theme.of(context).textTheme.headline6.copyWith(
-                      color: Colors.black, fontWeight: FontWeight.w400),
+                      color: Colors.black87, fontWeight: FontWeight.w400),
                 ),
                 Spacer(),
                 IconButton(

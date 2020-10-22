@@ -28,8 +28,10 @@ class AppointmentsAppBar extends StatelessWidget {
       floating: true,
       title: Text(
         'Appointments',
-        style:
-            Theme.of(context).textTheme.headline6.copyWith(color: Colors.black),
+        style: Theme.of(context)
+            .textTheme
+            .headline6
+            .copyWith(color: Colors.black87),
       ),
       actions: [
         PopupMenuButton(

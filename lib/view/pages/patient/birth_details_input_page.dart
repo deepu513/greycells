@@ -23,10 +23,8 @@ class BirthDetailsInputPage extends StatelessWidget implements Validatable {
             children: <Widget>[
               Text(
                 Strings.birthDetails,
-                style: Theme.of(context)
-                    .textTheme
-                    .headline6
-                    .copyWith(color: Colors.black, fontWeight: FontWeight.w400),
+                style: Theme.of(context).textTheme.headline6.copyWith(
+                    color: Colors.black87, fontWeight: FontWeight.w400),
               ),
               Spacer(),
               IconButton(
@@ -169,7 +167,7 @@ class DateOfBirthInput extends StatelessWidget {
           children: [
             Icon(
               Icons.event,
-              color: Colors.black54,
+              color: Colors.black87,
               size: 18.0,
             ),
             SizedBox(
@@ -177,7 +175,7 @@ class DateOfBirthInput extends StatelessWidget {
             ),
             Text(Strings.dateOfBirth,
                 style: Theme.of(context).textTheme.subtitle1.copyWith(
-                    fontWeight: FontWeight.w400, color: Colors.black54)),
+                    fontWeight: FontWeight.w400, color: Colors.black87)),
           ],
         ),
         SizedBox(
@@ -356,7 +354,7 @@ class TimeOfBirthWidget extends StatelessWidget {
           children: [
             Icon(
               Icons.access_time,
-              color: Colors.black54,
+              color: Colors.black87,
               size: 18.0,
             ),
             SizedBox(
@@ -364,7 +362,7 @@ class TimeOfBirthWidget extends StatelessWidget {
             ),
             Text(Strings.timeOfBirth,
                 style: Theme.of(context).textTheme.subtitle1.copyWith(
-                    fontWeight: FontWeight.w400, color: Colors.black54)),
+                    fontWeight: FontWeight.w400, color: Colors.black87)),
           ],
         ),
         SizedBox(

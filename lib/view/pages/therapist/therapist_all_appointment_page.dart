@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:greycells/view/widgets/appointment_list_tile.dart';
+
 // TODO: Add empty state
 class TherapistAllAppointmentsPage extends StatelessWidget {
   @override
@@ -12,7 +13,7 @@ class TherapistAllAppointmentsPage extends StatelessWidget {
           style: Theme.of(context)
               .textTheme
               .headline6
-              .copyWith(color: Colors.black),
+              .copyWith(color: Colors.black87),
         ),
         actions: [
           PopupMenuButton(

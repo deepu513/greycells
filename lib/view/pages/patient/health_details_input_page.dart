@@ -113,7 +113,7 @@ class _HealthDetailsInputPageState extends State<HealthDetailsInputPage> {
                         style: TextStyle(
                             fontSize: 18.0,
                             fontWeight: FontWeight.w500,
-                            color: Colors.black54),
+                            color: Colors.black87),
                         children: [
                           TextSpan(
                             text: " pounds ",
@@ -229,7 +229,7 @@ class _HealthDetailsInputPageState extends State<HealthDetailsInputPage> {
             style: TextStyle(
                 fontSize: 18.0,
                 fontWeight: FontWeight.w500,
-                color: Colors.black54),
+                color: Colors.black87),
             children: [
               TextSpan(
                   text: " feet ",
@@ -242,7 +242,7 @@ class _HealthDetailsInputPageState extends State<HealthDetailsInputPage> {
                   style: TextStyle(
                       fontSize: 18.0,
                       fontWeight: FontWeight.w500,
-                      color: Colors.black54)),
+                      color: Colors.black87)),
               TextSpan(
                   text: " inches ",
                   style: TextStyle(

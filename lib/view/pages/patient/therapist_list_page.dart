@@ -7,15 +7,14 @@ class TherapistListPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        elevation: 4.0,
-        title: Text(
-          'All Therapists',
-          style: Theme.of(context)
-              .textTheme
-              .headline6
-              .copyWith(color: Colors.black),
-        )
-      ),
+          elevation: 4.0,
+          title: Text(
+            'All Therapists',
+            style: Theme.of(context)
+                .textTheme
+                .headline6
+                .copyWith(color: Colors.black87),
+          )),
       body: SafeArea(
         child: Container(
           child: ListView.separated(

@@ -59,7 +59,7 @@ class PaymentPage extends StatelessWidget {
               style: Theme.of(context)
                   .textTheme
                   .headline6
-                  .copyWith(color: Colors.black, fontWeight: FontWeight.w400),
+                  .copyWith(color: Colors.black87, fontWeight: FontWeight.w400),
             ),
           ),
           body: SafeArea(
@@ -272,7 +272,7 @@ class _PaymentDetailsSectionState extends State<PaymentDetailsSection>
               Spacer(),
               Text(Strings.rupeeSymbol + " ${widget.payment.totalAmount}",
                   style: Theme.of(context).textTheme.headline6.copyWith(
-                      color: Colors.black, fontWeight: FontWeight.w500))
+                      color: Colors.black87, fontWeight: FontWeight.w500))
             ],
           ),
         ),

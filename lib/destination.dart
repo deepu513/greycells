@@ -5,8 +5,8 @@ import 'package:greycells/view/pages/patient/patient_home_page.dart';
 import 'package:greycells/view/pages/patient/patient_tasks_page.dart';
 import 'package:greycells/view/pages/therapist/therapist_appointment_page.dart';
 import 'package:greycells/view/pages/therapist/therapist_patient_page.dart';
-import 'package:greycells/view/pages/therapist/thrapist_profile_page.dart';
 import 'package:greycells/view/pages/therapist/thrapist_tasks_page.dart';
+import 'package:greycells/view/pages/therapist_profile_page.dart';
 
 class Destination {
   final String title;

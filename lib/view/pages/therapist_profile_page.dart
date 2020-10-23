@@ -36,21 +36,22 @@ class TherapistProfilePage extends StatelessWidget {
 class HeaderSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Row(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            CircleAvatar(
-              backgroundImage: NetworkImage(
-                  "https://urbanbalance.com/wp-content/uploads/2019/04/new-therapist.jpg"),
-              radius: 32.0,
-            ),
-            SizedBox(
-              width: 16.0,
-            ),
-            Column(
+    return IntrinsicHeight(
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          CircleAvatar(
+            backgroundImage: NetworkImage(
+                "https://urbanbalance.com/wp-content/uploads/2019/04/new-therapist.jpg"),
+            radius: 36.0,
+          ),
+          SizedBox(
+            width: 16.0,
+          ),
+          Expanded(
+            child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
               children: [
                 Text(
                   "Dr. Anne Hathaway",
@@ -62,76 +63,49 @@ class HeaderSection extends StatelessWidget {
                   style: Theme.of(context).textTheme.subtitle2,
                   overflow: TextOverflow.clip,
                 ),
+                Text(
+                  "Medical Council",
+                  style: Theme.of(context).textTheme.caption,
+                  overflow: TextOverflow.clip,
+                ),
               ],
             ),
-            Spacer(),
-            OutlinedChip(
-              icon: Icon(
-                Icons.work,
-                color: Colors.black87,
-                size: 12.0,
-              ),
-              text: Text(
-                "5 years exp",
-                style: Theme.of(context)
-                    .textTheme
-                    .caption
-                    .copyWith(color: Colors.black87),
-                overflow: TextOverflow.clip,
-              ),
-              borderColor: Colors.black38,
+          ),
+          VerticalDivider(
+            thickness: 1.0,
+            width: 24.0,
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 4.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Container(
+                  decoration: BoxDecoration(
+                      shape: BoxShape.circle, color: Colors.purple.shade50),
+                  padding: EdgeInsets.all(8.0),
+                  child: Text(
+                    "5",
+                    style: Theme.of(context).textTheme.headline5.copyWith(
+                        color: Colors.purple, fontWeight: FontWeight.w700),
+                    overflow: TextOverflow.clip,
+                  ),
+                ),
+                Text(
+                  "years",
+                  style: Theme.of(context).textTheme.bodyText1.copyWith(
+                      color: Colors.black87, fontStyle: FontStyle.italic),
+                  overflow: TextOverflow.clip,
+                ),
+                Text(
+                  "exp",
+                  style: Theme.of(context).textTheme.bodyText1.copyWith(
+                      color: Colors.black87, fontStyle: FontStyle.italic),
+                  overflow: TextOverflow.clip,
+                ),
+              ],
             ),
-          ],
-        ),
-        SizedBox(
-          height: 16.0,
-        ),
-        OutlinedChip(
-          icon: Icon(
-            Icons.school,
-            size: 14.0,
-            color: Colors.brown,
-          ),
-          text: Text(
-            "B.Sc. Psychology",
-            style: Theme.of(context)
-                .textTheme
-                .caption
-                .copyWith(color: Colors.brown),
-          ),
-          borderColor: Colors.brown.shade200,
-        ),
-      ],
-    );
-  }
-}
-
-class OutlinedChip extends StatelessWidget {
-  final Widget icon;
-  final Widget text;
-  final Color borderColor;
-
-  OutlinedChip(
-      {@required this.icon, @required this.text, @required this.borderColor});
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
-      alignment: Alignment.center,
-      decoration: BoxDecoration(
-        shape: BoxShape.rectangle,
-        borderRadius: BorderRadius.circular(16.0),
-        border: Border.all(color: borderColor),
-      ),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          icon,
-          SizedBox(
-            width: 4.0,
-          ),
-          text
+          )
         ],
       ),
     );

@@ -22,9 +22,18 @@ class TherapistProfilePage extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               HeaderSection(),
-              LanguageSection(),
+              SizedBox(
+                height: 24.0,
+              ),
               ExpertiseSection(),
-              SpecialisationSection()
+              SizedBox(
+                height: 16.0,
+              ),
+              QualificationSection(),
+              SizedBox(
+                height: 16.0,
+              ),
+              LanguageSection(),
             ],
           ),
         ),
@@ -112,23 +121,179 @@ class HeaderSection extends StatelessWidget {
   }
 }
 
+class QualificationSection extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return ColoredPageSection(
+        sectionColor: Colors.brown.shade50,
+        textColor: Colors.brown,
+        icon: Icon(
+          Icons.school_rounded,
+          size: 20.0,
+          color: Colors.brown,
+        ),
+        title: "Qualifications",
+        description: "B.Sc Psychology");
+  }
+}
+
 class LanguageSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return ColoredPageSection(
+        sectionColor: Colors.blueGrey.shade50,
+        textColor: Colors.blueGrey,
+        icon: Icon(
+          Icons.language_rounded,
+          size: 20.0,
+          color: Colors.blueGrey,
+        ),
+        title: "Speaks in",
+        description: "Hindi, English, Marathi, Tamil");
   }
 }
 
 class ExpertiseSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return Container(
+      decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(8.0),
+          shape: BoxShape.rectangle,
+          color: Colors.teal.shade50),
+      padding: EdgeInsets.symmetric(horizontal: 8.0, vertical: 12.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                child: Icon(
+                  Icons.adjust_rounded,
+                  size: 20.0,
+                  color: Colors.teal,
+                ),
+              ),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      "Expert in",
+                      style: Theme.of(context).textTheme.subtitle1.copyWith(
+                          color: Colors.teal, fontWeight: FontWeight.w700),
+                    ),
+                    SizedBox(
+                      height: 4.0,
+                    ),
+                    SelectableText("Child Psychology",
+                        style: Theme.of(context).textTheme.bodyText1.copyWith(
+                              fontStyle: FontStyle.italic,
+                              color: Colors.teal,
+                            )),
+                  ],
+                ),
+              ),
+            ],
+          ),
+          SizedBox(height: 16.0),
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                child: Icon(
+                  Icons.done_all_rounded,
+                  size: 20.0,
+                  color: Colors.teal,
+                ),
+              ),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      "Specializes in",
+                      style: Theme.of(context).textTheme.subtitle1.copyWith(
+                          color: Colors.teal, fontWeight: FontWeight.w700),
+                    ),
+                    SizedBox(
+                      height: 4.0,
+                    ),
+                    SelectableText("Stammering, Lack of confidence, Stage fear",
+                        style: Theme.of(context).textTheme.bodyText1.copyWith(
+                              fontStyle: FontStyle.italic,
+                              color: Colors.teal,
+                            ))
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
   }
 }
 
-class SpecialisationSection extends StatelessWidget {
+class ColoredPageSection extends StatelessWidget {
+  final Color sectionColor;
+  final Color textColor;
+  final Widget icon;
+  final String title;
+  final String description;
+
+  ColoredPageSection(
+      {@required this.sectionColor,
+      @required this.textColor,
+      @required this.icon,
+      @required this.title,
+      @required this.description});
+
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return Container(
+      decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(8.0),
+          shape: BoxShape.rectangle,
+          color: sectionColor),
+      padding: EdgeInsets.all(8.0),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16.0),
+              child: icon),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  title,
+                  style: Theme.of(context)
+                      .textTheme
+                      .subtitle1
+                      .copyWith(color: textColor, fontWeight: FontWeight.w700),
+                ),
+                SizedBox(
+                  height: 4.0,
+                ),
+                SelectableText(description,
+                    style: Theme.of(context).textTheme.bodyText1.copyWith(
+                          fontStyle: FontStyle.italic,
+                          color: textColor,
+                        ))
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
   }
 }

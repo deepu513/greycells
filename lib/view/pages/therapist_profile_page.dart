@@ -166,74 +166,26 @@ class ExpertiseSection extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisSize: MainAxisSize.min,
         children: [
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                child: Icon(
-                  Icons.adjust_rounded,
-                  size: 20.0,
-                  color: Colors.teal,
-                ),
-              ),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      "Expert in",
-                      style: Theme.of(context).textTheme.subtitle1.copyWith(
-                          color: Colors.teal, fontWeight: FontWeight.w700),
-                    ),
-                    SizedBox(
-                      height: 4.0,
-                    ),
-                    SelectableText("Child Psychology",
-                        style: Theme.of(context).textTheme.bodyText1.copyWith(
-                              fontStyle: FontStyle.italic,
-                              color: Colors.teal,
-                            )),
-                  ],
-                ),
-              ),
-            ],
+          PageSection(
+            textColor: Colors.teal,
+            icon: Icon(
+              Icons.adjust_rounded,
+              size: 20.0,
+              color: Colors.teal,
+            ),
+            title: "Expert in",
+            description: "Child Psychology",
           ),
           SizedBox(height: 16.0),
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                child: Icon(
-                  Icons.done_all_rounded,
-                  size: 20.0,
-                  color: Colors.teal,
-                ),
-              ),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      "Specializes in",
-                      style: Theme.of(context).textTheme.subtitle1.copyWith(
-                          color: Colors.teal, fontWeight: FontWeight.w700),
-                    ),
-                    SizedBox(
-                      height: 4.0,
-                    ),
-                    SelectableText("Stammering, Lack of confidence, Stage fear",
-                        style: Theme.of(context).textTheme.bodyText1.copyWith(
-                              fontStyle: FontStyle.italic,
-                              color: Colors.teal,
-                            ))
-                  ],
-                ),
-              ),
-            ],
+          PageSection(
+            textColor: Colors.teal,
+            icon: Icon(
+              Icons.done_all_rounded,
+              size: 20.0,
+              color: Colors.teal,
+            ),
+            title: "Specializes in",
+            description: "Stammering, Lack of confidence, Stage fear",
           ),
         ],
       ),
@@ -263,37 +215,59 @@ class ColoredPageSection extends StatelessWidget {
           shape: BoxShape.rectangle,
           color: sectionColor),
       padding: EdgeInsets.all(8.0),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16.0),
-              child: icon),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  title,
-                  style: Theme.of(context)
-                      .textTheme
-                      .subtitle1
-                      .copyWith(color: textColor, fontWeight: FontWeight.w700),
-                ),
-                SizedBox(
-                  height: 4.0,
-                ),
-                SelectableText(description,
-                    style: Theme.of(context).textTheme.bodyText1.copyWith(
-                          fontStyle: FontStyle.italic,
-                          color: textColor,
-                        ))
-              ],
-            ),
-          ),
-        ],
+      child: PageSection(
+        textColor: textColor,
+        icon: icon,
+        title: title,
+        description: description,
       ),
+    );
+  }
+}
+
+class PageSection extends StatelessWidget {
+  final Color textColor;
+  final Widget icon;
+  final String title;
+  final String description;
+
+  PageSection(
+      {@required this.textColor,
+      @required this.icon,
+      @required this.title,
+      @required this.description});
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16.0), child: icon),
+        Expanded(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                title,
+                style: Theme.of(context)
+                    .textTheme
+                    .subtitle1
+                    .copyWith(color: textColor, fontWeight: FontWeight.w700),
+              ),
+              SizedBox(
+                height: 4.0,
+              ),
+              SelectableText(description,
+                  style: Theme.of(context).textTheme.bodyText1.copyWith(
+                        fontStyle: FontStyle.italic,
+                        color: textColor,
+                      ))
+            ],
+          ),
+        ),
+      ],
     );
   }
 }

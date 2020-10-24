@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:greycells/constants/strings.dart';
 
 class TherapistProfilePage extends StatelessWidget {
   const TherapistProfilePage();
@@ -38,9 +39,7 @@ class TherapistProfilePage extends StatelessWidget {
                       height: 16.0,
                     ),
                     LanguageSection(),
-                    SizedBox(
-                      height: 16.0,
-                    ),
+                    Divider(height: 32.0,),
                     MeetingChargesSection(),
                   ],
                 ),
@@ -284,10 +283,120 @@ class PageSection extends StatelessWidget {
   }
 }
 
-class MeetingChargesSection extends StatelessWidget {
+class MeetingChargesSection extends StatefulWidget {
+  @override
+  _MeetingChargesSectionState createState() => _MeetingChargesSectionState();
+}
+
+class _MeetingChargesSectionState extends State<MeetingChargesSection> {
+  int _selectedIndex;
+
+  @override
+  void initState() {
+    super.initState();
+    _selectedIndex = -1;
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return Container(
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(8.0),
+        shape: BoxShape.rectangle,
+      ),
+      
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              Text(
+                "Meeting charges",
+                style: Theme.of(context).textTheme.subtitle1.copyWith(
+                    fontWeight: FontWeight.w700, color: Colors.black87),
+              ),
+              Spacer(),
+              RichText(
+                text: TextSpan(
+                    text: "Duration: ",
+                    style: Theme.of(context).textTheme.caption.copyWith(
+                          fontWeight: FontWeight.w400,
+                        ),
+                    children: [
+                      TextSpan(
+                          text: "60 minutes",
+                          style: Theme.of(context)
+                              .textTheme
+                              .bodyText1
+                              .copyWith(fontWeight: FontWeight.w700))
+                    ]),
+              )
+            ],
+          ),
+          SizedBox(
+            height: 16.0,
+          ),
+          ListView.separated(
+            itemCount: 3,
+            shrinkWrap: true,
+            itemBuilder: (context, index) {
+              return GestureDetector(
+                onTap: () {
+                  setState(() {
+                    _selectedIndex = index;
+                  });
+                },
+                child: AnimatedContainer(
+                  duration: Duration(milliseconds: 200),
+                  padding:
+                      EdgeInsets.symmetric(horizontal: 24.0, vertical: 16.0),
+                  decoration: BoxDecoration(
+                    color:
+                        _selectedIndex == index ? Colors.green : Colors.white,
+                    borderRadius: BorderRadius.circular(16.0),
+                  ),
+                  child: Row(
+                    children: [
+                      Icon(
+                        _selectedIndex == index
+                            ? Icons.check_circle
+                            : Icons.radio_button_unchecked,
+                        color: _selectedIndex == index
+                            ? Colors.white
+                            : Colors.black38,
+                      ),
+                      SizedBox(
+                        width: 16.0,
+                      ),
+                      Text(
+                        "One to One",
+                        style: Theme.of(context).textTheme.subtitle1.copyWith(
+                            color: _selectedIndex == index
+                                ? Colors.white
+                                : Colors.black87),
+                      ),
+                      Spacer(),
+                      Text(
+                        Strings.rupeeSymbol + "1000",
+                        style: Theme.of(context).textTheme.subtitle1.copyWith(
+                            color: _selectedIndex == index
+                                ? Colors.white
+                                : Colors.black87),
+                      ),
+                    ],
+                  ),
+                ),
+              );
+            },
+            separatorBuilder: (context, index) {
+              return SizedBox(
+                height: 16.0,
+              );
+            },
+          )
+        ],
+      ),
+    );
   }
 }
 

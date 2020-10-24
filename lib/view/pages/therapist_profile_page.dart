@@ -16,26 +16,38 @@ class TherapistProfilePage extends StatelessWidget {
         elevation: 4.0,
       ),
       body: SafeArea(
-        child: SingleChildScrollView(
-          padding: EdgeInsets.all(16.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              HeaderSection(),
-              SizedBox(
-                height: 24.0,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Expanded(
+              child: SingleChildScrollView(
+                padding: EdgeInsets.all(16.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    HeaderSection(),
+                    SizedBox(
+                      height: 24.0,
+                    ),
+                    ExpertiseSection(),
+                    SizedBox(
+                      height: 16.0,
+                    ),
+                    QualificationSection(),
+                    SizedBox(
+                      height: 16.0,
+                    ),
+                    LanguageSection(),
+                    SizedBox(
+                      height: 16.0,
+                    ),
+                    MeetingChargesSection(),
+                  ],
+                ),
               ),
-              ExpertiseSection(),
-              SizedBox(
-                height: 16.0,
-              ),
-              QualificationSection(),
-              SizedBox(
-                height: 16.0,
-              ),
-              LanguageSection(),
-            ],
-          ),
+            ),
+            BookAppointmentButton(),
+          ],
         ),
       ),
     );
@@ -269,5 +281,31 @@ class PageSection extends StatelessWidget {
         ),
       ],
     );
+  }
+}
+
+class MeetingChargesSection extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Container();
+  }
+}
+
+class BookAppointmentButton extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return FlatButton(
+        onPressed: () {},
+        color: Theme.of(context).primaryColor,
+        height: 56.0,
+        minWidth: double.maxFinite,
+        child: Text(
+          "Book an appointment".toUpperCase(),
+          style: Theme.of(context).textTheme.subtitle1.copyWith(
+                wordSpacing: 1.0,
+                letterSpacing: 0.75,
+                color: Colors.white,
+              ),
+        ));
   }
 }

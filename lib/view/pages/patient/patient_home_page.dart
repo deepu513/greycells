@@ -33,7 +33,7 @@ class _PatientHomePageState extends State<PatientHomePage> {
                   ),
                   UpcomingAppointmentSection(),
                   Padding(
-                    padding: const EdgeInsets.all(16.0),
+                    padding: const EdgeInsets.fromLTRB(16.0, 16.0, 4.0, 0.0),
                     child: TherapistHeaderSection(),
                   )
                 ],

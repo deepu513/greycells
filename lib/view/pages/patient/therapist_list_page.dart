@@ -17,12 +17,10 @@ class TherapistListPage extends StatelessWidget {
           )),
       body: SafeArea(
         child: Container(
-          child: ListView.separated(
+          child: ListView.builder(
+              padding: EdgeInsets.symmetric(vertical: 8.0),
               itemBuilder: (context, index) {
                 return TherapistListTile();
-              },
-              separatorBuilder: (context, index) {
-                return Divider();
               },
               itemCount: 20),
         ),

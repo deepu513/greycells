@@ -10,8 +10,11 @@ class NextPageDecided extends DeciderState {
   final AssessmentTestArguments assessmentTestArguments;
   final Home homeData;
 
-  NextPageDecided(this.routeName, this.homeData, {this.assessmentTestArguments});
+  NextPageDecided(this.routeName, this.homeData,
+      {this.assessmentTestArguments});
 }
+
+class DecidedTherapistPage extends DeciderState {}
 
 class NextPageDeciding extends DeciderState {}
 

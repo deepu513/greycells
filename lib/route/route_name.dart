@@ -3,6 +3,7 @@ abstract class RouteName {
   static const LOGIN = "/login";
   static const REGISTER = "/register";
   static const PATIENT_MAIN = "/patient_main";
+  static const THERAPIST_MAIN = "/therapist_main";
   static const FORGOT_PASSWORD = "/forgot_password";
   static const PATIENT_DETAIL_INPUT_PAGE = "/patient_detail";
   static const ASSESSMENT_TEST_INTRO = "/assessment_intro";

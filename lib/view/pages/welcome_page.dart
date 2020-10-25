@@ -134,10 +134,10 @@ class _WelcomePageState extends State<WelcomePage>
                     color: Colors.white,
                     child: Text(
                       Strings.login.toUpperCase(),
-                      style: Theme.of(context)
-                          .textTheme
-                          .button
-                          .copyWith(color: Colors.grey[800]),
+                      style: Theme.of(context).textTheme.button.copyWith(
+                          letterSpacing: 0.7,
+                          color: Colors.grey[800],
+                          fontWeight: FontWeight.bold),
                     ),
                   ),
                 ),
@@ -152,10 +152,10 @@ class _WelcomePageState extends State<WelcomePage>
                         borderRadius: BorderRadius.circular(8.0)),
                     child: Text(
                       Strings.register.toUpperCase(),
-                      style: Theme.of(context)
-                          .textTheme
-                          .button
-                          .copyWith(color: Colors.grey[800]),
+                      style: Theme.of(context).textTheme.button.copyWith(
+                          letterSpacing: 0.7,
+                          color: Colors.grey[800],
+                          fontWeight: FontWeight.bold),
                     ),
                   ),
                 ),

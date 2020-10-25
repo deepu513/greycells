@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:greycells/bloc/decider/decider_bloc.dart';
 import 'package:greycells/models/home/home.dart';
+import 'package:greycells/route/route_name.dart';
 import 'package:greycells/view/widgets/centered_circular_loading.dart';
 import 'package:greycells/view/widgets/error_with_retry.dart';
 import 'package:provider/provider.dart';
@@ -28,6 +29,12 @@ class _DeciderPageState extends State<DeciderPage> {
       body: SafeArea(
         child: BlocConsumer<DeciderBloc, DeciderState>(
           listener: (context, state) {
+            if (state is DecidedTherapistPage) {
+              Navigator.of(context).pushNamedAndRemoveUntil(
+                RouteName.THERAPIST_MAIN,
+                (route) => false,
+              );
+            }
             if (state is NextPageDecided) {
               // Update home data
               var homeData = state.homeData;

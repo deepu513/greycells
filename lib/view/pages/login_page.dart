@@ -183,10 +183,10 @@ class LoginInputSection extends StatelessWidget {
                         borderRadius: BorderRadius.circular(8.0)),
                     child: Text(
                       Strings.login.toUpperCase(),
-                      style: Theme.of(context)
-                          .textTheme
-                          .button
-                          .copyWith(color: Colors.white),
+                      style: Theme.of(context).textTheme.button.copyWith(
+                          letterSpacing: 0.7,
+                          color: Colors.grey[800],
+                          fontWeight: FontWeight.bold),
                     ),
                   ),
                 ),

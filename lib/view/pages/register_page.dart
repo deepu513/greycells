@@ -322,10 +322,10 @@ class RegisterInputSection extends StatelessWidget {
                         borderRadius: BorderRadius.circular(8.0)),
                     child: Text(
                       Strings.register.toUpperCase(),
-                      style: Theme.of(context)
-                          .textTheme
-                          .button
-                          .copyWith(color: Colors.grey[800]),
+                      style: Theme.of(context).textTheme.button.copyWith(
+                          letterSpacing: 0.7,
+                          color: Colors.grey[800],
+                          fontWeight: FontWeight.bold),
                     ),
                   ),
                 ),

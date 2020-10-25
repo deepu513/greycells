@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:greycells/route/route_name.dart';
 
 class TherapistListTile extends StatelessWidget {
   const TherapistListTile({
@@ -8,7 +9,9 @@ class TherapistListTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () {},
+      onTap: () {
+        Navigator.of(context).pushNamed(RouteName.THERAPIST_PROFILE_PAGE);
+      },
       child: Container(
         padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 16.0),
         child: IntrinsicHeight(
@@ -55,32 +58,29 @@ class TherapistListTile extends StatelessWidget {
                   children: [
                     Container(
                       decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          color: Colors.purple.shade50),
+                          shape: BoxShape.circle, color: Colors.purple.shade50),
                       padding: EdgeInsets.all(6.0),
                       child: Text(
                         "5",
-                        style: Theme.of(context)
-                            .textTheme
-                            .headline6
-                            .copyWith(
-                                color: Colors.purple,
-                                fontWeight: FontWeight.w700),
+                        style: Theme.of(context).textTheme.headline6.copyWith(
+                            color: Colors.purple, fontWeight: FontWeight.w700),
                         overflow: TextOverflow.clip,
                       ),
                     ),
                     Text(
                       "years",
-                      style: Theme.of(context).textTheme.caption.copyWith(
-                          
-                          fontStyle: FontStyle.italic),
+                      style: Theme.of(context)
+                          .textTheme
+                          .caption
+                          .copyWith(fontStyle: FontStyle.italic),
                       overflow: TextOverflow.clip,
                     ),
                     Text(
                       "exp",
-                      style: Theme.of(context).textTheme.caption.copyWith(
-                          
-                          fontStyle: FontStyle.italic),
+                      style: Theme.of(context)
+                          .textTheme
+                          .caption
+                          .copyWith(fontStyle: FontStyle.italic),
                       overflow: TextOverflow.clip,
                     ),
                   ],

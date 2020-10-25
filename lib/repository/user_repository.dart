@@ -67,7 +67,7 @@ class UserRepository {
 
   Future<Home> getHomeData() async {
     Request<Home> request =
-        Request("${FlavorConfig.getBaseUrl()}Account/home", null);
+        Request("${FlavorConfig.getBaseUrl()}Account/patienthome", null);
 
     return await _httpService.get(request, _homeSerializable);
   }

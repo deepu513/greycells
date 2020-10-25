@@ -20,6 +20,7 @@ import 'package:greycells/view/pages/register_page.dart';
 import 'package:greycells/view/pages/patient/second_test_intro_page.dart';
 import 'package:greycells/view/pages/patient/therapist_list_page.dart';
 import 'package:greycells/view/pages/therapist/therapist_all_appointment_page.dart';
+import 'package:greycells/view/pages/therapist/therapist_main_page.dart';
 import 'package:greycells/view/pages/therapist_profile_page.dart';
 import 'package:greycells/view/pages/welcome_page.dart';
 
@@ -49,6 +50,8 @@ class RouteGenerator {
         );
       case RouteName.PATIENT_MAIN:
         return MaterialPageRoute(builder: (_) => PatientMainPage());
+      case RouteName.THERAPIST_MAIN:
+        return MaterialPageRoute(builder: (_) => TherapistMainPage());
       case RouteName.FORGOT_PASSWORD:
         return MaterialPageRoute(
             builder: (_) => BlocProvider<ForgotPasswordBloc>(

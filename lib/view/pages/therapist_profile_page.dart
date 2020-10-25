@@ -39,7 +39,9 @@ class TherapistProfilePage extends StatelessWidget {
                       height: 16.0,
                     ),
                     LanguageSection(),
-                    Divider(height: 32.0,),
+                    Divider(
+                      height: 32.0,
+                    ),
                     MeetingChargesSection(),
                   ],
                 ),
@@ -94,11 +96,14 @@ class HeaderSection extends StatelessWidget {
           VerticalDivider(
             thickness: 1.0,
             width: 24.0,
+            indent: 4.0,
+            endIndent: 4.0,
           ),
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 4.0),
+            padding: const EdgeInsets.symmetric(horizontal: 8.0),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisSize: MainAxisSize.min,
               children: [
                 Container(
                   decoration: BoxDecoration(
@@ -304,7 +309,6 @@ class _MeetingChargesSectionState extends State<MeetingChargesSection> {
         borderRadius: BorderRadius.circular(8.0),
         shape: BoxShape.rectangle,
       ),
-      
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [

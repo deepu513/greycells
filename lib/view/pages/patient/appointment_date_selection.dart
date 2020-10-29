@@ -19,8 +19,9 @@ class AppointmentDateSelection extends StatelessWidget {
           child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          MeetingMetaInfo(),
           SizedBox(
-            height: 24.0,
+            height: 16.0,
           ),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16.0),
@@ -36,10 +37,11 @@ class AppointmentDateSelection extends StatelessWidget {
             height: 8.0,
           ),
           Expanded(
-              child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16.0),
-            child: TimeSlotSelector(),
-          )),
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16.0),
+              child: TimeSlotSelector(),
+            ),
+          ),
           Divider(
             height: 2.0,
           ),
@@ -50,6 +52,36 @@ class AppointmentDateSelection extends StatelessWidget {
           ContinueToPaymentButton(),
         ],
       )),
+    );
+  }
+}
+
+class MeetingMetaInfo extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      alignment: Alignment.center,
+      padding: EdgeInsets.symmetric(vertical: 8.0),
+      decoration: BoxDecoration(
+          color: Colors.teal.shade50,
+          border: Border(bottom: BorderSide(color: Colors.teal.shade100))),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Icon(
+            Icons.info_outline_rounded,
+            color: Colors.teal.shade700,
+            size: 20.0,
+          ),
+          SizedBox(width: 8.0),
+          Text(
+            "One on one meeting with Dr. Anne Hathaway for 60 minutes.",
+            style: Theme.of(context).textTheme.bodyText1.copyWith(
+                color: Colors.teal.shade600, fontStyle: FontStyle.italic),
+          ),
+        ],
+      ),
     );
   }
 }
@@ -125,21 +157,21 @@ class TimeSlotSelector extends StatefulWidget {
 }
 
 class _TimeSlotSelectorState extends State<TimeSlotSelector> {
-  int _selectedIndex = -1;
+  int _selectedIndex = 0;
 
   @override
   Widget build(BuildContext context) {
     return Wrap(
       crossAxisAlignment: WrapCrossAlignment.center,
       spacing: 8.0,
-      runSpacing: 8.0,
+      runSpacing: 4.0,
       children: [..._buildTimeSlotChips()],
     );
   }
 
   List<Widget> _buildTimeSlotChips() {
     List<Widget> chips = List();
-    for (var i = 0; i < 10; i++) {
+    for (var i = 0; i < 7; i++) {
       chips.add(ChoiceChip(
         selected: i == _selectedIndex,
         selectedColor: Colors.blue,
@@ -160,6 +192,7 @@ class _TimeSlotSelectorState extends State<TimeSlotSelector> {
   }
 }
 
+//TODO: Ask a confirmation from user before proceeding.
 class ContinueToPaymentButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {

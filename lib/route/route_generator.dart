@@ -5,6 +5,7 @@ import 'package:greycells/bloc/authentication/forgot_password_bloc.dart';
 import 'package:greycells/bloc/registration/bloc.dart';
 import 'package:greycells/bloc/validation/bloc.dart';
 import 'package:greycells/route/route_name.dart';
+import 'package:greycells/view/pages/patient/appointment_date_selection.dart';
 import 'package:greycells/view/pages/patient/assessment_test_intro_page.dart';
 import 'package:greycells/view/pages/patient/assessment_test_page.dart';
 import 'package:greycells/view/pages/decider_page.dart';
@@ -86,6 +87,8 @@ class RouteGenerator {
         return MaterialPageRoute(builder: (_) => PatientProfilePage());
       case RouteName.THERAPIST_PROFILE_PAGE:
         return MaterialPageRoute(builder: (_) => TherapistProfilePage());
+      case RouteName.APPOINTMENT_DATE_SELECTION_PAGE:
+        return MaterialPageRoute(builder: (_) => AppointmentDateSelection());
       default:
         // If there is no such named route in the switch statement, e.g. /third
         return _errorRoute();

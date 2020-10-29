@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:greycells/constants/strings.dart';
+import 'package:greycells/route/route_name.dart';
 
 class TherapistProfilePage extends StatelessWidget {
   const TherapistProfilePage();
@@ -408,7 +409,10 @@ class BookAppointmentButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return FlatButton(
-        onPressed: () {},
+        onPressed: () {
+          Navigator.of(context)
+              .pushNamed(RouteName.APPOINTMENT_DATE_SELECTION_PAGE);
+        },
         color: Theme.of(context).primaryColor,
         height: 56.0,
         minWidth: double.maxFinite,

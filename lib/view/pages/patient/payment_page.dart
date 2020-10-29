@@ -64,7 +64,7 @@ class PaymentPage extends StatelessWidget {
           ),
           body: SafeArea(
             child: Container(
-              padding: EdgeInsets.all(24.0),
+              padding: EdgeInsets.all(16.0),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -74,15 +74,18 @@ class PaymentPage extends StatelessWidget {
                   ),
                   Divider(),
                   PaymentDetailsSection(state.payment),
+                  SizedBox(
+                    height: 8.0,
+                  ),
                   Divider(),
                   SizedBox(
-                    height: 16.0,
+                    height: 8.0,
                   ),
                   BlocProvider<DiscountBloc>(
                       create: (context) => DiscountBloc(),
                       child: PromoCodeInputSection(state.payment)),
                   SizedBox(
-                    height: 16.0,
+                    height: 8.0,
                   ),
                   Divider(),
                   Spacer(),
@@ -201,78 +204,86 @@ class _PaymentDetailsSectionState extends State<PaymentDetailsSection>
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(Strings.paymentDetails,
-            style: Theme.of(context).textTheme.caption.copyWith(
-                  fontWeight: FontWeight.w500,
-                )),
+            style: Theme.of(context).textTheme.caption),
         SizedBox(
-          height: 8.0,
+          height: 16.0,
         ),
-        PaymentItems(widget.payment.items),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 8.0),
+          child: PaymentItems(widget.payment.items),
+        ),
         SizedBox(
           height: 8.0,
         ),
         AnimatedSize(
           duration: Duration(milliseconds: 300),
           vsync: this,
-          child: Visibility(
-            visible: widget.payment.promoCodeApplied == true,
-            child: Row(
-              children: [
-                Container(
-                  child: Row(
-                    children: [
-                      Icon(
-                        Icons.check,
-                        color: Colors.green,
-                        size: 16.0,
-                      ),
-                      SizedBox(
-                        width: 4.0,
-                      ),
-                      Text(
-                        "Promo code applied",
-                        style: Theme.of(context)
-                            .textTheme
-                            .caption
-                            .copyWith(color: Colors.green),
-                      ),
-                    ],
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 8.0),
+            child: Visibility(
+              visible: widget.payment.promoCodeApplied == true,
+              child: Row(
+                children: [
+                  Container(
+                    child: Row(
+                      children: [
+                        Icon(
+                          Icons.check,
+                          color: Colors.green,
+                          size: 16.0,
+                        ),
+                        SizedBox(
+                          width: 4.0,
+                        ),
+                        Text(
+                          "Promo code applied",
+                          style: Theme.of(context)
+                              .textTheme
+                              .caption
+                              .copyWith(color: Colors.green),
+                        ),
+                      ],
+                    ),
+                    alignment: Alignment.center,
+                    padding: EdgeInsets.all(4.0),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(4.0),
+                      color: Colors.green.shade50,
+                    ),
                   ),
-                  alignment: Alignment.center,
-                  padding: EdgeInsets.all(4.0),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(4.0),
-                    color: Colors.green.shade50,
-                  ),
-                ),
-                Spacer(),
-                Text(
-                    "- " +
-                        Strings.rupeeSymbol +
-                        " ${widget.payment.discountAmount}",
-                    style: Theme.of(context).textTheme.headline6.copyWith(
-                        fontWeight: FontWeight.w400, color: Colors.green))
-              ],
+                  Spacer(),
+                  Text(
+                      "- " +
+                          Strings.rupeeSymbol +
+                          "${widget.payment.discountAmount}",
+                      style: Theme.of(context)
+                          .textTheme
+                          .subtitle1
+                          .copyWith(color: Colors.green))
+                ],
+              ),
             ),
           ),
         ),
         SizedBox(
-          height: 8.0,
+          height: 24.0,
         ),
-        Divider(),
-        Padding(
-          padding: const EdgeInsets.symmetric(vertical: 8.0),
+        Container(
+          padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 8.0),
+          decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(8.0),
+              color: Color(0xFFF8F9FA)),
           child: Row(
             children: [
               Text(Strings.total,
                   style: Theme.of(context)
                       .textTheme
                       .headline6
-                      .copyWith(fontWeight: FontWeight.w500)),
+                      .copyWith(fontWeight: FontWeight.w700)),
               Spacer(),
-              Text(Strings.rupeeSymbol + " ${widget.payment.totalAmount}",
+              Text(Strings.rupeeSymbol + "${widget.payment.totalAmount}",
                   style: Theme.of(context).textTheme.headline6.copyWith(
-                      color: Colors.black87, fontWeight: FontWeight.w500))
+                      color: Colors.black87, fontWeight: FontWeight.w700))
             ],
           ),
         ),
@@ -295,16 +306,10 @@ class PaymentItems extends StatelessWidget {
           return Row(
             children: [
               Text(items[index].itemName,
-                  style: Theme.of(context)
-                      .textTheme
-                      .headline5
-                      .copyWith(fontWeight: FontWeight.w300)),
+                  style: Theme.of(context).textTheme.subtitle1),
               Spacer(),
-              Text(Strings.rupeeSymbol + " ${items[index].itemPrice}",
-                  style: Theme.of(context)
-                      .textTheme
-                      .headline6
-                      .copyWith(fontWeight: FontWeight.w300))
+              Text(Strings.rupeeSymbol + "${items[index].itemPrice}",
+                  style: Theme.of(context).textTheme.subtitle1)
             ],
           );
         });
@@ -345,9 +350,7 @@ class PromoCodeInputSection extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(Strings.promoCodeQuestion,
-                style: Theme.of(context).textTheme.caption.copyWith(
-                      fontWeight: FontWeight.w500,
-                    )),
+                style: Theme.of(context).textTheme.caption),
             Row(
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [

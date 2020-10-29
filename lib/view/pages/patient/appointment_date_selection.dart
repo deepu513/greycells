@@ -20,9 +20,6 @@ class AppointmentDateSelection extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           MeetingMetaInfo(),
-          SizedBox(
-            height: 16.0,
-          ),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16.0),
             child: Text(
@@ -61,10 +58,12 @@ class MeetingMetaInfo extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       alignment: Alignment.center,
-      padding: EdgeInsets.symmetric(vertical: 8.0),
+      padding: EdgeInsets.symmetric(vertical: 8.0, horizontal: 8.0),
+      margin: EdgeInsets.symmetric(horizontal: 8.0, vertical: 16.0),
       decoration: BoxDecoration(
-          color: Colors.teal.shade50,
-          border: Border(bottom: BorderSide(color: Colors.teal.shade100))),
+        color: Colors.teal.shade50,
+        borderRadius: BorderRadius.circular(8.0),
+      ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         mainAxisSize: MainAxisSize.min,
@@ -75,10 +74,14 @@ class MeetingMetaInfo extends StatelessWidget {
             size: 20.0,
           ),
           SizedBox(width: 8.0),
-          Text(
-            "One on one meeting with Dr. Anne Hathaway for 60 minutes.",
-            style: Theme.of(context).textTheme.bodyText1.copyWith(
-                color: Colors.teal.shade600, fontStyle: FontStyle.italic),
+          Flexible(
+            fit: FlexFit.loose,
+            child: Text(
+              "One on one meeting with Dr. Anne Hathaway for 60 minutes.",
+              overflow: TextOverflow.clip,
+              style: Theme.of(context).textTheme.bodyText1.copyWith(
+                  color: Colors.teal.shade600, fontStyle: FontStyle.italic),
+            ),
           ),
         ],
       ),

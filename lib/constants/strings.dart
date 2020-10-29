@@ -114,8 +114,8 @@ class Strings {
   static const guardianEmailId = "Guardian email ID";
   static const rupeeSymbol = "₹";
   static const proceedToPayment = "Proceed to payment";
-  static const paymentDetails = "Payment Details";
-  static const total = "Total";
+  static const paymentDetails = "Summary";
+  static const total = "Total due";
   static const promoCodeQuestion = "Do you have a promo code?";
   static const enterPromoCode = "Enter promo code";
   static const apply = "Apply";

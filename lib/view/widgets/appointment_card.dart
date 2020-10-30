@@ -51,7 +51,7 @@ class AppointmentCard extends StatelessWidget {
                                 .textTheme
                                 .subtitle1
                                 .copyWith(
-                                    color: Colors.cyan.shade500,
+                                    color: Colors.cyan,
                                     fontWeight: FontWeight.bold),
                             overflow: TextOverflow.clip,
                           ),
@@ -83,7 +83,7 @@ class AppointmentCard extends StatelessWidget {
                           ),
                           Text(
                             "Clinical Psychologist",
-                            style: Theme.of(context).textTheme.subtitle2,
+                            style: Theme.of(context).textTheme.bodyText1,
                             overflow: TextOverflow.clip,
                           ),
                           SizedBox(
@@ -143,7 +143,7 @@ class AppointmentCard extends StatelessWidget {
                         children: [
                           TextSpan(
                             text: " meeting",
-                            style: Theme.of(context).textTheme.bodyText1,
+                            style: Theme.of(context).textTheme.caption,
                           )
                         ],
                       ),

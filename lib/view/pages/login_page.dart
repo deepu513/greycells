@@ -38,6 +38,10 @@ class LoginPage extends StatelessWidget {
                     Navigator.of(context).pop();
                   });
             }
+
+            if (current is AuthenticationAuthenticated) {
+              Navigator.of(context).pop();
+            }
           },
           child: LoginInputSection(
             shouldShowRegistrationSuccessfulMessage:

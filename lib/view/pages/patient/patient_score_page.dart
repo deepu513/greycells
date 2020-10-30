@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:greycells/models/assessment/personality_type.dart';
 import 'package:greycells/models/assessment/score.dart';
-import 'package:greycells/models/home/home.dart';
+import 'package:greycells/models/home/patient_home.dart';
 import 'package:greycells/view/widgets/circle_text.dart';
 import 'package:provider/provider.dart';
 
@@ -12,13 +12,13 @@ class PatientScorePage extends StatefulWidget {
 }
 
 class _PatientScorePageState extends State<PatientScorePage> {
-  Home _homeData;
+  PatientHome _homeData;
   List<PersonalityType> _filteredList;
 
   @override
   void initState() {
     super.initState();
-    _homeData = Provider.of<Home>(context, listen: false);
+    _homeData = Provider.of<PatientHome>(context, listen: false);
     _filteredList = List();
     for (int i = 0; i < _homeData.personalityScore.length; i++) {
       PersonalityType type = PersonalityType.values.firstWhere((element) =>

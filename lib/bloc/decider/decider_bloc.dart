@@ -5,7 +5,8 @@ import 'package:greycells/constants/setting_key.dart';
 import 'package:greycells/constants/test_types.dart';
 import 'package:greycells/constants/user_type.dart';
 import 'package:greycells/models/assessment/assessment_test_args.dart';
-import 'package:greycells/models/home/home.dart';
+import 'package:greycells/models/home/patient_home.dart';
+import 'package:greycells/models/home/therapist_home.dart';
 import 'package:greycells/repository/settings_repository.dart';
 import 'package:greycells/repository/user_repository.dart';
 import 'package:greycells/route/route_name.dart';
@@ -31,19 +32,27 @@ class DeciderBloc extends Bloc<DeciderEvent, DeciderState> {
       var userType = _settingsRepository.get(SettingKey.KEY_USERTYPE);
       if (userType != null && userType == UserType.PATIENT.index) {
         try {
-          Home home = await _userRepository.getHomeData();
+          PatientHome home = await _userRepository.getPatientHomeData();
           yield _decidePatientNextPage(home);
         } catch (e) {
           yield DeciderError();
         }
       } else if (userType != null && userType == UserType.THERAPIST.index) {
-        // TODO: Make therapist home api call
-        yield DecidedTherapistPage();
+        try {
+          TherapistHome therapistHome =
+              await _userRepository.getTherapistHomeData();
+          if (therapistHome != null)
+            yield DecidedTherapistPage(therapistHome);
+          else
+            yield DeciderError();
+        } catch (e) {
+          yield DeciderError();
+        }
       }
     }
   }
 
-  DeciderState _decidePatientNextPage(Home home) {
+  DeciderState _decidePatientNextPage(PatientHome home) {
     if (home != null) {
       if (home.patient == null) {
         return NextPageDecided(RouteName.PATIENT_DETAIL_INPUT_PAGE, home);
@@ -84,11 +93,8 @@ class DeciderBloc extends Bloc<DeciderEvent, DeciderState> {
                 testType: TestTypes.PERSONALITY, resumeFromQuestionNumber: 0),
           );
         }
-      } else {
-        return DeciderError();
       }
-    } else {
-      return DeciderError();
     }
+    return DeciderError();
   }
 }

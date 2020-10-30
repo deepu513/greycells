@@ -16,6 +16,9 @@ Patient _$PatientFromJson(Map<String, dynamic> json) {
         : User.fromJson(json['customer'] as Map<String, dynamic>)
     ..alternativeNumber = json['alternativeNumber'] as String
     ..profilePicId = json['fileId'] as int
+    ..file = json['file'] == null
+        ? null
+        : File.fromJson(json['file'] as Map<String, dynamic>)
     ..isMinor = json['IsMinor'] as bool
     ..address = json['Address'] == null
         ? null
@@ -52,6 +55,7 @@ Map<String, dynamic> _$PatientToJson(Patient instance) {
   writeNotNull('customer', instance.user?.toJson());
   val['alternativeNumber'] = instance.alternativeNumber;
   val['fileId'] = instance.profilePicId;
+  val['file'] = instance.file?.toJson();
   val['IsMinor'] = instance.isMinor;
   val['Address'] = instance.address?.toJson();
   val['isEligibleForTest'] = instance.isEligibleForTest;

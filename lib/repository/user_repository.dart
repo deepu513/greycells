@@ -1,7 +1,9 @@
 import 'package:flutter/foundation.dart';
 import 'package:greycells/flavor_config.dart';
-import 'package:greycells/models/home/home.dart';
-import 'package:greycells/models/home/home_serializable.dart';
+import 'package:greycells/models/home/patient_home.dart';
+import 'package:greycells/models/home/patient_home_serializable.dart';
+import 'package:greycells/models/home/therapist_home.dart';
+import 'package:greycells/models/home/therapist_home_serializable.dart';
 import 'package:greycells/models/login/login_request.dart';
 import 'package:greycells/models/login/login_request_serializable.dart';
 import 'package:greycells/models/patient/create_patient_response.dart';
@@ -23,6 +25,7 @@ class UserRepository {
   UserSerializable _userSerializable;
   CreatePatientResponseSerializable _createPatientResponseSerializable;
   HomeSerializable _homeSerializable;
+  TherapistHomeSerializable _therapistHomeSerializable;
 
   HttpService _httpService;
 
@@ -34,6 +37,7 @@ class UserRepository {
     _createPatientResponseSerializable = CreatePatientResponseSerializable();
     _userSerializable = UserSerializable();
     _homeSerializable = HomeSerializable();
+    _therapistHomeSerializable = TherapistHomeSerializable();
   }
 
   Future<bool> register({@required Registration registration}) async {
@@ -65,8 +69,8 @@ class UserRepository {
     return await _httpService.post(request, _createPatientResponseSerializable);
   }
 
-  Future<Home> getHomeData() async {
-    Request<Home> request =
+  Future<PatientHome> getPatientHomeData() async {
+    Request<PatientHome> request =
         Request("${FlavorConfig.getBaseUrl()}Account/patienthome", null);
 
     return await _httpService.get(request, _homeSerializable);
@@ -79,5 +83,12 @@ class UserRepository {
 
     Response response = await _httpService.postRaw(request, null);
     return response.statusCode;
+  }
+
+  Future<TherapistHome> getTherapistHomeData() async {
+    Request<PatientHome> request =
+        Request("${FlavorConfig.getBaseUrl()}Account/therapisthome", null);
+
+    return await _httpService.get(request, _therapistHomeSerializable);
   }
 }

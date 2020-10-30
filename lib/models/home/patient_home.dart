@@ -1,12 +1,14 @@
+import 'package:greycells/models/appointment/appointment.dart';
 import 'package:greycells/models/assessment/question.dart';
 import 'package:greycells/models/assessment/score.dart';
 import 'package:greycells/models/patient/patient.dart';
+import 'package:greycells/models/therapist/therapist.dart';
 import 'package:json_annotation/json_annotation.dart';
 
-part 'home.g.dart';
+part 'patient_home.g.dart';
 
 @JsonSerializable(explicitToJson: true)
-class Home {
+class PatientHome {
   Patient patient;
 
   @JsonKey(name: "behaviourLastattemtedques")
@@ -18,12 +20,19 @@ class Home {
   List<Score> personalityScore;
   List<Score> behaviourScore;
 
+  @JsonKey(name: "upcomingAppoinments")
+  List<Appointment> upcomingAppointments;
+
+  @JsonKey(name: "avaliableThrapist")
+  List<Therapist> availableTherapists;
+
   @JsonKey(name: "serverTimeStamp")
   String serverTimestamp;
 
-  Home();
+  PatientHome();
 
-  factory Home.fromJson(Map<String, dynamic> json) => _$HomeFromJson(json);
+  factory PatientHome.fromJson(Map<String, dynamic> json) =>
+      _$PatientHomeFromJson(json);
 
-  Map<String, dynamic> toJson() => _$HomeToJson(this);
+  Map<String, dynamic> toJson() => _$PatientHomeToJson(this);
 }

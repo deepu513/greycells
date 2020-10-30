@@ -1,4 +1,5 @@
 import 'package:greycells/models/file/file.dart';
+import 'package:greycells/models/therapist/disorder.dart';
 import 'package:greycells/models/user/user.dart';
 import 'package:json_annotation/json_annotation.dart';
 
@@ -34,15 +35,17 @@ class Therapist {
 
   String medicalCouncil;
 
+  @JsonKey(name: "disorderType")
+  Disorder disorder;
+
   Therapist();
 
-  factory Therapist.fromJson(Map<String, dynamic> json) => _$TherapistFromJson(json);
+  factory Therapist.fromJson(Map<String, dynamic> json) =>
+      _$TherapistFromJson(json);
   Map<String, dynamic> toJson() => _$TherapistToJson(this);
 
 // {
-//             "disorderType": null,
 //             "genderType": 0,
 //             "meetingDuration": null,
-//             "id": 5
 //         }
 }

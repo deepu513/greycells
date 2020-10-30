@@ -8,13 +8,17 @@ class DeciderInitial extends DeciderState {}
 class NextPageDecided extends DeciderState {
   final String routeName;
   final AssessmentTestArguments assessmentTestArguments;
-  final Home homeData;
+  final PatientHome homeData;
 
   NextPageDecided(this.routeName, this.homeData,
       {this.assessmentTestArguments});
 }
 
-class DecidedTherapistPage extends DeciderState {}
+class DecidedTherapistPage extends DeciderState {
+  final TherapistHome therapistHomeData;
+
+  DecidedTherapistPage(this.therapistHomeData);
+}
 
 class NextPageDeciding extends DeciderState {}
 

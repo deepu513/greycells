@@ -7,10 +7,12 @@ import 'package:greycells/bloc/decider/decider_bloc.dart';
 import 'package:greycells/bloc/notification/bloc/notification_bloc.dart';
 import 'package:greycells/bloc/payment/payment_bloc.dart';
 import 'package:greycells/bloc/validation/validation_bloc.dart';
-import 'package:greycells/models/home/home.dart';
+import 'package:greycells/models/home/patient_home.dart';
+import 'package:greycells/models/home/therapist_home.dart';
 import 'package:greycells/models/payment/payment.dart';
 import 'package:greycells/models/payment/payment_item.dart';
 import 'package:greycells/models/payment/payment_type.dart';
+import 'package:greycells/models/therapist/therapist.dart';
 import 'package:greycells/route/route_generator.dart';
 import 'package:greycells/simple_bloc_observer.dart';
 import 'package:greycells/view/pages/patient/appointment_date_selection.dart';
@@ -72,8 +74,12 @@ class GreyCellsApp extends StatelessWidget {
           },
         )
       ],
-      child: Provider<Home>(
-        create: (_) => Home(),
+      child: MultiProvider(
+        providers: [
+          // * One of these is initialised based on user type of logged in user.
+          Provider<PatientHome>(create: (_) => PatientHome()),
+          Provider<TherapistHome>(create: (_) => TherapistHome()),
+        ],
         child: BlocConsumer<NotificationBloc, NotificationState>(
           listener: (context, state) {},
           builder: (context, state) {

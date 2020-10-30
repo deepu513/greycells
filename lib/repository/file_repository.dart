@@ -1,5 +1,5 @@
 import 'package:greycells/flavor_config.dart';
-import 'package:greycells/models/server_file/server_file.dart';
+import 'package:greycells/models/file/server_file.dart';
 import 'package:greycells/networking/http_service.dart';
 
 class FileRepository {

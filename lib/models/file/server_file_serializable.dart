@@ -1,4 +1,4 @@
-import 'package:greycells/models/server_file/server_file.dart';
+import 'package:greycells/models/file/server_file.dart';
 import 'package:greycells/networking/serializable.dart';
 
 class ServerFileSerializable implements Serializable<ServerFile> {

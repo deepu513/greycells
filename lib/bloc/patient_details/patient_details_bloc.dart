@@ -7,7 +7,7 @@ import 'package:greycells/constants/relationship.dart';
 import 'package:greycells/constants/setting_key.dart';
 import 'package:greycells/constants/strings.dart';
 import 'package:greycells/extensions.dart';
-import 'package:greycells/models/patient/address/address.dart';
+import 'package:greycells/models/address/address.dart';
 import 'package:greycells/models/patient/create_patient_response.dart';
 import 'package:greycells/models/patient/guardian/guardian.dart';
 import 'package:greycells/models/patient/health/health_record.dart';

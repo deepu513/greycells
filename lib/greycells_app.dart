@@ -13,6 +13,7 @@ import 'package:greycells/models/payment/payment_item.dart';
 import 'package:greycells/models/payment/payment_type.dart';
 import 'package:greycells/route/route_generator.dart';
 import 'package:greycells/simple_bloc_observer.dart';
+import 'package:greycells/view/pages/patient/appointment_date_selection.dart';
 import 'package:greycells/view/pages/patient/birth_details_input_page.dart';
 import 'package:greycells/view/pages/decider_page.dart';
 import 'package:greycells/view/pages/login_page.dart';
@@ -49,6 +50,7 @@ class GreyCellsApp extends StatelessWidget {
             return DeciderBloc();
           },
         ),
+        // TODO: This has to be removed from here
         BlocProvider<PaymentBloc>(
           create: (context) {
             return PaymentBloc(Payment()
@@ -58,7 +60,7 @@ class GreyCellsApp extends StatelessWidget {
                   "https://urbanbalance.com/wp-content/uploads/2019/04/new-therapist.jpg"
               ..itemTitle = "Dr. Anne Hathaway"
               ..itemSubtitle = "Clinical Psychologist"
-              ..promoCodeApplied = false
+              ..promoCodeApplied = true
               ..discountAmount = 100
               ..originalAmount = 300
               ..items = [
@@ -106,7 +108,7 @@ class _MyApp extends StatelessWidget {
             /// User is logged in
             if (authenticationState is AuthenticationAuthenticated) {
               //return TherapistProfilePage();
-              // ! TODO: Check why this doesn't show up
+              // TODO: Check why this doesn't show up
               return DeciderPage();
             }
 

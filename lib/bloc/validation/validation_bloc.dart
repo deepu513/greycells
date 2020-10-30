@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:bloc/bloc.dart';
-import 'package:greycells/models/patient/address/address.dart';
 import 'package:greycells/models/patient/patient.dart';
 import 'package:intl/intl.dart';
 import 'package:greycells/bloc/validation/validation_field.dart';

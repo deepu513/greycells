@@ -1,7 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:greycells/bloc/validation/validation_field.dart';
+import 'package:greycells/models/address/address.dart';
 import 'package:greycells/models/login/login_request.dart';
-import 'package:greycells/models/patient/address/address.dart';
 import 'package:greycells/models/patient/patient.dart';
 import 'package:greycells/models/registration/registration.dart';
 

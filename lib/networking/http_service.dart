@@ -4,7 +4,8 @@ import 'dart:io';
 
 import 'package:greycells/constants/setting_key.dart';
 import 'package:greycells/extensions.dart';
-import 'package:greycells/models/server_file/server_file.dart';
+import 'package:greycells/models/file/server_file.dart';
+
 import 'package:greycells/networking/http_exceptions.dart';
 import 'package:greycells/networking/request.dart';
 import 'package:greycells/networking/response.dart';

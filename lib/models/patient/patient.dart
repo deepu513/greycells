@@ -1,6 +1,6 @@
 import 'package:greycells/bloc/picker/file_picker_bloc.dart';
 import 'package:greycells/constants/gender.dart';
-import 'package:greycells/models/patient/address/address.dart';
+import 'package:greycells/models/address/address.dart';
 import 'package:greycells/models/patient/guardian/guardian.dart';
 import 'package:greycells/models/patient/health/health_record.dart';
 import 'package:greycells/models/patient/medical/medical_record.dart';

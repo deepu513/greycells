@@ -27,7 +27,8 @@ Home _$HomeFromJson(Map<String, dynamic> json) {
     ..behaviourScore = (json['behaviourScore'] as List)
         ?.map(
             (e) => e == null ? null : Score.fromJson(e as Map<String, dynamic>))
-        ?.toList();
+        ?.toList()
+    ..serverTimestamp = json['serverTimeStamp'] as String;
 }
 
 Map<String, dynamic> _$HomeToJson(Home instance) => <String, dynamic>{
@@ -40,4 +41,5 @@ Map<String, dynamic> _$HomeToJson(Home instance) => <String, dynamic>{
           instance.personalityScore?.map((e) => e?.toJson())?.toList(),
       'behaviourScore':
           instance.behaviourScore?.map((e) => e?.toJson())?.toList(),
+      'serverTimeStamp': instance.serverTimestamp,
     };

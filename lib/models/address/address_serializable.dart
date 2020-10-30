@@ -1,4 +1,4 @@
-import 'package:greycells/models/patient/address/address.dart';
+import 'package:greycells/models/address/address.dart';
 import 'package:greycells/networking/serializable.dart';
 
 class AddressSerializable implements Serializable<Address> {

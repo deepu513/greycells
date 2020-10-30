@@ -18,6 +18,9 @@ class Home {
   List<Score> personalityScore;
   List<Score> behaviourScore;
 
+  @JsonKey(name: "serverTimeStamp")
+  String serverTimestamp;
+
   Home();
 
   factory Home.fromJson(Map<String, dynamic> json) => _$HomeFromJson(json);

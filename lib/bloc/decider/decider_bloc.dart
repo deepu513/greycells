@@ -32,58 +32,63 @@ class DeciderBloc extends Bloc<DeciderEvent, DeciderState> {
       if (userType != null && userType == UserType.PATIENT.index) {
         try {
           Home home = await _userRepository.getHomeData();
-          if (home != null) {
-            if (home.patient == null) {
-              yield NextPageDecided(RouteName.PATIENT_DETAIL_INPUT_PAGE, home);
-            } else if (home.patient != null &&
-                home.patient.isEligibleForTest == false) {
-              yield NextPageDecided(RouteName.PATIENT_MAIN, home);
-            } else if (home.patient != null &&
-                home.patient.isEligibleForTest == true) {
-              if (home.behaviourLastAttemptedQuestion != null &&
-                  home.behaviourLastAttemptedQuestion.isLastQuestion == false) {
-                // Open test page and show this question number and test type
-                yield NextPageDecided(
-                  RouteName.ASSESSMENT_TEST,
-                  home,
-                  assessmentTestArguments: AssessmentTestArguments(
-                      testType: TestTypes.BEHAVIOUR,
-                      resumeFromQuestionNumber:
-                          home.behaviourLastAttemptedQuestion.sequence),
-                );
-              } else if (home.personalityLastAttemptedQuestion != null &&
-                  home.personalityLastAttemptedQuestion.isLastQuestion ==
-                      false) {
-                // Open test page and show this question number and test type
-                yield NextPageDecided(
-                  RouteName.ASSESSMENT_TEST,
-                  home,
-                  assessmentTestArguments: AssessmentTestArguments(
-                      testType: TestTypes.PERSONALITY,
-                      resumeFromQuestionNumber:
-                          home.personalityLastAttemptedQuestion.sequence),
-                );
-              } else if (home.behaviourLastAttemptedQuestion == null) {
-                yield NextPageDecided(RouteName.ASSESSMENT_TEST_INTRO, home);
-              } else if (home.personalityLastAttemptedQuestion == null) {
-                yield NextPageDecided(
-                  RouteName.ASSESSMENT_TEST,
-                  home,
-                  assessmentTestArguments: AssessmentTestArguments(
-                      testType: TestTypes.PERSONALITY,
-                      resumeFromQuestionNumber: 0),
-                );
-              }
-            }
-          } else {
-            yield DeciderError();
-          }
+          yield _decidePatientNextPage(home);
         } catch (e) {
           yield DeciderError();
         }
       } else if (userType != null && userType == UserType.THERAPIST.index) {
+        // TODO: Make therapist home api call
         yield DecidedTherapistPage();
       }
+    }
+  }
+
+  DeciderState _decidePatientNextPage(Home home) {
+    if (home != null) {
+      if (home.patient == null) {
+        return NextPageDecided(RouteName.PATIENT_DETAIL_INPUT_PAGE, home);
+      } else if (home.patient != null &&
+          home.patient.isEligibleForTest == false) {
+        return NextPageDecided(RouteName.PATIENT_MAIN, home);
+      } else if (home.patient != null &&
+          home.patient.isEligibleForTest == true) {
+        if (home.behaviourLastAttemptedQuestion != null &&
+            home.behaviourLastAttemptedQuestion.isLastQuestion == false) {
+          // Open test page and show this question number and test type
+          return NextPageDecided(
+            RouteName.ASSESSMENT_TEST,
+            home,
+            assessmentTestArguments: AssessmentTestArguments(
+                testType: TestTypes.BEHAVIOUR,
+                resumeFromQuestionNumber:
+                    home.behaviourLastAttemptedQuestion.sequence),
+          );
+        } else if (home.personalityLastAttemptedQuestion != null &&
+            home.personalityLastAttemptedQuestion.isLastQuestion == false) {
+          // Open test page and show this question number and test type
+          return NextPageDecided(
+            RouteName.ASSESSMENT_TEST,
+            home,
+            assessmentTestArguments: AssessmentTestArguments(
+                testType: TestTypes.PERSONALITY,
+                resumeFromQuestionNumber:
+                    home.personalityLastAttemptedQuestion.sequence),
+          );
+        } else if (home.behaviourLastAttemptedQuestion == null) {
+          return NextPageDecided(RouteName.ASSESSMENT_TEST_INTRO, home);
+        } else if (home.personalityLastAttemptedQuestion == null) {
+          return NextPageDecided(
+            RouteName.ASSESSMENT_TEST,
+            home,
+            assessmentTestArguments: AssessmentTestArguments(
+                testType: TestTypes.PERSONALITY, resumeFromQuestionNumber: 0),
+          );
+        }
+      } else {
+        return DeciderError();
+      }
+    } else {
+      return DeciderError();
     }
   }
 }

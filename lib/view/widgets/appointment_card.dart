@@ -13,8 +13,8 @@ class AppointmentCard extends StatelessWidget {
         child: Container(
           padding: EdgeInsets.symmetric(horizontal: 8.0, vertical: 16.0),
           child: Column(
-            mainAxisSize: MainAxisSize.min,
-            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisSize: MainAxisSize.max,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               IntrinsicHeight(
                 child: Row(

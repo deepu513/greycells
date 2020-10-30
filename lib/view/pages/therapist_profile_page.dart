@@ -63,35 +63,42 @@ class HeaderSection extends StatelessWidget {
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          CircleAvatar(
-            backgroundImage: NetworkImage(
-                "https://urbanbalance.com/wp-content/uploads/2019/04/new-therapist.jpg"),
-            radius: 36.0,
+          Hero(
+            tag: "profile_pic 1",
+            child: CircleAvatar(
+              backgroundImage: NetworkImage(
+                  "https://urbanbalance.com/wp-content/uploads/2019/04/new-therapist.jpg"),
+              radius: 36.0,
+            ),
           ),
           SizedBox(
             width: 16.0,
           ),
           Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Text(
-                  "Dr. Anne Hathaway",
-                  style: Theme.of(context).textTheme.headline6,
-                  overflow: TextOverflow.clip,
-                ),
-                Text(
-                  "Clinical Psychologist",
-                  style: Theme.of(context).textTheme.subtitle2,
-                  overflow: TextOverflow.clip,
-                ),
-                Text(
-                  "Medical Council",
-                  style: Theme.of(context).textTheme.caption,
-                  overflow: TextOverflow.clip,
-                ),
-              ],
+            child: Hero(
+              tag: "therapist_meta 1",
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisSize: MainAxisSize.max,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    "Dr. Anne Hathaway",
+                    style: Theme.of(context).textTheme.headline6,
+                    overflow: TextOverflow.clip,
+                  ),
+                  Text(
+                    "Clinical Psychologist",
+                    style: Theme.of(context).textTheme.subtitle2,
+                    overflow: TextOverflow.clip,
+                  ),
+                  Text(
+                    "Medical Council",
+                    style: Theme.of(context).textTheme.caption,
+                    overflow: TextOverflow.clip,
+                  ),
+                ],
+              ),
             ),
           ),
           VerticalDivider(
@@ -106,15 +113,18 @@ class HeaderSection extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisSize: MainAxisSize.min,
               children: [
-                Container(
-                  decoration: BoxDecoration(
-                      shape: BoxShape.circle, color: Colors.purple.shade50),
-                  padding: EdgeInsets.all(8.0),
-                  child: Text(
-                    "5",
-                    style: Theme.of(context).textTheme.headline5.copyWith(
-                        color: Colors.purple, fontWeight: FontWeight.w700),
-                    overflow: TextOverflow.clip,
+                Hero(
+                  tag: "therapist_exp 1",
+                  child: Container(
+                    decoration: BoxDecoration(
+                        shape: BoxShape.circle, color: Colors.purple.shade50),
+                    padding: EdgeInsets.all(8.0),
+                    child: Text(
+                      "5",
+                      style: Theme.of(context).textTheme.headline5.copyWith(
+                          color: Colors.purple, fontWeight: FontWeight.w700),
+                      overflow: TextOverflow.clip,
+                    ),
                   ),
                 ),
                 Text(

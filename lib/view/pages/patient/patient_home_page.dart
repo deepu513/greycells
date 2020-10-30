@@ -42,7 +42,7 @@ class _PatientHomePageState extends State<PatientHomePage> {
             ),
             SliverList(
               delegate: SliverChildBuilderDelegate((context, index) {
-                return TherapistListTile();
+                return TherapistListTile(index: index,);
               }, childCount: 20),
             )
           ],

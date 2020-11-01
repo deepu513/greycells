@@ -11,7 +11,8 @@ class TherapistListTile extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        Navigator.of(context).pushNamed(RouteName.THERAPIST_PROFILE_PAGE);
+        Navigator.of(context)
+            .pushNamed(RouteName.THERAPIST_PROFILE_PAGE, arguments: therapist);
       },
       child: Container(
         padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 16.0),

@@ -360,28 +360,4 @@ class _PatientScorePageState extends State<PatientScorePage> {
           ),
         ));
   }
-
-  List<Widget> _getTextInCircle(List<Score> receivedScore) {
-    List<Widget> textInCircle = List();
-    List<PersonalityType> personalityTypes = PersonalityType.values;
-    for (int i = 0; i < receivedScore.length; i++) {
-      PersonalityType type = personalityTypes.firstWhere(
-          (element) => element.initials() == receivedScore[i].groupName);
-      textInCircle.add(CircleText(
-        text: Text(
-          type.initials(),
-          style: Theme.of(context)
-              .textTheme
-              .headline5
-              .copyWith(color: Colors.white, fontWeight: FontWeight.w500),
-        ),
-        circleColor: type.color(),
-        padding: EdgeInsets.all(8.0),
-      ));
-      textInCircle.add(SizedBox(
-        width: 8.0,
-      ));
-    }
-    return textInCircle;
-  }
 }

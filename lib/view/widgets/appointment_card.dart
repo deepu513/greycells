@@ -3,11 +3,25 @@ import 'package:greycells/models/appointment/appointment.dart';
 import 'package:greycells/models/appointment/status.dart';
 import 'package:greycells/view/widgets/appointment_status_widget.dart';
 import 'package:greycells/view/widgets/vertical_date.dart';
+import 'package:greycells/extensions.dart';
 
-class AppointmentCard extends StatelessWidget {
+class AppointmentCard extends StatefulWidget {
   final Appointment appointment;
 
   AppointmentCard(this.appointment);
+
+  @override
+  _AppointmentCardState createState() => _AppointmentCardState();
+}
+
+class _AppointmentCardState extends State<AppointmentCard> {
+  String readableDate;
+
+  @override
+  void initState() {
+    super.initState();
+    readableDate = widget.appointment.date.convertToDateFormat("EEE dd MMM");
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +44,10 @@ class AppointmentCard extends StatelessWidget {
                   children: [
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                      child: VerticalDate(),
+                      child: VerticalDate(
+                          readableDate.split(" ")[0],
+                          readableDate.split(" ")[1],
+                          readableDate.split(" ")[2]),
                     ),
                     VerticalDivider(
                       thickness: 1.0,
@@ -44,7 +61,7 @@ class AppointmentCard extends StatelessWidget {
                       radius: 24.0,
                     ),
                     SizedBox(width: 16.0),
-                    Expanded(child: AppointmentMetaInfo(appointment)),
+                    Expanded(child: AppointmentMetaInfo(widget.appointment)),
                   ],
                 ),
               ),
@@ -80,7 +97,7 @@ class AppointmentCard extends StatelessWidget {
                     ),
                     Spacer(),
                     AppointmentStatusWidget(
-                        AppointmentStatus.values[appointment.status])
+                        AppointmentStatus.values[widget.appointment.status])
                   ],
                 ),
               ),

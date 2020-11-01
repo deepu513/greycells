@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:greycells/models/appointment/appointment.dart';
 import 'package:greycells/view/widgets/appointment_card.dart';
 import 'package:greycells/view/widgets/no_glow_scroll_behaviour.dart';
 
@@ -8,13 +9,15 @@ class PatientAppointmentPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: ScrollConfiguration(
-        behavior: NoGlowScrollBehaviour(),
-        child: CustomScrollView(
-          slivers: [
-            AppointmentsAppBar(),
-            AppointmentList(),
-          ],
+      body: SafeArea(
+        child: ScrollConfiguration(
+          behavior: NoGlowScrollBehaviour(),
+          child: CustomScrollView(
+            slivers: [
+              AppointmentsAppBar(),
+              AppointmentList(),
+            ],
+          ),
         ),
       ),
     );
@@ -60,11 +63,17 @@ class AppointmentsAppBar extends StatelessWidget {
 }
 
 class AppointmentList extends StatelessWidget {
+  final List<Appointment> appointments;
+  AppointmentList(this.appointments);
+
   @override
   Widget build(BuildContext context) {
     return SliverList(
-        delegate: SliverChildBuilderDelegate((context, index) {
-      return AppointmentCard();
-    }, childCount: 20));
+      delegate: SliverChildBuilderDelegate(
+        (context, index) {
+          return AppointmentCard(appointments[index]);
+        },
+      ),
+    );
   }
 }

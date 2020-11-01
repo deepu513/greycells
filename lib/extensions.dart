@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:greycells/bloc/validation/bloc.dart';
 import 'package:greycells/bloc/validation/validation_field.dart';
+import 'package:intl/intl.dart';
 
 import 'constants/strings.dart';
 
@@ -20,6 +21,17 @@ extension StringExtensions on String {
       this != null && this.isNotEmpty && this.length >= length;
 
   String get titleCase => '${this[0].toUpperCase()}${this.substring(1)}';
+
+  String convertToDateFormat(String format) {
+    try {
+      DateFormat dateFormat = DateFormat("yyyy-mm-dd'T'HH:mm:ss.mmmuuu");
+      DateTime dateTime = dateFormat.parse(this);
+
+      return DateFormat(format).format(dateTime);
+    } catch (e) {}
+
+    return "";
+  }
 }
 
 extension dialogs on Widget {

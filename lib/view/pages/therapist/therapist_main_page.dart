@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:greycells/destination.dart';
+import 'package:greycells/models/home/therapist_home.dart';
+import 'package:provider/provider.dart';
+
 class TherapistMainPage extends StatefulWidget {
   @override
   _TherapistMainPageState createState() => _TherapistMainPageState();
@@ -8,11 +11,14 @@ class TherapistMainPage extends StatefulWidget {
 class _TherapistMainPageState extends State<TherapistMainPage>
     with TickerProviderStateMixin<TherapistMainPage> {
   int _currentIndex;
+  List<Destination> therapistDestinations;
 
   @override
   void initState() {
     super.initState();
     _currentIndex = 0;
+    therapistDestinations = Destination.therapistDestinations(
+        Provider.of<TherapistHome>(context, listen: false).therapist);
   }
 
   @override

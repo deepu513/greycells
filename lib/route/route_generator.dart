@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:greycells/bloc/assessment/assessment_bloc.dart';
 import 'package:greycells/bloc/authentication/forgot_password_bloc.dart';
 import 'package:greycells/bloc/registration/bloc.dart';
+import 'package:greycells/bloc/therapist/bloc/therapist_bloc.dart';
 import 'package:greycells/bloc/validation/bloc.dart';
 import 'package:greycells/route/route_name.dart';
 import 'package:greycells/view/pages/patient/appointment_date_selection.dart';
@@ -77,7 +78,10 @@ class RouteGenerator {
       case RouteName.PATIENT_SCORE_PAGE:
         return MaterialPageRoute(builder: (_) => PatientScorePage());
       case RouteName.THERAPIST_LIST_PAGE:
-        return MaterialPageRoute(builder: (_) => TherapistListPage());
+        return MaterialPageRoute(
+            builder: (_) => BlocProvider<TherapistBloc>(
+                create: (_) => TherapistBloc(),
+                child: TherapistListPage()));
       case RouteName.PATIENT_APPOINTMENT_LIST_PAGE:
         return MaterialPageRoute(builder: (_) => PatientAppointmentPage());
       case RouteName.THERAPIST_APPOINTMENT_LIST_PAGE:
@@ -86,7 +90,7 @@ class RouteGenerator {
       case RouteName.PATIENT_PROFILE_PAGE:
         return MaterialPageRoute(builder: (_) => PatientProfilePage());
       case RouteName.THERAPIST_PROFILE_PAGE:
-        return MaterialPageRoute(builder: (_) => TherapistProfilePage());
+        return MaterialPageRoute(builder: (_) => TherapistProfilePage(args));
       case RouteName.APPOINTMENT_DATE_SELECTION_PAGE:
         return MaterialPageRoute(builder: (_) => AppointmentDateSelection());
       default:

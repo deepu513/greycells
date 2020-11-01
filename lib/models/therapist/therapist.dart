@@ -1,5 +1,6 @@
 import 'package:greycells/models/file/file.dart';
 import 'package:greycells/models/therapist/disorder.dart';
+import 'package:greycells/models/therapist/therapist_type.dart';
 import 'package:greycells/models/user/user.dart';
 import 'package:json_annotation/json_annotation.dart';
 
@@ -30,6 +31,9 @@ class Therapist {
 
   @JsonKey(name: "qualication")
   String qualification;
+
+  @JsonKey(name: "therapyType")
+  TherapistType therapistType;
 
   String spokenLanguage;
 

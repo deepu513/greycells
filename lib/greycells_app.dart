@@ -107,14 +107,13 @@ class _MyApp extends StatelessWidget {
           builder: (context, authenticationState) {
             /// User is not logged in
             if (authenticationState is AuthenticationUnauthenticated) {
-              //return TherapistProfilePage();
+              //return PatientMainPage();
               return WelcomePage();
             }
 
             /// User is logged in
             if (authenticationState is AuthenticationAuthenticated) {
-              //return TherapistProfilePage();
-              // TODO: Check why this doesn't show up
+              //return TherapistMainPage();
               return DeciderPage();
             }
 

@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:greycells/models/appointment/appointment.dart';
+import 'package:greycells/models/home/patient_home.dart';
+import 'package:greycells/models/therapist/therapist.dart';
 import 'package:greycells/route/route_name.dart';
 import 'package:greycells/view/widgets/appointment_card.dart';
 import 'package:greycells/view/widgets/no_glow_scroll_behaviour.dart';
 import 'package:greycells/view/widgets/therapist_list_tile.dart';
+import 'package:provider/provider.dart';
 
 class PatientHomePage extends StatefulWidget {
   const PatientHomePage();
@@ -13,6 +17,21 @@ class PatientHomePage extends StatefulWidget {
 }
 
 class _PatientHomePageState extends State<PatientHomePage> {
+  List<Appointment> upcomingAppointments;
+  List<Therapist> availableTherapist;
+  String patientName;
+
+  @override
+  void initState() {
+    super.initState();
+    upcomingAppointments =
+        Provider.of<PatientHome>(context, listen: false).upcomingAppointments;
+    availableTherapist =
+        Provider.of<PatientHome>(context, listen: false).availableTherapists;
+    patientName =
+        Provider.of<PatientHome>(context, listen: false).patient.user.firstName;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -20,7 +39,8 @@ class _PatientHomePageState extends State<PatientHomePage> {
         behavior: NoGlowScrollBehaviour(),
         child: CustomScrollView(
           slivers: [
-            _AppBarSection(),
+            _AppBarSection(patientName,
+                "https://urbanbalance.com/wp-content/uploads/2019/04/new-therapist.jpg"),
             SliverList(
               delegate: SliverChildListDelegate(
                 [
@@ -28,22 +48,37 @@ class _PatientHomePageState extends State<PatientHomePage> {
                     padding: const EdgeInsets.only(top: 8.0, bottom: 8.0),
                     child: ScoreAndReportSection(),
                   ),
-                  Padding(
-                    padding: const EdgeInsets.all(16.0),
-                    child: UpcomingAppointmentHeaderSection(),
+                  Visibility(
+                    visible: upcomingAppointments != null &&
+                        upcomingAppointments.isNotEmpty,
+                    child: Padding(
+                      padding: const EdgeInsets.all(16.0),
+                      child: UpcomingAppointmentHeaderSection(),
+                    ),
                   ),
-                  UpcomingAppointmentSection(),
+                  Visibility(
+                    visible: upcomingAppointments != null &&
+                        upcomingAppointments.isNotEmpty,
+                    child: UpcomingAppointmentSection(upcomingAppointments),
+                  ),
                   Padding(
                     padding: const EdgeInsets.fromLTRB(16.0, 16.0, 4.0, 0.0),
                     child: TherapistHeaderSection(),
                   )
+                  //TODO: Add empty state here
                 ],
               ),
             ),
-            SliverList(
-              delegate: SliverChildBuilderDelegate((context, index) {
-                return TherapistListTile(index: index,);
-              }, childCount: 20),
+            Visibility(
+              visible:
+                  availableTherapist != null && availableTherapist.isNotEmpty,
+              child: SliverList(
+                delegate: SliverChildBuilderDelegate((context, index) {
+                  return TherapistListTile(
+                    therapist: availableTherapist[index],
+                  );
+                }, childCount: availableTherapist.length),
+              ),
             )
           ],
         ),
@@ -98,11 +133,16 @@ class TherapistHeaderSection extends StatelessWidget {
 }
 
 class _AppBarSection extends StatelessWidget {
+  final String patientName;
+  final String profilePicUrl;
+
+  _AppBarSection(this.patientName, this.profilePicUrl);
+
   @override
   Widget build(BuildContext context) {
     return SliverAppBar(
       title: Text(
-        'Hi Deepak',
+        'Hi $patientName',
         style: Theme.of(context)
             .textTheme
             .headline6
@@ -118,8 +158,7 @@ class _AppBarSection extends StatelessWidget {
             icon: Hero(
               tag: "profile_pic",
               child: CircleAvatar(
-                backgroundImage: NetworkImage(
-                    "https://urbanbalance.com/wp-content/uploads/2019/04/new-therapist.jpg"),
+                backgroundImage: NetworkImage(profilePicUrl),
                 radius: 16.0,
               ),
             ),
@@ -134,14 +173,19 @@ class _AppBarSection extends StatelessWidget {
 }
 
 class UpcomingAppointmentSection extends StatelessWidget {
+  final List<Appointment> upcomingAppointments;
+
+  UpcomingAppointmentSection(this.upcomingAppointments);
+
   @override
   Widget build(BuildContext context) {
     return SizedBox(
       height: 158.0,
       child: PageView.builder(
-        itemCount: 2,
+        itemCount: upcomingAppointments.length,
         controller: PageController(viewportFraction: 0.9),
-        itemBuilder: (context, index) => AppointmentCard(),
+        itemBuilder: (context, index) =>
+            AppointmentCard(upcomingAppointments[index]),
         scrollDirection: Axis.horizontal,
       ),
     );

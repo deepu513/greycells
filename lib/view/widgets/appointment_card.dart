@@ -1,6 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:greycells/models/appointment/appointment.dart';
+import 'package:greycells/models/appointment/status.dart';
+import 'package:greycells/view/widgets/appointment_status_widget.dart';
+import 'package:greycells/view/widgets/vertical_date.dart';
 
 class AppointmentCard extends StatelessWidget {
+  final Appointment appointment;
+
+  AppointmentCard(this.appointment);
+
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -22,41 +30,7 @@ class AppointmentCard extends StatelessWidget {
                   children: [
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Text(
-                            "Tue",
-                            style: Theme.of(context)
-                                .textTheme
-                                .subtitle1
-                                .copyWith(
-                                    color: Colors.blueGrey,
-                                    fontWeight: FontWeight.bold),
-                            overflow: TextOverflow.clip,
-                          ),
-                          Text(
-                            "18",
-                            style: Theme.of(context)
-                                .textTheme
-                                .headline5
-                                .copyWith(
-                                    color: Color(0xFF100249),
-                                    fontWeight: FontWeight.bold),
-                            overflow: TextOverflow.clip,
-                          ),
-                          Text(
-                            "Nov",
-                            style: Theme.of(context)
-                                .textTheme
-                                .subtitle1
-                                .copyWith(
-                                    color: Colors.cyan,
-                                    fontWeight: FontWeight.bold),
-                            overflow: TextOverflow.clip,
-                          ),
-                        ],
-                      ),
+                      child: VerticalDate(),
                     ),
                     VerticalDivider(
                       thickness: 1.0,
@@ -70,51 +44,7 @@ class AppointmentCard extends StatelessWidget {
                       radius: 24.0,
                     ),
                     SizedBox(width: 16.0),
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Text(
-                            "Dr. Anne Hathaway",
-                            style: Theme.of(context).textTheme.headline6,
-                            overflow: TextOverflow.clip,
-                          ),
-                          Text(
-                            "Clinical Psychologist",
-                            style: Theme.of(context).textTheme.bodyText1,
-                            overflow: TextOverflow.clip,
-                          ),
-                          SizedBox(
-                            height: 4.0,
-                          ),
-                          Row(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              RichText(
-                                text: TextSpan(
-                                  text: "at",
-                                  style: Theme.of(context).textTheme.subtitle1,
-                                  children: [
-                                    TextSpan(
-                                      text: " 12:30 pm",
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .subtitle1
-                                          .copyWith(
-                                              color: Color(0xFF100249),
-                                              letterSpacing: 0.7,
-                                              fontWeight: FontWeight.bold),
-                                    )
-                                  ],
-                                ),
-                              )
-                            ],
-                          ),
-                        ],
-                      ),
-                    ),
+                    Expanded(child: AppointmentMetaInfo(appointment)),
                   ],
                 ),
               ),
@@ -149,23 +79,8 @@ class AppointmentCard extends StatelessWidget {
                       ),
                     ),
                     Spacer(),
-                    Container(
-                      alignment: Alignment.center,
-                      padding:
-                          EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
-                      decoration: BoxDecoration(
-                        shape: BoxShape.rectangle,
-                        borderRadius: BorderRadius.circular(4.0),
-                        color: Colors.blue.shade50,
-                      ),
-                      child: Text(
-                        "UPCOMING",
-                        style: Theme.of(context).textTheme.caption.copyWith(
-                            color: Colors.blue.shade700,
-                            fontWeight: FontWeight.w700,
-                            letterSpacing: 1.0),
-                      ),
-                    ),
+                    AppointmentStatusWidget(
+                        AppointmentStatus.values[appointment.status])
                   ],
                 ),
               ),
@@ -173,6 +88,54 @@ class AppointmentCard extends StatelessWidget {
           ),
         ),
       ),
+    );
+  }
+}
+
+class AppointmentMetaInfo extends StatelessWidget {
+  final Appointment appointment;
+  AppointmentMetaInfo(this.appointment);
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisAlignment: MainAxisAlignment.center,
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Text(
+          "Dr. Anne Hathaway",
+          style: Theme.of(context).textTheme.headline6,
+          overflow: TextOverflow.clip,
+        ),
+        Text(
+          "Clinical Psychologist",
+          style: Theme.of(context).textTheme.bodyText1,
+          overflow: TextOverflow.clip,
+        ),
+        SizedBox(
+          height: 4.0,
+        ),
+        Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            RichText(
+              text: TextSpan(
+                text: "at",
+                style: Theme.of(context).textTheme.subtitle1,
+                children: [
+                  TextSpan(
+                    text: " 12:30 pm",
+                    style: Theme.of(context).textTheme.subtitle1.copyWith(
+                        color: Color(0xFF100249),
+                        letterSpacing: 0.7,
+                        fontWeight: FontWeight.bold),
+                  )
+                ],
+              ),
+            )
+          ],
+        ),
+      ],
     );
   }
 }

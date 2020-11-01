@@ -32,7 +32,7 @@ class Registration {
 
   Registration() {
     deviceId = "";
-    userType = UserType.PATIENT;
+    userType = UserType.patient;
   }
 
   factory Registration.fromJson(Map<String, dynamic> json) =>

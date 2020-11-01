@@ -30,14 +30,14 @@ class DeciderBloc extends Bloc<DeciderEvent, DeciderState> {
       yield NextPageDeciding();
       _settingsRepository = await SettingsRepository.getInstance();
       var userType = _settingsRepository.get(SettingKey.KEY_USERTYPE);
-      if (userType != null && userType == UserType.PATIENT.index) {
+      if (userType != null && userType == UserType.patient.index) {
         try {
           PatientHome home = await _userRepository.getPatientHomeData();
           yield _decidePatientNextPage(home);
         } catch (e) {
           yield DeciderError();
         }
-      } else if (userType != null && userType == UserType.THERAPIST.index) {
+      } else if (userType != null && userType == UserType.therapist.index) {
         try {
           TherapistHome therapistHome =
               await _userRepository.getTherapistHomeData();

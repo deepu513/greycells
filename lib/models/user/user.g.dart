@@ -60,6 +60,6 @@ T _$enumDecodeNullable<T>(
 }
 
 const _$UserTypeEnumMap = {
-  UserType.PATIENT: 0,
-  UserType.THERAPIST: 1,
+  UserType.patient: 0,
+  UserType.therapist: 1,
 };

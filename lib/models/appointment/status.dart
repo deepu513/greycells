@@ -1,9 +1,12 @@
 import 'package:json_annotation/json_annotation.dart';
 
-enum UserType {
+enum AppointmentStatus {
   @JsonValue(0)
-  patient,
+  upcoming,
 
   @JsonValue(1)
-  therapist,
+  completed,
+  
+  @JsonValue(2)
+  cancelled
 }

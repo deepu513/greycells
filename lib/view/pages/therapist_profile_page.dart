@@ -1,9 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:greycells/constants/strings.dart';
+import 'package:greycells/models/therapist/charge.dart';
+import 'package:greycells/models/therapist/therapist.dart';
 import 'package:greycells/route/route_name.dart';
 
-class TherapistProfilePage extends StatelessWidget {
-  const TherapistProfilePage();
+class TherapistProfilePage extends StatefulWidget {
+  final Therapist therapist;
+
+  const TherapistProfilePage(this.therapist);
+
+  @override
+  _TherapistProfilePageState createState() => _TherapistProfilePageState();
+}
+
+class _TherapistProfilePageState extends State<TherapistProfilePage> {
+  MeetingCharge selectedMeetingCharge;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -27,28 +39,37 @@ class TherapistProfilePage extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    HeaderSection(),
+                    HeaderSection(
+                        "${widget.therapist.user.firstName} ${widget.therapist.user.lastName}",
+                        widget.therapist.therapistType.name,
+                        widget.therapist.medicalCouncil,
+                        widget.therapist.totalExperience.toString()),
                     SizedBox(
                       height: 24.0,
                     ),
-                    ExpertiseSection(),
+                    ExpertiseSection(widget.therapist.therapistType.expertise,
+                        widget.therapist.therapistType.specialisation),
                     SizedBox(
                       height: 16.0,
                     ),
-                    QualificationSection(),
+                    QualificationSection(widget.therapist.qualification),
                     SizedBox(
                       height: 16.0,
                     ),
-                    LanguageSection(),
+                    LanguageSection(widget.therapist.spokenLanguage),
                     Divider(
                       height: 32.0,
                     ),
-                    MeetingChargesSection(),
+                    MeetingChargesSection(widget.therapist.charges,
+                        widget.therapist.meetingDuration.toString(),
+                        (selectedMeeting) {
+                      setState(() => selectedMeetingCharge = selectedMeeting);
+                    }),
                   ],
                 ),
               ),
             ),
-            BookAppointmentButton(),
+            BookAppointmentButton(selectedMeetingCharge != null),
           ],
         ),
       ),
@@ -57,48 +78,50 @@ class TherapistProfilePage extends StatelessWidget {
 }
 
 class HeaderSection extends StatelessWidget {
+  final String therapistName;
+  final String therapistType;
+  final String medicalCouncil;
+  final String experience;
+
+  HeaderSection(this.therapistName, this.therapistType, this.medicalCouncil,
+      this.experience);
+
   @override
   Widget build(BuildContext context) {
     return IntrinsicHeight(
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Hero(
-            tag: "profile_pic 1",
-            child: CircleAvatar(
-              backgroundImage: NetworkImage(
-                  "https://urbanbalance.com/wp-content/uploads/2019/04/new-therapist.jpg"),
-              radius: 36.0,
-            ),
+          CircleAvatar(
+            backgroundImage: NetworkImage(
+                "https://urbanbalance.com/wp-content/uploads/2019/04/new-therapist.jpg"),
+            radius: 36.0,
           ),
           SizedBox(
             width: 16.0,
           ),
           Expanded(
-            child: Hero(
-              tag: "therapist_meta 1",
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisSize: MainAxisSize.max,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    "Dr. Anne Hathaway",
-                    style: Theme.of(context).textTheme.headline6,
-                    overflow: TextOverflow.clip,
-                  ),
-                  Text(
-                    "Clinical Psychologist",
-                    style: Theme.of(context).textTheme.subtitle2,
-                    overflow: TextOverflow.clip,
-                  ),
-                  Text(
-                    "Medical Council",
-                    style: Theme.of(context).textTheme.caption,
-                    overflow: TextOverflow.clip,
-                  ),
-                ],
-              ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.max,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  therapistName,
+                  style: Theme.of(context).textTheme.headline6,
+                  overflow: TextOverflow.clip,
+                ),
+                Text(
+                  therapistType,
+                  style: Theme.of(context).textTheme.subtitle2,
+                  overflow: TextOverflow.clip,
+                ),
+                Text(
+                  medicalCouncil,
+                  style: Theme.of(context).textTheme.caption,
+                  overflow: TextOverflow.clip,
+                ),
+              ],
             ),
           ),
           VerticalDivider(
@@ -113,18 +136,15 @@ class HeaderSection extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisSize: MainAxisSize.min,
               children: [
-                Hero(
-                  tag: "therapist_exp 1",
-                  child: Container(
-                    decoration: BoxDecoration(
-                        shape: BoxShape.circle, color: Colors.purple.shade50),
-                    padding: EdgeInsets.all(8.0),
-                    child: Text(
-                      "5",
-                      style: Theme.of(context).textTheme.headline5.copyWith(
-                          color: Colors.purple, fontWeight: FontWeight.w700),
-                      overflow: TextOverflow.clip,
-                    ),
+                Container(
+                  decoration: BoxDecoration(
+                      shape: BoxShape.circle, color: Colors.purple.shade50),
+                  padding: EdgeInsets.all(8.0),
+                  child: Text(
+                    experience,
+                    style: Theme.of(context).textTheme.headline5.copyWith(
+                        color: Colors.purple, fontWeight: FontWeight.w700),
+                    overflow: TextOverflow.clip,
                   ),
                 ),
                 Text(
@@ -149,6 +169,10 @@ class HeaderSection extends StatelessWidget {
 }
 
 class QualificationSection extends StatelessWidget {
+  final String therapistQualification;
+
+  QualificationSection(this.therapistQualification);
+
   @override
   Widget build(BuildContext context) {
     return ColoredPageSection(
@@ -160,11 +184,14 @@ class QualificationSection extends StatelessWidget {
           color: Colors.brown,
         ),
         title: "Qualifications",
-        description: "B.Sc Psychology");
+        description: therapistQualification);
   }
 }
 
 class LanguageSection extends StatelessWidget {
+  final String languages;
+  LanguageSection(this.languages);
+
   @override
   Widget build(BuildContext context) {
     return ColoredPageSection(
@@ -176,11 +203,16 @@ class LanguageSection extends StatelessWidget {
           color: Colors.blueGrey,
         ),
         title: "Speaks in",
-        description: "Hindi, English, Marathi, Tamil");
+        description: languages);
   }
 }
 
 class ExpertiseSection extends StatelessWidget {
+  final String therapistExpertise;
+  final String therapistSpecialization;
+
+  const ExpertiseSection(this.therapistExpertise, this.therapistSpecialization);
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -201,7 +233,7 @@ class ExpertiseSection extends StatelessWidget {
               color: Colors.teal,
             ),
             title: "Expert in",
-            description: "Child Psychology",
+            description: therapistExpertise,
           ),
           SizedBox(height: 16.0),
           PageSection(
@@ -212,7 +244,7 @@ class ExpertiseSection extends StatelessWidget {
               color: Colors.teal,
             ),
             title: "Specializes in",
-            description: "Stammering, Lack of confidence, Stage fear",
+            description: therapistSpecialization,
           ),
         ],
       ),
@@ -300,6 +332,13 @@ class PageSection extends StatelessWidget {
 }
 
 class MeetingChargesSection extends StatefulWidget {
+  final List<MeetingCharge> meetingCharges;
+  final String meetingDuration;
+  final ValueChanged<MeetingCharge> onChargeSelected;
+
+  MeetingChargesSection(
+      this.meetingCharges, this.meetingDuration, this.onChargeSelected);
+
   @override
   _MeetingChargesSectionState createState() => _MeetingChargesSectionState();
 }
@@ -339,7 +378,7 @@ class _MeetingChargesSectionState extends State<MeetingChargesSection> {
                         ),
                     children: [
                       TextSpan(
-                          text: "60 minutes",
+                          text: "${widget.meetingDuration} minutes",
                           style: Theme.of(context)
                               .textTheme
                               .bodyText1
@@ -352,7 +391,7 @@ class _MeetingChargesSectionState extends State<MeetingChargesSection> {
             height: 16.0,
           ),
           ListView.separated(
-            itemCount: 3,
+            itemCount: widget.meetingCharges.length,
             shrinkWrap: true,
             itemBuilder: (context, index) {
               return GestureDetector(
@@ -360,6 +399,8 @@ class _MeetingChargesSectionState extends State<MeetingChargesSection> {
                   setState(() {
                     _selectedIndex = index;
                   });
+                  widget
+                      .onChargeSelected(widget.meetingCharges[_selectedIndex]);
                 },
                 child: AnimatedContainer(
                   duration: Duration(milliseconds: 200),
@@ -384,7 +425,7 @@ class _MeetingChargesSectionState extends State<MeetingChargesSection> {
                         width: 16.0,
                       ),
                       Text(
-                        "One to One",
+                        widget.meetingCharges[index].meetingType,
                         style: Theme.of(context).textTheme.subtitle1.copyWith(
                             color: _selectedIndex == index
                                 ? Colors.white
@@ -392,7 +433,8 @@ class _MeetingChargesSectionState extends State<MeetingChargesSection> {
                       ),
                       Spacer(),
                       Text(
-                        Strings.rupeeSymbol + "1000",
+                        Strings.rupeeSymbol +
+                            "${widget.meetingCharges[index].amount}",
                         style: Theme.of(context).textTheme.subtitle1.copyWith(
                             color: _selectedIndex == index
                                 ? Colors.white
@@ -416,23 +458,29 @@ class _MeetingChargesSectionState extends State<MeetingChargesSection> {
 }
 
 class BookAppointmentButton extends StatelessWidget {
+  final bool enabled;
+  BookAppointmentButton(this.enabled);
+
   @override
   Widget build(BuildContext context) {
     return FlatButton(
-        onPressed: () {
-          Navigator.of(context)
-              .pushNamed(RouteName.APPOINTMENT_DATE_SELECTION_PAGE);
-        },
-        color: Theme.of(context).primaryColor,
-        height: 56.0,
-        minWidth: double.maxFinite,
-        child: Text(
-          "Book an appointment".toUpperCase(),
-          style: Theme.of(context).textTheme.subtitle1.copyWith(
-                wordSpacing: 1.0,
-                letterSpacing: 0.75,
-                color: Colors.white,
-              ),
-        ));
+      onPressed: enabled
+          ? () {
+              Navigator.of(context)
+                  .pushNamed(RouteName.APPOINTMENT_DATE_SELECTION_PAGE);
+            }
+          : null,
+      color: Theme.of(context).primaryColor,
+      height: 56.0,
+      minWidth: double.maxFinite,
+      child: Text(
+        "Book an appointment".toUpperCase(),
+        style: Theme.of(context).textTheme.subtitle1.copyWith(
+              wordSpacing: 1.0,
+              letterSpacing: 0.75,
+              color: Colors.white,
+            ),
+      ),
+    );
   }
 }

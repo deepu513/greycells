@@ -1,4 +1,5 @@
 import 'package:greycells/models/file/file.dart';
+import 'package:greycells/models/therapist/charge.dart';
 import 'package:greycells/models/therapist/disorder.dart';
 import 'package:greycells/models/therapist/therapist_type.dart';
 import 'package:greycells/models/user/user.dart';
@@ -34,6 +35,10 @@ class Therapist {
 
   @JsonKey(name: "therapyType")
   TherapistType therapistType;
+
+  List<MeetingCharge> charges;
+
+  int meetingDuration;
 
   String spokenLanguage;
 

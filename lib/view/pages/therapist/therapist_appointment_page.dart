@@ -3,52 +3,86 @@ import 'package:greycells/route/route_name.dart';
 import 'package:greycells/view/widgets/appointment_card.dart';
 import 'package:greycells/view/widgets/no_glow_scroll_behaviour.dart';
 
-// TODO: Add empty state
 class TherapistAppointmentsPage extends StatelessWidget {
+  final _numberOfTabs = 2;
   const TherapistAppointmentsPage();
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: ScrollConfiguration(
-        behavior: NoGlowScrollBehaviour(),
-        child: CustomScrollView(
-          slivers: [
-            _AppBarSection(),
-            SliverList(
-              delegate: SliverChildBuilderDelegate((context, index) {
-                return AppointmentCard();
-              }, childCount: 20),
-            )
-          ],
+    return DefaultTabController(
+      length: _numberOfTabs,
+      child: Scaffold(
+        body: SafeArea(
+          child: NestedScrollView(
+            headerSliverBuilder: (context, innerBoxIsScrolled) {
+              return <Widget>[
+                SliverAppBar(
+                  elevation: 4.0,
+                  floating: true,
+                  snap: true,
+                  pinned: true,
+                  forceElevated: innerBoxIsScrolled,
+                  title: Text(
+                    'Appointments',
+                    style: Theme.of(context)
+                        .textTheme
+                        .headline6
+                        .copyWith(color: Colors.black87),
+                  ),
+                  bottom: TabBar(
+                    labelColor: Colors.black87,
+                    unselectedLabelColor: Colors.grey,
+                    tabs: [
+                      Tab(
+                        child: Text(
+                          "UPCOMING",
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                      ),
+                      Tab(
+                        child: Text(
+                          "ALL",
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ];
+            },
+            body: Expanded(child: Container(child: TabBarView(children: [
+              UpcomingAppointments(),
+              AllAppointments(),
+            ],),),)
+          ),
         ),
       ),
     );
   }
 }
 
-class _AppBarSection extends StatelessWidget {
+// TODO: Add empty state
+class UpcomingAppointments extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return SliverAppBar(
-      title: Text(
-        'Upcoming Appointments (3)',
-        style: Theme.of(context)
-            .textTheme
-            .headline6
-            .copyWith(color: Colors.black87),
+    return Container(
+      child: ListView.builder(
+        itemBuilder: (context, index) {
+          return Padding(
+            padding: const EdgeInsets.fromLTRB(8.0, 8.0, 8.0, 0.0),
+            child: AppointmentCard(),
+          );
+        },
+        itemCount: 20,
       ),
-      actions: [
-        FlatButton(
-            onPressed: () {
-              Navigator.of(context)
-                  .pushNamed(RouteName.THERAPIST_APPOINTMENT_LIST_PAGE);
-            },
-            child: Text("View All")),
-      ],
-      // Allows the user to reveal the app bar if they begin scrolling back
-      // up the list of items.
-      floating: true,
     );
+  }
+}
+
+// TODO: Add empty state
+class AllAppointments extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Container();
   }
 }

@@ -13,7 +13,7 @@ class VerticalDate extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         Text(
-          dayOfWeek.substring(0,2),
+          dayOfWeek.substring(0,3),
           style: Theme.of(context)
               .textTheme
               .subtitle1
@@ -29,7 +29,7 @@ class VerticalDate extends StatelessWidget {
           overflow: TextOverflow.clip,
         ),
         Text(
-          month.substring(0,2),
+          month.substring(0,3),
           style: Theme.of(context)
               .textTheme
               .subtitle1

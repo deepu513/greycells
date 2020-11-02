@@ -17,7 +17,7 @@ class AppointmentStatusWidget extends StatelessWidget {
         color: getBackgroundColorForStatus(appointmentStatus),
       ),
       child: Text(
-        appointmentStatus.toString().toUpperCase(),
+        appointmentStatus.toString().split(".").last.toUpperCase(),
         style: Theme.of(context).textTheme.caption.copyWith(
             color: getTextColorForStatus(appointmentStatus),
             fontWeight: FontWeight.w700,

@@ -107,19 +107,22 @@ class HeaderSection extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text(
-                  therapistName,
+                  therapistName ?? "",
                   style: Theme.of(context).textTheme.headline6,
                   overflow: TextOverflow.clip,
                 ),
                 Text(
-                  therapistType,
+                  therapistType ?? "",
                   style: Theme.of(context).textTheme.subtitle2,
                   overflow: TextOverflow.clip,
                 ),
-                Text(
-                  medicalCouncil,
-                  style: Theme.of(context).textTheme.caption,
-                  overflow: TextOverflow.clip,
+                Visibility(
+                  visible: medicalCouncil != null,
+                  child: Text(
+                    medicalCouncil ?? "",
+                    style: Theme.of(context).textTheme.caption,
+                    overflow: TextOverflow.clip,
+                  ),
                 ),
               ],
             ),
@@ -399,8 +402,7 @@ class _MeetingChargesSectionState extends State<MeetingChargesSection> {
                   setState(() {
                     _selectedIndex = index;
                   });
-                  widget
-                      .onChargeSelected(widget.meetingCharges[index]);
+                  widget.onChargeSelected(widget.meetingCharges[index]);
                 },
                 child: AnimatedContainer(
                   duration: Duration(milliseconds: 200),

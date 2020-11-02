@@ -199,28 +199,47 @@ class UpcomingAppointmentSection extends StatelessWidget {
 }
 
 class ScoreAndReportSection extends StatelessWidget {
-  const ScoreAndReportSection({
+  final List<HeaderCard> headerCards = [
+    HeaderCard(
+      title: "Checkout your assessment score",
+      svgImageName: "score.svg",
+      onTap: () {},
+    ),
+    HeaderCard(
+      title: "Checkout your reports",
+      svgImageName: "report.svg",
+      onTap: () {},
+    )
+  ];
+
+  ScoreAndReportSection({
     Key key,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 100.0,
+      height: 112.0,
       child: PageView.builder(
         itemCount: 2,
         controller: PageController(viewportFraction: 0.90),
-        itemBuilder: (context, index) => HeaderCard(),
+        itemBuilder: (context, index) => headerCards[index],
         scrollDirection: Axis.horizontal,
       ),
     );
   }
 }
 
-// TODO: Accept image, text and ontap parameters here
 class HeaderCard extends StatelessWidget {
+  final String svgImageName;
+  final String title;
+  final VoidCallback onTap;
+
   const HeaderCard({
     Key key,
+    @required this.svgImageName,
+    @required this.title,
+    @required this.onTap,
   }) : super(key: key);
 
   @override
@@ -242,16 +261,13 @@ class HeaderCard extends StatelessWidget {
               mainAxisSize: MainAxisSize.min,
               children: [
                 SvgPicture.asset(
-                  "images/self_care_illustration.svg",
-                  height: 80.0,
-                  width: 80.0,
-                ),
-                SizedBox(
-                  width: 8.0,
+                  "images/$svgImageName",
+                  height: 96.0,
+                  width: 96.0,
                 ),
                 Expanded(
                   child: Text(
-                    "Checkout your assessment score",
+                    title,
                     textAlign: TextAlign.center,
                     style: Theme.of(context).textTheme.subtitle1.copyWith(
                         color: Colors.white, fontStyle: FontStyle.italic),
@@ -278,7 +294,7 @@ class HeaderCard extends StatelessWidget {
             child: Material(
               color: Colors.transparent,
               child: InkWell(
-                onTap: () {},
+                onTap: onTap,
                 borderRadius: BorderRadius.circular(16.0),
                 splashColor: Colors.white24,
               ),

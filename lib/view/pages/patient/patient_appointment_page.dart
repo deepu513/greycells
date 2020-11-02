@@ -19,9 +19,13 @@ class PatientAppointmentPage extends StatelessWidget {
           child: CustomScrollView(
             slivers: [
               AppointmentsAppBar(),
-              BlocProvider(
-                create: (context) => AppointmentBloc(),
-                child: AllAppointments(UserType.patient),
+              SliverList(
+                delegate: SliverChildListDelegate([
+                  BlocProvider(
+                    create: (context) => AppointmentBloc(),
+                    child: AllAppointments(UserType.patient),
+                  ),
+                ]),
               ),
             ],
           ),

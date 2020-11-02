@@ -37,14 +37,17 @@ class TherapistListTile extends StatelessWidget {
                     overflow: TextOverflow.clip,
                   ),
                   Text(
-                    therapist.therapistType.name,
+                    therapist.therapistType.name ?? "",
                     style: Theme.of(context).textTheme.subtitle2,
                     overflow: TextOverflow.clip,
                   ),
-                  Text(
-                    therapist.medicalCouncil,
-                    style: Theme.of(context).textTheme.caption,
-                    overflow: TextOverflow.clip,
+                  Visibility(
+                    visible: therapist.medicalCouncil != null ,
+                    child: Text(
+                      therapist.medicalCouncil ?? "",
+                      style: Theme.of(context).textTheme.caption,
+                      overflow: TextOverflow.clip,
+                    ),
                   ),
                 ],
               ),

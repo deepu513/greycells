@@ -24,11 +24,13 @@ extension StringExtensions on String {
 
   String convertToDateFormat(String format) {
     try {
-      DateFormat dateFormat = DateFormat("yyyy-mm-dd'T'HH:mm:ss.mmmuuu");
+      DateFormat dateFormat = DateFormat("yyyy-mm-dd'T'HH:mm:ss.mmm");
       DateTime dateTime = dateFormat.parse(this);
 
       return DateFormat(format).format(dateTime);
-    } catch (e) {}
+    } catch (e) {
+      print(e);
+    }
 
     return "";
   }

@@ -10,50 +10,44 @@ class ErrorWithRetry extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      padding: EdgeInsets.all(16.0),
+      alignment: Alignment.center,
       child: Column(
+        mainAxisSize: MainAxisSize.max,
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Expanded(
-            child: Container(),
+          Image.asset(
+            "images/desert.png",
           ),
-          Icon(
-            Icons.error_outline,
-            color: Colors.red,
-            size: 48.0,
+          Text("Something went wrong!",
+              textAlign: TextAlign.center,
+              style: Theme.of(context).textTheme.headline5.copyWith(
+                    fontWeight: FontWeight.bold,
+                  )),
+          SizedBox(
+            height: 16.0,
           ),
-          Expanded(
-            child: Column(
-              children: [
-                SizedBox(
-                  height: 16.0,
-                ),
-                Text(
-                  ErrorMessages.GENERIC_ERROR_MESSAGE,
-                  textAlign: TextAlign.center,
-                  style: Theme.of(context).textTheme.subtitle1.copyWith(
-                    fontSize: 14.0,
-                    height: 1.5,
-                    wordSpacing: 1.0
-                  ),
-                ),
-                SizedBox(
-                  height: 48.0,
-                ),
-                OutlinedButton.icon(
-                  onPressed: onRetryPressed,
-                  icon: Icon(
-                    Icons.refresh_outlined, color: Theme.of(context).accentColor,
-                  ),
-                  label: Text(
-                    Strings.retry.toUpperCase(),
-                    style: Theme.of(context).textTheme.button.copyWith(
-                        color: Theme.of(context).accentColor,
-                    ),
-                  ),
-                )
-              ],
+          Text("We are working on it.\nPlease try again in sometime.",
+              textAlign: TextAlign.center,
+              style: Theme.of(context).textTheme.subtitle1.copyWith(
+                  height: 1.3,
+                  letterSpacing: 0.5,
+                  wordSpacing: 0.7,
+                  color: Colors.grey)),
+          SizedBox(
+            height: 56.0,
+          ),
+          OutlineButton.icon(
+            onPressed: onRetryPressed,
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(8.0),),
+            padding: EdgeInsets.symmetric(horizontal: 36.0),
+            
+            icon: Icon(Icons.refresh),
+            label: Text(
+              Strings.retry.toUpperCase(),
             ),
-          ),
+          )
         ],
       ),
     );

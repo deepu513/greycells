@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:greycells/models/assessment/personality_type.dart';
@@ -311,6 +313,9 @@ class _PatientScorePageState extends State<PatientScorePage> {
                                 .textTheme
                                 .headline5
                                 .copyWith(
+                                    fontFeatures: [
+                                  FontFeature.tabularFigures(),
+                                ],
                                     color: Colors.white,
                                     fontWeight: FontWeight.w500),
                           ),

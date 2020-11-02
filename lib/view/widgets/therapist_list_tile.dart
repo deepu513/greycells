@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:greycells/models/therapist/therapist.dart';
 import 'package:greycells/route/route_name.dart';
@@ -42,7 +44,7 @@ class TherapistListTile extends StatelessWidget {
                     overflow: TextOverflow.clip,
                   ),
                   Visibility(
-                    visible: therapist.medicalCouncil != null ,
+                    visible: therapist.medicalCouncil != null,
                     child: Text(
                       therapist.medicalCouncil ?? "",
                       style: Theme.of(context).textTheme.caption,
@@ -62,15 +64,22 @@ class TherapistListTile extends StatelessWidget {
                 padding: const EdgeInsets.symmetric(horizontal: 8.0),
                 child: Column(
                   children: [
-                    Container(
-                      decoration: BoxDecoration(
-                          shape: BoxShape.circle, color: Colors.purple.shade50),
-                      padding: EdgeInsets.all(6.0),
-                      child: Text(
-                        therapist.totalExperience.toString(),
-                        style: Theme.of(context).textTheme.headline6.copyWith(
-                            color: Colors.purple, fontWeight: FontWeight.w700),
-                        overflow: TextOverflow.clip,
+                    ConstrainedBox(
+                      constraints: BoxConstraints(minHeight: 32.0, minWidth: 32.0),
+                      child: Container(
+                        decoration: BoxDecoration(
+                            shape: BoxShape.circle, color: Colors.purple.shade50),
+                        alignment: Alignment.center,
+                        child: Text(
+                          therapist.totalExperience.toString(),
+                          style: Theme.of(context)
+                              .textTheme
+                              .subtitle1
+                              .copyWith(fontFeatures: [
+                            FontFeature.tabularFigures(),
+                          ], color: Colors.purple, fontWeight: FontWeight.w700),
+                          overflow: TextOverflow.clip,
+                        ),
                       ),
                     ),
                     Text(

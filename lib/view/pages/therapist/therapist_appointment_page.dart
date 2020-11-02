@@ -93,7 +93,7 @@ class UpcomingAppointments extends StatelessWidget {
         itemBuilder: (context, index) {
           return Padding(
             padding: const EdgeInsets.fromLTRB(8.0, 8.0, 8.0, 0.0),
-            child: AppointmentCard(upcomingAppointments[index]),
+            child: AppointmentCard(upcomingAppointments[index], CardViewer.therapist),
           );
         },
         itemCount: upcomingAppointments.length,

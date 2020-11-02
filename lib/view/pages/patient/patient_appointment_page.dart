@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:greycells/models/appointment/appointment.dart';
 import 'package:greycells/view/widgets/appointment_card.dart';
+import 'package:greycells/view/widgets/appointment_status_selector.dart';
 import 'package:greycells/view/widgets/no_glow_scroll_behaviour.dart';
 
 class PatientAppointmentPage extends StatelessWidget {
@@ -15,6 +16,14 @@ class PatientAppointmentPage extends StatelessWidget {
           child: CustomScrollView(
             slivers: [
               AppointmentsAppBar(),
+              SliverList(
+                delegate: SliverChildListDelegate([
+                  Divider(),
+                  AppointmentStatusSelector((selectedStatus) {
+                  }),
+                  Divider(),
+                ]),
+              )
               AppointmentList(),
             ],
           ),
@@ -36,28 +45,6 @@ class AppointmentsAppBar extends StatelessWidget {
             .headline6
             .copyWith(color: Colors.black87),
       ),
-      actions: [
-        PopupMenuButton(
-          onSelected: (value) {},
-          icon: Icon(Icons.filter_list),
-          itemBuilder: (context) {
-            return <PopupMenuEntry>[
-              PopupMenuItem(
-                child: Text("Upcoming"),
-                value: 1,
-              ),
-              PopupMenuItem(
-                child: Text("Completed"),
-                value: 2,
-              ),
-              PopupMenuItem(
-                child: Text("Cancelled"),
-                value: 3,
-              ),
-            ];
-          },
-        )
-      ],
     );
   }
 }
@@ -71,7 +58,7 @@ class AppointmentList extends StatelessWidget {
     return SliverList(
       delegate: SliverChildBuilderDelegate(
         (context, index) {
-          return AppointmentCard(appointments[index]);
+          return AppointmentCard(appointments[index], CardViewer.patient);
         },
       ),
     );

@@ -1,14 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:greycells/models/appointment/appointment.dart';
-import 'package:greycells/models/appointment/status.dart';
+import 'package:greycells/models/appointment/appointment_status.dart';
 import 'package:greycells/view/widgets/appointment_status_widget.dart';
 import 'package:greycells/view/widgets/vertical_date.dart';
 import 'package:greycells/extensions.dart';
 
+enum CardViewer { patient, therapist }
+
 class AppointmentCard extends StatefulWidget {
   final Appointment appointment;
+  final CardViewer cardViewer;
 
-  AppointmentCard(this.appointment);
+  AppointmentCard(this.appointment, this.cardViewer);
 
   @override
   _AppointmentCardState createState() => _AppointmentCardState();
@@ -61,7 +64,9 @@ class _AppointmentCardState extends State<AppointmentCard> {
                       radius: 24.0,
                     ),
                     SizedBox(width: 16.0),
-                    Expanded(child: AppointmentMetaInfo(widget.appointment)),
+                    Expanded(
+                        child: AppointmentMetaInfo(
+                            widget.appointment, widget.cardViewer)),
                   ],
                 ),
               ),
@@ -111,7 +116,10 @@ class _AppointmentCardState extends State<AppointmentCard> {
 
 class AppointmentMetaInfo extends StatelessWidget {
   final Appointment appointment;
-  AppointmentMetaInfo(this.appointment);
+  final CardViewer cardViewer;
+
+  AppointmentMetaInfo(this.appointment, this.cardViewer);
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -120,14 +128,19 @@ class AppointmentMetaInfo extends StatelessWidget {
       mainAxisSize: MainAxisSize.min,
       children: [
         Text(
-          "Dr. Anne Hathaway",
+          cardViewer == CardViewer.patient
+              ? "${appointment.therapist.user.firstName} ${appointment.therapist.user.lastName}"
+              : "${appointment.patient.user.firstName} ${appointment.patient.user.lastName}",
           style: Theme.of(context).textTheme.headline6,
           overflow: TextOverflow.clip,
         ),
-        Text(
-          "Clinical Psychologist",
-          style: Theme.of(context).textTheme.bodyText1,
-          overflow: TextOverflow.clip,
+        Visibility(
+          visible: cardViewer == CardViewer.patient,
+          child: Text(
+            appointment.therapist.therapistType.name,
+            style: Theme.of(context).textTheme.bodyText1,
+            overflow: TextOverflow.clip,
+          ),
         ),
         SizedBox(
           height: 4.0,

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:greycells/models/appointment/status.dart';
+import 'package:greycells/models/appointment/appointment_status.dart';
 
 class AppointmentStatusWidget extends StatelessWidget {
   final AppointmentStatus appointmentStatus;

@@ -19,6 +19,7 @@ import 'package:greycells/view/pages/patient/appointment_date_selection.dart';
 import 'package:greycells/view/pages/patient/birth_details_input_page.dart';
 import 'package:greycells/view/pages/decider_page.dart';
 import 'package:greycells/view/pages/login_page.dart';
+import 'package:greycells/view/pages/patient/patient_appointment_page.dart';
 import 'package:greycells/view/pages/patient/patient_detail_input.dart';
 import 'package:greycells/view/pages/patient/patient_main_page.dart';
 import 'package:greycells/view/pages/patient/payment_page.dart';
@@ -103,18 +104,18 @@ class _MyApp extends StatelessWidget {
             statusBarColor: Colors.white,
             statusBarBrightness: Brightness.light,
             statusBarIconBrightness: Brightness.dark),
-        child: BlocBuilder<AuthenticationBloc, AuthenticationState>(
+        child: BlocBuilder<AuthentgidicationBloc, AuthenticationState>(
           builder: (context, authenticationState) {
             /// User is not logged in
             if (authenticationState is AuthenticationUnauthenticated) {
-              //return PatientMainPage();
-              return WelcomePage();
+              return PatientAppointmentPage();
+              //return WelcomePage();
             }
 
             /// User is logged in
             if (authenticationState is AuthenticationAuthenticated) {
-              //return TherapistMainPage();
-              return DeciderPage();
+              return PatientAppointmentPage();
+              //return DeciderPage();
             }
 
             return SplashPage();

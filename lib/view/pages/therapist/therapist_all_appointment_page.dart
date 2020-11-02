@@ -15,28 +15,6 @@ class TherapistAllAppointmentsPage extends StatelessWidget {
               .headline6
               .copyWith(color: Colors.black87),
         ),
-        actions: [
-          PopupMenuButton(
-            onSelected: (value) {},
-            icon: Icon(Icons.filter_list),
-            itemBuilder: (context) {
-              return <PopupMenuEntry>[
-                PopupMenuItem(
-                  child: Text("Upcoming"),
-                  value: 1,
-                ),
-                PopupMenuItem(
-                  child: Text("Completed"),
-                  value: 2,
-                ),
-                PopupMenuItem(
-                  child: Text("Cancelled"),
-                  value: 3,
-                ),
-              ];
-            },
-          )
-        ],
       ),
       body: SafeArea(
         child: ListView.builder(

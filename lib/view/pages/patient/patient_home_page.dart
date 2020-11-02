@@ -185,7 +185,7 @@ class UpcomingAppointmentSection extends StatelessWidget {
         itemCount: upcomingAppointments.length,
         controller: PageController(viewportFraction: 0.9),
         itemBuilder: (context, index) =>
-            AppointmentCard(upcomingAppointments[index]),
+            AppointmentCard(upcomingAppointments[index], CardViewer.patient),
         scrollDirection: Axis.horizontal,
       ),
     );

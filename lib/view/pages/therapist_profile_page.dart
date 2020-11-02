@@ -400,7 +400,7 @@ class _MeetingChargesSectionState extends State<MeetingChargesSection> {
                     _selectedIndex = index;
                   });
                   widget
-                      .onChargeSelected(widget.meetingCharges[_selectedIndex]);
+                      .onChargeSelected(widget.meetingCharges[index]);
                 },
                 child: AnimatedContainer(
                   duration: Duration(milliseconds: 200),

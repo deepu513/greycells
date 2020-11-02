@@ -219,7 +219,7 @@ class ScoreAndReportSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 112.0,
+      height: 100.0,
       child: PageView.builder(
         itemCount: 2,
         controller: PageController(viewportFraction: 0.90),
@@ -262,6 +262,7 @@ class HeaderCard extends StatelessWidget {
               children: [
                 SvgPicture.asset(
                   "images/$svgImageName",
+                  
                   height: 96.0,
                   width: 96.0,
                 ),

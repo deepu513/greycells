@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:greycells/models/assessment/personality_type.dart';
-import 'package:greycells/models/assessment/score.dart';
 import 'package:greycells/models/home/patient_home.dart';
 import 'package:greycells/view/widgets/circle_text.dart';
 import 'package:provider/provider.dart';

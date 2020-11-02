@@ -104,7 +104,7 @@ class _MyApp extends StatelessWidget {
             statusBarColor: Colors.white,
             statusBarBrightness: Brightness.light,
             statusBarIconBrightness: Brightness.dark),
-        child: BlocBuilder<AuthentgidicationBloc, AuthenticationState>(
+        child: BlocBuilder<AuthenticationBloc, AuthenticationState>(
           builder: (context, authenticationState) {
             /// User is not logged in
             if (authenticationState is AuthenticationUnauthenticated) {

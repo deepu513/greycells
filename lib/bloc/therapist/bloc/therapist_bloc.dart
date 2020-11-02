@@ -26,7 +26,12 @@ class TherapistBloc extends Bloc<TherapistEvent, TherapistState> {
       try {
         AllTherapists allTherapists =
             await _therapistRepository.getTherapists(1);
-        yield TherapistsLoaded(allTherapists.availableTherapists);
+
+        if (allTherapists.availableTherapists == null ||
+            allTherapists.availableTherapists.isEmpty) {
+          yield TherapistsEmpty();
+        } else
+          yield TherapistsLoaded(allTherapists.availableTherapists);
       } catch (e) {
         yield TherapistsLoadError(ErrorMessages.GENERIC_ERROR_MESSAGE);
       }

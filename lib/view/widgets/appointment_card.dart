@@ -1,17 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:greycells/constants/user_type.dart';
 import 'package:greycells/models/appointment/appointment.dart';
 import 'package:greycells/models/appointment/appointment_status.dart';
 import 'package:greycells/view/widgets/appointment_status_widget.dart';
 import 'package:greycells/view/widgets/vertical_date.dart';
 import 'package:greycells/extensions.dart';
 
-enum CardViewer { patient, therapist }
-
 class AppointmentCard extends StatefulWidget {
   final Appointment appointment;
-  final CardViewer cardViewer;
+  final UserType userType;
 
-  AppointmentCard(this.appointment, this.cardViewer);
+  AppointmentCard(this.appointment, this.userType);
 
   @override
   _AppointmentCardState createState() => _AppointmentCardState();
@@ -66,7 +65,7 @@ class _AppointmentCardState extends State<AppointmentCard> {
                     SizedBox(width: 16.0),
                     Expanded(
                         child: AppointmentMetaInfo(
-                            widget.appointment, widget.cardViewer)),
+                            widget.appointment, widget.userType)),
                   ],
                 ),
               ),
@@ -116,9 +115,9 @@ class _AppointmentCardState extends State<AppointmentCard> {
 
 class AppointmentMetaInfo extends StatelessWidget {
   final Appointment appointment;
-  final CardViewer cardViewer;
+  final UserType userType;
 
-  AppointmentMetaInfo(this.appointment, this.cardViewer);
+  AppointmentMetaInfo(this.appointment, this.userType);
 
   @override
   Widget build(BuildContext context) {
@@ -128,14 +127,14 @@ class AppointmentMetaInfo extends StatelessWidget {
       mainAxisSize: MainAxisSize.min,
       children: [
         Text(
-          cardViewer == CardViewer.patient
+          userType == UserType.patient
               ? "${appointment.therapist.user.firstName} ${appointment.therapist.user.lastName}"
               : "${appointment.patient.user.firstName} ${appointment.patient.user.lastName}",
           style: Theme.of(context).textTheme.headline6,
           overflow: TextOverflow.clip,
         ),
         Visibility(
-          visible: cardViewer == CardViewer.patient,
+          visible: userType == UserType.patient,
           child: Text(
             appointment.therapist.therapistType.name,
             style: Theme.of(context).textTheme.bodyText1,

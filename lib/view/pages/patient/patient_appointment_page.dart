@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:greycells/bloc/appointment/appointment_bloc.dart';
+import 'package:greycells/constants/user_type.dart';
 import 'package:greycells/models/appointment/appointment.dart';
+import 'package:greycells/view/pages/all_appointments.dart';
 import 'package:greycells/view/widgets/appointment_card.dart';
-import 'package:greycells/view/widgets/appointment_status_selector.dart';
 import 'package:greycells/view/widgets/no_glow_scroll_behaviour.dart';
 
 class PatientAppointmentPage extends StatelessWidget {
@@ -16,15 +19,10 @@ class PatientAppointmentPage extends StatelessWidget {
           child: CustomScrollView(
             slivers: [
               AppointmentsAppBar(),
-              SliverList(
-                delegate: SliverChildListDelegate([
-                  Divider(),
-                  AppointmentStatusSelector((selectedStatus) {
-                  }),
-                  Divider(),
-                ]),
-              )
-              AppointmentList(),
+              BlocProvider(
+                create: (context) => AppointmentBloc(),
+                child: AllAppointments(UserType.patient),
+              ),
             ],
           ),
         ),
@@ -58,7 +56,7 @@ class AppointmentList extends StatelessWidget {
     return SliverList(
       delegate: SliverChildBuilderDelegate(
         (context, index) {
-          return AppointmentCard(appointments[index], CardViewer.patient);
+          return AppointmentCard(appointments[index], UserType.patient);
         },
       ),
     );

@@ -16,6 +16,8 @@ class TherapistsLoaded extends TherapistState {
   TherapistsLoaded(this.therapists);
 }
 
+class TherapistsEmpty extends TherapistState {}
+
 class TherapistsLoadError extends TherapistState {
   final String error;
   TherapistsLoadError(this.error);

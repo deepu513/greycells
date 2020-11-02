@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:greycells/bloc/appointment/appointment_bloc.dart';
+import 'package:greycells/constants/user_type.dart';
 import 'package:greycells/models/appointment/appointment.dart';
 import 'package:greycells/models/home/patient_home.dart';
+import 'package:greycells/view/pages/all_appointments.dart';
 import 'package:greycells/view/widgets/appointment_card.dart';
 import 'package:provider/provider.dart';
 
@@ -70,7 +74,10 @@ class _TherapistAppointmentsPageState extends State<TherapistAppointmentsPage> {
                   child: TabBarView(
                     children: [
                       UpcomingAppointments(upcomingAppointments),
-                      AllAppointments(),
+                      BlocProvider(
+                        create: (context) => AppointmentBloc(),
+                        child: AllAppointments(UserType.therapist),
+                      ),
                     ],
                   ),
                 ),
@@ -93,19 +100,12 @@ class UpcomingAppointments extends StatelessWidget {
         itemBuilder: (context, index) {
           return Padding(
             padding: const EdgeInsets.fromLTRB(8.0, 8.0, 8.0, 0.0),
-            child: AppointmentCard(upcomingAppointments[index], CardViewer.therapist),
+            child: AppointmentCard(
+                upcomingAppointments[index], UserType.therapist),
           );
         },
         itemCount: upcomingAppointments.length,
       ),
     );
-  }
-}
-
-// TODO: Add empty state
-class AllAppointments extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Container();
   }
 }

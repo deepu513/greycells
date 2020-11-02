@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:greycells/constants/user_type.dart';
 import 'package:greycells/models/appointment/appointment.dart';
 import 'package:greycells/models/home/patient_home.dart';
 import 'package:greycells/models/therapist/therapist.dart';
 import 'package:greycells/route/route_name.dart';
 import 'package:greycells/view/widgets/appointment_card.dart';
+import 'package:greycells/view/widgets/empty_state.dart';
 import 'package:greycells/view/widgets/no_glow_scroll_behaviour.dart';
 import 'package:greycells/view/widgets/therapist_list_tile.dart';
 import 'package:provider/provider.dart';
@@ -64,8 +66,12 @@ class _PatientHomePageState extends State<PatientHomePage> {
                   Padding(
                     padding: const EdgeInsets.fromLTRB(16.0, 16.0, 4.0, 0.0),
                     child: TherapistHeaderSection(),
+                  ),
+                  Visibility(
+                    visible: availableTherapist == null ||
+                        availableTherapist.isEmpty,
+                    child: EmptyState(),
                   )
-                  //TODO: Add empty state here
                 ],
               ),
             ),
@@ -185,7 +191,7 @@ class UpcomingAppointmentSection extends StatelessWidget {
         itemCount: upcomingAppointments.length,
         controller: PageController(viewportFraction: 0.9),
         itemBuilder: (context, index) =>
-            AppointmentCard(upcomingAppointments[index], CardViewer.patient),
+            AppointmentCard(upcomingAppointments[index], UserType.patient),
         scrollDirection: Axis.horizontal,
       ),
     );

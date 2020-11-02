@@ -203,18 +203,14 @@ class ScoreAndReportSection extends StatelessWidget {
     HeaderCard(
       title: "Checkout your assessment score",
       svgImageName: "score.svg",
-      onTap: () {},
+      destination: RouteName.PATIENT_SCORE_PAGE,
     ),
     HeaderCard(
       title: "Checkout your reports",
       svgImageName: "report.svg",
-      onTap: () {},
+      destination: RouteName.PATIENT_SCORE_PAGE,
     )
   ];
-
-  ScoreAndReportSection({
-    Key key,
-  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -233,13 +229,13 @@ class ScoreAndReportSection extends StatelessWidget {
 class HeaderCard extends StatelessWidget {
   final String svgImageName;
   final String title;
-  final VoidCallback onTap;
+  final String destination;
 
   const HeaderCard({
     Key key,
     @required this.svgImageName,
     @required this.title,
-    @required this.onTap,
+    @required this.destination,
   }) : super(key: key);
 
   @override
@@ -262,7 +258,6 @@ class HeaderCard extends StatelessWidget {
               children: [
                 SvgPicture.asset(
                   "images/$svgImageName",
-                  
                   height: 96.0,
                   width: 96.0,
                 ),
@@ -295,7 +290,9 @@ class HeaderCard extends StatelessWidget {
             child: Material(
               color: Colors.transparent,
               child: InkWell(
-                onTap: onTap,
+                onTap: () {
+                  Navigator.of(context).pushNamed(destination);
+                },
                 borderRadius: BorderRadius.circular(16.0),
                 splashColor: Colors.white24,
               ),

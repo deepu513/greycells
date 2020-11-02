@@ -31,7 +31,7 @@ class _PatientScorePageState extends State<PatientScorePage> {
     return Scaffold(
         appBar: AppBar(
           title: Text(
-            'Home',
+            'Assessment Score',
             style: Theme.of(context)
                 .textTheme
                 .headline6

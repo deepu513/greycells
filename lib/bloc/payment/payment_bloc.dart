@@ -1,10 +1,12 @@
 import 'dart:async';
 
 import 'package:bloc/bloc.dart';
+import 'package:equatable/equatable.dart';
 import 'package:greycells/constants/setting_key.dart';
 import 'package:greycells/models/payment/order_create.dart';
 import 'package:greycells/models/payment/order_create_response.dart';
 import 'package:greycells/models/payment/payment.dart';
+import 'package:greycells/models/payment/payment_type.dart';
 import 'package:greycells/models/payment/payment_verify.dart';
 import 'package:greycells/models/payment/payment_verify_response.dart';
 import 'package:greycells/repository/payment_repository.dart';
@@ -22,9 +24,7 @@ class PaymentBloc extends Bloc<PaymentEvent, PaymentState> {
   PaymentRepository _paymentRepository;
   SettingsRepository _settingsRepository;
 
-  PaymentBloc(Payment payment)
-      : assert(payment != null),
-        super(PaymentInitial(payment)) {
+  PaymentBloc() : super(PaymentInitial()) {
     _razorPay = Razorpay();
     _paymentRepository = PaymentRepository();
     SettingsRepository.getInstance()
@@ -40,7 +40,7 @@ class PaymentBloc extends Bloc<PaymentEvent, PaymentState> {
     PaymentEvent event,
   ) async* {
     if (event is ProcessPayment) {
-      yield PaymentProcessing(event.payment);
+      yield PaymentProcessing();
       try {
         OrderCreate orderCreate = OrderCreate();
         orderCreate.amount = event.payment.totalAmount;
@@ -54,7 +54,9 @@ class PaymentBloc extends Bloc<PaymentEvent, PaymentState> {
             'amount': int.parse(response.razorPayAmount),
             'name': 'Greycells Wellness',
             'order_id': response.orderId,
-            'description': "One time purchase", // TODO: Change description
+            'description': event.payment.type == PaymentType.APPOINTMENT
+                ? "Appointment with therapist"
+                : "Assessment test",
             'timeout': 300, // in seconds
           };
           _paymentDiscountId = event.payment.discountId;
@@ -79,21 +81,18 @@ class PaymentBloc extends Bloc<PaymentEvent, PaymentState> {
 
         PaymentVerifyResponse response =
             await _paymentRepository.verifyPayment(verify);
-        if(response != null && response.result == true) {
+        if (response != null && response.result == true) {
           yield PaymentSuccess();
-        } else yield PaymentStatusUnknown();
+        } else
+          yield PaymentStatusUnknown();
       } catch (e) {
         print(e);
         yield PaymentStatusUnknown();
       }
     }
 
-    if(event is FailPayment) {
+    if (event is FailPayment) {
       yield PaymentFailure();
-    }
-
-    if (event is PaymentUpdated) {
-      yield PaymentInitial(event.updatedPayment);
     }
   }
 

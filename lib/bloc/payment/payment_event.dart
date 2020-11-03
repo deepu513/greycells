@@ -17,10 +17,4 @@ class VerifyPayment extends PaymentEvent {
   VerifyPayment(this.orderId, this.paymentId, this.signature);
 }
 
-class PaymentUpdated extends PaymentEvent {
-  final Payment updatedPayment;
-
-  PaymentUpdated(this.updatedPayment);
-}
-
 class FailPayment extends PaymentEvent {}

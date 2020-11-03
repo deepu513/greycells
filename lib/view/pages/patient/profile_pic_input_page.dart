@@ -117,7 +117,7 @@ class CircleAvatarWidget extends StatelessWidget {
 class _ProfilePicSelector extends StatelessWidget {
   final VoidCallback onSelectionRequested;
 
-  const _ProfilePicSelector({Key key, this.onSelectionRequested});
+  const _ProfilePicSelector({this.onSelectionRequested});
 
   @override
   Widget build(BuildContext context) {

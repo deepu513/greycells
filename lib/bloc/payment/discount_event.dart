@@ -4,13 +4,9 @@ part of 'discount_bloc.dart';
 abstract class DiscountEvent {}
 
 class ApplyPromoCode extends DiscountEvent {
-  final Payment payment;
+  final String promoCode;
 
-  ApplyPromoCode(this.payment);
+  ApplyPromoCode(this.promoCode);
 }
 
-class RemovePromoCode extends DiscountEvent {
-  final Payment payment;
-
-  RemovePromoCode(this.payment);
-}
+class RemovePromoCode extends DiscountEvent {}

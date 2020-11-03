@@ -292,7 +292,7 @@ class PatientAddressInput extends StatelessWidget {
                           {int currentLength, int maxLength, bool isFocused}) =>
                       null,
                   inputFormatters: <TextInputFormatter>[
-                    WhitelistingTextInputFormatter.digitsOnly
+                    FilteringTextInputFormatter.digitsOnly
                   ],
                   controller: TextEditingController(
                       text: BlocProvider.of<PatientDetailsBloc>(context)
@@ -563,7 +563,7 @@ class GuardianAddressInputFields extends StatelessWidget {
                           {int currentLength, int maxLength, bool isFocused}) =>
                       null,
                   inputFormatters: <TextInputFormatter>[
-                    WhitelistingTextInputFormatter.digitsOnly
+                    FilteringTextInputFormatter.digitsOnly
                   ],
                   controller: TextEditingController(
                       text: BlocProvider.of<PatientDetailsBloc>(context)

@@ -75,7 +75,7 @@ class RouteGenerator {
       case RouteName.DECIDER_PAGE:
         return MaterialPageRoute(builder: (_) => DeciderPage());
       case RouteName.PAYMENT_PAGE:
-        return MaterialPageRoute(builder: (_) => PaymentPage());
+        return MaterialPageRoute(builder: (_) => PaymentPage(args));
       case RouteName.PATIENT_SCORE_PAGE:
         return MaterialPageRoute(builder: (_) => PatientScorePage());
       case RouteName.THERAPIST_LIST_PAGE:
@@ -102,6 +102,27 @@ class RouteGenerator {
         return _errorRoute();
     }
   }
+
+  // BlocProvider<PaymentBloc>(
+  //         create: (context) {
+  //           return PaymentBloc(Payment()
+  //             ..type = PaymentType.APPOINTMENT
+  //             ..title = "Book Appointment"
+  //             ..itemImageUrl =
+  //                 "https://urbanbalance.com/wp-content/uploads/2019/04/new-therapist.jpg"
+  //             ..itemTitle = "Dr. Anne Hathaway"
+  //             ..itemSubtitle = "Clinical Psychologist"
+  //             ..promoCodeApplied = true
+  //             ..discountAmount = 100
+  //             ..originalAmount = 300
+  //             ..items = [
+  //               PaymentItem()
+  //                 ..itemName = "1 Session"
+  //                 ..itemPrice = 300
+  //             ]
+  //             ..totalAmount = 300);
+  //         },
+  //       )
 
   // TODO: Make a proper error page
   static Route<dynamic> _errorRoute() {

@@ -113,7 +113,7 @@ class Strings {
   static const guardianMobileNumber = "Guardian mobile number";
   static const guardianEmailId = "Guardian email ID";
   static const rupeeSymbol = "₹";
-  static const proceedToPayment = "Proceed to payment";
+  static const makePayment = "Make payment";
   static const paymentDetails = "Summary";
   static const total = "Total due";
   static const promoCodeQuestion = "Do you have a promo code?";

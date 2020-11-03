@@ -8,15 +8,10 @@ class DiscountInitial extends DiscountState {}
 class ApplyingPromoCode extends DiscountState {}
 
 class PromoCodeApplied extends DiscountState {
-  final Payment updatedPayment;
-
-  PromoCodeApplied(this.updatedPayment);
+  final DiscountResponse discountResponse;
+  PromoCodeApplied(this.discountResponse);
 }
 
-class PromoCodeRemoved extends DiscountState {
-  final Payment updatedPayment;
-
-  PromoCodeRemoved(this.updatedPayment);
-}
+class PromoCodeRemoved extends DiscountState {}
 
 class PromoCodeFailed extends DiscountState {}

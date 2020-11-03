@@ -310,7 +310,7 @@ class GuardianMobileNumberInput extends StatelessWidget {
           autofocus: false,
           keyboardType: TextInputType.phone,
           inputFormatters: <TextInputFormatter>[
-            WhitelistingTextInputFormatter.digitsOnly
+            FilteringTextInputFormatter.digitsOnly
           ],
           autocorrect: false,
           buildCounter: (BuildContext context,

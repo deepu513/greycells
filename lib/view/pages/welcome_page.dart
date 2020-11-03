@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:greycells/app_theme.dart';
 import 'package:greycells/constants/strings.dart';
 import 'package:greycells/route/route_name.dart';
 

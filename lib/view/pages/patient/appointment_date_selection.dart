@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:greycells/bloc/timeslot/timeslot_bloc.dart';
 import 'package:greycells/constants/strings.dart';
+import 'package:greycells/models/payment/payment.dart';
+import 'package:greycells/models/payment/payment_item.dart';
+import 'package:greycells/models/payment/payment_type.dart';
 import 'package:greycells/models/therapist/charge.dart';
 import 'package:greycells/models/therapist/therapist.dart';
 import 'package:greycells/models/timeslot/timeslot.dart';
@@ -122,7 +125,25 @@ class _MainContentState extends State<MainContent> {
         ),
         ContinueToPaymentButton(() {
           if (mSelectedTimeslot != null) {
-            Navigator.of(context).pushNamed(RouteName.PAYMENT_PAGE);
+            final payment = Payment()
+              ..type = PaymentType.APPOINTMENT
+              ..title = "Book Appointment"
+              ..itemImageUrl =
+                  "https://urbanbalance.com/wp-content/uploads/2019/04/new-therapist.jpg"
+              ..itemTitle =
+                  "${widget.therapist.user.firstName} ${widget.therapist.user.lastName}"
+              ..itemSubtitle = widget.therapist.therapistType.name
+              ..promoCodeApplied = false
+              ..discountAmount = 0
+              ..originalAmount = widget.selectedMeeting.amount
+              ..items = [
+                PaymentItem()
+                  ..itemName = "1 Session"
+                  ..itemPrice = widget.selectedMeeting.amount
+              ]
+              ..totalAmount = widget.selectedMeeting.amount;
+            Navigator.of(context)
+                .pushNamed(RouteName.PAYMENT_PAGE, arguments: payment);
           }
         }),
       ],

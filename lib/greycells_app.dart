@@ -5,29 +5,13 @@ import 'package:greycells/app_theme.dart';
 import 'package:greycells/bloc/authentication/bloc.dart';
 import 'package:greycells/bloc/decider/decider_bloc.dart';
 import 'package:greycells/bloc/notification/bloc/notification_bloc.dart';
-import 'package:greycells/bloc/payment/payment_bloc.dart';
 import 'package:greycells/bloc/validation/validation_bloc.dart';
 import 'package:greycells/models/home/patient_home.dart';
 import 'package:greycells/models/home/therapist_home.dart';
-import 'package:greycells/models/payment/payment.dart';
-import 'package:greycells/models/payment/payment_item.dart';
-import 'package:greycells/models/payment/payment_type.dart';
-import 'package:greycells/models/therapist/therapist.dart';
 import 'package:greycells/route/route_generator.dart';
 import 'package:greycells/simple_bloc_observer.dart';
-import 'package:greycells/view/pages/patient/appointment_date_selection.dart';
-import 'package:greycells/view/pages/patient/birth_details_input_page.dart';
 import 'package:greycells/view/pages/decider_page.dart';
-import 'package:greycells/view/pages/login_page.dart';
-import 'package:greycells/view/pages/patient/patient_appointment_page.dart';
-import 'package:greycells/view/pages/patient/patient_detail_input.dart';
-import 'package:greycells/view/pages/patient/patient_main_page.dart';
-import 'package:greycells/view/pages/patient/payment_page.dart';
-import 'package:greycells/view/pages/patient_profile_page.dart';
-import 'package:greycells/view/pages/register_page.dart';
 import 'package:greycells/view/pages/splash_page.dart';
-import 'package:greycells/view/pages/therapist/therapist_main_page.dart';
-import 'package:greycells/view/pages/therapist_profile_page.dart';
 import 'package:greycells/view/pages/welcome_page.dart';
 import 'package:provider/provider.dart';
 
@@ -53,27 +37,6 @@ class GreyCellsApp extends StatelessWidget {
             return DeciderBloc();
           },
         ),
-        // TODO: This has to be removed from here
-        BlocProvider<PaymentBloc>(
-          create: (context) {
-            return PaymentBloc(Payment()
-              ..type = PaymentType.APPOINTMENT
-              ..title = "Book Appointment"
-              ..itemImageUrl =
-                  "https://urbanbalance.com/wp-content/uploads/2019/04/new-therapist.jpg"
-              ..itemTitle = "Dr. Anne Hathaway"
-              ..itemSubtitle = "Clinical Psychologist"
-              ..promoCodeApplied = true
-              ..discountAmount = 100
-              ..originalAmount = 300
-              ..items = [
-                PaymentItem()
-                  ..itemName = "1 Session"
-                  ..itemPrice = 300
-              ]
-              ..totalAmount = 300);
-          },
-        )
       ],
       child: MultiProvider(
         providers: [

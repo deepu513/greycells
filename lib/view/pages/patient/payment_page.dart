@@ -8,14 +8,27 @@ import 'package:greycells/extensions.dart';
 import 'package:greycells/models/payment/payment.dart';
 import 'package:greycells/models/payment/payment_item.dart';
 import 'package:greycells/models/payment/payment_type.dart';
+import 'package:greycells/models/payment/discount_response.dart';
 
-class PaymentPage extends StatelessWidget {
+class PaymentPage extends StatefulWidget {
+  final Payment mPayment;
+  PaymentPage(this.mPayment);
+
+  @override
+  _PaymentPageState createState() => _PaymentPageState(mPayment);
+}
+
+class _PaymentPageState extends State<PaymentPage> {
+  final Payment mPayment;
+
+  _PaymentPageState(this.mPayment);
+
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<PaymentBloc, PaymentState>(
       listener: (context, state) {
         if (state is PaymentFailure) {
-          showErrorDialog(
+          widget.showErrorDialog(
               context: context,
               message: ErrorMessages.PAYMENT_ERROR_MESSAGE,
               showIcon: true,
@@ -25,7 +38,7 @@ class PaymentPage extends StatelessWidget {
         }
 
         if (state is PaymentStatusUnknown) {
-          showErrorDialog(
+          widget.showErrorDialog(
               context: context,
               message: Strings.paymentStatusUnknown,
               showIcon: true,
@@ -35,7 +48,7 @@ class PaymentPage extends StatelessWidget {
         }
 
         if (state is PaymentSuccess) {
-          showSuccessDialog(
+          widget.showSuccessDialog(
               context: context,
               message: Strings.paymentSuccess,
               showIcon: true,
@@ -44,18 +57,13 @@ class PaymentPage extends StatelessWidget {
               });
         }
       },
-      buildWhen: (previous, current) {
-        return current is! PaymentSuccess &&
-            current is! PaymentFailure &&
-            current is! PaymentStatusUnknown;
-      },
       builder: (context, state) {
         return Scaffold(
           appBar: AppBar(
             elevation: 4.0,
             brightness: Brightness.light,
             title: Text(
-              state.payment.title,
+              mPayment.title,
               style: Theme.of(context)
                   .textTheme
                   .headline6
@@ -68,12 +76,12 @@ class PaymentPage extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  PaymentHeaderSection(state.payment),
+                  PaymentHeaderSection(mPayment),
                   SizedBox(
                     height: 8.0,
                   ),
                   Divider(),
-                  PaymentDetailsSection(state.payment),
+                  PaymentDetailsSection(mPayment),
                   SizedBox(
                     height: 8.0,
                   ),
@@ -83,49 +91,31 @@ class PaymentPage extends StatelessWidget {
                   ),
                   BlocProvider<DiscountBloc>(
                       create: (context) => DiscountBloc(),
-                      child: PromoCodeInputSection(state.payment)),
+                      child: PromoCodeInputSection(
+                        onPromoCodeApplied: (discount) =>
+                            _giveDiscount(discount),
+                        onPromoCodeRemoved: () => _removeDiscount(),
+                      )),
                   SizedBox(
                     height: 8.0,
                   ),
                   Divider(),
                   Spacer(),
-                  ButtonTheme(
+                  FlatButton(
+                    onPressed: () {
+                      BlocProvider.of<PaymentBloc>(context)
+                          .add(ProcessPayment(mPayment));
+                    },
+                    color: Theme.of(context).primaryColor,
+                    height: 56.0,
                     minWidth: double.maxFinite,
-                    height: 42.0,
-                    child: RaisedButton(
-                      onPressed: () {
-                        BlocProvider.of<PaymentBloc>(context)
-                            .add(ProcessPayment(state.payment));
-                      },
-                      color: Theme.of(context).primaryColor,
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(8.0)),
-                      child: Text(
-                        Strings.proceedToPayment.toUpperCase(),
-                        style: Theme.of(context).textTheme.button.copyWith(
-                              color: Colors.white,
-                            ),
-                      ),
-                    ),
-                  ),
-                  SizedBox(height: 12.0),
-                  ButtonTheme(
-                    minWidth: double.maxFinite,
-                    height: 42.0,
-                    child: OutlineButton(
-                      onPressed: () {},
-                      borderSide: BorderSide(
-                        color: Theme.of(context).primaryColor,
-                      ),
-                      color: Theme.of(context).primaryColor,
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(8.0)),
-                      child: Text(
-                        Strings.goBack.toUpperCase(),
-                        style: Theme.of(context).textTheme.button.copyWith(
-                              color: Theme.of(context).primaryColor,
-                            ),
-                      ),
+                    child: Text(
+                      Strings.makePayment.toUpperCase(),
+                      style: Theme.of(context).textTheme.subtitle1.copyWith(
+                            wordSpacing: 1.0,
+                            letterSpacing: 0.75,
+                            color: Colors.white,
+                          ),
                     ),
                   ),
                 ],
@@ -135,6 +125,25 @@ class PaymentPage extends StatelessWidget {
         );
       },
     );
+  }
+
+  _giveDiscount(DiscountResponse discount) {
+    setState(() {
+      mPayment.discountId = discount.discountId;
+      mPayment.discountAmount =
+          ((discount.discountPercent / 100) * mPayment.originalAmount).floor();
+      mPayment.totalAmount = mPayment.originalAmount - mPayment.discountAmount;
+      mPayment.promoCodeApplied = true;
+    });
+  }
+
+  _removeDiscount() {
+    setState(() {
+      mPayment.promoCodeApplied = false;
+      mPayment.totalAmount = mPayment.originalAmount;
+      mPayment.discountAmount = 0;
+      mPayment.discountId = 0;
+    });
   }
 }
 
@@ -316,17 +325,31 @@ class PaymentItems extends StatelessWidget {
   }
 }
 
-class PromoCodeInputSection extends StatelessWidget {
-  final Payment _payment;
+class PromoCodeInputSection extends StatefulWidget {
+  final ValueChanged<DiscountResponse> onPromoCodeApplied;
+  final VoidCallback onPromoCodeRemoved;
 
-  PromoCodeInputSection(this._payment) : assert(_payment != null);
+  PromoCodeInputSection(
+      {@required this.onPromoCodeApplied, @required this.onPromoCodeRemoved});
+
+  @override
+  _PromoCodeInputSectionState createState() => _PromoCodeInputSectionState();
+}
+
+class _PromoCodeInputSectionState extends State<PromoCodeInputSection> {
+  String promoCode;
+  @override
+  void initState() {
+    super.initState();
+    promoCode = "";
+  }
 
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<DiscountBloc, DiscountState>(
       listener: (context, state) {
         if (state is PromoCodeFailed) {
-          showErrorDialog(
+          widget.showErrorDialog(
               context: context,
               message: ErrorMessages.PROMO_CODER_ERROR_MESSAGE,
               showIcon: true,
@@ -334,18 +357,16 @@ class PromoCodeInputSection extends StatelessWidget {
                 Navigator.of(context).pop();
               });
         }
-
+      },
+      builder: (context, state) {
         if (state is PromoCodeApplied) {
-          BlocProvider.of<PaymentBloc>(context)
-              .add(PaymentUpdated(state.updatedPayment));
+          widget.onPromoCodeApplied.call(state.discountResponse);
         }
 
         if (state is PromoCodeRemoved) {
-          BlocProvider.of<PaymentBloc>(context)
-              .add(PaymentUpdated(state.updatedPayment));
+          widget.onPromoCodeRemoved.call();
         }
-      },
-      builder: (context, state) {
+
         return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -357,10 +378,7 @@ class PromoCodeInputSection extends StatelessWidget {
                 Expanded(
                   flex: 3,
                   child: TextField(
-                    controller: TextEditingController(
-                        text:
-                            BlocProvider.of<DiscountBloc>(context).promoCode ??
-                                ""),
+                    controller: TextEditingController(text: promoCode ?? ""),
                     maxLines: 1,
                     textInputAction: TextInputAction.next,
                     textCapitalization: TextCapitalization.characters,
@@ -369,9 +387,7 @@ class PromoCodeInputSection extends StatelessWidget {
                     ),
                     autofocus: false,
                     keyboardType: TextInputType.text,
-                    onChanged: (value) {
-                      BlocProvider.of<DiscountBloc>(context).promoCode = value;
-                    },
+                    onChanged: (value) => promoCode = value,
                   ),
                 ),
                 SizedBox(
@@ -393,7 +409,7 @@ class PromoCodeInputSection extends StatelessWidget {
                       ),
                       onPressed: () {
                         BlocProvider.of<DiscountBloc>(context)
-                            .add(ApplyPromoCode(_payment));
+                            .add(ApplyPromoCode(promoCode));
                       },
                       color: Theme.of(context).primaryColor,
                       borderSide: BorderSide(
@@ -422,7 +438,7 @@ class PromoCodeInputSection extends StatelessWidget {
                       ),
                       onPressed: () {
                         BlocProvider.of<DiscountBloc>(context)
-                            .add(RemovePromoCode(_payment));
+                            .add(RemovePromoCode());
                       },
                       color: Colors.brown,
                       borderSide: BorderSide(

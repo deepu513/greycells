@@ -31,7 +31,7 @@ class AppointmentDateSelection extends StatelessWidget {
             ),
           ),
           SizedBox(
-            height: 8.0,
+            height: 4.0,
           ),
           Expanded(
             child: Padding(
@@ -44,7 +44,7 @@ class AppointmentDateSelection extends StatelessWidget {
           ),
           CalendarDateSelector(),
           SizedBox(
-            height: 16.0,
+            height: 8.0,
           ),
           ContinueToPaymentButton(),
         ],

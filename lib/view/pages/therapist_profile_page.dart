@@ -3,6 +3,7 @@ import 'package:greycells/constants/strings.dart';
 import 'package:greycells/models/therapist/charge.dart';
 import 'package:greycells/models/therapist/therapist.dart';
 import 'package:greycells/route/route_name.dart';
+import 'package:greycells/extensions.dart';
 
 class TherapistProfilePage extends StatefulWidget {
   final Therapist therapist;
@@ -60,6 +61,9 @@ class _TherapistProfilePageState extends State<TherapistProfilePage> {
                     Divider(
                       height: 32.0,
                     ),
+                    SizedBox(
+                      height: 4.0,
+                    ),
                     MeetingChargesSection(widget.therapist.charges,
                         widget.therapist.meetingDuration.toString(),
                         (selectedMeeting) {
@@ -69,7 +73,19 @@ class _TherapistProfilePageState extends State<TherapistProfilePage> {
                 ),
               ),
             ),
-            BookAppointmentButton(selectedMeetingCharge != null),
+            BookAppointmentButton(() {
+              if (selectedMeetingCharge != null)
+                Navigator.of(context)
+                    .pushNamed(RouteName.APPOINTMENT_DATE_SELECTION_PAGE);
+              else
+                widget.showErrorDialog(
+                    context: context,
+                    message: "Please select an appointment type",
+                    showIcon: true,
+                    onPressed: () async {
+                      Navigator.of(context).pop();
+                    });
+            }),
           ],
         ),
       ),
@@ -145,7 +161,7 @@ class HeaderSection extends StatelessWidget {
                   padding: EdgeInsets.all(8.0),
                   child: Text(
                     experience,
-                    style: Theme.of(context).textTheme.headline5.copyWith(
+                    style: Theme.of(context).textTheme.headline6.copyWith(
                         color: Colors.purple, fontWeight: FontWeight.w700),
                     overflow: TextOverflow.clip,
                   ),
@@ -368,7 +384,7 @@ class _MeetingChargesSectionState extends State<MeetingChargesSection> {
           Row(
             children: [
               Text(
-                "Meeting charges",
+                "Appointment charges",
                 style: Theme.of(context).textTheme.subtitle1.copyWith(
                     fontWeight: FontWeight.w700, color: Colors.black87),
               ),
@@ -460,19 +476,15 @@ class _MeetingChargesSectionState extends State<MeetingChargesSection> {
 }
 
 class BookAppointmentButton extends StatelessWidget {
-  final bool enabled;
-  BookAppointmentButton(this.enabled);
+  final VoidCallback onPressed;
+  BookAppointmentButton(this.onPressed);
 
   @override
   Widget build(BuildContext context) {
     return FlatButton(
-      onPressed: enabled
-          ? () {
-              Navigator.of(context)
-                  .pushNamed(RouteName.APPOINTMENT_DATE_SELECTION_PAGE);
-            }
-          : null,
+      onPressed: onPressed,
       color: Theme.of(context).primaryColor,
+      disabledColor: Colors.grey.shade400,
       height: 56.0,
       minWidth: double.maxFinite,
       child: Text(

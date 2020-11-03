@@ -4,7 +4,9 @@ import 'package:greycells/bloc/assessment/assessment_bloc.dart';
 import 'package:greycells/bloc/authentication/forgot_password_bloc.dart';
 import 'package:greycells/bloc/registration/bloc.dart';
 import 'package:greycells/bloc/therapist/bloc/therapist_bloc.dart';
+import 'package:greycells/bloc/timeslot/timeslot_bloc.dart';
 import 'package:greycells/bloc/validation/bloc.dart';
+import 'package:greycells/models/appointment/appointment_date_args.dart';
 import 'package:greycells/route/route_name.dart';
 import 'package:greycells/view/pages/patient/appointment_date_selection.dart';
 import 'package:greycells/view/pages/patient/assessment_test_intro_page.dart';
@@ -79,8 +81,7 @@ class RouteGenerator {
       case RouteName.THERAPIST_LIST_PAGE:
         return MaterialPageRoute(
             builder: (_) => BlocProvider<TherapistBloc>(
-                create: (_) => TherapistBloc(),
-                child: TherapistListPage()));
+                create: (_) => TherapistBloc(), child: TherapistListPage()));
       case RouteName.PATIENT_APPOINTMENT_LIST_PAGE:
         return MaterialPageRoute(builder: (_) => PatientAppointmentPage());
       case RouteName.PATIENT_PROFILE_PAGE:
@@ -88,7 +89,14 @@ class RouteGenerator {
       case RouteName.THERAPIST_PROFILE_PAGE:
         return MaterialPageRoute(builder: (_) => TherapistProfilePage(args));
       case RouteName.APPOINTMENT_DATE_SELECTION_PAGE:
-        return MaterialPageRoute(builder: (_) => AppointmentDateSelection());
+        AppointmentDateSelectionArguments arguments =
+            args as AppointmentDateSelectionArguments;
+        return MaterialPageRoute(
+            builder: (_) => BlocProvider<TimeslotBloc>(
+                  create: (_) => TimeslotBloc(),
+                  child: AppointmentDateSelection(
+                      arguments.therapist, arguments.selectedMeeting),
+                ));
       default:
         // If there is no such named route in the switch statement, e.g. /third
         return _errorRoute();

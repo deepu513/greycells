@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:greycells/constants/strings.dart';
+import 'package:greycells/models/appointment/appointment_date_args.dart';
 import 'package:greycells/models/therapist/charge.dart';
 import 'package:greycells/models/therapist/therapist.dart';
 import 'package:greycells/route/route_name.dart';
@@ -75,8 +76,11 @@ class _TherapistProfilePageState extends State<TherapistProfilePage> {
             ),
             BookAppointmentButton(() {
               if (selectedMeetingCharge != null)
-                Navigator.of(context)
-                    .pushNamed(RouteName.APPOINTMENT_DATE_SELECTION_PAGE);
+                Navigator.of(context).pushNamed(
+                  RouteName.APPOINTMENT_DATE_SELECTION_PAGE,
+                  arguments: AppointmentDateSelectionArguments(
+                      widget.therapist, selectedMeetingCharge),
+                );
               else
                 widget.showErrorDialog(
                     context: context,

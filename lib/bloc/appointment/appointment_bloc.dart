@@ -7,7 +7,6 @@ import 'package:greycells/models/appointment/all_appointment_response.dart';
 import 'package:greycells/models/appointment/appointment.dart';
 import 'package:greycells/models/appointment/appointment_status.dart';
 import 'package:greycells/repository/appointment_repository.dart';
-import 'package:greycells/view/pages/all_appointments.dart';
 
 part 'appointment_event.dart';
 part 'appointment_state.dart';

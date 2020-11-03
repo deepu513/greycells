@@ -1,7 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:greycells/bloc/timeslot/timeslot_bloc.dart';
+import 'package:greycells/constants/strings.dart';
+import 'package:greycells/models/therapist/charge.dart';
+import 'package:greycells/models/therapist/therapist.dart';
+import 'package:greycells/models/timeslot/timeslot.dart';
+import 'package:greycells/route/route_name.dart';
+import 'package:greycells/view/widgets/centered_circular_loading.dart';
+import 'package:intl/intl.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 class AppointmentDateSelection extends StatelessWidget {
+  final Therapist therapist;
+  final MeetingCharge selectedMeeting;
+
+  AppointmentDateSelection(this.therapist, this.selectedMeeting);
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -16,44 +30,198 @@ class AppointmentDateSelection extends StatelessWidget {
         elevation: 4.0,
       ),
       body: SafeArea(
-          child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          MeetingMetaInfo(),
-          Padding(
+        child: MainContent(therapist, selectedMeeting),
+      ),
+    );
+  }
+}
+
+class MainContent extends StatefulWidget {
+  final Therapist therapist;
+  final MeetingCharge selectedMeeting;
+
+  MainContent(this.therapist, this.selectedMeeting);
+
+  @override
+  _MainContentState createState() => _MainContentState();
+}
+
+class _MainContentState extends State<MainContent> {
+  Timeslot mSelectedTimeslot;
+  DateTime mSelectedDay;
+
+  @override
+  void initState() {
+    super.initState();
+    mSelectedDay = DateTime.now();
+    _getTimeslotsForDay(mSelectedDay);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        MeetingMetaInfo(
+          meetingType: widget.selectedMeeting.meetingType,
+          therapistName:
+              "${widget.therapist.user.firstName} ${widget.therapist.user.lastName}",
+          duration: widget.therapist.meetingDuration.toString(),
+        ),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16.0),
+          child: Text(
+            "Available Timeslots",
+            style: Theme.of(context)
+                .textTheme
+                .subtitle1
+                .copyWith(fontWeight: FontWeight.bold),
+          ),
+        ),
+        SizedBox(
+          height: 4.0,
+        ),
+        Expanded(
+          child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16.0),
-            child: Text(
-              "Available Timeslots",
+            child: BlocConsumer<TimeslotBloc, TimeslotState>(
+              listener: (context, state) {},
+              builder: (context, state) {
+                if (state is TimeslotsLoaded) {
+                  return TimeSlotSelector(
+                    availableTimeSlots: state.availableTimeslots,
+                    onTimeslotSelected: (selectedTimeslot) {
+                      mSelectedTimeslot = selectedTimeslot;
+                    },
+                  );
+                }
+                if (state is TimeslotsLoading)
+                  return CenteredCircularLoadingIndicator();
+                if (state is TimeslotsEmpty) return TimeslotsNotAvailable();
+                if (state is TimeslotLoadError)
+                  return TimeslotLoadErrorWidget(() {
+                    _getTimeslotsForDay(mSelectedDay);
+                  });
+
+                return Container();
+              },
+            ),
+          ),
+        ),
+        Divider(
+          height: 2.0,
+        ),
+        CalendarDateSelector(
+          onDaySelected: (day) {
+            mSelectedDay = day;
+            _getTimeslotsForDay(mSelectedDay);
+          },
+        ),
+        SizedBox(
+          height: 8.0,
+        ),
+        ContinueToPaymentButton(() {
+          if (mSelectedTimeslot != null) {
+            Navigator.of(context).pushNamed(RouteName.PAYMENT_PAGE);
+          }
+        }),
+      ],
+    );
+  }
+
+  void _getTimeslotsForDay(DateTime day) {
+    BlocProvider.of<TimeslotBloc>(context).add(
+        LoadTimeslotsForTherapist(widget.therapist.id, _getStringDate(day)));
+  }
+
+  String _getStringDate(DateTime day) {
+    try {
+      DateFormat dateFormat = DateFormat("dd/MM/yyyy");
+      return dateFormat.format(day);
+    } catch (e) {
+      print(e);
+    }
+    return "";
+  }
+}
+
+class TimeslotsNotAvailable extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      alignment: Alignment.center,
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Text("No slots available on this day",
               style: Theme.of(context)
                   .textTheme
                   .subtitle1
-                  .copyWith(fontWeight: FontWeight.bold),
-            ),
-          ),
-          SizedBox(
-            height: 4.0,
-          ),
-          Expanded(
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16.0),
-              child: TimeSlotSelector(),
-            ),
-          ),
-          Divider(
-            height: 2.0,
-          ),
-          CalendarDateSelector(),
+                  .copyWith(fontWeight: FontWeight.bold)),
+          Text("Please try selecting another day to book your appointment",
+              style: Theme.of(context).textTheme.bodyText1)
+        ],
+      ),
+    );
+  }
+}
+
+class TimeslotLoadErrorWidget extends StatelessWidget {
+  final VoidCallback onRetry;
+  TimeslotLoadErrorWidget(this.onRetry);
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      alignment: Alignment.center,
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Text("Something went wrong!",
+              textAlign: TextAlign.center,
+              style: Theme.of(context).textTheme.headline6.copyWith(
+                    fontWeight: FontWeight.bold,
+                  )),
           SizedBox(
             height: 8.0,
           ),
-          ContinueToPaymentButton(),
+          Text("Please try again in sometime.",
+              textAlign: TextAlign.center,
+              style: Theme.of(context).textTheme.bodyText1.copyWith(
+                  height: 1.3,
+                  letterSpacing: 0.5,
+                  wordSpacing: 0.7,
+                  color: Colors.grey)),
+          SizedBox(
+            height: 16.0,
+          ),
+          OutlineButton(
+            onPressed: onRetry,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(8.0),
+            ),
+            padding: EdgeInsets.symmetric(horizontal: 36.0),
+            child: Text(
+              Strings.retry.toUpperCase(),
+            ),
+          )
         ],
-      )),
+      ),
     );
   }
 }
 
 class MeetingMetaInfo extends StatelessWidget {
+  final String meetingType;
+  final String therapistName;
+  final String duration;
+
+  const MeetingMetaInfo(
+      {Key key,
+      @required this.meetingType,
+      @required this.therapistName,
+      @required this.duration})
+      : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -77,7 +245,7 @@ class MeetingMetaInfo extends StatelessWidget {
           Flexible(
             fit: FlexFit.loose,
             child: Text(
-              "One on one meeting with Dr. Anne Hathaway for 60 minutes.",
+              "$meetingType meeting with $therapistName for $duration.",
               overflow: TextOverflow.clip,
               style: Theme.of(context).textTheme.bodyText1.copyWith(
                   color: Colors.teal.shade600, fontStyle: FontStyle.italic),
@@ -90,6 +258,9 @@ class MeetingMetaInfo extends StatelessWidget {
 }
 
 class CalendarDateSelector extends StatefulWidget {
+  final ValueChanged<DateTime> onDaySelected;
+  CalendarDateSelector({@required this.onDaySelected});
+
   @override
   _CalendarDateSelectorState createState() => _CalendarDateSelectorState();
 }
@@ -134,18 +305,14 @@ class _CalendarDateSelectorState extends State<CalendarDateSelector>
   }
 
   void _onDaySelected(DateTime day, List events, List holidays) {
-    print('CALLBACK: _onDaySelected');
+    widget.onDaySelected.call(day);
   }
 
   void _onVisibleDaysChanged(
-      DateTime first, DateTime last, CalendarFormat format) {
-    print('CALLBACK: _onVisibleDaysChanged');
-  }
+      DateTime first, DateTime last, CalendarFormat format) {}
 
   void _onCalendarCreated(
-      DateTime first, DateTime last, CalendarFormat format) {
-    print('CALLBACK: _onCalendarCreated');
-  }
+      DateTime first, DateTime last, CalendarFormat format) {}
 
   @override
   void dispose() {
@@ -155,6 +322,12 @@ class _CalendarDateSelectorState extends State<CalendarDateSelector>
 }
 
 class TimeSlotSelector extends StatefulWidget {
+  final ValueChanged<Timeslot> onTimeslotSelected;
+  final List<Timeslot> availableTimeSlots;
+
+  TimeSlotSelector(
+      {@required this.availableTimeSlots, @required this.onTimeslotSelected});
+
   @override
   _TimeSlotSelectorState createState() => _TimeSlotSelectorState();
 }
@@ -174,17 +347,20 @@ class _TimeSlotSelectorState extends State<TimeSlotSelector> {
 
   List<Widget> _buildTimeSlotChips() {
     List<Widget> chips = List();
-    for (var i = 0; i < 7; i++) {
+    for (var i = 0; i < widget.availableTimeSlots.length; i++) {
       chips.add(ChoiceChip(
         selected: i == _selectedIndex,
         selectedColor: Colors.blue,
         onSelected: (selected) {
-          setState(() {
-            _selectedIndex = i;
-          });
+          if (selected) {
+            setState(() {
+              _selectedIndex = i;
+            });
+            widget.onTimeslotSelected.call(widget.availableTimeSlots[i]);
+          }
         },
         label: Text(
-          "10:30 AM",
+          widget.availableTimeSlots[i].startTime,
         ),
         labelStyle: Theme.of(context).textTheme.bodyText1.copyWith(
               color: i == _selectedIndex ? Colors.white : Colors.black54,
@@ -195,12 +371,13 @@ class _TimeSlotSelectorState extends State<TimeSlotSelector> {
   }
 }
 
-//TODO: Ask a confirmation from user before proceeding.
 class ContinueToPaymentButton extends StatelessWidget {
+  final VoidCallback onProceedClicked;
+  ContinueToPaymentButton(this.onProceedClicked);
   @override
   Widget build(BuildContext context) {
     return FlatButton(
-        onPressed: () {},
+        onPressed: onProceedClicked,
         color: Theme.of(context).primaryColor,
         height: 56.0,
         minWidth: double.maxFinite,

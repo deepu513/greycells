@@ -56,7 +56,7 @@ class _AppointmentCardState extends State<AppointmentCard> {
                       indent: 4.0,
                       endIndent: 4.0,
                     ),
-                    SizedBox(width: 4.0),
+                    SizedBox(width: 8.0),
                     CircleAvatar(
                       backgroundImage: NetworkImage(
                           "https://urbanbalance.com/wp-content/uploads/2019/04/new-therapist.jpg"),
@@ -69,9 +69,7 @@ class _AppointmentCardState extends State<AppointmentCard> {
                   ],
                 ),
               ),
-              SizedBox(
-                height: 16.0,
-              ),
+              Divider(),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 8.0),
                 child: Row(
@@ -142,7 +140,7 @@ class AppointmentMetaInfo extends StatelessWidget {
           ),
         ),
         SizedBox(
-          height: 4.0,
+          height: 2.0,
         ),
         Row(
           mainAxisSize: MainAxisSize.min,

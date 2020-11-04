@@ -6,8 +6,22 @@ import 'package:greycells/view/widgets/empty_state.dart';
 import 'package:greycells/view/widgets/error_with_retry.dart';
 import 'package:greycells/view/widgets/therapist_list_tile.dart';
 
-// TODO: Add pagination here
-class TherapistListPage extends StatelessWidget {
+class TherapistListPage extends StatefulWidget {
+  @override
+  _TherapistListPageState createState() => _TherapistListPageState();
+}
+
+class _TherapistListPageState extends State<TherapistListPage> {
+  @override
+  void initState() {
+    super.initState();
+    _loadTherapists();
+  }
+
+  void _loadTherapists() {
+    BlocProvider.of<TherapistBloc>(context).add(LoadTherapists());
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -31,7 +45,7 @@ class TherapistListPage extends StatelessWidget {
             if (state is TherapistsLoaded) {
               return Container(
                 child: ListView.builder(
-                    padding: EdgeInsets.symmetric(vertical: 8.0),
+                    padding: EdgeInsets.symmetric(vertical: 4.0),
                     itemBuilder: (context, index) {
                       return TherapistListTile(
                           therapist: state.therapists[index]);
@@ -46,7 +60,9 @@ class TherapistListPage extends StatelessWidget {
 
             if (state is TherapistsLoadError) {
               return ErrorWithRetry(
-                onRetryPressed: () {},
+                onRetryPressed: () {
+                  _loadTherapists();
+                },
               );
             }
 

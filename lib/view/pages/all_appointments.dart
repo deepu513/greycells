@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:greycells/bloc/appointment/appointment_bloc.dart';
 import 'package:greycells/constants/user_type.dart';
+import 'package:greycells/models/appointment/appointment_status.dart';
 import 'package:greycells/view/widgets/appointment_card.dart';
 import 'package:greycells/view/widgets/appointment_status_selector.dart';
 import 'package:greycells/view/widgets/centered_circular_loading.dart';
@@ -18,19 +19,22 @@ class AllAppointments extends StatefulWidget {
 }
 
 class _AllAppointmentsState extends State<AllAppointments> {
-
+  AppointmentStatus _status;
   @override
-  void initState() { 
+  void initState() {
     super.initState();
-    
+    _status = AppointmentStatus.upcoming;
+    _loadAppointments(_status);
+  }
+
+  _loadAppointments(AppointmentStatus status) {
+    BlocProvider.of<AppointmentBloc>(context).add(LoadAppointments(1, status));
   }
 
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<AppointmentBloc, AppointmentState>(
-      listener: (context, state) {
-        
-      },
+      listener: (context, state) {},
       builder: (context, state) {
         if (state is AppointmentsLoading)
           return CenteredCircularLoadingIndicator();
@@ -39,7 +43,9 @@ class _AllAppointmentsState extends State<AllAppointments> {
 
         if (state is AppointmentsLoadError)
           return ErrorWithRetry(
-            onRetryPressed: () {},
+            onRetryPressed: () {
+              _loadAppointments(_status);
+            },
           );
 
         if (state is AppointmentsLoaded)
@@ -48,19 +54,22 @@ class _AllAppointmentsState extends State<AllAppointments> {
             children: [
               Divider(),
               AppointmentStatusSelector((selectedStatus) {
-                
-              }),
+                _status = selectedStatus;
+                _loadAppointments(_status);
+              }, AppointmentStatus.upcoming),
               Divider(),
-              Container(
-                child: ListView.builder(
-                  itemBuilder: (context, index) {
-                    return Padding(
-                      padding: const EdgeInsets.fromLTRB(8.0, 8.0, 8.0, 0.0),
-                      child: AppointmentCard(
-                          state.allAppointments[index], widget.userType),
-                    );
-                  },
-                ),
+              ListView.builder(
+                shrinkWrap: true,
+                itemBuilder: (context, index) {
+                  return Padding(
+                    padding: const EdgeInsets.fromLTRB(8.0, 8.0, 8.0, 0.0),
+                    child: AppointmentCard(
+                      state.allAppointments[index],
+                      widget.userType,
+                    ),
+                  );
+                },
+                itemCount: state.allAppointments.length,
               ),
             ],
           );

@@ -3,9 +3,10 @@ import 'package:greycells/models/appointment/appointment_status.dart';
 import 'package:greycells/view/widgets/outlined_chip.dart';
 
 class AppointmentStatusSelector extends StatefulWidget {
+  final initialStatus;
   final ValueChanged<AppointmentStatus> onStatusSelected;
 
-  AppointmentStatusSelector(this.onStatusSelected);
+  AppointmentStatusSelector(this.onStatusSelected, this.initialStatus);
 
   @override
   _AppointmentStatusSelectorState createState() =>
@@ -16,6 +17,12 @@ class _AppointmentStatusSelectorState extends State<AppointmentStatusSelector> {
   AppointmentStatus selectedStatus;
 
   @override
+  void initState() {
+    super.initState();
+    selectedStatus = widget.initialStatus;
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Container(
       padding: EdgeInsets.all(8.0),
@@ -24,7 +31,10 @@ class _AppointmentStatusSelectorState extends State<AppointmentStatusSelector> {
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
-          Icon(Icons.filter_list, color: Colors.pink,),
+          Icon(
+            Icons.filter_list,
+            color: Colors.pink,
+          ),
           OutlinedChip("Upcoming", selectedStatus == AppointmentStatus.upcoming,
               () {
             setState(() {

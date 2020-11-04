@@ -69,7 +69,7 @@ class _MainContentState extends State<MainContent> {
           meetingType: widget.selectedMeeting.meetingType,
           therapistName:
               "${widget.therapist.user.firstName} ${widget.therapist.user.lastName}",
-          duration: widget.therapist.meetingDuration.duration.toString(),
+          duration: widget.therapist.meetingDuration?.duration.toString(),
         ),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16.0),

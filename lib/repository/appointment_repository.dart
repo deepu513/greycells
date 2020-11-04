@@ -18,6 +18,8 @@ class AppointmentRepository {
     this._httpService = HttpService();
     this._allAppointmentResponseSerializable =
         AllAppointmentResponseSerializable();
+    this._timeslotRequestSerializable = TimeslotRequestSerializable();
+    this._timeslotResponseSerializable = TimeslotResponseSerializable();
   }
 
   Future<AllAppointmentsResponse> getAllAppointments(
@@ -36,6 +38,6 @@ class AppointmentRepository {
         _timeslotRequestSerializable)
       ..setBody(timeslotRequest);
 
-    return await _httpService.get(request, _timeslotResponseSerializable);
+    return await _httpService.post(request, _timeslotResponseSerializable);
   }
 }

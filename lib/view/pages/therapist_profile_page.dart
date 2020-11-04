@@ -66,7 +66,7 @@ class _TherapistProfilePageState extends State<TherapistProfilePage> {
                       height: 4.0,
                     ),
                     MeetingChargesSection(widget.therapist.charges,
-                        widget.therapist.meetingDuration.toString(),
+                        widget.therapist.meetingDuration.duration.toString(),
                         (selectedMeeting) {
                       setState(() => selectedMeetingCharge = selectedMeeting);
                     }),

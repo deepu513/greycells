@@ -1,6 +1,7 @@
 import 'package:greycells/models/file/file.dart';
 import 'package:greycells/models/therapist/charge.dart';
 import 'package:greycells/models/therapist/disorder.dart';
+import 'package:greycells/models/therapist/meeting_duration.dart';
 import 'package:greycells/models/therapist/therapist_type.dart';
 import 'package:greycells/models/user/user.dart';
 import 'package:json_annotation/json_annotation.dart';
@@ -38,7 +39,8 @@ class Therapist {
 
   List<MeetingCharge> charges;
 
-  int meetingDuration;
+  @JsonKey(name: "meetingDuration")
+  MeetingDuration meetingDuration;
 
   String spokenLanguage;
 
@@ -52,9 +54,4 @@ class Therapist {
   factory Therapist.fromJson(Map<String, dynamic> json) =>
       _$TherapistFromJson(json);
   Map<String, dynamic> toJson() => _$TherapistToJson(this);
-
-// {
-//             "genderType": 0,
-//             "meetingDuration": null,
-//         }
 }

@@ -69,7 +69,7 @@ class _MainContentState extends State<MainContent> {
           meetingType: widget.selectedMeeting.meetingType,
           therapistName:
               "${widget.therapist.user.firstName} ${widget.therapist.user.lastName}",
-          duration: widget.therapist.meetingDuration.toString(),
+          duration: widget.therapist.meetingDuration.duration.toString(),
         ),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16.0),
@@ -179,7 +179,9 @@ class TimeslotsNotAvailable extends StatelessWidget {
                   .textTheme
                   .subtitle1
                   .copyWith(fontWeight: FontWeight.bold)),
-          Text("Please try selecting another day to book your appointment",
+          Text(
+              "Try selecting another day to book an appointment",
+              textAlign: TextAlign.center,
               style: Theme.of(context).textTheme.bodyText1)
         ],
       ),
@@ -248,7 +250,7 @@ class MeetingMetaInfo extends StatelessWidget {
     return Container(
       alignment: Alignment.center,
       padding: EdgeInsets.symmetric(vertical: 8.0, horizontal: 8.0),
-      margin: EdgeInsets.symmetric(horizontal: 8.0, vertical: 16.0),
+      margin: EdgeInsets.symmetric(horizontal: 8.0, vertical: 12.0),
       decoration: BoxDecoration(
         color: Colors.teal.shade50,
         borderRadius: BorderRadius.circular(8.0),
@@ -266,7 +268,7 @@ class MeetingMetaInfo extends StatelessWidget {
           Flexible(
             fit: FlexFit.loose,
             child: Text(
-              "$meetingType meeting with $therapistName for $duration.",
+              "$meetingType meeting with $therapistName for $duration minutes.",
               overflow: TextOverflow.clip,
               style: Theme.of(context).textTheme.bodyText1.copyWith(
                   color: Colors.teal.shade600, fontStyle: FontStyle.italic),

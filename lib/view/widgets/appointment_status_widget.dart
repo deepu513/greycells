@@ -18,10 +18,10 @@ class AppointmentStatusWidget extends StatelessWidget {
       ),
       child: Text(
         appointmentStatus.toString().split(".").last.toUpperCase(),
-        style: Theme.of(context).textTheme.caption.copyWith(
-            color: getTextColorForStatus(appointmentStatus),
-            fontWeight: FontWeight.w700,
-            letterSpacing: 1.0),
+        style: Theme.of(context).textTheme.overline.copyWith(
+              color: getTextColorForStatus(appointmentStatus),
+              fontWeight: FontWeight.w700,
+            ),
       ),
     );
   }

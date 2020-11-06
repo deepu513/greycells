@@ -35,7 +35,7 @@ class _AppointmentCardState extends State<AppointmentCard> {
       child: InkWell(
         onTap: widget.onTap,
         borderRadius: BorderRadius.circular(8.0),
-        child: AppointmentSummary(
+        child: _AppointmentSummary(
           appointment: widget.appointment,
           userType: widget.userType,
           readableDate: readableDate,
@@ -45,12 +45,12 @@ class _AppointmentCardState extends State<AppointmentCard> {
   }
 }
 
-class AppointmentSummary extends StatelessWidget {
+class _AppointmentSummary extends StatelessWidget {
   final Appointment appointment;
   final UserType userType;
   final String readableDate;
 
-  const AppointmentSummary(
+  const _AppointmentSummary(
       {Key key,
       @required this.appointment,
       @required this.userType,

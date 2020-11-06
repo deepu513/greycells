@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:greycells/bloc/validation/bloc.dart';
 import 'package:greycells/bloc/validation/validation_field.dart';
+import 'package:greycells/flavor_config.dart';
 import 'package:intl/intl.dart';
 
 import 'constants/strings.dart';
@@ -26,13 +27,15 @@ extension StringExtensions on String {
     try {
       DateFormat dateFormat = DateFormat("yyyy-mm-dd'T'HH:mm:ss.mmm");
       DateTime dateTime = dateFormat.parse(this);
-
       return DateFormat(format).format(dateTime);
     } catch (e) {
       print(e);
     }
-
     return "";
+  }
+
+  String withBaseUrlForImage() {
+    return "https://www.greycellswellness.com/images/$this";
   }
 }
 

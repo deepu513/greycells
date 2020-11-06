@@ -3,7 +3,7 @@ import 'package:greycells/constants/user_type.dart';
 import 'package:greycells/models/appointment/appointment.dart';
 import 'package:greycells/models/appointment/appointment_status.dart';
 import 'package:greycells/view/widgets/appointment_status_widget.dart';
-import 'package:greycells/view/widgets/page_section.dart';
+import 'package:greycells/view/widgets/colored_page_section.dart';
 import 'package:greycells/view/widgets/vertical_date.dart';
 import 'package:greycells/extensions.dart';
 
@@ -39,23 +39,37 @@ class _AppointmentDetailPageState extends State<AppointmentDetailPage> {
         ),
       ),
       body: SafeArea(
-        child: SingleChildScrollView(
-          padding: EdgeInsets.all(16.0),
-          child: Column(
-            children: [
-              AppointmentSummary(
-                appointment: widget.appointment,
-                userType: widget.userType,
-                readableDate: readableDate,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Expanded(
+              child: SingleChildScrollView(
+                padding: EdgeInsets.all(16.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    AppointmentSummary(
+                      appointment: widget.appointment,
+                      userType: widget.userType,
+                      readableDate: readableDate,
+                    ),
+                    SizedBox(
+                      height: 24.0,
+                    ),
+                    AppointmentStatusDetails(widget.appointment),
+                    SizedBox(
+                      height: 16.0,
+                    ),
+                    Visibility(
+                      //visible: widget.userType == UserType.therapist,
+                      child: AddTasksSection(),
+                    ),
+                  ],
+                ),
               ),
-              AppointmentStatusDetails(),
-              Visibility(
-                visible: widget.userType == UserType.therapist,
-                child: AddTasksSection(),
-              ),
-              CancelAppointmentSection(),
-            ],
-          ),
+            ),
+            InteractWithAppointmentSection(),
+          ],
         ),
       ),
     );
@@ -76,7 +90,6 @@ class AppointmentSummary extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      
       child: Column(
         mainAxisSize: MainAxisSize.max,
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -105,7 +118,9 @@ class AppointmentSummary extends StatelessWidget {
               ],
             ),
           ),
-          Divider(height: 24.0,),
+          Divider(
+            height: 24.0,
+          ),
           Row(
             children: [
               Icon(
@@ -199,20 +214,177 @@ class AppointmentMetaInfo extends StatelessWidget {
 }
 
 class AppointmentStatusDetails extends StatelessWidget {
+  final Appointment appointment;
+
+  AppointmentStatusDetails(this.appointment);
+
   @override
   Widget build(BuildContext context) {
+    if (appointment.status == AppointmentStatus.upcoming.index) {
+      return OngoingAppointmentSection();
+    }
+    if (appointment.status == AppointmentStatus.cancelled.index) {
+      return CancelledAppointmentSection();
+    }
+    if (appointment.status == AppointmentStatus.completed.index) {
+      return CompletedAppointmentSection();
+    }
     return Container();
+  }
+}
+
+class OngoingAppointmentSection extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(8.0),
+          shape: BoxShape.rectangle,
+          color: Colors.green),
+      padding: EdgeInsets.symmetric(horizontal: 8.0, vertical: 12.0),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16.0),
+            child: Icon(
+              Icons.info_outline_rounded,
+              color: Colors.white,
+            ),
+          ),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  "Appointment Started",
+                  style: Theme.of(context).textTheme.headline6.copyWith(
+                      color: Colors.white, fontWeight: FontWeight.w700),
+                ),
+                SizedBox(
+                  height: 4.0,
+                ),
+                Text(
+                  """Your appointment has been started. Click on 'Join Appointment' to continue.""",
+                  style: Theme.of(context).textTheme.bodyText1.copyWith(
+                        color: Colors.white,
+                      ),
+                )
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class UpcomingAppointmentSection extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return ColoredPageSection(
+      icon: Icon(
+        Icons.info_outline_rounded,
+        size: 20.0,
+        color: Colors.blue.shade700,
+      ),
+      title: "Info",
+      description:
+          "Your appointment is as per the schedule and you will be able to join the video call 5 minutes before the scheduled time.",
+      textColor: Colors.blue.shade700,
+      sectionColor: Colors.blue.shade50,
+    );
+  }
+}
+
+class CancelledAppointmentSection extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return ColoredPageSection(
+      icon: Icon(
+        Icons.info_outline_rounded,
+        size: 20.0,
+        color: Colors.brown.shade700,
+      ),
+      title: "Info",
+      description: "This appointment has been cancelled.",
+      textColor: Colors.brown.shade700,
+      sectionColor: Colors.brown.shade50,
+    );
+  }
+}
+
+class CompletedAppointmentSection extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return ColoredPageSection(
+      icon: Icon(
+        Icons.info_outline_rounded,
+        size: 20.0,
+        color: Colors.teal.shade700,
+      ),
+      title: "Info",
+      description: "This appointment is now complete.",
+      textColor: Colors.teal.shade700,
+      sectionColor: Colors.teal.shade50,
+    );
   }
 }
 
 class AddTasksSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return InkWell(
+      onTap: () {},
+      borderRadius: BorderRadius.circular(8.0),
+      splashColor: Colors.purple.shade100,
+      child: Ink(
+          decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(8.0),
+              border: Border.all(color: Colors.purple.shade100),
+              shape: BoxShape.rectangle,
+              color: Colors.purple.shade50),
+          padding: EdgeInsets.all(8.0),
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                child: Icon(
+                  Icons.add_circle_rounded,
+                  color: Colors.purple.shade700,
+                ),
+              ),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      "Assign Tasks",
+                      style: Theme.of(context).textTheme.subtitle1.copyWith(
+                          color: Colors.purple, fontWeight: FontWeight.w700),
+                    ),
+                    SizedBox(
+                      height: 4.0,
+                    ),
+                    Text(
+                      "Click on this section to assign tasks to the patient.",
+                      style: Theme.of(context).textTheme.bodyText1.copyWith(
+                            color: Colors.purple,
+                          ),
+                    )
+                  ],
+                ),
+              ),
+            ],
+          )),
+    );
   }
 }
 
-class CancelAppointmentSection extends StatelessWidget {
+class InteractWithAppointmentSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container();

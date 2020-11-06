@@ -7,7 +7,9 @@ import 'package:greycells/bloc/therapist/bloc/therapist_bloc.dart';
 import 'package:greycells/bloc/timeslot/timeslot_bloc.dart';
 import 'package:greycells/bloc/validation/bloc.dart';
 import 'package:greycells/models/appointment/appointment_date_args.dart';
+import 'package:greycells/models/appointment/appointment_detail_arguments.dart';
 import 'package:greycells/route/route_name.dart';
+import 'package:greycells/view/pages/appointment_detail_page.dart';
 import 'package:greycells/view/pages/patient/appointment_date_selection.dart';
 import 'package:greycells/view/pages/patient/assessment_test_intro_page.dart';
 import 'package:greycells/view/pages/patient/assessment_test_page.dart';
@@ -96,6 +98,15 @@ class RouteGenerator {
                   create: (_) => TimeslotBloc(),
                   child: AppointmentDateSelection(
                       arguments.therapist, arguments.selectedMeeting),
+                ));
+      case RouteName.APPOINTMENT_DETAIL_PAGE:
+        AppointmentDetailArguments arguments =
+            args as AppointmentDetailArguments;
+        return MaterialPageRoute(
+            builder: (_) => BlocProvider<TimeslotBloc>(
+                  create: (_) => TimeslotBloc(),
+                  child: AppointmentDetailPage(
+                      arguments.userType, arguments.appointment),
                 ));
       default:
         // If there is no such named route in the switch statement, e.g. /third

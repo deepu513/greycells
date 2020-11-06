@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:greycells/constants/user_type.dart';
 import 'package:greycells/models/appointment/appointment.dart';
+import 'package:greycells/models/appointment/appointment_detail_arguments.dart';
 import 'package:greycells/models/home/patient_home.dart';
 import 'package:greycells/models/therapist/therapist.dart';
 import 'package:greycells/route/route_name.dart';
@@ -191,7 +192,11 @@ class UpcomingAppointmentSection extends StatelessWidget {
         itemCount: upcomingAppointments.length,
         controller: PageController(viewportFraction: 0.9),
         itemBuilder: (context, index) =>
-            AppointmentCard(upcomingAppointments[index], UserType.patient),
+            AppointmentCard(upcomingAppointments[index], UserType.patient, () {
+          Navigator.of(context).pushNamed(RouteName.APPOINTMENT_DETAIL_PAGE,
+              arguments: AppointmentDetailArguments(
+                  upcomingAppointments[index], UserType.patient));
+        }),
         scrollDirection: Axis.horizontal,
       ),
     );

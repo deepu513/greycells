@@ -101,7 +101,7 @@ class UpcomingAppointments extends StatelessWidget {
           return Padding(
             padding: const EdgeInsets.fromLTRB(8.0, 8.0, 8.0, 0.0),
             child: AppointmentCard(
-                upcomingAppointments[index], UserType.therapist),
+                upcomingAppointments[index], UserType.therapist, () {}),
           );
         },
         itemCount: upcomingAppointments.length,

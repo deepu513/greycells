@@ -64,9 +64,7 @@ class _AllAppointmentsState extends State<AllAppointments> {
                   return Padding(
                     padding: const EdgeInsets.fromLTRB(8.0, 8.0, 8.0, 0.0),
                     child: AppointmentCard(
-                      state.allAppointments[index],
-                      widget.userType,
-                    ),
+                        state.allAppointments[index], widget.userType, () {}),
                   );
                 },
                 itemCount: state.allAppointments.length,

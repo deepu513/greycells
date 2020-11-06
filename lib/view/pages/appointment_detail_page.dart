@@ -3,23 +3,22 @@ import 'package:greycells/constants/user_type.dart';
 import 'package:greycells/models/appointment/appointment.dart';
 import 'package:greycells/models/appointment/appointment_status.dart';
 import 'package:greycells/view/widgets/appointment_status_widget.dart';
+import 'package:greycells/view/widgets/page_section.dart';
 import 'package:greycells/view/widgets/vertical_date.dart';
 import 'package:greycells/extensions.dart';
 
-class AppointmentCard extends StatefulWidget {
-  final Appointment appointment;
+class AppointmentDetailPage extends StatefulWidget {
   final UserType userType;
-  final VoidCallback onTap;
+  final Appointment appointment;
 
-  AppointmentCard(this.appointment, this.userType, this.onTap);
+  AppointmentDetailPage(this.userType, this.appointment);
 
   @override
-  _AppointmentCardState createState() => _AppointmentCardState();
+  _AppointmentDetailPageState createState() => _AppointmentDetailPageState();
 }
 
-class _AppointmentCardState extends State<AppointmentCard> {
+class _AppointmentDetailPageState extends State<AppointmentDetailPage> {
   String readableDate;
-
   @override
   void initState() {
     super.initState();
@@ -28,17 +27,35 @@ class _AppointmentCardState extends State<AppointmentCard> {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      elevation: 4.0,
-      margin: EdgeInsets.all(8.0),
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.0)),
-      child: InkWell(
-        onTap: widget.onTap,
-        borderRadius: BorderRadius.circular(8.0),
-        child: AppointmentSummary(
-          appointment: widget.appointment,
-          userType: widget.userType,
-          readableDate: readableDate,
+    return Scaffold(
+      appBar: AppBar(
+        elevation: 4.0,
+        title: Text(
+          'Appointment Details',
+          style: Theme.of(context)
+              .textTheme
+              .headline6
+              .copyWith(color: Colors.black87),
+        ),
+      ),
+      body: SafeArea(
+        child: SingleChildScrollView(
+          padding: EdgeInsets.all(16.0),
+          child: Column(
+            children: [
+              AppointmentSummary(
+                appointment: widget.appointment,
+                userType: widget.userType,
+                readableDate: readableDate,
+              ),
+              AppointmentStatusDetails(),
+              Visibility(
+                visible: widget.userType == UserType.therapist,
+                child: AddTasksSection(),
+              ),
+              CancelAppointmentSection(),
+            ],
+          ),
         ),
       ),
     );
@@ -59,7 +76,7 @@ class AppointmentSummary extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: 8.0, vertical: 16.0),
+      
       child: Column(
         mainAxisSize: MainAxisSize.max,
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -71,7 +88,7 @@ class AppointmentSummary extends StatelessWidget {
                 CircleAvatar(
                   backgroundImage: NetworkImage(
                       "https://urbanbalance.com/wp-content/uploads/2019/04/new-therapist.jpg"),
-                  radius: 24.0,
+                  radius: 32.0,
                 ),
                 SizedBox(width: 16.0),
                 Expanded(child: AppointmentMetaInfo(appointment, userType)),
@@ -88,42 +105,36 @@ class AppointmentSummary extends StatelessWidget {
               ],
             ),
           ),
-          Divider(
-            indent: 8.0,
-            endIndent: 8.0,
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 8.0),
-            child: Row(
-              children: [
-                Icon(
-                  Icons.meeting_room,
-                  color: Colors.blueGrey,
-                  size: 20.0,
+          Divider(height: 24.0,),
+          Row(
+            children: [
+              Icon(
+                Icons.meeting_room,
+                color: Colors.blueGrey,
+                size: 20.0,
+              ),
+              SizedBox(
+                width: 4.0,
+              ),
+              RichText(
+                text: TextSpan(
+                  text: "Follow up",
+                  style: Theme.of(context).textTheme.bodyText1.copyWith(
+                      color: Color(0xFF100249),
+                      letterSpacing: 0.7,
+                      fontWeight: FontWeight.bold),
+                  children: [
+                    TextSpan(
+                      text: " meeting",
+                      style: Theme.of(context).textTheme.caption,
+                    )
+                  ],
                 ),
-                SizedBox(
-                  width: 4.0,
-                ),
-                RichText(
-                  text: TextSpan(
-                    text: "Follow up",
-                    style: Theme.of(context).textTheme.bodyText1.copyWith(
-                        color: Color(0xFF100249),
-                        letterSpacing: 0.7,
-                        fontWeight: FontWeight.bold),
-                    children: [
-                      TextSpan(
-                        text: " meeting",
-                        style: Theme.of(context).textTheme.caption,
-                      )
-                    ],
-                  ),
-                ),
-                Spacer(),
-                AppointmentStatusWidget(
-                    AppointmentStatus.values[appointment.status])
-              ],
-            ),
+              ),
+              Spacer(),
+              AppointmentStatusWidget(
+                  AppointmentStatus.values[appointment.status])
+            ],
           ),
         ],
       ),
@@ -184,5 +195,26 @@ class AppointmentMetaInfo extends StatelessWidget {
         ),
       ],
     );
+  }
+}
+
+class AppointmentStatusDetails extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Container();
+  }
+}
+
+class AddTasksSection extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Container();
+  }
+}
+
+class CancelAppointmentSection extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Container();
   }
 }

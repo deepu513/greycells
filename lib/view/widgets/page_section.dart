@@ -5,12 +5,14 @@ class PageSection extends StatelessWidget {
   final Widget icon;
   final String title;
   final String description;
+  final bool descriptionIsItalic;
 
   PageSection(
       {@required this.textColor,
       @required this.icon,
       @required this.title,
-      @required this.description});
+      @required this.description,
+      this.descriptionIsItalic = true});
 
   @override
   Widget build(BuildContext context) {
@@ -36,7 +38,9 @@ class PageSection extends StatelessWidget {
               ),
               SelectableText(description,
                   style: Theme.of(context).textTheme.bodyText1.copyWith(
-                        fontStyle: FontStyle.italic,
+                        fontStyle: descriptionIsItalic
+                            ? FontStyle.italic
+                            : FontStyle.normal,
                         color: textColor,
                       ))
             ],

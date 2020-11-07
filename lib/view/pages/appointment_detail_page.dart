@@ -4,7 +4,7 @@ import 'package:greycells/models/appointment/appointment.dart';
 import 'package:greycells/models/appointment/appointment_status.dart';
 import 'package:greycells/view/widgets/appointment_status_widget.dart';
 import 'package:greycells/view/widgets/colored_page_section.dart';
-import 'package:greycells/view/widgets/vertical_date.dart';
+import 'package:greycells/view/widgets/page_section.dart';
 import 'package:greycells/extensions.dart';
 
 class AppointmentDetailPage extends StatefulWidget {
@@ -40,7 +40,6 @@ class _AppointmentDetailPageState extends State<AppointmentDetailPage> {
       ),
       body: SafeArea(
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Expanded(
               child: SingleChildScrollView(
@@ -65,29 +64,40 @@ class _AppointmentDetailPageState extends State<AppointmentDetailPage> {
                             patientMobileNumber:
                                 widget.appointment.patient.user.mobileNumber,
                           ),
-                    Divider(height: 24.0,),
+                    Divider(
+                      height: 32.0,
+                    ),
                     AppointmentSummary(
                       appointment: widget.appointment,
-                      userType: widget.userType,
                       readableDate: readableDate,
                     ),
-                    Divider(height: 24.0,),
-                    SizedBox(
-                      height: 16.0,
+                    Divider(
+                      height: 32.0,
+                    ),
+                    ScheduleDetailsSection(),
+                    Divider(
+                      height: 32.0,
                     ),
                     AppointmentStatusDetails(widget.appointment),
-                    SizedBox(
-                      height: 16.0,
+                    Visibility(
+                      visible: widget.userType == UserType.therapist,
+                      child: Divider(
+                        height: 32.0,
+                      ),
                     ),
                     Visibility(
-                      //visible: widget.userType == UserType.therapist,
+                      visible: widget.userType == UserType.therapist,
                       child: AddTasksSection(),
                     ),
                   ],
                 ),
               ),
             ),
-            InteractWithAppointmentSection(),
+            Padding(
+              padding:
+                  const EdgeInsets.symmetric(horizontal: 16.0, vertical: 16.0),
+              child: CancelAppointmentSection(),
+            ),
           ],
         ),
       ),
@@ -154,7 +164,7 @@ class TherapistDetailsSection extends StatelessWidget {
             ),
             VerticalDivider(
               thickness: 1.0,
-              width: 24.0,
+              width: 32.0,
               indent: 8.0,
               endIndent: 8.0,
             ),
@@ -254,19 +264,14 @@ class PatientDetailsSection extends StatelessWidget {
 
 class AppointmentSummary extends StatelessWidget {
   final Appointment appointment;
-  final UserType userType;
   final String readableDate;
 
   const AppointmentSummary(
-      {Key key,
-      @required this.appointment,
-      @required this.userType,
-      @required this.readableDate})
+      {Key key, @required this.appointment, @required this.readableDate})
       : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Row(
-        
       children: [
         Icon(
           Icons.meeting_room,
@@ -289,11 +294,12 @@ class AppointmentSummary extends StatelessWidget {
                 style: Theme.of(context).textTheme.caption,
               ),
               TextSpan(
-                      text: "${appointment.duration} minutes.",
-                      style: Theme.of(context)
-                          .textTheme
-                          .bodyText1
-                          .copyWith(fontWeight: FontWeight.w700))
+                text: "${appointment.duration} minutes.",
+                style: Theme.of(context)
+                    .textTheme
+                    .bodyText1
+                    .copyWith(fontWeight: FontWeight.w700),
+              )
             ],
           ),
         ),
@@ -304,58 +310,96 @@ class AppointmentSummary extends StatelessWidget {
   }
 }
 
-class AppointmentMetaInfo extends StatelessWidget {
-  final Appointment appointment;
-  final UserType userType;
-
-  AppointmentMetaInfo(this.appointment, this.userType);
+class ScheduleDetailsSection extends StatelessWidget {
+  const ScheduleDetailsSection({Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      mainAxisAlignment: MainAxisAlignment.center,
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        Text(
-          userType == UserType.patient
-              ? "${appointment.therapist.user.firstName} ${appointment.therapist.user.lastName}"
-              : "${appointment.patient.user.firstName} ${appointment.patient.user.lastName}",
-          style: Theme.of(context).textTheme.headline6,
-          overflow: TextOverflow.clip,
-        ),
-        Visibility(
-          visible: userType == UserType.patient,
-          child: Text(
-            appointment.therapist.therapistType.name,
-            style: Theme.of(context).textTheme.bodyText1,
-            overflow: TextOverflow.clip,
+    return Container(
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(8.0),
+        shape: BoxShape.rectangle,
+        color: Colors.grey.shade50,
+      ),
+      padding: EdgeInsets.symmetric(horizontal: 8.0, vertical: 12.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          PageSection(
+            textColor: Colors.blueGrey,
+            icon: Icon(
+              Icons.event_rounded,
+              size: 20.0,
+              color: Colors.blueGrey,
+            ),
+            title: "Date",
+            description: "Tuesday, 25 October, 2020",
+            descriptionIsItalic: false,
           ),
-        ),
-        SizedBox(
-          height: 2.0,
-        ),
-        Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            RichText(
-              text: TextSpan(
-                text: "at",
-                style: Theme.of(context).textTheme.subtitle1,
-                children: [
-                  TextSpan(
-                    text: " 12:30 pm",
-                    style: Theme.of(context).textTheme.subtitle1.copyWith(
-                        color: Color(0xFF100249),
-                        letterSpacing: 0.7,
-                        fontWeight: FontWeight.bold),
-                  )
-                ],
+          SizedBox(
+            height: 24.0,
+          ),
+          PageSection(
+            textColor: Colors.blueGrey,
+            icon: Icon(
+              Icons.schedule_rounded,
+              size: 20.0,
+              color: Colors.blueGrey,
+            ),
+            title: "Time",
+            description: "12:30 PM",
+            descriptionIsItalic: false,
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class CancelAppointmentSection extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+      onTap: () {},
+      borderRadius: BorderRadius.circular(8.0),
+      splashColor: Colors.brown.shade100,
+      child: Ink(
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(8.0),
+            border: Border.all(color: Colors.brown.shade100),
+            color: Colors.brown.shade50,
+            shape: BoxShape.rectangle,
+          ),
+          padding: EdgeInsets.symmetric(horizontal: 8.0, vertical: 12.0),
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                child: Icon(
+                  Icons.cancel_rounded,
+                  color: Colors.brown,
+                  size: 20.0,
+                ),
               ),
-            )
-          ],
-        ),
-      ],
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      "Cancel this appointment?",
+                      style: Theme.of(context)
+                          .textTheme
+                          .subtitle1
+                          .copyWith(color: Colors.brown),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          )),
     );
   }
 }
@@ -383,45 +427,50 @@ class AppointmentStatusDetails extends StatelessWidget {
 class OngoingAppointmentSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(8.0),
-          shape: BoxShape.rectangle,
-          color: Colors.green),
-      padding: EdgeInsets.symmetric(horizontal: 8.0, vertical: 12.0),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16.0),
-            child: Icon(
-              Icons.video_call_rounded,
-              color: Colors.white,
+    return InkWell(
+      onTap: () {},
+      splashColor: Colors.white24,
+      borderRadius: BorderRadius.circular(8.0),
+      child: Ink(
+        decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(8.0),
+            shape: BoxShape.rectangle,
+            color: Colors.green),
+        padding: EdgeInsets.symmetric(horizontal: 8.0, vertical: 12.0),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16.0),
+              child: Icon(
+                Icons.video_call_rounded,
+                color: Colors.white,
+              ),
             ),
-          ),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  "Appointment Started",
-                  style: Theme.of(context).textTheme.subtitle1.copyWith(
-                      color: Colors.white, fontWeight: FontWeight.w700),
-                ),
-                SizedBox(
-                  height: 4.0,
-                ),
-                Text(
-                  "Your appointment has been started. Click here to join!",
-                  style: Theme.of(context).textTheme.bodyText1.copyWith(
-                        color: Colors.white,
-                      ),
-                )
-              ],
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    "Appointment Started",
+                    style: Theme.of(context).textTheme.subtitle1.copyWith(
+                        color: Colors.white, fontWeight: FontWeight.w700),
+                  ),
+                  SizedBox(
+                    height: 4.0,
+                  ),
+                  Text(
+                    "Your appointment has been started. Click here to join!",
+                    style: Theme.of(context).textTheme.bodyText1.copyWith(
+                          color: Colors.white,
+                        ),
+                  )
+                ],
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
@@ -438,9 +487,10 @@ class UpcomingAppointmentSection extends StatelessWidget {
       ),
       title: "Info",
       description:
-          "Your appointment is as per the schedule and you will be able to join the video call 5 minutes before the scheduled time.",
+          "You will be able to join the video call 5 minutes before the scheduled time.",
       textColor: Colors.blue.shade700,
       sectionColor: Colors.blue.shade50,
+      descriptionIsItalic: false,
     );
   }
 }
@@ -458,6 +508,7 @@ class CancelledAppointmentSection extends StatelessWidget {
       description: "This appointment has been cancelled.",
       textColor: Colors.brown.shade700,
       sectionColor: Colors.brown.shade50,
+      descriptionIsItalic: false,
     );
   }
 }
@@ -475,6 +526,7 @@ class CompletedAppointmentSection extends StatelessWidget {
       description: "This appointment is now complete.",
       textColor: Colors.teal.shade700,
       sectionColor: Colors.teal.shade50,
+      descriptionIsItalic: false,
     );
   }
 }
@@ -485,13 +537,12 @@ class AddTasksSection extends StatelessWidget {
     return InkWell(
       onTap: () {},
       borderRadius: BorderRadius.circular(8.0),
-      splashColor: Colors.purple.shade100,
-      child: Ink(
+      child: Container(
           decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(8.0),
-              border: Border.all(color: Colors.purple.shade100),
-              shape: BoxShape.rectangle,
-              color: Colors.purple.shade50),
+            borderRadius: BorderRadius.circular(8.0),
+            border: Border.all(color: Color(0xFF455a64)),
+            shape: BoxShape.rectangle,
+          ),
           padding: EdgeInsets.all(8.0),
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.center,
@@ -501,7 +552,7 @@ class AddTasksSection extends StatelessWidget {
                 padding: const EdgeInsets.symmetric(horizontal: 16.0),
                 child: Icon(
                   Icons.add_circle_rounded,
-                  color: Colors.purple.shade700,
+                  color: Color(0xFF455a64),
                 ),
               ),
               Expanded(
@@ -511,7 +562,8 @@ class AddTasksSection extends StatelessWidget {
                     Text(
                       "Assign Tasks",
                       style: Theme.of(context).textTheme.subtitle1.copyWith(
-                          color: Colors.purple, fontWeight: FontWeight.w700),
+                          color: Color(0xFF455a64),
+                          fontWeight: FontWeight.w700),
                     ),
                     SizedBox(
                       height: 4.0,
@@ -519,7 +571,7 @@ class AddTasksSection extends StatelessWidget {
                     Text(
                       "Click on this section to assign tasks to the patient.",
                       style: Theme.of(context).textTheme.bodyText1.copyWith(
-                            color: Colors.purple,
+                            color: Color(0xFF455a64),
                           ),
                     )
                   ],

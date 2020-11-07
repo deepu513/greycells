@@ -7,13 +7,15 @@ class ColoredPageSection extends StatelessWidget {
   final Widget icon;
   final String title;
   final String description;
+  final bool descriptionIsItalic;
 
   ColoredPageSection(
       {@required this.sectionColor,
       @required this.textColor,
       @required this.icon,
       @required this.title,
-      @required this.description});
+      @required this.description,
+      this.descriptionIsItalic = true});
 
   @override
   Widget build(BuildContext context) {
@@ -28,6 +30,7 @@ class ColoredPageSection extends StatelessWidget {
         icon: icon,
         title: title,
         description: description,
+        descriptionIsItalic: descriptionIsItalic,
       ),
     );
   }

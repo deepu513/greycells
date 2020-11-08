@@ -11,6 +11,7 @@ import 'package:greycells/models/payment/payment.dart';
 import 'package:greycells/models/payment/payment_type.dart';
 import 'package:greycells/models/payment/payment_verify.dart';
 import 'package:greycells/models/payment/payment_verify_response.dart';
+import 'package:greycells/repository/appointment_repository.dart';
 import 'package:greycells/repository/payment_repository.dart';
 import 'package:greycells/repository/settings_repository.dart';
 import 'package:meta/meta.dart';
@@ -25,12 +26,15 @@ class PaymentBloc extends Bloc<PaymentEvent, PaymentState> {
   Razorpay _razorPay;
   PaymentRepository _paymentRepository;
   SettingsRepository _settingsRepository;
+  AppointmentRepository _appointmentRepository;
+
   int paymentId;
   Payment mPaymentForProcessing;
 
   PaymentBloc() : super(PaymentInitial()) {
     _razorPay = Razorpay();
     _paymentRepository = PaymentRepository();
+    _appointmentRepository = AppointmentRepository();
     SettingsRepository.getInstance()
         .then((value) => _settingsRepository = value);
 
@@ -66,7 +70,10 @@ class PaymentBloc extends Bloc<PaymentEvent, PaymentState> {
           paymentId = response.paymentId;
           mPaymentForProcessing = event.payment;
           _paymentDiscountId = event.payment.discountId;
-          _razorPay.open(options);
+          if (mPaymentForProcessing != null && paymentId != null)
+            _razorPay.open(options);
+          else
+            yield PaymentFailure();
         } else {
           yield PaymentFailure();
         }
@@ -92,8 +99,10 @@ class PaymentBloc extends Bloc<PaymentEvent, PaymentState> {
               mPaymentForProcessing.extras[Strings.createAppointmentRequest];
           if (createAppointmentRequest != null) {
             createAppointmentRequest.paymentId = paymentId;
-            bool result = await _paymentRepository
+            bool result = await _appointmentRepository
                 .createAppointment(createAppointmentRequest);
+            mPaymentForProcessing = null;
+            paymentId = null;
             if (result == true)
               yield PaymentSuccess();
             else

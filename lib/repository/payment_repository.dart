@@ -67,27 +67,4 @@ class PaymentRepository {
 
     return await _httpService.post(request, _paymentVerifyResponseSerializable);
   }
-
-  Future<bool> createAppointment(
-      CreateAppointmentRequest createAppointmentRequest) async {
-    Request<CreateAppointmentRequest> request = Request(
-        "${FlavorConfig.getBaseUrl()}Appointments/CreateAppoinment",
-        CreateAppointmentRequestSerializable())
-      ..setBody(createAppointmentRequest);
-
-    Response createAppointmentResponse =
-        await _httpService.postRaw(request, null);
-    return createAppointmentResponse.statusCode == 200;
-  }
-
-  Future<bool> updateAppointment(
-      int appointmentId, AppointmentStatus status) async {
-    Request<CreateAppointmentRequest> request = Request(
-        "${FlavorConfig.getBaseUrl()}Appointments/update?id=$appointmentId&status=${status.index}",
-        null)
-      ..setBody(null);
-
-    Response updateAppointmentResponse = await _httpService.get(request, null);
-    return updateAppointmentResponse.statusCode == 200;
-  }
 }

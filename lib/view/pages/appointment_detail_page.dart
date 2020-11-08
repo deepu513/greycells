@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:greycells/constants/user_type.dart';
 import 'package:greycells/models/appointment/appointment.dart';
 import 'package:greycells/models/appointment/appointment_status.dart';
@@ -7,18 +8,78 @@ import 'package:greycells/view/widgets/appointment_status_widget.dart';
 import 'package:greycells/view/widgets/colored_page_section.dart';
 import 'package:greycells/view/widgets/page_section.dart';
 import 'package:greycells/extensions.dart';
+import 'package:greycells/bloc/appointment/appointment_detail_bloc.dart';
 
-class AppointmentDetailPage extends StatefulWidget {
+//TODO: UI for loading appointment cancellation
+class AppointmentDetailPage extends StatelessWidget {
   final UserType userType;
   final Appointment appointment;
 
   AppointmentDetailPage(this.userType, this.appointment);
 
   @override
-  _AppointmentDetailPageState createState() => _AppointmentDetailPageState();
+  Widget build(BuildContext context) {
+    return BlocConsumer<AppointmentDetailBloc, AppointmentDetailState>(
+      listener: (context, state) {
+        if (state is AppointmentCancelled) {}
+      },
+      builder: (context, state) {
+        return Scaffold(
+          appBar: AppBar(
+            elevation: 4.0,
+            title: Text(
+              'Appointment Details',
+              style: Theme.of(context)
+                  .textTheme
+                  .headline6
+                  .copyWith(color: Colors.black87),
+            ),
+          ),
+          body: SafeArea(
+            child: Column(
+              children: [
+                Expanded(
+                    child: MainContent(
+                  userType: userType,
+                  appointment: appointment,
+                )),
+                Padding(
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: 16.0, vertical: 16.0),
+                  child: Visibility(
+                    // TODO: Add condition here to check the meeting time.
+                    visible:
+                        appointment.status != AppointmentStatus.cancelled.index,
+                    child: CancelAppointmentSection(
+                      onCancelPressed: () {
+                        BlocProvider.of<AppointmentDetailBloc>(context)
+                            .add(CancelAppointment(appointment.id));
+                      },
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
 }
 
-class _AppointmentDetailPageState extends State<AppointmentDetailPage> {
+class MainContent extends StatefulWidget {
+  final UserType userType;
+  final Appointment appointment;
+
+  const MainContent(
+      {Key key, @required this.userType, @required this.appointment})
+      : super(key: key);
+
+  @override
+  _MainContentState createState() => _MainContentState();
+}
+
+class _MainContentState extends State<MainContent> {
   String readableDate;
 
   @override
@@ -29,102 +90,67 @@ class _AppointmentDetailPageState extends State<AppointmentDetailPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        elevation: 4.0,
-        title: Text(
-          'Appointment Details',
-          style: Theme.of(context)
-              .textTheme
-              .headline6
-              .copyWith(color: Colors.black87),
-        ),
-      ),
-      body: SafeArea(
-        child: Column(
-          children: [
-            Expanded(
-              child: SingleChildScrollView(
-                padding: EdgeInsets.all(16.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    widget.userType == UserType.patient
-                        ? TherapistDetailsSection(
-                            therapistName:
-                                "${widget.appointment.therapist.user.firstName} ${widget.appointment.therapist.user.lastName}",
-                            therapistType:
-                                widget.appointment.therapist.therapistType.name,
-                            medicalCouncil:
-                                widget.appointment.therapist.medicalCouncil,
-                            experience: widget
-                                .appointment.therapist.totalExperience
-                                .toString(),
-                            onTherapistProfileRequested: () {
-                              Navigator.of(context).pushNamed(
-                                  RouteName.THERAPIST_PROFILE_PAGE,
-                                  arguments: widget.appointment.therapist);
-                            },
-                          )
-                        : PatientDetailsSection(
-                            patientName:
-                                "${widget.appointment.patient.user.firstName} ${widget.appointment.patient.user.lastName}",
-                            patientMobileNumber:
-                                widget.appointment.patient.user.mobileNumber,
-                            onPatientProfileRequested: () {
-                              Navigator.of(context).pushNamed(
-                                  RouteName.PATIENT_PROFILE_PAGE,
-                                  arguments: widget.appointment.patient);
-                            },
-                          ),
-                    Divider(
-                      height: 32.0,
-                    ),
-                    AppointmentSummary(
-                      appointment: widget.appointment,
-                      readableDate: readableDate,
-                    ),
-                    Divider(
-                      height: 32.0,
-                    ),
-                    ScheduleDetailsSection(),
-                    Divider(
-                      height: 32.0,
-                    ),
-                    AppointmentStatusDetails(widget.appointment),
-                    Visibility(
-                      visible: widget.userType == UserType.therapist,
-                      child: Divider(
-                        height: 32.0,
-                      ),
-                    ),
-                    Visibility(
-                      visible: widget.userType == UserType.therapist,
-                      child: AddTasksSection(
-                        onAddTasksPressed: () {
-                          Navigator.of(context)
-                              .pushNamed(RouteName.ADD_TASKTS_PAGE);
-                        },
-                      ),
-                    ),
-                  ],
+    return SingleChildScrollView(
+      padding: EdgeInsets.all(16.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          widget.userType == UserType.patient
+              ? TherapistDetailsSection(
+                  therapistName:
+                      "${widget.appointment.therapist.user.firstName} ${widget.appointment.therapist.user.lastName}",
+                  therapistType:
+                      widget.appointment.therapist.therapistType.name,
+                  medicalCouncil: widget.appointment.therapist.medicalCouncil,
+                  experience:
+                      widget.appointment.therapist.totalExperience.toString(),
+                  onTherapistProfileRequested: () {
+                    Navigator.of(context).pushNamed(
+                        RouteName.THERAPIST_PROFILE_PAGE,
+                        arguments: widget.appointment.therapist);
+                  },
+                )
+              : PatientDetailsSection(
+                  patientName:
+                      "${widget.appointment.patient.user.firstName} ${widget.appointment.patient.user.lastName}",
+                  patientMobileNumber:
+                      widget.appointment.patient.user.mobileNumber,
+                  onPatientProfileRequested: () {
+                    Navigator.of(context).pushNamed(
+                        RouteName.PATIENT_PROFILE_PAGE,
+                        arguments: widget.appointment.patient);
+                  },
                 ),
-              ),
+          Divider(
+            height: 32.0,
+          ),
+          AppointmentSummary(
+            appointment: widget.appointment,
+            readableDate: readableDate,
+          ),
+          Divider(
+            height: 32.0,
+          ),
+          ScheduleDetailsSection(),
+          Divider(
+            height: 32.0,
+          ),
+          AppointmentStatusDetails(widget.appointment),
+          Visibility(
+            visible: widget.userType == UserType.therapist,
+            child: Divider(
+              height: 32.0,
             ),
-            Padding(
-              padding:
-                  const EdgeInsets.symmetric(horizontal: 16.0, vertical: 16.0),
-              child: Visibility(
-                // TODO: Add condition here to check the meeting time.
-                visible: widget.appointment.status !=
-                    AppointmentStatus.cancelled.index,
-                child: CancelAppointmentSection(
-                  onCancelPressed: () {},
-                ),
-              ),
+          ),
+          Visibility(
+            visible: widget.userType == UserType.therapist,
+            child: AddTasksSection(
+              onAddTasksPressed: () {
+                Navigator.of(context).pushNamed(RouteName.ADD_TASKTS_PAGE);
+              },
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

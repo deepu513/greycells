@@ -14,7 +14,7 @@ CreateAppointmentRequest _$CreateAppointmentRequestFromJson(
     ..duration = json['duration'] as int
     ..comments = json['comments'] as String
     ..timeslotId = json['timeslotId'] as int
-    ..paymentId = json['Paymentid'] as String
+    ..paymentId = json['Paymentid'] as int
     ..meetingTypeId = json['MeetingTypeId'] as int;
 }
 

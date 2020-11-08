@@ -58,9 +58,13 @@ class DeciderBloc extends Bloc<DeciderEvent, DeciderState> {
         return NextPageDecided(RouteName.PATIENT_DETAIL_INPUT_PAGE, home);
       } else if (home.patient != null &&
           home.patient.isEligibleForTest == false) {
+        _settingsRepository.saveValue(
+            SettingKey.KEY_PATIENT_ID, home.patient.id);
         return NextPageDecided(RouteName.PATIENT_MAIN, home);
       } else if (home.patient != null &&
           home.patient.isEligibleForTest == true) {
+        _settingsRepository.saveValue(
+            SettingKey.KEY_PATIENT_ID, home.patient.id);
         if (home.behaviourLastAttemptedQuestion != null &&
             home.behaviourLastAttemptedQuestion.isLastQuestion == false) {
           // Open test page and show this question number and test type

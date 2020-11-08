@@ -48,6 +48,7 @@ class _PaymentPageState extends State<PaymentPage> {
         }
 
         if (state is PaymentSuccess) {
+          // TODO: After payment success show a good page with image?
           widget.showSuccessDialog(
               context: context,
               message: Strings.paymentSuccess,

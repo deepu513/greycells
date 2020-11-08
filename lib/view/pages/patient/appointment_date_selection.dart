@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:greycells/bloc/timeslot/timeslot_bloc.dart';
 import 'package:greycells/constants/strings.dart';
+import 'package:greycells/models/appointment/create_appointment_request.dart';
+import 'package:greycells/models/home/patient_home.dart';
+import 'package:greycells/models/patient/patient.dart';
 import 'package:greycells/models/payment/payment.dart';
 import 'package:greycells/models/payment/payment_item.dart';
 import 'package:greycells/models/payment/payment_type.dart';
@@ -11,6 +14,7 @@ import 'package:greycells/models/timeslot/timeslot.dart';
 import 'package:greycells/route/route_name.dart';
 import 'package:greycells/view/widgets/centered_circular_loading.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 class AppointmentDateSelection extends StatelessWidget {
@@ -141,7 +145,17 @@ class _MainContentState extends State<MainContent> {
                   ..itemName = "1 Session"
                   ..itemPrice = widget.selectedMeeting.amount
               ]
-              ..totalAmount = widget.selectedMeeting.amount;
+              ..totalAmount = widget.selectedMeeting.amount
+              ..extras = {
+                // * Payment id should be added after payment
+                Strings.createAppointmentRequest: CreateAppointmentRequest()
+                  ..therapistId = widget.therapist.id
+                  ..comments = ""
+                  ..duration = widget.therapist.meetingDuration.duration
+                  ..patientId = Provider.of<PatientHome>(context).patient.id
+                  ..timeslotId = mSelectedTimeslot.id
+                  ..meetingTypeId = widget.selectedMeeting.meetingTypeId
+              };
             Navigator.of(context)
                 .pushNamed(RouteName.PAYMENT_PAGE, arguments: payment);
           }
@@ -179,8 +193,7 @@ class TimeslotsNotAvailable extends StatelessWidget {
                   .textTheme
                   .subtitle1
                   .copyWith(fontWeight: FontWeight.bold)),
-          Text(
-              "Try selecting another day to book an appointment",
+          Text("Try selecting another day to book an appointment",
               textAlign: TextAlign.center,
               style: Theme.of(context).textTheme.bodyText1)
         ],

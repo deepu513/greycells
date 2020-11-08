@@ -3,6 +3,8 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:greycells/constants/setting_key.dart';
+import 'package:greycells/constants/strings.dart';
+import 'package:greycells/models/appointment/create_appointment_request.dart';
 import 'package:greycells/models/payment/order_create.dart';
 import 'package:greycells/models/payment/order_create_response.dart';
 import 'package:greycells/models/payment/payment.dart';
@@ -23,6 +25,8 @@ class PaymentBloc extends Bloc<PaymentEvent, PaymentState> {
   Razorpay _razorPay;
   PaymentRepository _paymentRepository;
   SettingsRepository _settingsRepository;
+  int paymentId;
+  Payment mPaymentForProcessing;
 
   PaymentBloc() : super(PaymentInitial()) {
     _razorPay = Razorpay();
@@ -44,7 +48,7 @@ class PaymentBloc extends Bloc<PaymentEvent, PaymentState> {
       try {
         OrderCreate orderCreate = OrderCreate();
         orderCreate.amount = event.payment.totalAmount;
-        orderCreate.userId = _settingsRepository.get(SettingKey.KEY_USER_ID);
+        orderCreate.userId = _settingsRepository.get(SettingKey.KEY_PATIENT_ID);
         orderCreate.type = event.payment.type;
         OrderCreateResponse response =
             await _paymentRepository.createOrder(orderCreate);
@@ -59,6 +63,8 @@ class PaymentBloc extends Bloc<PaymentEvent, PaymentState> {
                 : "Assessment test",
             'timeout': 300, // in seconds
           };
+          paymentId = response.paymentId;
+          mPaymentForProcessing = event.payment;
           _paymentDiscountId = event.payment.discountId;
           _razorPay.open(options);
         } else {
@@ -82,7 +88,17 @@ class PaymentBloc extends Bloc<PaymentEvent, PaymentState> {
         PaymentVerifyResponse response =
             await _paymentRepository.verifyPayment(verify);
         if (response != null && response.result == true) {
-          yield PaymentSuccess();
+          CreateAppointmentRequest createAppointmentRequest =
+              mPaymentForProcessing.extras[Strings.createAppointmentRequest];
+          if (createAppointmentRequest != null) {
+            createAppointmentRequest.paymentId = paymentId;
+            bool result = await _paymentRepository
+                .createAppointment(createAppointmentRequest);
+            if (result == true)
+              yield PaymentSuccess();
+            else
+              yield PaymentStatusUnknown();
+          }
         } else
           yield PaymentStatusUnknown();
       } catch (e) {

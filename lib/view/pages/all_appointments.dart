@@ -37,8 +37,6 @@ class _AllAppointmentsState extends State<AllAppointments> {
     return BlocConsumer<AppointmentBloc, AppointmentState>(
       listener: (context, state) {},
       builder: (context, state) {
-        
-
         return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [

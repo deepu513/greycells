@@ -4,6 +4,9 @@ part 'order_create_response.g.dart';
 
 @JsonSerializable(explicitToJson: true)
 class OrderCreateResponse {
+  @JsonKey(name: "paymentId")
+  int paymentId;
+  
   @JsonKey(name: "id")
   String orderId;
 

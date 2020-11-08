@@ -13,4 +13,5 @@ class Payment {
   int originalAmount;
   List<PaymentItem> items;
   int totalAmount;
+  Map<String, dynamic> extras;
 }

@@ -132,6 +132,7 @@ class Strings {
       "We couldn't find any accounts with this email ID.";
   static const forgotPasswordSuccess =
       "We have sent you a password reset link via email. If you don't find the email in your inbox, please check the spam folder.";
+  static const createAppointmentRequest = "CREATE_APPOINTMENT_REQUEST";
 }
 
 /// This should contain strings which signify an error message

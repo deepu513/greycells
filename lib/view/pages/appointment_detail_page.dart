@@ -400,52 +400,54 @@ class CancelAppointmentSection extends StatelessWidget {
     return InkWell(
       onTap: () {
         showConfirmationDialog(
-            context: context,
-            message: "Are you sure, you want to cancel this appointment?",
-            onConfirmed: () {
-              Navigator.of(context).pop();
-              onCancelPressed.call();
-            },
-            onCancelled: () => Navigator.of(context).pop());
+          context: context,
+          message: "Are you sure, you want to cancel this appointment?",
+          onConfirmed: () {
+            Navigator.of(context).pop();
+            onCancelPressed.call();
+          },
+          onCancelled: () => Navigator.of(context).pop(),
+        );
       },
       borderRadius: BorderRadius.circular(8.0),
       splashColor: Colors.brown.shade100,
       child: Ink(
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(8.0),
-            border: Border.all(color: Colors.brown.shade100),
-            color: Colors.brown.shade50,
-            shape: BoxShape.rectangle,
-          ),
-          padding: EdgeInsets.symmetric(horizontal: 8.0, vertical: 12.0),
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                child: Icon(
-                  Icons.cancel_rounded,
-                  color: Colors.brown,
-                  size: 20.0,
-                ),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(8.0),
+          border: Border.all(color: Colors.brown.shade100),
+          color: Colors.brown.shade50,
+          shape: BoxShape.rectangle,
+        ),
+        padding: EdgeInsets.symmetric(horizontal: 8.0, vertical: 12.0),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16.0),
+              child: Icon(
+                Icons.cancel_rounded,
+                color: Colors.brown,
+                size: 20.0,
               ),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      "Cancel this appointment?",
-                      style: Theme.of(context)
-                          .textTheme
-                          .subtitle1
-                          .copyWith(color: Colors.brown),
-                    ),
-                  ],
-                ),
+            ),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    "Cancel this appointment?",
+                    style: Theme.of(context)
+                        .textTheme
+                        .subtitle1
+                        .copyWith(color: Colors.brown),
+                  ),
+                ],
               ),
-            ],
-          )),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }

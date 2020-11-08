@@ -1,4 +1,7 @@
 import 'package:greycells/flavor_config.dart';
+import 'package:greycells/models/appointment/appointment_status.dart';
+import 'package:greycells/models/appointment/create_appointment_request.dart';
+import 'package:greycells/models/appointment/create_appointment_request_serializable.dart';
 import 'package:greycells/models/payment/discount_request.dart';
 import 'package:greycells/models/payment/discount_request_serializable.dart';
 import 'package:greycells/models/payment/discount_response.dart';
@@ -13,6 +16,7 @@ import 'package:greycells/models/payment/payment_verify_response_serializable.da
 import 'package:greycells/models/payment/payment_verify_serializable.dart';
 import 'package:greycells/networking/http_service.dart';
 import 'package:greycells/networking/request.dart';
+import 'package:greycells/networking/response.dart';
 
 class PaymentRepository {
   HttpService _httpService;
@@ -62,5 +66,28 @@ class PaymentRepository {
       ..setBody(paymentVerify);
 
     return await _httpService.post(request, _paymentVerifyResponseSerializable);
+  }
+
+  Future<bool> createAppointment(
+      CreateAppointmentRequest createAppointmentRequest) async {
+    Request<CreateAppointmentRequest> request = Request(
+        "${FlavorConfig.getBaseUrl()}Appointments/CreateAppoinment",
+        CreateAppointmentRequestSerializable())
+      ..setBody(createAppointmentRequest);
+
+    Response createAppointmentResponse =
+        await _httpService.postRaw(request, null);
+    return createAppointmentResponse.statusCode == 200;
+  }
+
+  Future<bool> updateAppointment(
+      int appointmentId, AppointmentStatus status) async {
+    Request<CreateAppointmentRequest> request = Request(
+        "${FlavorConfig.getBaseUrl()}Appointments/update?id=$appointmentId&status=${status.index}",
+        null)
+      ..setBody(null);
+
+    Response updateAppointmentResponse = await _httpService.get(request, null);
+    return updateAppointmentResponse.statusCode == 200;
   }
 }

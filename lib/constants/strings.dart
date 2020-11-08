@@ -61,17 +61,13 @@ class Strings {
   static const info = "Info";
   static const help = "Help";
   static const medicalRecordsInfo =
-      "Details about why we are asking medical records and what medical records you can add should go in this section";
+      "Please attach any medical information or records you would like to share with the therapist. All information shared will remain confidential as per confidentiality policy";
   static const addressDetailsInfo =
-      "Details about why we are asking address should go in this section";
+      "Please provide correct postal address which is required for record keeping.";
   static const guardianDetailsInfo =
-      "Details about why we are asking information related to guardian should go in this section";
-  static const healthRecordsInfo =
-      "Details about why we are asking health details should go in this section";
+      "Confidentiality will be maintained between client and therapist, however as per app usage policy, you are requested to provide Guardian information.";
   static const birthDetailsInfo =
-      "Details about why we are asking birth information should go in this section";
-  static const assessmentHelp =
-      "Any helpful message which a user can see in middle of test should go here";
+      "Kindly provide details about your place of birth, time of birth and date of birth which help in understanding the role of planetary placement.";
   static const imageError =
       "Couldn't pick image. Try to pick again or a different one";
   static const dateOfBirth = "Date of birth";

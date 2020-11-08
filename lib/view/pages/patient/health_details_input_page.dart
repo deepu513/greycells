@@ -49,19 +49,6 @@ class _HealthDetailsInputPageState extends State<HealthDetailsInputPage> {
       children: <Widget>[
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16.0),
-          child: Row(
-            children: <Widget>[
-              Text(""),
-              Spacer(),
-              IconButton(
-                onPressed: () => showInfoDialog(context),
-                icon: Icon(Icons.info_outline),
-              )
-            ],
-          ),
-        ),
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16.0),
           child: Text("Gender",
               style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.w400)),
         ),
@@ -190,32 +177,6 @@ class _HealthDetailsInputPageState extends State<HealthDetailsInputPage> {
         ),
       ],
     );
-  }
-
-  void showInfoDialog(BuildContext context) {
-    showDialog<void>(
-        context: context,
-        barrierDismissible: true,
-        builder: (context) {
-          return AlertDialog(
-            title: Text(Strings.info),
-            content: SingleChildScrollView(
-              child: ListBody(
-                children: <Widget>[
-                  Text(Strings.healthRecordsInfo),
-                ],
-              ),
-            ),
-            actions: [
-              FlatButton(
-                child: Text('OK'),
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-              )
-            ],
-          );
-        });
   }
 
   Widget cmToFeetInches(int cms) {

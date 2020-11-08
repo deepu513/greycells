@@ -76,13 +76,7 @@ class _AssessmentTestPageState extends State<AssessmentTestPage> {
           ),
           actions: [
             IconButton(
-              onPressed: () => widget.showHelpDialog(
-                  context: context,
-                  message: Strings.assessmentHelp,
-                  showIcon: true,
-                  onPressed: () async {
-                    Navigator.of(context).pop();
-                  }),
+              //TODO: Should redirect to points page without animations
               icon: Icon(Icons.help_outline),
             )
           ],

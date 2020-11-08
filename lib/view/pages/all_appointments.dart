@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:greycells/bloc/appointment/appointment_bloc.dart';
 import 'package:greycells/constants/user_type.dart';
+import 'package:greycells/models/appointment/appointment.dart';
 import 'package:greycells/models/appointment/appointment_status.dart';
 import 'package:greycells/view/widgets/appointment_card.dart';
 import 'package:greycells/view/widgets/appointment_status_selector.dart';
@@ -36,44 +37,59 @@ class _AllAppointmentsState extends State<AllAppointments> {
     return BlocConsumer<AppointmentBloc, AppointmentState>(
       listener: (context, state) {},
       builder: (context, state) {
-        if (state is AppointmentsLoading)
-          return CenteredCircularLoadingIndicator();
+        
 
-        if (state is AppointmentsEmpty) return EmptyState();
-
-        if (state is AppointmentsLoadError)
-          return ErrorWithRetry(
-            onRetryPressed: () {
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            SizedBox(
+              height: 16.0,
+            ),
+            AppointmentStatusSelector((selectedStatus) {
+              _status = selectedStatus;
               _loadAppointments(_status);
-            },
-          );
-
-        if (state is AppointmentsLoaded)
-          return Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Divider(),
-              AppointmentStatusSelector((selectedStatus) {
-                _status = selectedStatus;
-                _loadAppointments(_status);
-              }, AppointmentStatus.upcoming),
-              Divider(),
-              ListView.builder(
-                shrinkWrap: true,
-                itemBuilder: (context, index) {
-                  return Padding(
-                    padding: const EdgeInsets.fromLTRB(8.0, 8.0, 8.0, 0.0),
-                    child: AppointmentCard(
-                        state.allAppointments[index], widget.userType, () {}),
-                  );
-                },
-                itemCount: state.allAppointments.length,
+            }, AppointmentStatus.upcoming),
+            Divider(),
+            if (state is AppointmentsLoading)
+              Expanded(child: CenteredCircularLoadingIndicator()),
+            if (state is AppointmentsLoaded)
+              AppointmentList(
+                allAppointments: state.allAppointments,
+                userType: widget.userType,
               ),
-            ],
-          );
-
-        return Container();
+            if (state is AppointmentsEmpty) Expanded(child: EmptyState()),
+            if (state is AppointmentsLoadError)
+              ErrorWithRetry(
+                onRetryPressed: () {
+                  _loadAppointments(_status);
+                },
+              ),
+          ],
+        );
       },
+    );
+  }
+}
+
+class AppointmentList extends StatelessWidget {
+  final List<Appointment> allAppointments;
+  final UserType userType;
+
+  const AppointmentList(
+      {Key key, @required this.allAppointments, @required this.userType})
+      : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return ListView.builder(
+      shrinkWrap: true,
+      itemBuilder: (context, index) {
+        return Padding(
+          padding: const EdgeInsets.fromLTRB(8.0, 8.0, 8.0, 0.0),
+          child: AppointmentCard(allAppointments[index], userType, () {}),
+        );
+      },
+      itemCount: allAppointments.length,
     );
   }
 }

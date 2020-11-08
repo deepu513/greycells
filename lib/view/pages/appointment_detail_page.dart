@@ -398,7 +398,16 @@ class CancelAppointmentSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: onCancelPressed,
+      onTap: () {
+        showConfirmationDialog(
+            context: context,
+            message: "Are you sure, you want to cancel this appointment?",
+            onConfirmed: () {
+              Navigator.of(context).pop();
+              onCancelPressed.call();
+            },
+            onCancelled: () => Navigator.of(context).pop());
+      },
       borderRadius: BorderRadius.circular(8.0),
       splashColor: Colors.brown.shade100,
       child: Ink(

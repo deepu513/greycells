@@ -3,7 +3,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:greycells/bloc/validation/bloc.dart';
 import 'package:greycells/bloc/validation/validation_field.dart';
-import 'package:greycells/flavor_config.dart';
 import 'package:intl/intl.dart';
 
 import 'constants/strings.dart';
@@ -127,6 +126,40 @@ extension dialogs on Widget {
               )
             : null,
         onPressed: onPressed);
+  }
+
+  void showConfirmationDialog(
+      {@required BuildContext context,
+      @required String message,
+      @required VoidCallback onConfirmed,
+      @required VoidCallback onCancelled}) {
+    showModal(
+        context: context,
+        configuration: FadeScaleTransitionConfiguration(),
+        builder: (context) {
+          return AlertDialog(
+            title: Text("${Strings.confirm}?"),
+            content: SingleChildScrollView(
+              child: Text(message),
+            ),
+            actions: [
+              FlatButton(
+                child: Text(
+                  Strings.cancel.toUpperCase(),
+                  textAlign: TextAlign.end,
+                ),
+                onPressed: onCancelled,
+              ),
+              FlatButton(
+                child: Text(
+                  Strings.confirm.toUpperCase(),
+                  textAlign: TextAlign.end,
+                ),
+                onPressed: onConfirmed,
+              ),
+            ],
+          );
+        });
   }
 }
 

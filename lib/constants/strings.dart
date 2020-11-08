@@ -27,6 +27,7 @@ class Strings {
   static const resetPasswordMessage =
       "Enter your email and we will send you reset instructions.";
   static const confirm = "Confirm";
+  static const cancel = "Cancel";
   static const personalDetails = "Personal Details";
   static const healthDetails = "Health Details";
   static const guardianDetails = "Guardian Details";

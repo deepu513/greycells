@@ -5,7 +5,7 @@ part 'all_appointment_response.g.dart';
 
 @JsonSerializable(explicitToJson: true)
 class AllAppointmentsResponse {
-  @JsonKey(name: "upappointments")
+  @JsonKey(name: "upcomingappoinments")
   List<Appointment> appointments;
 
   AllAppointmentsResponse();

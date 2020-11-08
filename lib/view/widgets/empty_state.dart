@@ -13,11 +13,9 @@ class EmptyState extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.all(16.0),
       alignment: Alignment.center,
       child: Column(
         mainAxisSize: MainAxisSize.min,
-        mainAxisAlignment: MainAxisAlignment.center,
         children: [
           SvgPicture.asset(
             svgImageName.isNullOrEmpty()

@@ -9,7 +9,7 @@ part of 'all_appointment_response.dart';
 AllAppointmentsResponse _$AllAppointmentsResponseFromJson(
     Map<String, dynamic> json) {
   return AllAppointmentsResponse()
-    ..appointments = (json['upappointments'] as List)
+    ..appointments = (json['upcomingappoinments'] as List)
         ?.map((e) =>
             e == null ? null : Appointment.fromJson(e as Map<String, dynamic>))
         ?.toList();
@@ -18,6 +18,6 @@ AllAppointmentsResponse _$AllAppointmentsResponseFromJson(
 Map<String, dynamic> _$AllAppointmentsResponseToJson(
         AllAppointmentsResponse instance) =>
     <String, dynamic>{
-      'upappointments':
+      'upcomingappoinments':
           instance.appointments?.map((e) => e?.toJson())?.toList(),
     };

@@ -25,6 +25,7 @@ import 'package:greycells/view/pages/patient_profile_page.dart';
 import 'package:greycells/view/pages/register_page.dart';
 import 'package:greycells/view/pages/patient/second_test_intro_page.dart';
 import 'package:greycells/view/pages/patient/therapist_list_page.dart';
+import 'package:greycells/view/pages/therapist/add_tasks_page.dart';
 import 'package:greycells/view/pages/therapist/therapist_main_page.dart';
 import 'package:greycells/view/pages/therapist_profile_page.dart';
 import 'package:greycells/view/pages/welcome_page.dart';
@@ -87,7 +88,7 @@ class RouteGenerator {
       case RouteName.PATIENT_APPOINTMENT_LIST_PAGE:
         return MaterialPageRoute(builder: (_) => PatientAppointmentPage());
       case RouteName.PATIENT_PROFILE_PAGE:
-        return MaterialPageRoute(builder: (_) => PatientProfilePage());
+        return MaterialPageRoute(builder: (_) => PatientProfilePage(args));
       case RouteName.THERAPIST_PROFILE_PAGE:
         return MaterialPageRoute(builder: (_) => TherapistProfilePage(args));
       case RouteName.APPOINTMENT_DATE_SELECTION_PAGE:
@@ -108,32 +109,13 @@ class RouteGenerator {
                   child: AppointmentDetailPage(
                       arguments.userType, arguments.appointment),
                 ));
+      case RouteName.ADD_TASKTS_PAGE:
+        return MaterialPageRoute(builder: (_) => AddTasksPage());
       default:
         // If there is no such named route in the switch statement, e.g. /third
         return _errorRoute();
     }
   }
-
-  // BlocProvider<PaymentBloc>(
-  //         create: (context) {
-  //           return PaymentBloc(Payment()
-  //             ..type = PaymentType.APPOINTMENT
-  //             ..title = "Book Appointment"
-  //             ..itemImageUrl =
-  //                 "https://urbanbalance.com/wp-content/uploads/2019/04/new-therapist.jpg"
-  //             ..itemTitle = "Dr. Anne Hathaway"
-  //             ..itemSubtitle = "Clinical Psychologist"
-  //             ..promoCodeApplied = true
-  //             ..discountAmount = 100
-  //             ..originalAmount = 300
-  //             ..items = [
-  //               PaymentItem()
-  //                 ..itemName = "1 Session"
-  //                 ..itemPrice = 300
-  //             ]
-  //             ..totalAmount = 300);
-  //         },
-  //       )
 
   // TODO: Make a proper error page
   static Route<dynamic> _errorRoute() {

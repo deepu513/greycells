@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:greycells/models/patient/patient.dart';
 
 class PatientProfilePage extends StatelessWidget {
+  final Patient patient;
+
+  PatientProfilePage(this.patient);
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

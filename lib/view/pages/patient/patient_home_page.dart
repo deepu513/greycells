@@ -129,7 +129,10 @@ class TherapistHeaderSection extends StatelessWidget {
         ),
         Spacer(),
         FlatButton(
-          child: Text("View All"),
+          child: Text(
+            "View All",
+            style: Theme.of(context).textTheme.button,
+          ),
           onPressed: () {
             Navigator.of(context).pushNamed(RouteName.THERAPIST_LIST_PAGE);
           },
@@ -160,7 +163,9 @@ class _AppBarSection extends StatelessWidget {
           padding: const EdgeInsets.only(right: 12.0),
           child: IconButton(
             onPressed: () {
-              Navigator.of(context).pushNamed(RouteName.PATIENT_PROFILE_PAGE);
+              Navigator.of(context).pushNamed(RouteName.PATIENT_PROFILE_PAGE,
+                  arguments:
+                      Provider.of<PatientHome>(context, listen: false).patient);
             },
             icon: Hero(
               tag: "profile_pic",

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:greycells/constants/user_type.dart';
 import 'package:greycells/models/appointment/appointment.dart';
 import 'package:greycells/models/appointment/appointment_status.dart';
+import 'package:greycells/route/route_name.dart';
 import 'package:greycells/view/widgets/appointment_status_widget.dart';
 import 'package:greycells/view/widgets/colored_page_section.dart';
 import 'package:greycells/view/widgets/page_section.dart';
@@ -19,6 +20,7 @@ class AppointmentDetailPage extends StatefulWidget {
 
 class _AppointmentDetailPageState extends State<AppointmentDetailPage> {
   String readableDate;
+
   @override
   void initState() {
     super.initState();
@@ -57,12 +59,23 @@ class _AppointmentDetailPageState extends State<AppointmentDetailPage> {
                                 widget.appointment.therapist.medicalCouncil,
                             experience: widget
                                 .appointment.therapist.totalExperience
-                                .toString())
+                                .toString(),
+                            onTherapistProfileRequested: () {
+                              Navigator.of(context).pushNamed(
+                                  RouteName.THERAPIST_PROFILE_PAGE,
+                                  arguments: widget.appointment.therapist);
+                            },
+                          )
                         : PatientDetailsSection(
                             patientName:
                                 "${widget.appointment.patient.user.firstName} ${widget.appointment.patient.user.lastName}",
                             patientMobileNumber:
                                 widget.appointment.patient.user.mobileNumber,
+                            onPatientProfileRequested: () {
+                              Navigator.of(context).pushNamed(
+                                  RouteName.PATIENT_PROFILE_PAGE,
+                                  arguments: widget.appointment.patient);
+                            },
                           ),
                     Divider(
                       height: 32.0,
@@ -87,7 +100,12 @@ class _AppointmentDetailPageState extends State<AppointmentDetailPage> {
                     ),
                     Visibility(
                       visible: widget.userType == UserType.therapist,
-                      child: AddTasksSection(),
+                      child: AddTasksSection(
+                        onAddTasksPressed: () {
+                          Navigator.of(context)
+                              .pushNamed(RouteName.ADD_TASKTS_PAGE);
+                        },
+                      ),
                     ),
                   ],
                 ),
@@ -96,7 +114,14 @@ class _AppointmentDetailPageState extends State<AppointmentDetailPage> {
             Padding(
               padding:
                   const EdgeInsets.symmetric(horizontal: 16.0, vertical: 16.0),
-              child: CancelAppointmentSection(),
+              child: Visibility(
+                // TODO: Add condition here to check the meeting time.
+                visible: widget.appointment.status !=
+                    AppointmentStatus.cancelled.index,
+                child: CancelAppointmentSection(
+                  onCancelPressed: () {},
+                ),
+              ),
             ),
           ],
         ),
@@ -110,19 +135,21 @@ class TherapistDetailsSection extends StatelessWidget {
   final String therapistType;
   final String medicalCouncil;
   final String experience;
+  final VoidCallback onTherapistProfileRequested;
 
   const TherapistDetailsSection(
       {Key key,
       @required this.therapistName,
       @required this.therapistType,
       @required this.medicalCouncil,
-      @required this.experience})
+      @required this.experience,
+      @required this.onTherapistProfileRequested})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () {},
+      onTap: onTherapistProfileRequested,
       child: IntrinsicHeight(
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -207,57 +234,62 @@ class TherapistDetailsSection extends StatelessWidget {
 class PatientDetailsSection extends StatelessWidget {
   final String patientName;
   final String patientMobileNumber;
+  final VoidCallback onPatientProfileRequested;
 
   const PatientDetailsSection(
-      {Key key, @required this.patientName, @required this.patientMobileNumber})
+      {Key key,
+      @required this.patientName,
+      @required this.patientMobileNumber,
+      @required this.onPatientProfileRequested})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: [
-        CircleAvatar(
-          backgroundImage: NetworkImage(
-              "https://urbanbalance.com/wp-content/uploads/2019/04/new-therapist.jpg"),
-          radius: 32.0,
-        ),
-        SizedBox(width: 16.0),
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              patientName,
-              style: Theme.of(context)
-                  .textTheme
-                  .headline6
-                  .copyWith(color: Colors.black87, fontWeight: FontWeight.w700),
-            ),
-            SizedBox(
-              height: 4.0,
-            ),
-            Row(
-              children: [
-                Icon(
-                  Icons.call,
-                  size: 14.0,
-                  color: Colors.grey,
-                ),
-                SizedBox(
-                  width: 4.0,
-                ),
-                SelectableText(
-                  patientMobileNumber,
-                  style: Theme.of(context)
-                      .textTheme
-                      .caption
-                      .copyWith(fontSize: 14.0),
-                ),
-              ],
-            )
-          ],
-        ),
-      ],
+    return InkWell(
+      onTap: onPatientProfileRequested,
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          CircleAvatar(
+            backgroundImage: NetworkImage(
+                "https://urbanbalance.com/wp-content/uploads/2019/04/new-therapist.jpg"),
+            radius: 32.0,
+          ),
+          SizedBox(width: 16.0),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                patientName,
+                style: Theme.of(context).textTheme.headline6.copyWith(
+                    color: Colors.black87, fontWeight: FontWeight.w700),
+              ),
+              SizedBox(
+                height: 4.0,
+              ),
+              Row(
+                children: [
+                  Icon(
+                    Icons.call,
+                    size: 14.0,
+                    color: Colors.grey,
+                  ),
+                  SizedBox(
+                    width: 4.0,
+                  ),
+                  SelectableText(
+                    patientMobileNumber,
+                    style: Theme.of(context)
+                        .textTheme
+                        .caption
+                        .copyWith(fontSize: 14.0),
+                  ),
+                ],
+              )
+            ],
+          ),
+        ],
+      ),
     );
   }
 }
@@ -358,10 +390,15 @@ class ScheduleDetailsSection extends StatelessWidget {
 }
 
 class CancelAppointmentSection extends StatelessWidget {
+  final VoidCallback onCancelPressed;
+
+  const CancelAppointmentSection({Key key, @required this.onCancelPressed})
+      : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () {},
+      onTap: onCancelPressed,
       borderRadius: BorderRadius.circular(8.0),
       splashColor: Colors.brown.shade100,
       child: Ink(
@@ -411,8 +448,12 @@ class AppointmentStatusDetails extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // TODO: Add condition here to check the meeting time.
     if (appointment.status == AppointmentStatus.upcoming.index) {
       return OngoingAppointmentSection();
+    }
+    if (appointment.status == AppointmentStatus.upcoming.index) {
+      return UpcomingAppointmentSection();
     }
     if (appointment.status == AppointmentStatus.cancelled.index) {
       return CancelledAppointmentSection();
@@ -425,10 +466,16 @@ class AppointmentStatusDetails extends StatelessWidget {
 }
 
 class OngoingAppointmentSection extends StatelessWidget {
+  final VoidCallback onJoinAppointmentRequested;
+
+  const OngoingAppointmentSection(
+      {Key key, @required this.onJoinAppointmentRequested})
+      : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () {},
+      onTap: onJoinAppointmentRequested,
       splashColor: Colors.white24,
       borderRadius: BorderRadius.circular(8.0),
       child: Ink(
@@ -532,10 +579,15 @@ class CompletedAppointmentSection extends StatelessWidget {
 }
 
 class AddTasksSection extends StatelessWidget {
+  final VoidCallback onAddTasksPressed;
+
+  const AddTasksSection({Key key, @required this.onAddTasksPressed})
+      : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () {},
+      onTap: onAddTasksPressed,
       borderRadius: BorderRadius.circular(8.0),
       child: Container(
           decoration: BoxDecoration(

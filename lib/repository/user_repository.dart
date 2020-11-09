@@ -12,6 +12,8 @@ import 'package:greycells/models/patient/patient.dart';
 import 'package:greycells/models/patient/patient_serializable.dart';
 import 'package:greycells/models/registration/registration.dart';
 import 'package:greycells/models/registration/registration_serializable.dart';
+import 'package:greycells/models/token/token.dart';
+import 'package:greycells/models/token/token_serializable.dart';
 import 'package:greycells/models/user/user.dart';
 import 'package:greycells/models/user/user_serializable.dart';
 import 'package:greycells/networking/http_service.dart';
@@ -90,5 +92,15 @@ class UserRepository {
         Request("${FlavorConfig.getBaseUrl()}Account/therapisthome", null);
 
     return await _httpService.get(request, _therapistHomeSerializable);
+  }
+
+  Future<bool> updateToken({@required Token token}) async {
+    Request<Token> request = Request(
+        "${FlavorConfig.getBaseUrl()}Customer/UpdateToken",
+        TokenSerializable())
+      ..setBody(token);
+
+    Response updateResponse = await _httpService.postRaw(request, null);
+    return updateResponse.statusCode == 200;
   }
 }

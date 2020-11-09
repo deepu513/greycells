@@ -4,7 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:greycells/app_theme.dart';
 import 'package:greycells/bloc/authentication/bloc.dart';
 import 'package:greycells/bloc/decider/decider_bloc.dart';
-import 'package:greycells/bloc/notification/bloc/notification_bloc.dart';
+import 'package:greycells/bloc/notification/notification_bloc.dart';
 import 'package:greycells/bloc/validation/validation_bloc.dart';
 import 'package:greycells/models/home/patient_home.dart';
 import 'package:greycells/models/home/therapist_home.dart';
@@ -28,15 +28,15 @@ class GreyCellsApp extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider<AuthenticationBloc>(
-          create: (context) {
-            return AuthenticationBloc(ValidationBloc())..add(AppStarted());
-          },
+          create: (context) =>
+              AuthenticationBloc(ValidationBloc())..add(AppStarted()),
         ),
         BlocProvider<DeciderBloc>(
-          create: (context) {
-            return DeciderBloc();
-          },
+          create: (context) => DeciderBloc(),
         ),
+        BlocProvider<NotificationBloc>(
+          create: (context) => NotificationBloc(),
+        )
       ],
       child: MultiProvider(
         providers: [
@@ -44,12 +44,7 @@ class GreyCellsApp extends StatelessWidget {
           Provider<PatientHome>(create: (_) => PatientHome()),
           Provider<TherapistHome>(create: (_) => TherapistHome()),
         ],
-        child: BlocConsumer<NotificationBloc, NotificationState>(
-          listener: (context, state) {},
-          builder: (context, state) {
-            return _MyApp();
-          },
-        ),
+        child: _MyApp(),
       ),
     );
   }
@@ -77,6 +72,8 @@ class _MyApp extends StatelessWidget {
 
             /// User is logged in
             if (authenticationState is AuthenticationAuthenticated) {
+              BlocProvider.of<NotificationBloc>(context)
+                  .add(SafelyUpdateToken());
               //return PatientAppointmentPage();
               return DeciderPage();
             }

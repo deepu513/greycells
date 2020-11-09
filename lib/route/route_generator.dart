@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:greycells/bloc/appointment/appointment_detail_bloc.dart';
 import 'package:greycells/bloc/assessment/assessment_bloc.dart';
 import 'package:greycells/bloc/authentication/forgot_password_bloc.dart';
 import 'package:greycells/bloc/registration/bloc.dart';
@@ -104,8 +105,8 @@ class RouteGenerator {
         AppointmentDetailArguments arguments =
             args as AppointmentDetailArguments;
         return MaterialPageRoute(
-            builder: (_) => BlocProvider<TimeslotBloc>(
-                  create: (_) => TimeslotBloc(),
+            builder: (_) => BlocProvider<AppointmentDetailBloc>(
+                  create: (_) => AppointmentDetailBloc(),
                   child: AppointmentDetailPage(
                       arguments.userType, arguments.appointment),
                 ));

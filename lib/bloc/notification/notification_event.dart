@@ -6,3 +6,5 @@ abstract class NotificationEvent extends Equatable {
   @override
   List<Object> get props => [];
 }
+
+class SafelyUpdateToken extends NotificationEvent {}

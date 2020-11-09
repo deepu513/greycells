@@ -50,12 +50,15 @@ class _PatientScorePageState extends State<PatientScorePage> {
                 padding: const EdgeInsets.fromLTRB(16.0, 16.0, 16.0, 8.0),
                 child: Text(
                   "Your Behaviour",
-                  style: Theme.of(context).textTheme.headline5,
+                  style: Theme.of(context)
+                      .textTheme
+                      .headline6
+                      .copyWith(fontWeight: FontWeight.bold),
                 ),
               ),
               Card(
                 elevation: 3.0,
-                margin: EdgeInsets.fromLTRB(8.0, 8.0, 8.0, 8.0),
+                margin: EdgeInsets.fromLTRB(16.0, 8.0, 16.0, 8.0),
                 child: Table(
                   defaultVerticalAlignment: TableCellVerticalAlignment.middle,
                   border: TableBorder(
@@ -298,7 +301,10 @@ class _PatientScorePageState extends State<PatientScorePage> {
                   children: [
                     Text(
                       "Your Personality",
-                      style: Theme.of(context).textTheme.headline5,
+                      style: Theme.of(context)
+                          .textTheme
+                          .headline6
+                          .copyWith(fontWeight: FontWeight.bold),
                     ),
                     Spacer(),
                     ...List<Widget>.generate(_filteredList.length, (index) {
@@ -326,6 +332,10 @@ class _PatientScorePageState extends State<PatientScorePage> {
                     }, growable: false),
                   ],
                 ),
+              ),
+              Divider(
+                indent: 16.0,
+                endIndent: 16.0,
               ),
               Expanded(
                 child: ListView.separated(

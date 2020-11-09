@@ -14,4 +14,5 @@ class SettingKey {
   static const KEY_USER_MOBILE = const SettingKey._internal("mobile_number");
   static const KEY_REQUEST_TOKEN = const SettingKey._internal("request_token");
   static const KEY_REFRESH_TOKEN = const SettingKey._internal("refresh_token");
+  static const KEY_FCM_TOKEN = const SettingKey._internal("fcm_token");
 }

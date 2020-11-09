@@ -4,6 +4,7 @@ import 'package:greycells/bloc/appointment/appointment_detail_bloc.dart';
 import 'package:greycells/bloc/assessment/assessment_bloc.dart';
 import 'package:greycells/bloc/authentication/forgot_password_bloc.dart';
 import 'package:greycells/bloc/registration/bloc.dart';
+import 'package:greycells/bloc/task/task_bloc.dart';
 import 'package:greycells/bloc/therapist/bloc/therapist_bloc.dart';
 import 'package:greycells/bloc/timeslot/timeslot_bloc.dart';
 import 'package:greycells/bloc/validation/bloc.dart';
@@ -111,7 +112,12 @@ class RouteGenerator {
                       arguments.userType, arguments.appointment),
                 ));
       case RouteName.ADD_TASKTS_PAGE:
-        return MaterialPageRoute(builder: (_) => AssignTasksPage());
+        return MaterialPageRoute(
+          builder: (_) => BlocProvider<TaskBloc>(
+            create: (_) => TaskBloc(),
+            child: AssignTasksPage(),
+          ),
+        );
       default:
         // If there is no such named route in the switch statement, e.g. /third
         return _errorRoute();

@@ -38,6 +38,18 @@ extension StringExtensions on String {
   }
 }
 
+extension DateTimeExtensions on DateTime {
+  String formatToddMMyyyy() {
+    try {
+      DateFormat dateFormat = DateFormat("dd/MM/yyyy");
+      return dateFormat.format(this);
+    } catch (e) {
+      print(e);
+    }
+    return "";
+  }
+}
+
 extension dialogs on Widget {
   _showDialog(
       {@required BuildContext context,

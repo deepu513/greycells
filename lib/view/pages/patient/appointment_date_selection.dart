@@ -4,7 +4,7 @@ import 'package:greycells/bloc/timeslot/timeslot_bloc.dart';
 import 'package:greycells/constants/strings.dart';
 import 'package:greycells/models/appointment/create_appointment_request.dart';
 import 'package:greycells/models/home/patient_home.dart';
-import 'package:greycells/models/patient/patient.dart';
+import 'package:greycells/extensions.dart';
 import 'package:greycells/models/payment/payment.dart';
 import 'package:greycells/models/payment/payment_item.dart';
 import 'package:greycells/models/payment/payment_type.dart';
@@ -166,17 +166,7 @@ class _MainContentState extends State<MainContent> {
 
   void _getTimeslotsForDay(DateTime day) {
     BlocProvider.of<TimeslotBloc>(context).add(
-        LoadTimeslotsForTherapist(widget.therapist.id, _getStringDate(day)));
-  }
-
-  String _getStringDate(DateTime day) {
-    try {
-      DateFormat dateFormat = DateFormat("dd/MM/yyyy");
-      return dateFormat.format(day);
-    } catch (e) {
-      print(e);
-    }
-    return "";
+        LoadTimeslotsForTherapist(widget.therapist.id, day.formatToddMMyyyy()));
   }
 }
 

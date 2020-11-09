@@ -129,6 +129,7 @@ class Strings {
   static const forgotPasswordSuccess =
       "We have sent you a password reset link via email. If you don't find the email in your inbox, please check the spam folder.";
   static const createAppointmentRequest = "CREATE_APPOINTMENT_REQUEST";
+  static const taskTitle = "Title";
 }
 
 /// This should contain strings which signify an error message
@@ -168,4 +169,5 @@ class ErrorMessages {
   static const PROMO_CODER_ERROR_MESSAGE = "Couldn't apply entered promo code";
   static const PAYMENT_ERROR_MESSAGE =
       "There was an error processing payment. Please try again later";
+  static const EMPTY_FIELD_ERROR_MESSAGE = "Please enter a value";
 }

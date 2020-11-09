@@ -26,7 +26,7 @@ import 'package:greycells/view/pages/patient_profile_page.dart';
 import 'package:greycells/view/pages/register_page.dart';
 import 'package:greycells/view/pages/patient/second_test_intro_page.dart';
 import 'package:greycells/view/pages/patient/therapist_list_page.dart';
-import 'package:greycells/view/pages/therapist/add_tasks_page.dart';
+import 'package:greycells/view/pages/therapist/assign_tasks_page.dart';
 import 'package:greycells/view/pages/therapist/therapist_main_page.dart';
 import 'package:greycells/view/pages/therapist_profile_page.dart';
 import 'package:greycells/view/pages/welcome_page.dart';
@@ -111,7 +111,7 @@ class RouteGenerator {
                       arguments.userType, arguments.appointment),
                 ));
       case RouteName.ADD_TASKTS_PAGE:
-        return MaterialPageRoute(builder: (_) => AddTasksPage());
+        return MaterialPageRoute(builder: (_) => AssignTasksPage());
       default:
         // If there is no such named route in the switch statement, e.g. /third
         return _errorRoute();

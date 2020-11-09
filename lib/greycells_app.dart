@@ -12,6 +12,7 @@ import 'package:greycells/route/route_generator.dart';
 import 'package:greycells/simple_bloc_observer.dart';
 import 'package:greycells/view/pages/decider_page.dart';
 import 'package:greycells/view/pages/splash_page.dart';
+import 'package:greycells/view/pages/therapist/assign_tasks_page.dart';
 import 'package:greycells/view/pages/welcome_page.dart';
 import 'package:provider/provider.dart';
 
@@ -67,7 +68,7 @@ class _MyApp extends StatelessWidget {
             /// User is not logged in
             if (authenticationState is AuthenticationUnauthenticated) {
               //return PatientAppointmentPage();
-              return WelcomePage();
+              return AssignTasksPage();
             }
 
             /// User is logged in
@@ -75,7 +76,7 @@ class _MyApp extends StatelessWidget {
               BlocProvider.of<NotificationBloc>(context)
                   .add(SafelyUpdateToken());
               //return PatientAppointmentPage();
-              return DeciderPage();
+              return AssignTasksPage();
             }
 
             return SplashPage();

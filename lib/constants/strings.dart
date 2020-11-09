@@ -129,7 +129,7 @@ class Strings {
   static const forgotPasswordSuccess =
       "We have sent you a password reset link via email. If you don't find the email in your inbox, please check the spam folder.";
   static const createAppointmentRequest = "CREATE_APPOINTMENT_REQUEST";
-  static const taskTitle = "Title";
+  static const title = "Title";
 }
 
 /// This should contain strings which signify an error message

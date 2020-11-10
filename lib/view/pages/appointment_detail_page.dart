@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:greycells/constants/user_type.dart';
 import 'package:greycells/models/appointment/appointment.dart';
 import 'package:greycells/models/appointment/appointment_status.dart';
+import 'package:greycells/models/task/assign_task_args.dart';
 import 'package:greycells/route/route_name.dart';
 import 'package:greycells/view/widgets/appointment_status_widget.dart';
 import 'package:greycells/view/widgets/colored_page_section.dart';
@@ -146,7 +147,11 @@ class _MainContentState extends State<MainContent> {
             visible: widget.userType == UserType.therapist,
             child: AddTasksSection(
               onAddTasksPressed: () {
-                Navigator.of(context).pushNamed(RouteName.ADD_TASKS_PAGE);
+                Navigator.of(context).pushNamed(RouteName.ADD_TASKS_PAGE,
+                    arguments: AssignTaskArgs()
+                      ..appointmentId = widget.appointment.id
+                      ..therapistId = widget.appointment.therapist.id
+                      ..patientId = widget.appointment.patient.id);
               },
             ),
           ),

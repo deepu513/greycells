@@ -27,6 +27,7 @@ import 'package:greycells/view/pages/patient_profile_page.dart';
 import 'package:greycells/view/pages/register_page.dart';
 import 'package:greycells/view/pages/patient/second_test_intro_page.dart';
 import 'package:greycells/view/pages/patient/therapist_list_page.dart';
+import 'package:greycells/view/pages/task_items_page.dart';
 import 'package:greycells/view/pages/therapist/add_task_item.dart';
 import 'package:greycells/view/pages/therapist/assign_tasks_page.dart';
 import 'package:greycells/view/pages/therapist/therapist_main_page.dart';
@@ -116,11 +117,13 @@ class RouteGenerator {
         return MaterialPageRoute(
           builder: (_) => BlocProvider<TaskBloc>(
             create: (_) => TaskBloc(),
-            child: AssignTasksPage(),
+            child: AssignTasksPage(args: args,),
           ),
         );
         case RouteName.ADD_TASK_ITEM_PAGE:
         return MaterialPageRoute(builder: (_) => AddTaskItemsPage());
+        case RouteName.TASK_ITEMS_PAGE:
+        return MaterialPageRoute(builder: (_) => TaskItemsPage(task: args,));
       default:
         // If there is no such named route in the switch statement, e.g. /third
         return _errorRoute();

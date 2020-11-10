@@ -1,23 +1,22 @@
 import 'package:greycells/models/task/task_item.dart';
+import 'package:greycells/models/therapist/therapist.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'task.g.dart';
 
 @JsonSerializable(explicitToJson: true)
 class Task {
-  @JsonKey(name: "Title")
   String title;
 
-  @JsonKey(name: "AppointmentId")
   int appointmentId;
 
-  @JsonKey(name: "PatientId")
   int patientId;
 
-  @JsonKey(name: "TherapistId")
   int therapistId;
 
-  @JsonKey(name: "TaskItems")
+  @JsonKey(includeIfNull: false)
+  Therapist therapist;
+
   List<TaskItem> taskItems;
 
   Task();

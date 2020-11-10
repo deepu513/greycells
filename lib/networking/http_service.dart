@@ -93,6 +93,18 @@ class HttpService {
         .catchError((e, stackTrace) => _handleError(e, stackTrace));
   }
 
+  Future<Response<ResponseType>> putRaw<RequestType, ResponseType>(
+      Request<RequestType> request,
+      Serializable<ResponseType> responseSerializable) {
+    return http
+        .put(request.url,
+            body: request.toJsonString(),
+            headers: request.headers ?? _getDefaultHeaders(url: request.url))
+        .then((http.Response value) =>
+            _processResponse(value, responseSerializable))
+        .catchError((e, stackTrace) => _handleError(e, stackTrace));
+  }
+
   Future<ServerFile> multipart(String url, String filePath) async {
     try {
       final fileExtension = extension(filePath);

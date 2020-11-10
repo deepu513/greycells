@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:greycells/bloc/task/task_bloc.dart';
 import 'package:greycells/constants/strings.dart';
+import 'package:greycells/models/task/assign_task_args.dart';
 import 'package:greycells/models/task/task.dart';
 import 'package:greycells/route/route_name.dart';
 import 'package:greycells/view/widgets/empty_state.dart';
@@ -10,6 +11,10 @@ import 'package:provider/provider.dart';
 import 'package:greycells/extensions.dart';
 
 class AssignTasksPage extends StatefulWidget {
+  final AssignTaskArgs args;
+
+  const AssignTasksPage({Key key,@required this.args}) : super(key: key);
+
   @override
   _AssignTasksPageState createState() => _AssignTasksPageState();
 }
@@ -21,7 +26,10 @@ class _AssignTasksPageState extends State<AssignTasksPage> {
   @override
   void initState() {
     super.initState();
-    task = Task();
+    task = Task()
+      ..therapistId = widget.args.therapistId
+      ..patientId = widget.args.patientId
+      ..appointmentId = widget.args.appointmentId;
     task.taskItems = List();
   }
 
@@ -67,13 +75,15 @@ class _AssignTasksPageState extends State<AssignTasksPage> {
                     padding: const EdgeInsets.symmetric(
                         horizontal: 16.0, vertical: 4.0),
                     child: TaskSubSection(
-                      onAddPressed: state is! TaskLoading ? () async {
-                        var taskItem = await Navigator.of(context)
-                            .pushNamed(RouteName.ADD_TASK_ITEM_PAGE);
-                        if (taskItem != null) {
-                          setState(() => task.taskItems.add(taskItem));
-                        }
-                      } : null,
+                      onAddPressed: state is! TaskLoading
+                          ? () async {
+                              var taskItem = await Navigator.of(context)
+                                  .pushNamed(RouteName.ADD_TASK_ITEM_PAGE);
+                              if (taskItem != null) {
+                                setState(() => task.taskItems.add(taskItem));
+                              }
+                            }
+                          : null,
                     ),
                   ),
                   Divider(

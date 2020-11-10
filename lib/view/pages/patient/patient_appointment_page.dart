@@ -21,7 +21,7 @@ class PatientAppointmentPage extends StatelessWidget {
       ),
     ),
       body: SafeArea(
-        child: BlocProvider(
+        child: BlocProvider<AppointmentBloc>(
           create: (context) => AppointmentBloc(),
           child: AllAppointments(UserType.patient),
         ),

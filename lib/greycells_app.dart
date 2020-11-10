@@ -68,22 +68,24 @@ class _MyApp extends StatelessWidget {
           builder: (context, authenticationState) {
             /// User is not logged in
             if (authenticationState is AuthenticationUnauthenticated) {
+              return WelcomePage();
               //return PatientAppointmentPage();
-              return BlocProvider<TaskBloc>(
-                create: (_) => TaskBloc(),
-                child: AssignTasksPage(),
-              );
+              // return BlocProvider<TaskBloc>(
+              //   create: (_) => TaskBloc(),
+              //   child: AssignTasksPage(),
+              // );
             }
 
             /// User is logged in
             if (authenticationState is AuthenticationAuthenticated) {
               BlocProvider.of<NotificationBloc>(context)
                   .add(SafelyUpdateToken());
+              return DeciderPage();
               //return PatientAppointmentPage();
-              return BlocProvider<TaskBloc>(
-                create: (_) => TaskBloc(),
-                child: AssignTasksPage(),
-              );
+              // return BlocProvider<TaskBloc>(
+              //   create: (_) => TaskBloc(),
+              //   child: AssignTasksPage(),
+              // );
             }
 
             return SplashPage();

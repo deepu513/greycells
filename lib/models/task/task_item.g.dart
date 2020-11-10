@@ -8,15 +8,29 @@ part of 'task_item.dart';
 
 TaskItem _$TaskItemFromJson(Map<String, dynamic> json) {
   return TaskItem()
-    ..title = json['Title'] as String
-    ..expectedCompletionDateTIme = json['ExpectedCompletionDateTIme'] as String
-    ..description = json['Description'] as String
-    ..fIleId = json['FileId'] as int;
+    ..title = json['title'] as String
+    ..expectedCompletionDateTIme = json['expectedCompletionDateTIme'] as String
+    ..description = json['description'] as String
+    ..fIleId = json['fIleId'] as int
+    ..file = json['file'] == null
+        ? null
+        : File.fromJson(json['file'] as Map<String, dynamic>);
 }
 
-Map<String, dynamic> _$TaskItemToJson(TaskItem instance) => <String, dynamic>{
-      'Title': instance.title,
-      'ExpectedCompletionDateTIme': instance.expectedCompletionDateTIme,
-      'Description': instance.description,
-      'FileId': instance.fIleId,
-    };
+Map<String, dynamic> _$TaskItemToJson(TaskItem instance) {
+  final val = <String, dynamic>{
+    'title': instance.title,
+    'expectedCompletionDateTIme': instance.expectedCompletionDateTIme,
+    'description': instance.description,
+    'fIleId': instance.fIleId,
+  };
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('file', instance.file?.toJson());
+  return val;
+}

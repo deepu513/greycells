@@ -100,7 +100,7 @@ class UserRepository {
         TokenSerializable())
       ..setBody(token);
 
-    Response updateResponse = await _httpService.postRaw(request, null);
+    Response updateResponse = await _httpService.putRaw(request, null);
     return updateResponse.statusCode == 200;
   }
 }

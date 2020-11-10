@@ -3,6 +3,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:greycells/constants/strings.dart';
 import 'package:greycells/route/route_name.dart';
 
+//TODO: Slow down app name animation
 class WelcomePage extends StatefulWidget {
   @override
   _WelcomePageState createState() => _WelcomePageState();
@@ -148,7 +149,7 @@ class _WelcomePageState extends State<WelcomePage>
                   child: RaisedButton(
                     onPressed: () =>
                         {Navigator.pushNamed(context, RouteName.REGISTER)},
-                        color: Color(0xFF455a64),
+                    color: Color(0xFF455a64),
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(8.0)),
                     child: Text(

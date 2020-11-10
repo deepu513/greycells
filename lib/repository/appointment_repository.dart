@@ -4,6 +4,8 @@ import 'package:greycells/models/appointment/all_appointment_serializable.dart';
 import 'package:greycells/models/appointment/appointment_status.dart';
 import 'package:greycells/models/appointment/create_appointment_request.dart';
 import 'package:greycells/models/appointment/create_appointment_request_serializable.dart';
+import 'package:greycells/models/task/task.dart';
+import 'package:greycells/models/task/task_serializable.dart';
 import 'package:greycells/models/timeslot/timeslot_request.dart';
 import 'package:greycells/models/timeslot/timeslot_request_serializable.dart';
 import 'package:greycells/models/timeslot/timeslot_response.dart';
@@ -66,5 +68,14 @@ class AppointmentRepository {
     Response createAppointmentResponse =
         await _httpService.postRaw(request, null);
     return createAppointmentResponse.statusCode == 200;
+  }
+
+  Future<bool> createTask(Task task) async {
+    Request<Task> request =
+        Request("${FlavorConfig.getBaseUrl()}Tasks", TaskSerializable())
+          ..setBody(task);
+
+    Response createTaskResponse = await _httpService.postRaw(request, null);
+    return createTaskResponse.statusCode == 200;
   }
 }

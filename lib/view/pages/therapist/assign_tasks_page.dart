@@ -7,6 +7,7 @@ import 'package:greycells/route/route_name.dart';
 import 'package:greycells/view/widgets/empty_state.dart';
 import 'package:greycells/view/widgets/task_item_widget.dart';
 import 'package:provider/provider.dart';
+import 'package:greycells/extensions.dart';
 
 class AssignTasksPage extends StatefulWidget {
   @override
@@ -15,6 +16,7 @@ class AssignTasksPage extends StatefulWidget {
 
 class _AssignTasksPageState extends State<AssignTasksPage> {
   Task task;
+  bool titleIsEmpty;
 
   @override
   void initState() {
@@ -48,9 +50,11 @@ class _AssignTasksPageState extends State<AssignTasksPage> {
                 children: [
                   Padding(
                     padding: const EdgeInsets.symmetric(
-                        horizontal: 24.0, vertical: 16.0),
+                      horizontal: 24.0,
+                      vertical: 16.0,
+                    ),
                     child: TaskTitleInput(
-                      showError: false,
+                      showError: titleIsEmpty == true,
                       onTitleChanged: (title) {
                         task.title = title;
                       },
@@ -63,13 +67,13 @@ class _AssignTasksPageState extends State<AssignTasksPage> {
                     padding: const EdgeInsets.symmetric(
                         horizontal: 16.0, vertical: 4.0),
                     child: TaskSubSection(
-                      onAddPressed: () async {
+                      onAddPressed: state is! TaskLoading ? () async {
                         var taskItem = await Navigator.of(context)
                             .pushNamed(RouteName.ADD_TASK_ITEM_PAGE);
                         if (taskItem != null) {
                           setState(() => task.taskItems.add(taskItem));
                         }
-                      },
+                      } : null,
                     ),
                   ),
                   Divider(
@@ -80,13 +84,25 @@ class _AssignTasksPageState extends State<AssignTasksPage> {
                         ? TaskItemsListSection()
                         : EmptyState(
                             svgImageName: "to_do_list.svg",
-                            title: "Assign tasks to your patient!",
+                            title: "Assign tasks to your client!",
                             description:
                                 "Click on 'ADD ITEM' to add a task item.",
                           ),
                   ),
                   TaskCreateAssignButton(
-                    onPressed: task.taskItems.isNotEmpty ? () {} : null,
+                    onPressed:
+                        task.taskItems.isNotEmpty && state is! TaskLoading
+                            ? () {
+                                if (task.title.isNullOrEmpty()) {
+                                  setState(() {
+                                    titleIsEmpty = true;
+                                  });
+                                } else {
+                                  BlocProvider.of<TaskBloc>(context)
+                                      .add(CreateTask(task));
+                                }
+                              }
+                            : null,
                   ),
                 ],
               );

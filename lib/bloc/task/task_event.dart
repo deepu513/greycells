@@ -9,6 +9,10 @@ abstract class TaskEvent extends Equatable {
 
 class LoadAllTasks extends TaskEvent {}
 
-class CreateTask extends TaskEvent {}
+class CreateTask extends TaskEvent {
+  final Task task;
+
+  CreateTask(this.task);
+}
 
 class UpdateTask extends TaskEvent {}

@@ -146,7 +146,7 @@ class _MainContentState extends State<MainContent> {
             visible: widget.userType == UserType.therapist,
             child: AddTasksSection(
               onAddTasksPressed: () {
-                Navigator.of(context).pushNamed(RouteName.ADD_TASKTS_PAGE);
+                Navigator.of(context).pushNamed(RouteName.ADD_TASKS_PAGE);
               },
             ),
           ),

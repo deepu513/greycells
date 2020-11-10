@@ -11,7 +11,11 @@ class TaskInitial extends TaskState {}
 
 class TaskLoading extends TaskState {}
 
-class TasksLoaded extends TaskState {}
+class AllTasksLoaded extends TaskState {
+  final List<Task> tasks;
+
+  AllTasksLoaded(this.tasks);
+}
 
 class TaskCreated extends TaskState {}
 

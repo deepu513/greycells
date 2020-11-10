@@ -5,6 +5,8 @@ import 'package:greycells/models/appointment/appointment_status.dart';
 import 'package:greycells/models/appointment/create_appointment_request.dart';
 import 'package:greycells/models/appointment/create_appointment_request_serializable.dart';
 import 'package:greycells/models/task/task.dart';
+import 'package:greycells/models/task/task_response.dart';
+import 'package:greycells/models/task/task_response_serializable.dart';
 import 'package:greycells/models/task/task_serializable.dart';
 import 'package:greycells/models/timeslot/timeslot_request.dart';
 import 'package:greycells/models/timeslot/timeslot_request_serializable.dart';
@@ -77,5 +79,21 @@ class AppointmentRepository {
 
     Response createTaskResponse = await _httpService.postRaw(request, null);
     return createTaskResponse.statusCode == 200;
+  }
+
+  Future<TaskResponse> getTasks() async {
+    Request<TaskResponse> request =
+        Request("${FlavorConfig.getBaseUrl()}Tasks", null)..setBody(null);
+
+    return await _httpService.get(request, TaskResponseSerializable());
+  }
+
+  Future<bool> updateTask(int taskId, int taskStatus) async {
+    Request<AllAppointmentsResponse> request = Request(
+        "${FlavorConfig.getBaseUrl()}Tasks/update?id=$taskId&status=$taskStatus",
+        null);
+
+    Response response = await _httpService.postRaw(request, null);
+    return response.statusCode == 200;
   }
 }

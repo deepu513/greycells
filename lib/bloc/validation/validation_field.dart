@@ -84,4 +84,10 @@ class ValidationField {
 
   static const GUARDIAN_LAST_NAME = ValidationField._internal(
       ErrorMessages.GUARDIAN_LAST_NAME_ERROR_MESSAGE, 25);
+
+  static const TASK_ITEM_TITLE =
+      ValidationField._internal(ErrorMessages.EMPTY_FIELD_ERROR_MESSAGE, 26);
+
+  static const TASK_ITEM_DESC =
+      ValidationField._internal(ErrorMessages.EMPTY_FIELD_ERROR_MESSAGE, 27);
 }

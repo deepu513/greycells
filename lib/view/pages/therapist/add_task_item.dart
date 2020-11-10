@@ -1,53 +1,88 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:greycells/bloc/picker/image_picker_bloc.dart';
+import 'package:greycells/bloc/validation/bloc.dart';
+import 'package:greycells/bloc/validation/validation_field.dart';
 import 'package:greycells/constants/strings.dart';
 import 'package:greycells/extensions.dart';
+import 'package:greycells/models/task/task_item.dart';
 import 'package:image_picker/image_picker.dart';
 
 class AddTaskItemsPage extends StatelessWidget {
+  final TaskItem taskItem = TaskItem();
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        elevation: 4.0,
-        title: Text(
-          'Add Task Item',
-          style: Theme.of(context)
-              .textTheme
-              .headline6
-              .copyWith(color: Colors.black87),
+    return BlocProvider<ValidationBloc>(
+      create: (_) => ValidationBloc(),
+      child: Scaffold(
+        appBar: AppBar(
+          elevation: 4.0,
+          title: Text(
+            'Add Task Item',
+            style: Theme.of(context)
+                .textTheme
+                .headline6
+                .copyWith(color: Colors.black87),
+          ),
         ),
-      ),
-      body: SafeArea(
-        child: SingleChildScrollView(
+        body: SafeArea(
+          child: SingleChildScrollView(
             padding: EdgeInsets.all(16.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                BlocProvider<ImagePickerBloc>(
-                  create: (_) => ImagePickerBloc(),
-                  child: ImageSection(
-                    onImageSelected: (imagePath) {},
-                  ),
-                ),
-                Divider(
-                  height: 24.0,
-                ),
-                TaskItemInputSection(
-                  onTitleChanged: (title) {},
-                  onDescriptionChanged: (description) {},
-                  onDateSelected: (date) {},
-                ),
-                SizedBox(
-                  height: 24.0,
-                ),
-                ActionButtons(
-                  onCancelPressed: () {},
-                  onTaskAddPressed: () {},
-                ),
-              ],
-            )),
+            child: BlocConsumer<ValidationBloc, ValidationState>(
+              listener: (context, state) {
+                if (state is TaskItemValid) {
+                  Navigator.of(context).pop(state.taskItem);
+                }
+              },
+              builder: (context, state) {
+                return Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    BlocProvider<ImagePickerBloc>(
+                      create: (_) => ImagePickerBloc(),
+                      child: ImageSection(
+                        onImageSelected: (imagePath) {
+                          taskItem.filePath = imagePath;
+                        },
+                      ),
+                    ),
+                    Divider(
+                      height: 24.0,
+                    ),
+                    TaskItemInputSection(
+                      titleError:
+                          state.isFieldInvalid(ValidationField.TASK_ITEM_TITLE),
+                      descriptionError:
+                          state.isFieldInvalid(ValidationField.TASK_ITEM_DESC),
+                      onTitleChanged: (title) {
+                        taskItem.title = title;
+                      },
+                      onDescriptionChanged: (description) {
+                        taskItem.description = description;
+                      },
+                      onDateSelected: (date) {
+                        taskItem.expectedCompletionDateTIme = date;
+                      },
+                    ),
+                    SizedBox(
+                      height: 24.0,
+                    ),
+                    ActionButtons(
+                      onCancelPressed: () {
+                        Navigator.of(context).pop();
+                      },
+                      onTaskAddPressed: () {
+                        BlocProvider.of<ValidationBloc>(context)
+                            .add(ValidateTaskItemFields(taskItem));
+                      },
+                    ),
+                  ],
+                );
+              },
+            ),
+          ),
+        ),
       ),
     );
   }
@@ -79,8 +114,9 @@ class ImageSection extends StatelessWidget {
               borderRadius: BorderRadius.circular(16.0),
               child: Ink(
                 decoration: BoxDecoration(
-                    color: Colors.grey.shade100,
-                    borderRadius: BorderRadius.circular(16.0)),
+                  color: Colors.grey.shade100,
+                  borderRadius: BorderRadius.circular(16.0),
+                ),
                 width: double.maxFinite,
                 height: 180.0,
                 child: imagePickerState is StateImagePicked
@@ -119,6 +155,8 @@ class ImageSection extends StatelessWidget {
 }
 
 class TaskItemInputSection extends StatefulWidget {
+  final bool titleError;
+  final bool descriptionError;
   final ValueChanged<String> onTitleChanged;
   final ValueChanged<String> onDescriptionChanged;
   final ValueChanged<String> onDateSelected;
@@ -127,7 +165,9 @@ class TaskItemInputSection extends StatefulWidget {
       {Key key,
       @required this.onTitleChanged,
       @required this.onDescriptionChanged,
-      @required this.onDateSelected})
+      @required this.onDateSelected,
+      @required this.titleError,
+      @required this.descriptionError})
       : super(key: key);
 
   @override
@@ -141,6 +181,7 @@ class _TaskItemInputState extends State<TaskItemInputSection> {
   void initState() {
     super.initState();
     initialDate = DateTime.now().formatToddMMyyyy();
+    widget.onDateSelected.call(initialDate);
   }
 
   @override
@@ -162,6 +203,9 @@ class _TaskItemInputState extends State<TaskItemInputSection> {
               Icons.title_rounded,
               size: 20.0,
             ),
+            errorText: widget.titleError
+                ? ErrorMessages.EMPTY_FIELD_ERROR_MESSAGE
+                : null,
           ),
           textInputAction: TextInputAction.next,
           autofocus: false,
@@ -182,6 +226,9 @@ class _TaskItemInputState extends State<TaskItemInputSection> {
               Icons.notes,
               size: 20.0,
             ),
+            errorText: widget.descriptionError
+                ? ErrorMessages.EMPTY_FIELD_ERROR_MESSAGE
+                : null,
           ),
           autofocus: false,
           keyboardType: TextInputType.multiline,
@@ -219,6 +266,7 @@ class _TaskItemInputState extends State<TaskItemInputSection> {
                 Icon(
                   Icons.event_rounded,
                   size: 20.0,
+                  color: Colors.black45,
                 ),
                 SizedBox(
                   width: 16.0,
@@ -229,13 +277,16 @@ class _TaskItemInputState extends State<TaskItemInputSection> {
                     Text(
                       "Expected date of completion",
                       style: Theme.of(context).textTheme.button.copyWith(
-                            color: Colors.black87,
+                            color: Colors.black54,
                           ),
                     ),
-                    Text(
-                      initialDate,
-                      style: Theme.of(context).textTheme.subtitle1.copyWith(
-                          color: Colors.black87, fontWeight: FontWeight.bold),
+                    SizedBox(
+                      height: 4.0,
+                    ),
+                    Text(initialDate,
+                        style: Theme.of(context).textTheme.subtitle1),
+                    SizedBox(
+                      height: 8.0,
                     ),
                     Text(
                       "(tap to change)",
@@ -280,7 +331,7 @@ class ActionButtons extends StatelessWidget {
             ),
             shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(8.0)),
-            onPressed: () {},
+            onPressed: onCancelPressed,
           ),
         ),
         SizedBox(
@@ -288,18 +339,17 @@ class ActionButtons extends StatelessWidget {
         ),
         Expanded(
           child: RaisedButton(
-            child: Text(
-              "ADD",
-              style: Theme.of(context).textTheme.button.copyWith(
-                  letterSpacing: 0.7,
-                  color: Colors.white,
-                  fontWeight: FontWeight.bold),
-            ),
-            color: Color(0xFF455a64),
-            shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(8.0)),
-            onPressed: () {},
-          ),
+              child: Text(
+                "ADD",
+                style: Theme.of(context).textTheme.button.copyWith(
+                    letterSpacing: 0.7,
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold),
+              ),
+              color: Color(0xFF455a64),
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(8.0)),
+              onPressed: onTaskAddPressed),
         )
       ],
     );

@@ -1,6 +1,7 @@
 import 'package:greycells/models/login/login_request.dart';
 import 'package:greycells/models/patient/patient.dart';
 import 'package:greycells/models/registration/registration.dart';
+import 'package:greycells/models/task/task_item.dart';
 
 abstract class ValidationEvent {}
 
@@ -32,4 +33,10 @@ class ValidateGuardianDetailsFields extends ValidationEvent {
   final Patient patient;
 
   ValidateGuardianDetailsFields(this.patient);
+}
+
+class ValidateTaskItemFields extends ValidationEvent {
+  final TaskItem taskItem;
+
+  ValidateTaskItemFields(this.taskItem);
 }

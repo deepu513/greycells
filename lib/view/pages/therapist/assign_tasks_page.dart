@@ -67,12 +67,12 @@ class _AssignTasksPageState extends State<AssignTasksPage> {
                     padding: const EdgeInsets.symmetric(
                         horizontal: 16.0, vertical: 4.0),
                     child: TaskSubSection(
-                      onAddPressed: () {
-                        Navigator.of(context)
+                      onAddPressed: () async {
+                        var taskItem = await Navigator.of(context)
                             .pushNamed(RouteName.ADD_TASK_ITEM_PAGE);
-                        //  if (taskItem != null) {
-                        //       setState(() => task.taskItems.add(taskItem));
-                        //     }
+                        if (taskItem != null) {
+                          setState(() => task.taskItems.add(taskItem));
+                        }
                       },
                     ),
                   ),

@@ -4,6 +4,7 @@ import 'package:greycells/models/address/address.dart';
 import 'package:greycells/models/login/login_request.dart';
 import 'package:greycells/models/patient/patient.dart';
 import 'package:greycells/models/registration/registration.dart';
+import 'package:greycells/models/task/task_item.dart';
 
 abstract class ValidationState {}
 
@@ -37,6 +38,12 @@ class GuardianDetailsValid extends ValidationState {
   final Patient patient;
 
   GuardianDetailsValid(this.patient);
+}
+
+class TaskItemValid extends ValidationState {
+  final TaskItem taskItem;
+
+  TaskItemValid(this.taskItem);
 }
 
 class ValidationInvalidField extends ValidationState {

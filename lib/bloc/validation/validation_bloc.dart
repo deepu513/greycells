@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:greycells/models/patient/patient.dart';
+import 'package:greycells/models/task/task_item.dart';
 import 'package:intl/intl.dart';
 import 'package:greycells/bloc/validation/validation_field.dart';
 import 'package:greycells/bloc/validation/validation_state.dart';
@@ -54,6 +55,13 @@ class ValidationBloc extends Bloc<ValidationEvent, ValidationState> {
         yield GuardianDetailsValid(event.patient);
       } else
         yield ValidationInvalidField(field: validationField);
+    } else if (event is ValidateTaskItemFields) {
+      var validationField = _validateTaskItemField(event.taskItem);
+
+      if (validationField == ValidationField.NONE) {
+        yield TaskItemValid(event.taskItem);
+      } else
+        yield ValidationInvalidField(field: validationField);
     }
   }
 
@@ -65,7 +73,8 @@ class ValidationBloc extends Bloc<ValidationEvent, ValidationState> {
       return ValidationField.CONTACT_NUMBER;
     if (registration.email.isNullOrEmpty()) return ValidationField.EMAIL;
     if (registration.password.isNullOrEmpty()) return ValidationField.PASSWORD;
-    if(!registration.password.hasRequiredLength(6)) return ValidationField.LENGTH;
+    if (!registration.password.hasRequiredLength(6))
+      return ValidationField.LENGTH;
     if (registration.confirmPassword.isNullOrEmpty() ||
         registration.password != registration.confirmPassword)
       return ValidationField.CONFIRM_PASSWORD;
@@ -82,12 +91,13 @@ class ValidationBloc extends Bloc<ValidationEvent, ValidationState> {
   ValidationField _validateAddressFields(Patient patient) {
     if (patient.address.houseNumber.isNullOrEmpty())
       return ValidationField.HOUSE_NUMBER;
-    if (patient.address.roadName.isNullOrEmpty()) return ValidationField.ROAD_NAME;
+    if (patient.address.roadName.isNullOrEmpty())
+      return ValidationField.ROAD_NAME;
     if (patient.address.city.isNullOrEmpty()) return ValidationField.CITY;
     if (patient.address.state.isNullOrEmpty()) return ValidationField.STATE;
     if (patient.address.country.isNullOrEmpty()) return ValidationField.COUNTRY;
     if (patient.address.pincode.isNullOrEmpty()) return ValidationField.PINCODE;
-    if(patient.isMinor) {
+    if (patient.isMinor) {
       if (patient.guardian.address.houseNumber.isNullOrEmpty())
         return ValidationField.GUARDIAN_HOUSE_NUMBER;
       if (patient.guardian.address.roadName.isNullOrEmpty())
@@ -105,17 +115,11 @@ class ValidationBloc extends Bloc<ValidationEvent, ValidationState> {
   }
 
   ValidationField _validateBirthDetails(Patient patient) {
-    if (patient.placeOfBirth.isNullOrEmpty())
-      return ValidationField.PLACE_PART;
-    if (!_validDateTime(
-        patient.dayPart, patient.monthPart, patient.yearPart))
+    if (patient.placeOfBirth.isNullOrEmpty()) return ValidationField.PLACE_PART;
+    if (!_validDateTime(patient.dayPart, patient.monthPart, patient.yearPart))
       return ValidationField.DATE_PART;
-    if (!_validDateTime(
-        patient.dayPart,
-        patient.monthPart,
-        patient.yearPart,
-        patient.hourPart,
-        patient.minutePart)) return ValidationField.TIME_PART;
+    if (!_validDateTime(patient.dayPart, patient.monthPart, patient.yearPart,
+        patient.hourPart, patient.minutePart)) return ValidationField.TIME_PART;
     return ValidationField.NONE;
   }
 
@@ -136,12 +140,19 @@ class ValidationBloc extends Bloc<ValidationEvent, ValidationState> {
         patient.guardian.readableRelationship.isNullOrEmpty()) {
       return ValidationField.OTHER_RELATION;
     }
-    if(patient.guardian.firstName.isNullOrEmpty())
+    if (patient.guardian.firstName.isNullOrEmpty())
       return ValidationField.GUARDIAN_FIRST_NAME;
-    if(patient.guardian.lastName.isNullOrEmpty())
+    if (patient.guardian.lastName.isNullOrEmpty())
       return ValidationField.GUARDIAN_LAST_NAME;
     if (patient.guardian.mobileNumber.isNullOrEmpty())
       return ValidationField.CONTACT_NUMBER;
+    return ValidationField.NONE;
+  }
+
+  ValidationField _validateTaskItemField(TaskItem taskItem) {
+    if (taskItem.title.isNullOrEmpty()) return ValidationField.TASK_ITEM_TITLE;
+    if (taskItem.description.isNullOrEmpty())
+      return ValidationField.TASK_ITEM_DESC;
     return ValidationField.NONE;
   }
 }

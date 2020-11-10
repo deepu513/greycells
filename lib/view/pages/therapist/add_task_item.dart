@@ -61,8 +61,9 @@ class AddTaskItemsPage extends StatelessWidget {
                       onDescriptionChanged: (description) {
                         taskItem.description = description;
                       },
-                      onDateSelected: (date) {
+                      onDateSelected: (date, readableDate) {
                         taskItem.expectedCompletionDateTIme = date;
+                        taskItem.readableDate = readableDate;
                       },
                     ),
                     SizedBox(
@@ -118,7 +119,7 @@ class ImageSection extends StatelessWidget {
                   borderRadius: BorderRadius.circular(16.0),
                 ),
                 width: double.maxFinite,
-                height: 180.0,
+                height: 194.0,
                 child: imagePickerState is StateImagePicked
                     ? ClipRRect(
                         borderRadius: BorderRadius.circular(16.0),
@@ -159,7 +160,7 @@ class TaskItemInputSection extends StatefulWidget {
   final bool descriptionError;
   final ValueChanged<String> onTitleChanged;
   final ValueChanged<String> onDescriptionChanged;
-  final ValueChanged<String> onDateSelected;
+  final DateSelectedCallback onDateSelected;
 
   const TaskItemInputSection(
       {Key key,
@@ -174,14 +175,18 @@ class TaskItemInputSection extends StatefulWidget {
   _TaskItemInputState createState() => _TaskItemInputState();
 }
 
+typedef DateSelectedCallback = void Function(String, String);
+
 class _TaskItemInputState extends State<TaskItemInputSection> {
   String initialDate;
+  String readableDate;
 
   @override
   void initState() {
     super.initState();
     initialDate = DateTime.now().formatToddMMyyyy();
-    widget.onDateSelected.call(initialDate);
+    readableDate = DateTime.now().readableDate();
+    widget.onDateSelected.call(initialDate, readableDate);
   }
 
   @override
@@ -208,6 +213,7 @@ class _TaskItemInputState extends State<TaskItemInputSection> {
                 : null,
           ),
           textInputAction: TextInputAction.next,
+          textCapitalization: TextCapitalization.sentences,
           autofocus: false,
           keyboardType: TextInputType.text,
           onChanged: widget.onTitleChanged,
@@ -232,6 +238,7 @@ class _TaskItemInputState extends State<TaskItemInputSection> {
           ),
           autofocus: false,
           keyboardType: TextInputType.multiline,
+          textCapitalization: TextCapitalization.sentences,
           onChanged: widget.onDescriptionChanged,
         ),
         SizedBox(
@@ -249,11 +256,14 @@ class _TaskItemInputState extends State<TaskItemInputSection> {
             );
 
             if (pickedDateTime != null)
-              widget.onDateSelected.call(pickedDateTime.formatToddMMyyyy());
+              widget.onDateSelected.call(pickedDateTime.formatToddMMyyyy(),
+                  pickedDateTime.readableDate());
 
             setState(() {
-              if (pickedDateTime != null)
+              if (pickedDateTime != null) {
                 initialDate = pickedDateTime.formatToddMMyyyy();
+                readableDate = pickedDateTime.readableDate();
+              }
             });
           },
           child: Container(
@@ -283,7 +293,7 @@ class _TaskItemInputState extends State<TaskItemInputSection> {
                     SizedBox(
                       height: 4.0,
                     ),
-                    Text(initialDate,
+                    Text(readableDate,
                         style: Theme.of(context).textTheme.subtitle1),
                     SizedBox(
                       height: 8.0,

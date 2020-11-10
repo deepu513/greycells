@@ -48,6 +48,16 @@ extension DateTimeExtensions on DateTime {
     }
     return "";
   }
+
+  String readableDate() {
+     try {
+      DateFormat dateFormat = DateFormat("EEE, dd MMM, yyyy");
+      return dateFormat.format(this);
+    } catch (e) {
+      print(e);
+    }
+    return "";
+  }
 }
 
 extension dialogs on Widget {

@@ -1,16 +1,12 @@
-import 'package:animations/animations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:greycells/bloc/picker/image_picker_bloc.dart';
 import 'package:greycells/bloc/task/task_bloc.dart';
 import 'package:greycells/constants/strings.dart';
 import 'package:greycells/models/task/task.dart';
-import 'package:greycells/models/task/task_item.dart';
 import 'package:greycells/route/route_name.dart';
 import 'package:greycells/view/widgets/empty_state.dart';
-import 'package:image_picker/image_picker.dart';
+import 'package:greycells/view/widgets/task_item_widget.dart';
 import 'package:provider/provider.dart';
-import 'package:greycells/extensions.dart';
 
 class AssignTasksPage extends StatefulWidget {
   @override
@@ -241,11 +237,19 @@ class TaskItemsListSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var taskItems = Provider.of<Task>(context).taskItems;
-    return ListView.builder(
+    return ListView.separated(
+      padding: EdgeInsets.all(8.0),
       itemBuilder: (context, index) {
-        return Text(taskItems[index].title);
+        return TaskItemWidget(
+          taskItem: taskItems[index],
+        );
       },
       itemCount: taskItems.length,
+      separatorBuilder: (context, index) {
+        return SizedBox(
+          height: 8.0,
+        );
+      },
     );
   }
 }

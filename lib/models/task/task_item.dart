@@ -19,6 +19,9 @@ class TaskItem {
   @JsonKey(ignore: true)
   String filePath;
 
+  @JsonKey(ignore: true)
+  String readableDate;
+
   TaskItem();
 
   factory TaskItem.fromJson(Map<String, dynamic> json) =>

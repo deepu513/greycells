@@ -119,7 +119,26 @@ class _TaskItemWidget extends StatelessWidget {
             ),
           ),
           SizedBox(
-            height: 16.0,
+            height: 24.0,
+          ),
+          Align(
+            alignment: Alignment.centerRight,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16.0),
+              child: FlatButton(
+                child: Text(
+                  "Mark complete".toUpperCase(),
+                  style: Theme.of(context).textTheme.button.copyWith(
+                      letterSpacing: 0.7,
+                      color: Colors.green,
+                      fontWeight: FontWeight.bold),
+                ),
+                onPressed: () {},
+              ),
+            ),
+          ),
+          SizedBox(
+            height: 8.0,
           ),
         ],
       ),

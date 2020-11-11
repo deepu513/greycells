@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:greycells/bloc/picker/image_picker_bloc.dart';
 import 'package:greycells/bloc/validation/bloc.dart';
 import 'package:greycells/bloc/validation/validation_field.dart';
 import 'package:greycells/constants/strings.dart';
 import 'package:greycells/extensions.dart';
 import 'package:greycells/models/task/task_item.dart';
-import 'package:image_picker/image_picker.dart';
 
 class AddTaskItemsPage extends StatelessWidget {
   final TaskItem taskItem = TaskItem();
@@ -39,17 +37,6 @@ class AddTaskItemsPage extends StatelessWidget {
                 return Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    BlocProvider<ImagePickerBloc>(
-                      create: (_) => ImagePickerBloc(),
-                      child: ImageSection(
-                        onImageSelected: (imagePath) {
-                          taskItem.filePath = imagePath;
-                        },
-                      ),
-                    ),
-                    Divider(
-                      height: 24.0,
-                    ),
                     TaskItemInputSection(
                       titleError:
                           state.isFieldInvalid(ValidationField.TASK_ITEM_TITLE),
@@ -85,72 +72,6 @@ class AddTaskItemsPage extends StatelessWidget {
           ),
         ),
       ),
-    );
-  }
-}
-
-class ImageSection extends StatelessWidget {
-  final ValueChanged<String> onImageSelected;
-
-  const ImageSection({Key key, @required this.onImageSelected})
-      : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return BlocConsumer<ImagePickerBloc, ImagePickerState>(
-      listener: (context, state) {},
-      builder: (context, imagePickerState) {
-        if (imagePickerState is StateImagePicked)
-          onImageSelected.call(imagePickerState.pickedImageFile.path);
-        if (imagePickerState is StateImagePickCancelled)
-          onImageSelected.call("");
-        return Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            InkWell(
-              onTap: () {
-                BlocProvider.of<ImagePickerBloc>(context)
-                    .add(PickImage(ImageSource.gallery));
-              },
-              borderRadius: BorderRadius.circular(16.0),
-              child: Ink(
-                decoration: BoxDecoration(
-                  color: Colors.grey.shade100,
-                  borderRadius: BorderRadius.circular(16.0),
-                ),
-                width: double.maxFinite,
-                height: 194.0,
-                child: imagePickerState is StateImagePicked
-                    ? ClipRRect(
-                        borderRadius: BorderRadius.circular(16.0),
-                        child: Image.file(
-                          imagePickerState.pickedImageFile,
-                          fit: BoxFit.cover,
-                        ),
-                      )
-                    : Icon(Icons.add_photo_alternate_outlined),
-              ),
-            ),
-            SizedBox(
-              height: 8.0,
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 8.0),
-              child: RichText(
-                text: TextSpan(
-                    text: "Tap to add/change image",
-                    style: Theme.of(context).textTheme.bodyText1,
-                    children: [
-                      TextSpan(
-                        text: " (optional)",
-                        style: Theme.of(context).textTheme.caption,
-                      ),
-                    ]),
-              ),
-            ),
-          ],
-        );
-      },
     );
   }
 }

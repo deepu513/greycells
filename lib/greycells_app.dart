@@ -12,6 +12,7 @@ import 'package:greycells/models/home/therapist_home.dart';
 import 'package:greycells/route/route_generator.dart';
 import 'package:greycells/simple_bloc_observer.dart';
 import 'package:greycells/view/pages/decider_page.dart';
+import 'package:greycells/view/pages/image_viewer.dart';
 import 'package:greycells/view/pages/splash_page.dart';
 import 'package:greycells/view/pages/therapist/assign_tasks_page.dart';
 import 'package:greycells/view/pages/welcome_page.dart';
@@ -68,7 +69,7 @@ class _MyApp extends StatelessWidget {
           builder: (context, authenticationState) {
             /// User is not logged in
             if (authenticationState is AuthenticationUnauthenticated) {
-              return WelcomePage();
+              return ImageViewer();
               //return PatientAppointmentPage();
               // return BlocProvider<TaskBloc>(
               //   create: (_) => TaskBloc(),
@@ -80,7 +81,7 @@ class _MyApp extends StatelessWidget {
             if (authenticationState is AuthenticationAuthenticated) {
               BlocProvider.of<NotificationBloc>(context)
                   .add(SafelyUpdateToken());
-              return DeciderPage();
+              return ImageViewer();
               //return PatientAppointmentPage();
               // return BlocProvider<TaskBloc>(
               //   create: (_) => TaskBloc(),

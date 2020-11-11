@@ -35,6 +35,7 @@ extension StringExtensions on String {
   }
 
   String withBaseUrlForImage() {
+    if (this.isEmpty) return "";
     return "https://www.greycellswellness.com/images/$this";
   }
 }

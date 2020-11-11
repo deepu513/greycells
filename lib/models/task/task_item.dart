@@ -5,6 +5,8 @@ part 'task_item.g.dart';
 
 @JsonSerializable(explicitToJson: true)
 class TaskItem {
+  int id;
+  
   String title;
 
   String expectedCompletionDateTIme;
@@ -12,6 +14,8 @@ class TaskItem {
   String description;
 
   int fIleId;
+
+  int status;
 
   @JsonKey(includeIfNull: false)
   File file;

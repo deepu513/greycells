@@ -2,11 +2,14 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:greycells/bloc/task/task_status.dart';
 import 'package:greycells/models/task/task.dart';
+import 'package:greycells/models/task/task_item.dart';
 import 'package:greycells/models/task/task_response.dart';
 import 'package:greycells/repository/appointment_repository.dart';
 import 'package:greycells/repository/file_repository.dart';
 import 'package:greycells/extensions.dart';
+import 'package:intl/intl.dart';
 
 part 'task_event.dart';
 part 'task_state.dart';
@@ -27,15 +30,6 @@ class TaskBloc extends Bloc<TaskEvent, TaskState> {
     if (event is CreateTask) {
       yield TaskLoading();
       try {
-        event.task.taskItems.forEach((item) async {
-          if (!item.filePath.isNullOrEmpty()) {
-            var serverFile = await _fileRepository.upload(item.filePath);
-            if (serverFile != null) {
-              item.fIleId = serverFile.fileId;
-            }
-          }
-        });
-
         bool result = await _appointmentRepository.createTask(event.task);
         if (result == true) {
           yield TaskCreated();
@@ -54,8 +48,19 @@ class TaskBloc extends Bloc<TaskEvent, TaskState> {
         if (taskResponse != null && taskResponse.tasks != null) {
           if (taskResponse.tasks.isEmpty)
             yield TasksEmpty();
-          else
+          else {
+            taskResponse.tasks.forEach((task) {
+              task.taskItems.forEach((taskItem) {
+                DateFormat dateFormat = DateFormat("mm-dd-yyyy HH:mm:ss a");
+                DateTime dateTime =
+                    dateFormat.parse(taskItem.expectedCompletionDateTIme);
+                if (DateTime.now().isBefore(dateTime) == false) {
+                  taskItem.status = TaskStatus.overdue.index;
+                }
+              });
+            });
             yield AllTasksLoaded(taskResponse.tasks);
+          }
         } else
           TasksError();
       } catch (e) {
@@ -64,11 +69,19 @@ class TaskBloc extends Bloc<TaskEvent, TaskState> {
       }
     }
 
-    if (event is UpdateTask) {
+    if (event is UpdateTaskItem) {
       yield TaskLoading();
       try {
-        bool result = await _appointmentRepository.updateTask(
-            event.taskId, event.taskStatus);
+        if (!event.taskItem.filePath.isNullOrEmpty()) {
+          var serverFile =
+              await _fileRepository.upload(event.taskItem.filePath);
+          if (serverFile != null) {
+            event.taskItem.fIleId = serverFile.fileId;
+          }
+        }
+
+        bool result =
+            await _appointmentRepository.updateTask(event.taskItem.id, 1);
         if (result == true) {
           yield TaskUpdated();
         } else

@@ -10,8 +10,10 @@ import 'package:greycells/bloc/timeslot/timeslot_bloc.dart';
 import 'package:greycells/bloc/validation/bloc.dart';
 import 'package:greycells/models/appointment/appointment_date_args.dart';
 import 'package:greycells/models/appointment/appointment_detail_arguments.dart';
+import 'package:greycells/models/task/task_item_page_args.dart';
 import 'package:greycells/route/route_name.dart';
 import 'package:greycells/view/pages/appointment_detail_page.dart';
+import 'package:greycells/view/pages/image_viewer.dart';
 import 'package:greycells/view/pages/patient/appointment_date_selection.dart';
 import 'package:greycells/view/pages/patient/assessment_test_intro_page.dart';
 import 'package:greycells/view/pages/patient/assessment_test_page.dart';
@@ -27,7 +29,7 @@ import 'package:greycells/view/pages/patient_profile_page.dart';
 import 'package:greycells/view/pages/register_page.dart';
 import 'package:greycells/view/pages/patient/second_test_intro_page.dart';
 import 'package:greycells/view/pages/patient/therapist_list_page.dart';
-import 'package:greycells/view/pages/task_items_page.dart';
+import 'package:greycells/view/pages/task_item_page.dart';
 import 'package:greycells/view/pages/therapist/add_task_item.dart';
 import 'package:greycells/view/pages/therapist/assign_tasks_page.dart';
 import 'package:greycells/view/pages/therapist/therapist_main_page.dart';
@@ -117,13 +119,26 @@ class RouteGenerator {
         return MaterialPageRoute(
           builder: (_) => BlocProvider<TaskBloc>(
             create: (_) => TaskBloc(),
-            child: AssignTasksPage(args: args,),
+            child: AssignTasksPage(
+              args: args,
+            ),
           ),
         );
-        case RouteName.ADD_TASK_ITEM_PAGE:
+      case RouteName.ADD_TASK_ITEM_PAGE:
         return MaterialPageRoute(builder: (_) => AddTaskItemsPage());
-        case RouteName.TASK_ITEMS_PAGE:
-        return MaterialPageRoute(builder: (_) => TaskItemsPage(task: args,));
+      case RouteName.TASK_ITEM_PAGE:
+        TaskItemPageArgs arguments = args as TaskItemPageArgs;
+        return MaterialPageRoute(
+          builder: (_) => BlocProvider<TaskBloc>(
+            create: (_) => TaskBloc(),
+            child: TaskItemPage(
+              taskItem: arguments.taskItem,
+              userType: arguments.userType,
+            ),
+          ),
+        );
+      case RouteName.IMAGE_VIEWER_PAGE:
+        return MaterialPageRoute(builder: (_) => ImageViewer(imageUrl: args));
       default:
         // If there is no such named route in the switch statement, e.g. /third
         return _errorRoute();

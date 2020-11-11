@@ -62,6 +62,8 @@ class TaskItemWidget extends StatelessWidget {
             padding: const EdgeInsets.symmetric(horizontal: 16.0),
             child: Text(
               taskItem.description,
+              maxLines: 5,
+              overflow: TextOverflow.ellipsis,
               style: Theme.of(context)
                   .textTheme
                   .bodyText1

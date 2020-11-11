@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:greycells/bloc/validation/bloc.dart';
 import 'package:greycells/bloc/validation/validation_field.dart';
+import 'package:greycells/models/therapist/therapist.dart';
 import 'package:intl/intl.dart';
 
 import 'constants/strings.dart';
@@ -50,7 +51,7 @@ extension DateTimeExtensions on DateTime {
   }
 
   String readableDate() {
-     try {
+    try {
       DateFormat dateFormat = DateFormat("EEE, dd MMM, yyyy");
       return dateFormat.format(this);
     } catch (e) {
@@ -58,6 +59,10 @@ extension DateTimeExtensions on DateTime {
     }
     return "";
   }
+}
+
+extension TherapistExtension on Therapist {
+  String get fullName => "${this.user.firstName} ${this.user.lastName}";
 }
 
 extension dialogs on Widget {

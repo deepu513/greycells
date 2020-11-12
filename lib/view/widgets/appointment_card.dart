@@ -3,6 +3,7 @@ import 'package:greycells/constants/user_type.dart';
 import 'package:greycells/models/appointment/appointment.dart';
 import 'package:greycells/models/appointment/appointment_status.dart';
 import 'package:greycells/view/widgets/appointment_status_widget.dart';
+import 'package:greycells/view/widgets/circle_avatar_or_initials.dart';
 import 'package:greycells/view/widgets/vertical_date.dart';
 import 'package:greycells/extensions.dart';
 
@@ -68,10 +69,19 @@ class _AppointmentSummary extends StatelessWidget {
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                CircleAvatar(
-                  backgroundImage: NetworkImage(
-                      "https://urbanbalance.com/wp-content/uploads/2019/04/new-therapist.jpg"),
+                CircleAvatarOrInitials(
                   radius: 24.0,
+                  imageUrl: userType == UserType.patient
+                      ? appointment.therapist.file != null
+                          ? appointment.therapist.file.name
+                              .withBaseUrlForImage()
+                          : ""
+                      : appointment.patient.file != null
+                          ? appointment.patient.file.name.withBaseUrlForImage()
+                          : "",
+                  stringForInitials: userType == UserType.patient
+                      ? appointment.therapist.fullName
+                      : appointment.patient.fullName,
                 ),
                 SizedBox(width: 16.0),
                 Expanded(child: AppointmentMetaInfo(appointment, userType)),

@@ -6,6 +6,7 @@ import 'package:greycells/models/appointment/appointment_status.dart';
 import 'package:greycells/models/task/assign_task_args.dart';
 import 'package:greycells/route/route_name.dart';
 import 'package:greycells/view/widgets/appointment_status_widget.dart';
+import 'package:greycells/view/widgets/circle_avatar_or_initials.dart';
 import 'package:greycells/view/widgets/colored_page_section.dart';
 import 'package:greycells/view/widgets/page_section.dart';
 import 'package:greycells/extensions.dart';
@@ -105,6 +106,10 @@ class _MainContentState extends State<MainContent> {
                   medicalCouncil: widget.appointment.therapist.medicalCouncil,
                   experience:
                       widget.appointment.therapist.totalExperience.toString(),
+                  profilePicUrl: widget.appointment.therapist.file != null
+                      ? widget.appointment.therapist.file.name
+                          .withBaseUrlForImage()
+                      : "",
                   onTherapistProfileRequested: () {
                     Navigator.of(context).pushNamed(
                         RouteName.THERAPIST_PROFILE_PAGE,
@@ -116,6 +121,10 @@ class _MainContentState extends State<MainContent> {
                       "${widget.appointment.patient.user.firstName} ${widget.appointment.patient.user.lastName}",
                   patientMobileNumber:
                       widget.appointment.patient.user.mobileNumber,
+                  profilePicUrl: widget.appointment.patient.file != null
+                      ? widget.appointment.patient.file.name
+                          .withBaseUrlForImage()
+                      : "",
                   onPatientProfileRequested: () {
                     Navigator.of(context).pushNamed(
                         RouteName.PATIENT_PROFILE_PAGE,
@@ -165,6 +174,7 @@ class TherapistDetailsSection extends StatelessWidget {
   final String therapistName;
   final String therapistType;
   final String medicalCouncil;
+  final String profilePicUrl;
   final String experience;
   final VoidCallback onTherapistProfileRequested;
 
@@ -174,7 +184,8 @@ class TherapistDetailsSection extends StatelessWidget {
       @required this.therapistType,
       @required this.medicalCouncil,
       @required this.experience,
-      @required this.onTherapistProfileRequested})
+      @required this.onTherapistProfileRequested,
+      @required this.profilePicUrl})
       : super(key: key);
 
   @override
@@ -185,10 +196,10 @@ class TherapistDetailsSection extends StatelessWidget {
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            CircleAvatar(
-              backgroundImage: NetworkImage(
-                  "https://urbanbalance.com/wp-content/uploads/2019/04/new-therapist.jpg"),
+            CircleAvatarOrInitials(
               radius: 32.0,
+              imageUrl: profilePicUrl,
+              stringForInitials: therapistName,
             ),
             SizedBox(
               width: 16.0,
@@ -265,12 +276,14 @@ class TherapistDetailsSection extends StatelessWidget {
 class PatientDetailsSection extends StatelessWidget {
   final String patientName;
   final String patientMobileNumber;
+  final String profilePicUrl;
   final VoidCallback onPatientProfileRequested;
 
   const PatientDetailsSection(
       {Key key,
       @required this.patientName,
       @required this.patientMobileNumber,
+      @required this.profilePicUrl,
       @required this.onPatientProfileRequested})
       : super(key: key);
 
@@ -281,10 +294,10 @@ class PatientDetailsSection extends StatelessWidget {
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          CircleAvatar(
-            backgroundImage: NetworkImage(
-                "https://urbanbalance.com/wp-content/uploads/2019/04/new-therapist.jpg"),
+          CircleAvatarOrInitials(
             radius: 32.0,
+            imageUrl: profilePicUrl,
+            stringForInitials: patientName,
           ),
           SizedBox(width: 16.0),
           Column(

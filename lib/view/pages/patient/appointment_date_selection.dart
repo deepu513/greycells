@@ -132,8 +132,9 @@ class _MainContentState extends State<MainContent> {
             final payment = Payment()
               ..type = PaymentType.APPOINTMENT
               ..title = "Book Appointment"
-              ..itemImageUrl =
-                  "https://urbanbalance.com/wp-content/uploads/2019/04/new-therapist.jpg"
+              ..itemImageUrl = widget.therapist.file != null
+                  ? widget.therapist.file.name.withBaseUrlForImage()
+                  : ""
               ..itemTitle =
                   "${widget.therapist.user.firstName} ${widget.therapist.user.lastName}"
               ..itemSubtitle = widget.therapist.therapistType.name

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:greycells/models/patient/patient.dart';
+import 'package:greycells/view/widgets/circle_avatar_or_initials.dart';
+import 'package:greycells/extensions.dart';
 
 class PatientProfilePage extends StatelessWidget {
   final Patient patient;
@@ -27,7 +29,7 @@ class PatientProfilePage extends StatelessWidget {
             children: [
               Padding(
                 padding: const EdgeInsets.all(16.0),
-                child: ProfileHeaderSection(),
+                child: ProfileHeaderSection(patient),
               ),
               TabBar(
                   labelColor: Colors.black87,
@@ -70,6 +72,9 @@ class PatientProfilePage extends StatelessWidget {
 }
 
 class ProfileHeaderSection extends StatelessWidget {
+  final Patient patient;
+  ProfileHeaderSection(this.patient);
+
   @override
   Widget build(BuildContext context) {
     return Row(
@@ -77,10 +82,12 @@ class ProfileHeaderSection extends StatelessWidget {
       children: [
         Hero(
           tag: "profile_pic",
-          child: CircleAvatar(
-            backgroundImage: NetworkImage(
-                "https://urbanbalance.com/wp-content/uploads/2019/04/new-therapist.jpg"),
+          child: CircleAvatarOrInitials(
             radius: 32.0,
+            imageUrl: patient.file != null
+                ? patient.file.name.withBaseUrlForImage()
+                : "",
+            stringForInitials: patient.fullName,
           ),
         ),
         SizedBox(width: 16.0),

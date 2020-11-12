@@ -9,6 +9,7 @@ import 'package:greycells/models/payment/payment.dart';
 import 'package:greycells/models/payment/payment_item.dart';
 import 'package:greycells/models/payment/payment_type.dart';
 import 'package:greycells/models/payment/discount_response.dart';
+import 'package:greycells/view/widgets/circle_avatar_or_initials.dart';
 
 class PaymentPage extends StatefulWidget {
   final Payment mPayment;
@@ -159,17 +160,13 @@ class PaymentHeaderSection extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Visibility(
-          visible: payment.type == PaymentType.APPOINTMENT,
-          child: CircleAvatar(
-            backgroundImage: payment.itemImageUrl != null
-                ? NetworkImage(payment.itemImageUrl)
-                : null,
-            child: payment.itemImageUrl == null
-                ? Text(payment.title[0].toUpperCase())
-                : null,
-            radius: 35.0,
-          ),
-        ),
+            visible: payment.type == PaymentType.APPOINTMENT,
+            child: CircleAvatarOrInitials(
+              radius: 36.0,
+              imageUrl:
+                  payment.itemImageUrl != null ? payment.itemImageUrl : "",
+              stringForInitials: payment.title,
+            )),
         SizedBox(
           width: payment.type == PaymentType.APPOINTMENT ? 16.0 : 0.0,
         ),

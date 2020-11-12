@@ -246,10 +246,6 @@ class TaskMetaInfo extends StatelessWidget {
       children: [
         Container(
           width: double.maxFinite,
-          decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(8.0),
-              shape: BoxShape.rectangle,
-              color: Colors.blueGrey.shade50),
           padding: EdgeInsets.all(8.0),
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.center,

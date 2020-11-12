@@ -5,6 +5,7 @@ import 'package:greycells/models/therapist/charge.dart';
 import 'package:greycells/models/therapist/therapist.dart';
 import 'package:greycells/route/route_name.dart';
 import 'package:greycells/extensions.dart';
+import 'package:greycells/view/widgets/circle_avatar_or_initials.dart';
 import 'package:greycells/view/widgets/colored_page_section.dart';
 import 'package:greycells/view/widgets/page_section.dart';
 
@@ -48,7 +49,10 @@ class _TherapistProfilePageState extends State<TherapistProfilePage> {
                         "${widget.therapist.user.firstName} ${widget.therapist.user.lastName}",
                         widget.therapist.therapistType.name,
                         widget.therapist.medicalCouncil,
-                        widget.therapist.totalExperience.toString()),
+                        widget.therapist.totalExperience.toString(),
+                        widget.therapist.file != null
+                            ? widget.therapist.file.name.withBaseUrlForImage()
+                            : ""),
                     SizedBox(
                       height: 24.0,
                     ),
@@ -107,10 +111,11 @@ class HeaderSection extends StatelessWidget {
   final String therapistName;
   final String therapistType;
   final String medicalCouncil;
+  final String profilePicUrl;
   final String experience;
 
   HeaderSection(this.therapistName, this.therapistType, this.medicalCouncil,
-      this.experience);
+      this.experience, this.profilePicUrl);
 
   @override
   Widget build(BuildContext context) {
@@ -118,10 +123,10 @@ class HeaderSection extends StatelessWidget {
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          CircleAvatar(
-            backgroundImage: NetworkImage(
-                "https://urbanbalance.com/wp-content/uploads/2019/04/new-therapist.jpg"),
-            radius: 36.0,
+          CircleAvatarOrInitials(
+            radius: 32.0,
+            imageUrl: profilePicUrl,
+            stringForInitials: therapistName,
           ),
           SizedBox(
             width: 16.0,

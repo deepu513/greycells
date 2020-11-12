@@ -7,10 +7,12 @@ import 'package:greycells/models/home/patient_home.dart';
 import 'package:greycells/models/therapist/therapist.dart';
 import 'package:greycells/route/route_name.dart';
 import 'package:greycells/view/widgets/appointment_card.dart';
+import 'package:greycells/view/widgets/circle_avatar_or_initials.dart';
 import 'package:greycells/view/widgets/empty_state.dart';
 import 'package:greycells/view/widgets/no_glow_scroll_behaviour.dart';
 import 'package:greycells/view/widgets/therapist_list_tile.dart';
 import 'package:provider/provider.dart';
+import 'package:greycells/extensions.dart';
 
 class PatientHomePage extends StatefulWidget {
   const PatientHomePage();
@@ -23,6 +25,7 @@ class _PatientHomePageState extends State<PatientHomePage> {
   List<Appointment> upcomingAppointments;
   List<Therapist> availableTherapist;
   String patientName;
+  String profilePicUrl;
 
   @override
   void initState() {
@@ -33,6 +36,11 @@ class _PatientHomePageState extends State<PatientHomePage> {
         Provider.of<PatientHome>(context, listen: false).availableTherapists;
     patientName =
         Provider.of<PatientHome>(context, listen: false).patient.user.firstName;
+    var file = Provider.of<PatientHome>(context, listen: false).patient.file;
+    if (file != null)
+      profilePicUrl = file.name.withBaseUrlForImage();
+    else
+      profilePicUrl = "";
   }
 
   @override
@@ -42,8 +50,7 @@ class _PatientHomePageState extends State<PatientHomePage> {
         behavior: NoGlowScrollBehaviour(),
         child: CustomScrollView(
           slivers: [
-            _AppBarSection(patientName,
-                "https://urbanbalance.com/wp-content/uploads/2019/04/new-therapist.jpg"),
+            _AppBarSection(patientName, profilePicUrl),
             SliverList(
               delegate: SliverChildListDelegate(
                 [
@@ -169,9 +176,10 @@ class _AppBarSection extends StatelessWidget {
             },
             icon: Hero(
               tag: "profile_pic",
-              child: CircleAvatar(
-                backgroundImage: NetworkImage(profilePicUrl),
+              child: CircleAvatarOrInitials(
                 radius: 16.0,
+                imageUrl: profilePicUrl,
+                stringForInitials: patientName,
               ),
             ),
           ),
@@ -198,7 +206,7 @@ class UpcomingAppointmentSection extends StatelessWidget {
         controller: PageController(viewportFraction: 0.9),
         itemBuilder: (context, index) =>
             AppointmentCard(upcomingAppointments[index], UserType.patient, () {
-              //TODO: Appointment status can be updated here, update status in main object too
+          //TODO: Appointment status can be updated here, update status in main object too
           Navigator.of(context).pushNamed(RouteName.APPOINTMENT_DETAIL_PAGE,
               arguments: AppointmentDetailArguments(
                   upcomingAppointments[index], UserType.patient));

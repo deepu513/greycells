@@ -3,6 +3,8 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:greycells/models/therapist/therapist.dart';
 import 'package:greycells/route/route_name.dart';
+import 'package:greycells/view/widgets/circle_avatar_or_initials.dart';
+import 'package:greycells/extensions.dart';
 
 class TherapistListTile extends StatelessWidget {
   final Therapist therapist;
@@ -22,10 +24,12 @@ class TherapistListTile extends StatelessWidget {
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              CircleAvatar(
-                backgroundImage: NetworkImage(
-                    "https://urbanbalance.com/wp-content/uploads/2019/04/new-therapist.jpg"),
+              CircleAvatarOrInitials(
                 radius: 28.0,
+                imageUrl: therapist.file != null
+                    ? therapist.file.name.withBaseUrlForImage()
+                    : "",
+                stringForInitials: therapist.fullName,
               ),
               SizedBox(width: 16.0),
               Column(
@@ -65,10 +69,12 @@ class TherapistListTile extends StatelessWidget {
                 child: Column(
                   children: [
                     ConstrainedBox(
-                      constraints: BoxConstraints(minHeight: 32.0, minWidth: 32.0),
+                      constraints:
+                          BoxConstraints(minHeight: 32.0, minWidth: 32.0),
                       child: Container(
                         decoration: BoxDecoration(
-                            shape: BoxShape.circle, color: Colors.purple.shade50),
+                            shape: BoxShape.circle,
+                            color: Colors.purple.shade50),
                         alignment: Alignment.center,
                         child: Text(
                           therapist.totalExperience.toString(),

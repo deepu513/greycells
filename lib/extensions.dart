@@ -39,6 +39,15 @@ extension StringExtensions on String {
     if (this.isEmpty) return "";
     return "https://www.greycellswellness.com/File/$this";
   }
+
+  String initials() {
+    if (this.isNullOrEmpty()) return "";
+    String initials = "";
+    this.split(" ").forEach((splitString) {
+      initials += splitString[0];
+    });
+    return initials;
+  }
 }
 
 extension DateTimeExtensions on DateTime {

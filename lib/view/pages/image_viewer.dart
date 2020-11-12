@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:greycells/view/widgets/network_image_with_error.dart';
 
 class ImageViewer extends StatelessWidget {
   final String imageUrl;
@@ -19,16 +20,13 @@ class ImageViewer extends StatelessWidget {
         ),
       ),
       body: SafeArea(
-        child: Expanded(
-          child: Container(
-            alignment: Alignment.center,
-            color: Colors.black,
-            child: InteractiveViewer(
-              panEnabled: false,
-              child: Image.network(
-                imageUrl,
-                fit: BoxFit.contain,
-              ),
+        child: Container(
+          constraints: BoxConstraints.expand(),
+          color: Colors.black,
+          child: InteractiveViewer(
+            boundaryMargin: EdgeInsets.all(8.0),
+            child: NetworkImageWithError(
+              imageUrl: imageUrl,
             ),
           ),
         ),

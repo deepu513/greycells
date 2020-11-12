@@ -49,6 +49,7 @@ class NotificationBloc extends Bloc<NotificationEvent, NotificationState> {
       if (_settingsRepository.get(SettingKey.KEY_IS_LOGGED_IN,
           defaultValue: false)) {
         if (firebaseToken != existingToken) {
+           await _settingsRepository.saveValue(SettingKey.KEY_FCM_TOKEN, firebaseToken);
           try {
             bool result = await _userRepository.updateToken(
                 token: Token()

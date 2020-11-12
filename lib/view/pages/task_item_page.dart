@@ -8,6 +8,7 @@ import 'package:greycells/models/task/task_item.dart';
 import 'package:greycells/extensions.dart';
 import 'package:greycells/route/route_name.dart';
 import 'package:greycells/view/widgets/colored_page_section.dart';
+import 'package:greycells/view/widgets/network_image_with_error.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 
@@ -50,82 +51,88 @@ class TaskItemPage extends StatelessWidget {
             ),
           ),
           body: SafeArea(
-            child: SingleChildScrollView(
-              padding: EdgeInsets.all(16.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Visibility(
-                    visible:
-                        userType == UserType.patient && taskItem.status != 1,
-                    child: BlocProvider<ImagePickerBloc>(
-                      create: (_) => ImagePickerBloc(),
-                      child: PickImageSection(
-                        onImageSelected: state is TaskLoading
-                            ? null
-                            : (imagePath) {
+            child: Column(
+              children: [
+                Expanded(
+                  child: SingleChildScrollView(
+                    padding: EdgeInsets.all(16.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Visibility(
+                          visible: userType == UserType.patient &&
+                              taskItem.status != 1,
+                          child: BlocProvider<ImagePickerBloc>(
+                            create: (_) => ImagePickerBloc(),
+                            child: PickImageSection(
+                              onImageSelected: (imagePath) {
                                 taskItem.filePath = imagePath;
                               },
-                      ),
+                            ),
+                          ),
+                        ),
+                        Visibility(
+                          visible: taskItem.status == 1 &&
+                              !taskItem.file.name.isNullOrEmpty(),
+                          child: ImageSection(
+                            imageUrl: taskItem.file.name.withBaseUrlForImage(),
+                          ),
+                        ),
+                        SizedBox(
+                          height: 16.0,
+                        ),
+                        TaskMetaInfo(
+                          taskItem: taskItem,
+                        ),
+                        SizedBox(
+                          height: 24.0,
+                        ),
+                      ],
                     ),
                   ),
-                  Visibility(
-                    visible: taskItem.status == 1 &&
-                        !taskItem.file.name.isNullOrEmpty(),
-                    child: ImageSection(
-                      imageUrl: taskItem.file.name.withBaseUrlForImage(),
-                    ),
-                  ),
-                  SizedBox(
-                    height: 16.0,
-                  ),
-                  TaskMetaInfo(
-                    taskItem: taskItem,
-                  ),
-                  SizedBox(
-                    height: 24.0,
-                  ),
-                  Visibility(
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Visibility(
                     visible:
                         userType == UserType.patient && taskItem.status != 1,
-                    child: Center(
-                      child: OutlineButton(
-                        child: Row(
-                          children: [
-                            Visibility(
-                              visible: state is TaskLoading,
-                              child: SizedBox(
-                                  width: 16.0,
-                                  height: 16.0,
-                                  child: CircularProgressIndicator(
-                                    strokeWidth: 2.0,
-                                  )),
-                            ),
-                            Text(
-                              "Mark as complete".toUpperCase(),
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .button
-                                  .copyWith(
-                                      letterSpacing: 0.7,
-                                      color: Colors.black87,
-                                      fontWeight: FontWeight.bold),
-                            ),
-                          ],
-                        ),
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(8.0)),
-                        onPressed: state is TaskLoading
-                            ? null
-                            : () {
-                                BlocProvider.of<TaskBloc>(context)
-                                    .add(UpdateTaskItem(taskItem));
-                              },
+                    child: OutlineButton(
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Visibility(
+                            visible: state is TaskLoading,
+                            child: SizedBox(
+                                width: 16.0,
+                                height: 16.0,
+                                child: CircularProgressIndicator(
+                                  strokeWidth: 2.0,
+                                )),
+                          ),
+                          SizedBox(
+                            width: 16.0,
+                          ),
+                          Text(
+                            "Mark as complete".toUpperCase(),
+                            style: Theme.of(context).textTheme.button.copyWith(
+                                letterSpacing: 0.7,
+                                color: Colors.black87,
+                                fontWeight: FontWeight.bold),
+                          ),
+                        ],
                       ),
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(8.0)),
+                      onPressed: state is TaskLoading
+                          ? null
+                          : () {
+                              BlocProvider.of<TaskBloc>(context)
+                                  .add(UpdateTaskItem(taskItem));
+                            },
                     ),
-                  )
-                ],
-              ),
+                  ),
+                )
+              ],
             ),
           ),
         );
@@ -215,12 +222,9 @@ class ImageSection extends StatelessWidget {
         child: !imageUrl.isNullOrEmpty()
             ? ClipRRect(
                 borderRadius: BorderRadius.circular(8.0),
-                child: Image.network(
-                  imageUrl,
-                  fit: BoxFit.cover,
-                  errorBuilder: (_, __, ___) {
-                    return Icon(Icons.broken_image_rounded);
-                  },
+                child: NetworkImageWithError(
+                  imageUrl: imageUrl,
+                  boxFit: BoxFit.cover,
                 ),
               )
             : null,

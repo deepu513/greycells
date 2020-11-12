@@ -69,30 +69,14 @@ class _MyApp extends StatelessWidget {
           builder: (context, authenticationState) {
             /// User is not logged in
             if (authenticationState is AuthenticationUnauthenticated) {
-              return ImageViewer(
-                imageUrl:
-                    "https://urbanbalance.com/wp-content/uploads/2019/04/new-therapist.jpg",
-              );
-              //return PatientAppointmentPage();
-              // return BlocProvider<TaskBloc>(
-              //   create: (_) => TaskBloc(),
-              //   child: AssignTasksPage(),
-              // );
+              return WelcomePage();
             }
 
             /// User is logged in
             if (authenticationState is AuthenticationAuthenticated) {
               BlocProvider.of<NotificationBloc>(context)
                   .add(SafelyUpdateToken());
-              return ImageViewer(
-                imageUrl:
-                    "https://urbanbalance.com/wp-content/uploads/2019/04/new-therapist.jpg",
-              );
-              //return PatientAppointmentPage();
-              // return BlocProvider<TaskBloc>(
-              //   create: (_) => TaskBloc(),
-              //   child: AssignTasksPage(),
-              // );
+              return DeciderPage();
             }
 
             return SplashPage();

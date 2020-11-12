@@ -11,6 +11,7 @@ import 'package:greycells/route/route_name.dart';
 import 'package:greycells/view/widgets/centered_circular_loading.dart';
 import 'package:greycells/view/widgets/empty_state.dart';
 import 'package:greycells/view/widgets/error_with_retry.dart';
+import 'package:greycells/view/widgets/network_image_with_error.dart';
 import 'package:greycells/view/widgets/task_status_widget.dart';
 import 'package:intl/intl.dart';
 import 'package:greycells/extensions.dart';
@@ -194,7 +195,7 @@ class __TaskItemWidgetState extends State<_TaskItemWidget> {
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.0)),
       child: InkWell(
         onTap: () async {
-          bool didUpdate = await Navigator.of(context).pushNamed(
+          var didUpdate = await Navigator.of(context).pushNamed(
             RouteName.TASK_ITEM_PAGE,
             arguments: TaskItemPageArgs(widget.taskItem, UserType.patient),
           );
@@ -218,9 +219,10 @@ class __TaskItemWidgetState extends State<_TaskItemWidget> {
                     ? null
                     : ClipRRect(
                         borderRadius: BorderRadius.circular(8.0),
-                        child: Image.network(
-                          widget.taskItem.file.name.withBaseUrlForImage(),
-                          fit: BoxFit.cover,
+                        child: NetworkImageWithError(
+                          imageUrl:
+                              widget.taskItem.file.name.withBaseUrlForImage(),
+                          boxFit: BoxFit.cover,
                         ),
                       ),
               ),

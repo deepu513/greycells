@@ -88,9 +88,9 @@ class AppointmentRepository {
     return await _httpService.get(request, TaskResponseSerializable());
   }
 
-  Future<bool> updateTask(int taskId, int taskStatus) async {
+  Future<bool> updateTask(int taskId, int taskStatus, int fileId) async {
     Request<AllAppointmentsResponse> request = Request(
-        "${FlavorConfig.getBaseUrl()}Tasks/update?id=$taskId&status=$taskStatus",
+        "${FlavorConfig.getBaseUrl()}Tasks/update?id=$taskId&status=$taskStatus&fileid=$fileId",
         null);
 
     Response response = await _httpService.postRaw(request, null);

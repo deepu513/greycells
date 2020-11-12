@@ -51,18 +51,20 @@ class TaskBloc extends Bloc<TaskEvent, TaskState> {
           else {
             taskResponse.tasks.forEach((task) {
               task.taskItems.forEach((taskItem) {
-                DateFormat dateFormat = DateFormat("mm-dd-yyyy HH:mm:ss a");
-                DateTime dateTime =
-                    dateFormat.parse(taskItem.expectedCompletionDateTIme);
-                if (DateTime.now().isBefore(dateTime) == false) {
-                  taskItem.status = TaskStatus.overdue.index;
+                if (taskItem.status == 0) {
+                  DateFormat dateFormat = DateFormat("mm-dd-yyyy HH:mm:ss a");
+                  DateTime dateTime =
+                      dateFormat.parse(taskItem.expectedCompletionDateTIme);
+                  if (DateTime.now().isBefore(dateTime) == false) {
+                    taskItem.status = TaskStatus.overdue.index;
+                  }
                 }
               });
             });
             yield AllTasksLoaded(taskResponse.tasks);
           }
         } else
-          TasksError();
+          yield TasksError();
       } catch (e) {
         print(e);
         yield TasksError();
@@ -80,12 +82,12 @@ class TaskBloc extends Bloc<TaskEvent, TaskState> {
           }
         }
 
-        bool result =
-            await _appointmentRepository.updateTask(event.taskItem.id, 1);
+        bool result = await _appointmentRepository.updateTask(
+            event.taskItem.id, 1, event.taskItem.fIleId);
         if (result == true) {
           yield TaskUpdated();
         } else
-          TasksError();
+          yield TasksError();
       } catch (e) {
         print(e);
         yield TasksError();

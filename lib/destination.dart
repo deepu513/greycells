@@ -6,7 +6,7 @@ import 'package:greycells/view/pages/patient/patient_home_page.dart';
 import 'package:greycells/view/pages/patient/patient_tasks_page.dart';
 import 'package:greycells/view/pages/therapist/therapist_appointment_page.dart';
 import 'package:greycells/view/pages/therapist/therapist_patient_page.dart';
-import 'package:greycells/view/pages/therapist/thrapist_tasks_page.dart';
+import 'package:greycells/view/pages/therapist/therapist_tasks_page.dart';
 import 'package:greycells/view/pages/therapist_profile_page.dart';
 
 class Destination {
@@ -33,7 +33,7 @@ class Destination {
         "Profile",
         Icons.account_circle_outlined,
         Icons.account_circle,
-        TherapistProfilePage(therapist),
+        TherapistProfilePage(therapist, false),
       )
     ];
   }

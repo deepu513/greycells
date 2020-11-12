@@ -72,7 +72,8 @@ class TaskItemPage extends StatelessWidget {
                           ),
                         ),
                         Visibility(
-                          visible: taskItem.status == 1 &&
+                          visible: (taskItem.status == 1 ||
+                                  userType == UserType.therapist) &&
                               !taskItem.file.name.isNullOrEmpty(),
                           child: ImageSection(
                             imageUrl: taskItem.file.name.withBaseUrlForImage(),

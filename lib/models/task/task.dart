@@ -1,3 +1,4 @@
+import 'package:greycells/models/patient/patient.dart';
 import 'package:greycells/models/task/task_item.dart';
 import 'package:greycells/models/therapist/therapist.dart';
 import 'package:json_annotation/json_annotation.dart';
@@ -16,6 +17,9 @@ class Task {
 
   @JsonKey(includeIfNull: false)
   Therapist therapist;
+
+  @JsonKey(includeIfNull: false)
+  Patient patient;
 
   List<TaskItem> taskItems;
 

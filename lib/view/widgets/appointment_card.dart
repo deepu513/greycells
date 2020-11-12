@@ -154,7 +154,9 @@ class AppointmentMetaInfo extends StatelessWidget {
         Visibility(
           visible: userType == UserType.patient,
           child: Text(
-            appointment.therapist.therapistType.name,
+            userType == UserType.patient
+                ? appointment.therapist.therapistType.name
+                : "",
             style: Theme.of(context).textTheme.bodyText1,
             overflow: TextOverflow.clip,
           ),
@@ -171,7 +173,7 @@ class AppointmentMetaInfo extends StatelessWidget {
                 style: Theme.of(context).textTheme.subtitle1,
                 children: [
                   TextSpan(
-                    text: " 12:30 pm",
+                    text: " 12:30 pm", // TODO: change this hard coded time
                     style: Theme.of(context).textTheme.subtitle1.copyWith(
                         color: Color(0xFF100249),
                         letterSpacing: 0.7,

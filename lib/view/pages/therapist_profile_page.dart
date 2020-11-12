@@ -10,8 +10,9 @@ import 'package:greycells/view/widgets/page_section.dart';
 
 class TherapistProfilePage extends StatefulWidget {
   final Therapist therapist;
+  final bool allowBooking;
 
-  const TherapistProfilePage(this.therapist);
+  const TherapistProfilePage(this.therapist, [this.allowBooking = true]);
 
   @override
   _TherapistProfilePageState createState() => _TherapistProfilePageState();
@@ -76,22 +77,25 @@ class _TherapistProfilePageState extends State<TherapistProfilePage> {
                 ),
               ),
             ),
-            BookAppointmentButton(() {
-              if (selectedMeetingCharge != null)
-                Navigator.of(context).pushNamed(
-                  RouteName.APPOINTMENT_DATE_SELECTION_PAGE,
-                  arguments: AppointmentDateSelectionArguments(
-                      widget.therapist, selectedMeetingCharge),
-                );
-              else
-                widget.showErrorDialog(
-                    context: context,
-                    message: "Please select an appointment type",
-                    showIcon: true,
-                    onPressed: () async {
-                      Navigator.of(context).pop();
-                    });
-            }),
+            Visibility(
+              visible: widget.allowBooking == true,
+              child: BookAppointmentButton(() {
+                if (selectedMeetingCharge != null)
+                  Navigator.of(context).pushNamed(
+                    RouteName.APPOINTMENT_DATE_SELECTION_PAGE,
+                    arguments: AppointmentDateSelectionArguments(
+                        widget.therapist, selectedMeetingCharge),
+                  );
+                else
+                  widget.showErrorDialog(
+                      context: context,
+                      message: "Please select an appointment type",
+                      showIcon: true,
+                      onPressed: () async {
+                        Navigator.of(context).pop();
+                      });
+              }),
+            ),
           ],
         ),
       ),

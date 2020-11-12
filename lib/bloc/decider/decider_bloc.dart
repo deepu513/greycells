@@ -41,10 +41,15 @@ class DeciderBloc extends Bloc<DeciderEvent, DeciderState> {
         try {
           TherapistHome therapistHome =
               await _userRepository.getTherapistHomeData();
-          if (therapistHome != null)
+          if (therapistHome != null) {
+            therapistHome.upcomingAppointments.forEach((appointment) {
+              appointment.therapist = therapistHome.therapist;
+            });
+            
             yield DecidedTherapistPage(therapistHome);
-          else
+          } else {
             yield DeciderError();
+          }
         } catch (e) {
           yield DeciderError();
         }

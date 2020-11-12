@@ -5,16 +5,19 @@ part 'task_item.g.dart';
 
 @JsonSerializable(explicitToJson: true)
 class TaskItem {
+  @JsonKey(includeIfNull: false)
   int id;
-  
+
   String title;
 
   String expectedCompletionDateTIme;
 
   String description;
 
+  @JsonKey(includeIfNull: false)
   int fIleId;
 
+  @JsonKey(includeIfNull: false)
   int status;
 
   @JsonKey(includeIfNull: false)

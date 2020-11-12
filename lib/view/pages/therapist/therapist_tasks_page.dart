@@ -16,8 +16,8 @@ import 'package:greycells/view/widgets/task_status_widget.dart';
 import 'package:intl/intl.dart';
 import 'package:greycells/extensions.dart';
 
-class PatientTasksPage extends StatelessWidget {
-  const PatientTasksPage();
+class TherapistTasksPage extends StatelessWidget {
+  const TherapistTasksPage();
 
   @override
   Widget build(BuildContext context) {
@@ -103,7 +103,7 @@ class _TaskList extends StatelessWidget {
     return SliverStickyHeader(
       header: TaskSectionHeader(
         taskTitle: task.title,
-        therapistName: task.therapist.fullName,
+        patientName: task.patient.fullName,
       ),
       sliver: SliverList(
         delegate: SliverChildBuilderDelegate(
@@ -124,11 +124,11 @@ class TaskSectionHeader extends StatelessWidget {
   const TaskSectionHeader({
     Key key,
     @required this.taskTitle,
-    @required this.therapistName,
+    @required this.patientName,
   }) : super(key: key);
 
   final String taskTitle;
-  final String therapistName;
+  final String patientName;
 
   @override
   Widget build(BuildContext context) {
@@ -157,12 +157,12 @@ class TaskSectionHeader extends StatelessWidget {
             ),
             RichText(
               text: TextSpan(
-                text: "assigned by ",
+                text: "assigned to ",
                 style: Theme.of(context).textTheme.bodyText1.copyWith(
                     color: Colors.blueGrey, fontStyle: FontStyle.italic),
                 children: [
                   TextSpan(
-                    text: therapistName,
+                    text: patientName,
                     style: Theme.of(context).textTheme.subtitle1.copyWith(
                         color: Colors.blueGrey,
                         fontStyle: FontStyle.normal,
@@ -197,7 +197,7 @@ class __TaskItemWidgetState extends State<_TaskItemWidget> {
         onTap: () async {
           var didUpdate = await Navigator.of(context).pushNamed(
             RouteName.TASK_ITEM_PAGE,
-            arguments: TaskItemPageArgs(widget.taskItem, UserType.patient),
+            arguments: TaskItemPageArgs(widget.taskItem, UserType.therapist),
           );
 
           if (didUpdate == true) {

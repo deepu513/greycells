@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:greycells/bloc/validation/bloc.dart';
 import 'package:greycells/bloc/validation/validation_field.dart';
+import 'package:greycells/models/patient/patient.dart';
 import 'package:greycells/models/therapist/therapist.dart';
 import 'package:intl/intl.dart';
 
@@ -36,7 +37,7 @@ extension StringExtensions on String {
 
   String withBaseUrlForImage() {
     if (this.isEmpty) return "";
-    return "https://www.greycellswellness.com/images/$this";
+    return "https://www.greycellswellness.com/File/$this";
   }
 }
 
@@ -63,6 +64,10 @@ extension DateTimeExtensions on DateTime {
 }
 
 extension TherapistExtension on Therapist {
+  String get fullName => "${this.user.firstName} ${this.user.lastName}";
+}
+
+extension PatientExtension on Patient {
   String get fullName => "${this.user.firstName} ${this.user.lastName}";
 }
 

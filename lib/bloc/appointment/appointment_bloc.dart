@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:greycells/constants/strings.dart';
+import 'package:greycells/constants/user_type.dart';
 import 'package:greycells/models/appointment/all_appointment_response.dart';
 import 'package:greycells/models/appointment/appointment.dart';
 import 'package:greycells/models/appointment/appointment_status.dart';

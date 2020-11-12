@@ -13,7 +13,7 @@ import 'package:greycells/extensions.dart';
 class AssignTasksPage extends StatefulWidget {
   final AssignTaskArgs args;
 
-  const AssignTasksPage({Key key,@required this.args}) : super(key: key);
+  const AssignTasksPage({Key key, @required this.args}) : super(key: key);
 
   @override
   _AssignTasksPageState createState() => _AssignTasksPageState();
@@ -50,7 +50,11 @@ class _AssignTasksPageState extends State<AssignTasksPage> {
         child: Provider<Task>.value(
           value: task,
           child: BlocConsumer<TaskBloc, TaskState>(
-            listener: (context, state) {},
+            listener: (context, state) {
+              if (state is TaskCreated) {
+                Navigator.of(context).pop();
+              }
+            },
             builder: (context, state) {
               return Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -99,6 +103,12 @@ class _AssignTasksPageState extends State<AssignTasksPage> {
                                 "Click on 'ADD ITEM' to add a task item.",
                           ),
                   ),
+                  Visibility(
+                      visible: state is TaskLoading,
+                      child: LinearProgressIndicator(
+                        minHeight: 2.0,
+                        backgroundColor: Colors.white,
+                      )),
                   TaskCreateAssignButton(
                     onPressed:
                         task.taskItems.isNotEmpty && state is! TaskLoading
@@ -150,9 +160,10 @@ class TaskTitleInput extends StatelessWidget {
             .headline5
             .copyWith(color: Colors.black38, fontWeight: FontWeight.w700),
         contentPadding: EdgeInsets.zero,
-        errorText: showError ? ErrorMessages.EMAIL_ERROR_MESSAGE : null,
+        errorText: showError ? ErrorMessages.EMPTY_FIELD_ERROR_MESSAGE : null,
       ),
       autofocus: false,
+      textCapitalization: TextCapitalization.words,
       keyboardType: TextInputType.text,
       onChanged: onTitleChanged,
       onEditingComplete: () => FocusScope.of(context).unfocus(),

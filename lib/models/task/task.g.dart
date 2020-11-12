@@ -15,6 +15,9 @@ Task _$TaskFromJson(Map<String, dynamic> json) {
     ..therapist = json['therapist'] == null
         ? null
         : Therapist.fromJson(json['therapist'] as Map<String, dynamic>)
+    ..patient = json['patient'] == null
+        ? null
+        : Patient.fromJson(json['patient'] as Map<String, dynamic>)
     ..taskItems = (json['taskItems'] as List)
         ?.map((e) =>
             e == null ? null : TaskItem.fromJson(e as Map<String, dynamic>))
@@ -36,6 +39,7 @@ Map<String, dynamic> _$TaskToJson(Task instance) {
   }
 
   writeNotNull('therapist', instance.therapist?.toJson());
+  writeNotNull('patient', instance.patient?.toJson());
   val['taskItems'] = instance.taskItems?.map((e) => e?.toJson())?.toList();
   return val;
 }

@@ -20,14 +20,7 @@ TaskItem _$TaskItemFromJson(Map<String, dynamic> json) {
 }
 
 Map<String, dynamic> _$TaskItemToJson(TaskItem instance) {
-  final val = <String, dynamic>{
-    'id': instance.id,
-    'title': instance.title,
-    'expectedCompletionDateTIme': instance.expectedCompletionDateTIme,
-    'description': instance.description,
-    'fIleId': instance.fIleId,
-    'status': instance.status,
-  };
+  final val = <String, dynamic>{};
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -35,6 +28,12 @@ Map<String, dynamic> _$TaskItemToJson(TaskItem instance) {
     }
   }
 
+  writeNotNull('id', instance.id);
+  val['title'] = instance.title;
+  val['expectedCompletionDateTIme'] = instance.expectedCompletionDateTIme;
+  val['description'] = instance.description;
+  writeNotNull('fIleId', instance.fIleId);
+  writeNotNull('status', instance.status);
   writeNotNull('file', instance.file?.toJson());
   return val;
 }

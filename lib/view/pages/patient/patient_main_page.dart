@@ -13,7 +13,7 @@ class _PatientMainPageState extends State<PatientMainPage>
   @override
   void initState() {
     super.initState();
-    _currentIndex = 2;
+    _currentIndex = 0;
   }
 
   @override

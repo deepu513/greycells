@@ -72,18 +72,14 @@ class _TherapistAppointmentsPageState extends State<TherapistAppointmentsPage> {
                 ),
               ];
             },
-            body: Expanded(
-              child: Container(
-                child: TabBarView(
-                  children: [
-                    UpcomingAppointments(upcomingAppointments),
-                    BlocProvider(
-                      create: (context) => AppointmentBloc(),
-                      child: AllAppointments(UserType.therapist),
-                    ),
-                  ],
+            body: TabBarView(
+              children: [
+                UpcomingAppointments(upcomingAppointments),
+                BlocProvider(
+                  create: (context) => AppointmentBloc(),
+                  child: AllAppointments(UserType.therapist),
                 ),
-              ),
+              ],
             ),
           ),
         ),

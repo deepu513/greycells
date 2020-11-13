@@ -3,7 +3,6 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:greycells/constants/strings.dart';
 import 'package:greycells/route/route_name.dart';
 
-//TODO: Slow down app name animation
 class WelcomePage extends StatefulWidget {
   @override
   _WelcomePageState createState() => _WelcomePageState();
@@ -23,7 +22,7 @@ class _WelcomePageState extends State<WelcomePage>
     super.initState();
 
     _controller = AnimationController(
-        duration: Duration(milliseconds: 3000), vsync: this);
+        duration: Duration(milliseconds: 4000), vsync: this);
 
     _firstWordFadeAnimation =
         Tween(begin: 0.0, end: 1.0).animate(CurvedAnimation(

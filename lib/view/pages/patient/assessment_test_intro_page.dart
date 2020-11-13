@@ -5,6 +5,10 @@ import 'package:greycells/models/assessment/assessment_test_args.dart';
 import 'package:greycells/route/route_name.dart';
 
 class AssessmentTestIntroPage extends StatefulWidget {
+  final bool shouldPop;
+
+  AssessmentTestIntroPage({this.shouldPop = false});
+
   @override
   _AssessmentTestIntroPageState createState() =>
       _AssessmentTestIntroPageState();
@@ -136,32 +140,37 @@ class _AssessmentTestIntroPageState extends State<AssessmentTestIntroPage>
     });
 
     _firstPointFadeController.addStatusListener((status) {
-      if (status == AnimationStatus.completed) {
+      if (status == AnimationStatus.completed ||
+          status == AnimationStatus.forward) {
         currentPoint = 1;
         _buttonFadeController.forward();
       }
     });
 
     _secondPointFadeController.addStatusListener((status) {
-      if (status == AnimationStatus.completed) {
+      if (status == AnimationStatus.completed ||
+          status == AnimationStatus.forward) {
         currentPoint = 2;
       }
     });
 
     _thirdPointFadeController.addStatusListener((status) {
-      if (status == AnimationStatus.completed) {
+      if (status == AnimationStatus.completed ||
+          status == AnimationStatus.forward) {
         currentPoint = 3;
       }
     });
 
     _fourthPointFadeController.addStatusListener((status) {
-      if (status == AnimationStatus.completed) {
+      if (status == AnimationStatus.completed ||
+          status == AnimationStatus.forward) {
         currentPoint = 4;
       }
     });
 
     _fifthPointFadeController.addStatusListener((status) {
-      if (status == AnimationStatus.completed) {
+      if (status == AnimationStatus.completed ||
+          status == AnimationStatus.forward) {
         setState(() {
           currentPoint = 5;
         });
@@ -196,7 +205,10 @@ class _AssessmentTestIntroPageState extends State<AssessmentTestIntroPage>
     }
 
     if (currentPoint == 5) {
-      _navigateToAssessmentTestPage();
+      if (widget.shouldPop == true) {
+        Navigator.of(context).pop();
+      } else
+        _navigateToAssessmentTestPage();
     }
   }
 

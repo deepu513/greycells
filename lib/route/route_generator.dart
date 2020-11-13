@@ -72,7 +72,10 @@ class RouteGenerator {
       case RouteName.PATIENT_DETAIL_INPUT_PAGE:
         return MaterialPageRoute(builder: (_) => PatientDetailInput());
       case RouteName.ASSESSMENT_TEST_INTRO:
-        return MaterialPageRoute(builder: (_) => AssessmentTestIntroPage());
+        return MaterialPageRoute(
+            builder: (_) => AssessmentTestIntroPage(
+                  shouldPop: args ?? false,
+                ));
       case RouteName.SECOND_TEST_INTRO:
         return MaterialPageRoute(builder: (_) => SecondTestIntroPage());
       case RouteName.ASSESSMENT_TEST:

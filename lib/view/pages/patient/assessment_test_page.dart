@@ -78,7 +78,10 @@ class _AssessmentTestPageState extends State<AssessmentTestPage> {
           ),
           actions: [
             IconButton(
-              //TODO: Should redirect to points page without animations
+              onPressed: () {
+                Navigator.of(context).pushNamed(RouteName.ASSESSMENT_TEST_INTRO,
+                    arguments: true);
+              },
               icon: Icon(Icons.help_outline),
             )
           ],

@@ -98,7 +98,8 @@ class _PatientDetailInputState extends State<PatientDetailInput>
   }
 
   void _navigateToTestPage() {
-    Navigator.of(context).pushNamed(RouteName.ASSESSMENT_TEST_INTRO);
+    Navigator.of(context)
+        .pushNamed(RouteName.ASSESSMENT_TEST_INTRO, arguments: false);
   }
 
   @override

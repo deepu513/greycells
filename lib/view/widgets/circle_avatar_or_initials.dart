@@ -20,7 +20,7 @@ class CircleAvatarOrInitials extends StatelessWidget {
               style: Theme.of(context)
                   .textTheme
                   .subtitle1
-                  .copyWith(color: Colors.white),
+                  .copyWith(color: Colors.white, fontWeight: FontWeight.bold),
             )
           : null,
       radius: radius,

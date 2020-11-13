@@ -38,7 +38,7 @@ class TherapistListTile extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
-                    "${therapist.user.firstName} ${therapist.user.lastName}",
+                    therapist.fullName,
                     style: Theme.of(context).textTheme.headline6,
                     overflow: TextOverflow.clip,
                   ),

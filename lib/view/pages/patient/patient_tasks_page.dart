@@ -66,7 +66,7 @@ class _AllTasksState extends State<AllTasks> {
       listener: (context, state) {},
       builder: (context, state) {
         if (state is TaskLoading)
-          return Expanded(child: CenteredCircularLoadingIndicator());
+          return CenteredCircularLoadingIndicator();
         if (state is AllTasksLoaded)
           return CustomScrollView(
             slivers: [
@@ -211,17 +211,20 @@ class __TaskItemWidgetState extends State<_TaskItemWidget> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Visibility(
-              visible: !widget.taskItem.file.name.isNullOrEmpty(),
+              visible: widget.taskItem.file != null &&
+                  !widget.taskItem.file.name.isNullOrEmpty(),
               child: Container(
                 height: 194.0,
                 width: double.maxFinite,
-                child: widget.taskItem.file.name.isNullOrEmpty()
+                child: widget.taskItem.file != null &&
+                        widget.taskItem.file.name.isNullOrEmpty()
                     ? null
                     : ClipRRect(
                         borderRadius: BorderRadius.circular(8.0),
                         child: NetworkImageWithError(
-                          imageUrl:
-                              widget.taskItem.file.name.withBaseUrlForImage(),
+                          imageUrl: widget.taskItem.file == null
+                              ? ""
+                              : widget.taskItem.file.name.withBaseUrlForImage(),
                           boxFit: BoxFit.cover,
                         ),
                       ),
@@ -283,7 +286,7 @@ class __TaskItemWidgetState extends State<_TaskItemWidget> {
 
   String _yetAnotherDateConversion(String date) {
     try {
-      DateFormat dateFormat = DateFormat("mm-dd-yyyy HH:mm:ss a");
+      DateFormat dateFormat = DateFormat("dd-MM-yyyy HH:mm:ss a");
       DateTime dateTime = dateFormat.parse(date);
       return DateFormat("EEE, dd MMM, yyyy").format(dateTime);
     } catch (e) {

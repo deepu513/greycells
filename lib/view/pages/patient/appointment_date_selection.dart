@@ -71,8 +71,7 @@ class _MainContentState extends State<MainContent> {
       children: [
         MeetingMetaInfo(
           meetingType: widget.selectedMeeting.meetingType,
-          therapistName:
-              "${widget.therapist.user.firstName} ${widget.therapist.user.lastName}",
+          therapistName: widget.therapist.fullName,
           duration: widget.therapist.meetingDuration?.duration.toString(),
         ),
         Padding(
@@ -135,8 +134,7 @@ class _MainContentState extends State<MainContent> {
               ..itemImageUrl = widget.therapist.file != null
                   ? widget.therapist.file.name.withBaseUrlForImage()
                   : ""
-              ..itemTitle =
-                  "${widget.therapist.user.firstName} ${widget.therapist.user.lastName}"
+              ..itemTitle = widget.therapist.fullName
               ..itemSubtitle = widget.therapist.therapistType.name
               ..promoCodeApplied = false
               ..discountAmount = 0

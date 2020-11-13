@@ -99,8 +99,7 @@ class _MainContentState extends State<MainContent> {
         children: [
           widget.userType == UserType.patient
               ? TherapistDetailsSection(
-                  therapistName:
-                      "${widget.appointment.therapist.user.firstName} ${widget.appointment.therapist.user.lastName}",
+                  therapistName: widget.appointment.therapist.fullName,
                   therapistType:
                       widget.appointment.therapist.therapistType.name,
                   medicalCouncil: widget.appointment.therapist.medicalCouncil,
@@ -117,8 +116,7 @@ class _MainContentState extends State<MainContent> {
                   },
                 )
               : PatientDetailsSection(
-                  patientName:
-                      "${widget.appointment.patient.user.firstName} ${widget.appointment.patient.user.lastName}",
+                  patientName: widget.appointment.patient.fullName,
                   patientMobileNumber:
                       widget.appointment.patient.user.mobileNumber,
                   profilePicUrl: widget.appointment.patient.file != null

@@ -73,11 +73,11 @@ extension DateTimeExtensions on DateTime {
 }
 
 extension TherapistExtension on Therapist {
-  String get fullName => "${this.user.firstName} ${this.user.lastName}";
+  String get fullName => "${this.user.firstName.trim()} ${this.user.lastName.trim()}";
 }
 
 extension PatientExtension on Patient {
-  String get fullName => "${this.user.firstName} ${this.user.lastName}";
+  String get fullName => "${this.user.firstName.trim()} ${this.user.lastName.trim()}";
 }
 
 extension dialogs on Widget {

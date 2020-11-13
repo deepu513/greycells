@@ -303,7 +303,7 @@ class TaskMetaInfo extends StatelessWidget {
 
   String _yetAnotherDateConversion(String date) {
     try {
-      DateFormat dateFormat = DateFormat("mm-dd-yyyy HH:mm:ss a");
+      DateFormat dateFormat = DateFormat("dd-MM-yyyy HH:mm:ss a");
       DateTime dateTime = dateFormat.parse(date);
       return DateFormat("EEE, dd MMM, yyyy").format(dateTime);
     } catch (e) {

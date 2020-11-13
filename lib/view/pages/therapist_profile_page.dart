@@ -46,7 +46,7 @@ class _TherapistProfilePageState extends State<TherapistProfilePage> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     HeaderSection(
-                        "${widget.therapist.user.firstName} ${widget.therapist.user.lastName}",
+                        widget.therapist.fullName,
                         widget.therapist.therapistType.name,
                         widget.therapist.medicalCouncil,
                         widget.therapist.totalExperience.toString(),

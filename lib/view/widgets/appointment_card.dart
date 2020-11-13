@@ -156,8 +156,8 @@ class AppointmentMetaInfo extends StatelessWidget {
       children: [
         Text(
           userType == UserType.patient
-              ? "${appointment.therapist.user.firstName} ${appointment.therapist.user.lastName}"
-              : "${appointment.patient.user.firstName} ${appointment.patient.user.lastName}",
+              ? appointment.therapist.fullName
+              : appointment.patient.fullName,
           style: Theme.of(context).textTheme.headline6,
           overflow: TextOverflow.clip,
         ),

@@ -28,7 +28,10 @@ Appointment _$AppointmentFromJson(Map<String, dynamic> json) {
         : Patient.fromJson(json['patient'] as Map<String, dynamic>)
     ..charge = json['charge'] == null
         ? null
-        : MeetingCharge.fromJson(json['charge'] as Map<String, dynamic>);
+        : MeetingCharge.fromJson(json['charge'] as Map<String, dynamic>)
+    ..timeSlot = json['timeSlot'] == null
+        ? null
+        : Timeslot.fromJson(json['timeSlot'] as Map<String, dynamic>);
 }
 
 Map<String, dynamic> _$AppointmentToJson(Appointment instance) =>
@@ -48,4 +51,5 @@ Map<String, dynamic> _$AppointmentToJson(Appointment instance) =>
       'therapist': instance.therapist?.toJson(),
       'patient': instance.patient?.toJson(),
       'charge': instance.charge?.toJson(),
+      'timeSlot': instance.timeSlot?.toJson(),
     };

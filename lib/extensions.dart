@@ -26,7 +26,7 @@ extension StringExtensions on String {
 
   String convertToDateFormat(String format) {
     try {
-      DateFormat dateFormat = DateFormat("yyyy-mm-dd'T'HH:mm:ss.mmm");
+      DateFormat dateFormat = DateFormat("yyyy-MM-dd'T'HH:mm:ss");
       DateTime dateTime = dateFormat.parse(this);
       return DateFormat(format).format(dateTime);
     } catch (e) {
@@ -48,6 +48,13 @@ extension StringExtensions on String {
     });
     return initials;
   }
+
+  DateTime serverTimestampAsDate() =>
+      DateFormat("dd-MM-yyyy HH:mm:ss a").parse(this);
+
+  DateTime asDate() => DateFormat("yyyy-MM-dd'T'HH:mm:ss").parse(this);
+
+  DateTime timeAsDate() => DateFormat("h:mm a").parse(this);
 }
 
 extension DateTimeExtensions on DateTime {
@@ -73,11 +80,13 @@ extension DateTimeExtensions on DateTime {
 }
 
 extension TherapistExtension on Therapist {
-  String get fullName => "${this.user.firstName.trim()} ${this.user.lastName.trim()}";
+  String get fullName =>
+      "${this.user.firstName.trim()} ${this.user.lastName.trim()}";
 }
 
 extension PatientExtension on Patient {
-  String get fullName => "${this.user.firstName.trim()} ${this.user.lastName.trim()}";
+  String get fullName =>
+      "${this.user.firstName.trim()} ${this.user.lastName.trim()}";
 }
 
 extension dialogs on Widget {

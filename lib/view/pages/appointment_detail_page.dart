@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:greycells/bloc/timer/timer_bloc.dart';
 import 'package:greycells/constants/user_type.dart';
 import 'package:greycells/models/appointment/appointment.dart';
 import 'package:greycells/models/appointment/appointment_status.dart';
+import 'package:greycells/models/home/therapist_home.dart';
 import 'package:greycells/models/task/assign_task_args.dart';
 import 'package:greycells/route/route_name.dart';
 import 'package:greycells/view/widgets/appointment_status_widget.dart';
@@ -11,6 +13,7 @@ import 'package:greycells/view/widgets/colored_page_section.dart';
 import 'package:greycells/view/widgets/page_section.dart';
 import 'package:greycells/extensions.dart';
 import 'package:greycells/bloc/appointment/appointment_detail_bloc.dart';
+import 'package:provider/provider.dart';
 
 //TODO: UI for loading appointment cancellation
 class AppointmentDetailPage extends StatelessWidget {
@@ -41,17 +44,21 @@ class AppointmentDetailPage extends StatelessWidget {
             child: Column(
               children: [
                 Expanded(
-                    child: MainContent(
-                  userType: userType,
-                  appointment: appointment,
+                    child: BlocProvider<TimerBloc>(
+                  create: (context) => TimerBloc(),
+                  child: MainContent(
+                    userType: userType,
+                    appointment: appointment,
+                  ),
                 )),
                 Padding(
                   padding: const EdgeInsets.symmetric(
                       horizontal: 16.0, vertical: 16.0),
                   child: Visibility(
-                    // TODO: Add condition here to check the meeting time.
-                    visible:
-                        appointment.status != AppointmentStatus.cancelled.index,
+                    visible: !(appointment.status ==
+                            AppointmentStatus.cancelled.index ||
+                        appointment.status ==
+                            AppointmentStatus.completed.index),
                     child: CancelAppointmentSection(
                       onCancelPressed: () {
                         BlocProvider.of<AppointmentDetailBloc>(context)
@@ -66,6 +73,17 @@ class AppointmentDetailPage extends StatelessWidget {
         );
       },
     );
+  }
+
+  bool _shouldShowCancel(
+      String serverTimestamp, String appointmentDate, String appointmentTime) {
+    DateTime serverDateTime = serverTimestamp.serverTimestampAsDate();
+    DateTime aDate = appointmentDate.asDate();
+    DateTime aTime = appointmentTime.timeAsDate();
+    DateTime fullAppointmentDateTime =
+        DateTime(aDate.year, aDate.month, aDate.day, aTime.hour, aTime.minute);
+
+    return fullAppointmentDateTime.compareTo(serverDateTime) > 0;
   }
 }
 
@@ -88,6 +106,17 @@ class _MainContentState extends State<MainContent> {
   void initState() {
     super.initState();
     readableDate = widget.appointment.date.convertToDateFormat("EEE dd MMM");
+    DateTime serverDateTime = Provider.of<TherapistHome>(context, listen: false)
+        .serverTimestamp
+        .serverTimestampAsDate();
+    print("serverDateTime $serverDateTime");
+    DateTime aDate = widget.appointment.date.asDate();
+    DateTime aTime = widget.appointment.timeSlot.startTime.timeAsDate();
+    DateTime fullAppointmentDateTime =
+        DateTime(aDate.year, aDate.month, aDate.day, aTime.hour, aTime.minute);
+    print("fullAppointmentDateTime $fullAppointmentDateTime");
+    BlocProvider.of<TimerBloc>(context)
+        .add(StartTimerIfNeeded(serverDateTime, fullAppointmentDateTime));
   }
 
   @override
@@ -162,6 +191,12 @@ class _MainContentState extends State<MainContent> {
               },
             ),
           ),
+          BlocBuilder<TimerBloc, TimerState>(
+            builder: (context, state) {
+              if (state is TimerUpdated) return Text(state.timeToAppointment);
+              return Text("Time nahi mila");
+            },
+          )
         ],
       ),
     );

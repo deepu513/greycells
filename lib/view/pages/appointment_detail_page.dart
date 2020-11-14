@@ -15,7 +15,7 @@ import 'package:greycells/extensions.dart';
 import 'package:greycells/bloc/appointment/appointment_detail_bloc.dart';
 import 'package:provider/provider.dart';
 
-//TODO: UI for loading appointment cancellation
+//TODO: UI for loading appointment cancellation and show proper date and time
 class AppointmentDetailPage extends StatelessWidget {
   final UserType userType;
   final Appointment appointment;
@@ -77,6 +77,7 @@ class AppointmentDetailPage extends StatelessWidget {
 
   bool _shouldShowCancel(
       String serverTimestamp, String appointmentDate, String appointmentTime) {
+    // * I can calculate the difference in days here
     DateTime serverDateTime = serverTimestamp.serverTimestampAsDate();
     DateTime aDate = appointmentDate.asDate();
     DateTime aTime = appointmentTime.timeAsDate();
@@ -115,8 +116,8 @@ class _MainContentState extends State<MainContent> {
     DateTime fullAppointmentDateTime =
         DateTime(aDate.year, aDate.month, aDate.day, aTime.hour, aTime.minute);
     print("fullAppointmentDateTime $fullAppointmentDateTime");
-    BlocProvider.of<TimerBloc>(context)
-        .add(StartTimerIfNeeded(serverDateTime, fullAppointmentDateTime));
+    BlocProvider.of<TimerBloc>(context).add(InitiateTimer(
+        serverDateTime, DateTime.now()));
   }
 
   @override
@@ -193,7 +194,8 @@ class _MainContentState extends State<MainContent> {
           ),
           BlocBuilder<TimerBloc, TimerState>(
             builder: (context, state) {
-              if (state is TimerUpdated) return Text(state.timeToAppointment);
+              if (state is Running) return Text(state.readableDuration);
+              if (state is Finished) return Text("Finished");
               return Text("Time nahi mila");
             },
           )

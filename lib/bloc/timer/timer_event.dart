@@ -1,19 +1,50 @@
 part of 'timer_bloc.dart';
 
 abstract class TimerEvent extends Equatable {
-  const TimerEvent();
+  final List properties;
+
+  const TimerEvent([this.properties]);
 
   @override
-  List<Object> get props => [];
+  List<Object> get props => [properties];
 }
 
-class StartTimerIfNeeded extends TimerEvent {
+class InitiateTimer extends TimerEvent {
   final DateTime serverDateTime;
-  final DateTime appointmentDateTime;
+  final DateTime eventDateTime;
 
-  StartTimerIfNeeded(this.serverDateTime, this.appointmentDateTime);
+  InitiateTimer(this.serverDateTime, this.eventDateTime);
 }
 
-class StartTimer extends TimerEvent {}
+class Start extends TimerEvent {
+  final int duration;
 
-class StopTimer extends TimerEvent {}
+  Start({@required this.duration}) : super([duration]);
+
+  @override
+  String toString() => "Start { duration: $duration }";
+}
+
+class Pause extends TimerEvent {
+  @override
+  String toString() => "Pause";
+}
+
+class Resume extends TimerEvent {
+  @override
+  String toString() => "Resume";
+}
+
+class Reset extends TimerEvent {
+  @override
+  String toString() => "Reset";
+}
+
+class Tick extends TimerEvent {
+  final int duration;
+
+  Tick({@required this.duration}) : super([duration]);
+
+  @override
+  String toString() => "Tick { duration: $duration }";
+}

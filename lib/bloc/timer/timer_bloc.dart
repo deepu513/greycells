@@ -20,15 +20,15 @@ class TimerBloc extends Bloc<TimerEvent, TimerState> {
     TimerEvent event,
   ) async* {
     if (event is InitiateTimer) {
-      print("Before timewatched add ${event.serverDateTime}");
       DateTime currentDateTime =
           event.serverDateTime.add(TimeWatcher.getInstance().elapsedDuration());
-      print("After timewatcher add $currentDateTime");
-      Duration differenceDuration = currentDateTime
-          .difference(event.eventDateTime.subtract(Duration(minutes: 5)));
+
+      Duration differenceDuration = event.eventDateTime
+          .subtract(Duration(minutes: 5))
+          .difference(currentDateTime);
 
       if (differenceDuration.isNegative) {
-        yield Finished();
+        yield TimeInPast();
       } else {
         yield* _mapStartToState(Start(duration: differenceDuration.inSeconds));
       }
@@ -89,18 +89,18 @@ class TimerBloc extends Bloc<TimerEvent, TimerState> {
     Duration remainingDuration = Duration(seconds: seconds);
 
     if (remainingDuration.inDays > 1) {
-      return "${remainingDuration.inDays} Days";
+      return "${remainingDuration.inDays} days";
     }
 
     if (remainingDuration.inDays <= 1) {
       if (remainingDuration.inHours > 1) {
-        return "${remainingDuration.inHours} Hours";
+        return "${remainingDuration.inHours} hours";
       } else if (remainingDuration.inHours <= 1) {
         if (remainingDuration.inMinutes > 10) {
-          return "${remainingDuration.inMinutes} Minutes";
+          return "${remainingDuration.inMinutes} minutes";
         } else if (remainingDuration.inMinutes <= 10) {
           int remainingSeconds = remainingDuration.inSeconds;
-          return "${(((remainingSeconds / 60) % 60).toInt().toString().padLeft(2, '0'))} : ${(remainingSeconds % 60).toString().padLeft(2, '0')}";
+          return "${(((remainingSeconds / 60) % 60).toInt().toString().padLeft(2, '0'))} : ${(remainingSeconds % 60).toString().padLeft(2, '0')} minutes";
         }
       }
     }

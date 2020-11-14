@@ -43,3 +43,10 @@ class Finished extends TimerState {
   @override
   String toString() => 'Finished';
 }
+
+class TimeInPast extends TimerState {
+  TimeInPast() : super(0, "");
+  
+  @override
+  String toString() => 'TimeInPast';
+}

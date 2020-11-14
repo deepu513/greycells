@@ -88,14 +88,19 @@ class _TherapistAppointmentsPageState extends State<TherapistAppointmentsPage> {
   }
 }
 
-class UpcomingAppointments extends StatelessWidget {
+class UpcomingAppointments extends StatefulWidget {
   final List<Appointment> upcomingAppointments;
   UpcomingAppointments(this.upcomingAppointments);
 
   @override
+  _UpcomingAppointmentsState createState() => _UpcomingAppointmentsState();
+}
+
+class _UpcomingAppointmentsState extends State<UpcomingAppointments> {
+  @override
   Widget build(BuildContext context) {
     return Container(
-      child: upcomingAppointments.isEmpty
+      child: widget.upcomingAppointments.isEmpty
           ? Expanded(
               child: EmptyState(
                 title: "You've finished all appointments!",
@@ -107,15 +112,23 @@ class UpcomingAppointments extends StatelessWidget {
                 return Padding(
                   padding: const EdgeInsets.fromLTRB(8.0, 8.0, 8.0, 0.0),
                   child: AppointmentCard(
-                      upcomingAppointments[index], UserType.therapist, () {
-                    Navigator.of(context).pushNamed(
+                      widget.upcomingAppointments[index], UserType.therapist,
+                      () async {
+                    var cancelled = await Navigator.of(context).pushNamed(
                         RouteName.APPOINTMENT_DETAIL_PAGE,
                         arguments: AppointmentDetailArguments(
-                            upcomingAppointments[index], UserType.therapist));
+                            widget.upcomingAppointments[index],
+                            UserType.therapist));
+
+                    if (cancelled == true) {
+                      setState(() {
+                        widget.upcomingAppointments[index].status = 1;
+                      });
+                    }
                   }),
                 );
               },
-              itemCount: upcomingAppointments.length,
+              itemCount: widget.upcomingAppointments.length,
             ),
     );
   }

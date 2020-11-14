@@ -56,7 +56,7 @@ class AppointmentRepository {
         null)
       ..setBody(null);
 
-    Response updateAppointmentResponse = await _httpService.get(request, null);
+    Response updateAppointmentResponse = await _httpService.getRaw(request, null);
     return updateAppointmentResponse.statusCode == 200;
   }
 

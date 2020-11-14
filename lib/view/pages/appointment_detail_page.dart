@@ -15,7 +15,7 @@ import 'package:greycells/extensions.dart';
 import 'package:greycells/bloc/appointment/appointment_detail_bloc.dart';
 import 'package:provider/provider.dart';
 
-//TODO: UI for loading appointment cancellation and show proper date and time
+//TODO: UI for loading appointment cancellation and show proper date and time and give profile click indication
 class AppointmentDetailPage extends StatelessWidget {
   final UserType userType;
   final Appointment appointment;
@@ -44,13 +44,14 @@ class AppointmentDetailPage extends StatelessWidget {
             child: Column(
               children: [
                 Expanded(
-                    child: BlocProvider<TimerBloc>(
-                  create: (context) => TimerBloc(),
-                  child: MainContent(
-                    userType: userType,
-                    appointment: appointment,
+                  child: BlocProvider<TimerBloc>(
+                    create: (context) => TimerBloc(),
+                    child: MainContent(
+                      userType: userType,
+                      appointment: appointment,
+                    ),
                   ),
-                )),
+                ),
                 Padding(
                   padding: const EdgeInsets.symmetric(
                       horizontal: 16.0, vertical: 16.0),
@@ -110,14 +111,13 @@ class _MainContentState extends State<MainContent> {
     DateTime serverDateTime = Provider.of<TherapistHome>(context, listen: false)
         .serverTimestamp
         .serverTimestampAsDate();
-    print("serverDateTime $serverDateTime");
     DateTime aDate = widget.appointment.date.asDate();
     DateTime aTime = widget.appointment.timeSlot.startTime.timeAsDate();
+    //TODO: Use this
     DateTime fullAppointmentDateTime =
         DateTime(aDate.year, aDate.month, aDate.day, aTime.hour, aTime.minute);
-    print("fullAppointmentDateTime $fullAppointmentDateTime");
-    BlocProvider.of<TimerBloc>(context).add(InitiateTimer(
-        serverDateTime, DateTime.now()));
+    BlocProvider.of<TimerBloc>(context)
+        .add(InitiateTimer(serverDateTime, DateTime.now()));
   }
 
   @override
@@ -169,7 +169,9 @@ class _MainContentState extends State<MainContent> {
           Divider(
             height: 32.0,
           ),
-          ScheduleDetailsSection(),
+          ScheduleDetailsSection(
+              date: widget.appointment.date.asDate().readableDate(),
+              time: widget.appointment.timeSlot.startTime),
           Divider(
             height: 32.0,
           ),
@@ -422,7 +424,12 @@ class AppointmentSummary extends StatelessWidget {
 }
 
 class ScheduleDetailsSection extends StatelessWidget {
-  const ScheduleDetailsSection({Key key}) : super(key: key);
+  final String date;
+  final String time;
+
+  const ScheduleDetailsSection(
+      {Key key, @required this.date, @required this.time})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -445,7 +452,7 @@ class ScheduleDetailsSection extends StatelessWidget {
               color: Colors.blueGrey,
             ),
             title: "Date",
-            description: "Tuesday, 25 October, 2020",
+            description: date,
             descriptionIsItalic: false,
           ),
           SizedBox(
@@ -459,7 +466,7 @@ class ScheduleDetailsSection extends StatelessWidget {
               color: Colors.blueGrey,
             ),
             title: "Time",
-            description: "12:30 PM",
+            description: time,
             descriptionIsItalic: false,
           ),
         ],

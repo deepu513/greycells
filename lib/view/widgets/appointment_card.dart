@@ -179,11 +179,11 @@ class AppointmentMetaInfo extends StatelessWidget {
           children: [
             RichText(
               text: TextSpan(
-                text: "at",
+                text: "at ",
                 style: Theme.of(context).textTheme.subtitle1,
                 children: [
                   TextSpan(
-                    text: " 12:30 pm", // TODO: change this hard coded time
+                    text: appointment.timeSlot.startTime,
                     style: Theme.of(context).textTheme.subtitle1.copyWith(
                         color: Color(0xFF100249),
                         letterSpacing: 0.7,

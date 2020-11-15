@@ -133,7 +133,7 @@ class TaskSectionHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: 24.0, vertical: 12.0),
+      padding: EdgeInsets.symmetric(horizontal: 24.0, vertical: 16.0),
       decoration: BoxDecoration(
           color: Colors.blueGrey.shade50,
           border: Border(
@@ -144,10 +144,10 @@ class TaskSectionHeader extends StatelessWidget {
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.baseline,
           children: [
-            Flexible(
+            Expanded(
               child: Text(
                 taskTitle,
-                style: Theme.of(context).textTheme.headline6.copyWith(
+                style: Theme.of(context).textTheme.subtitle1.copyWith(
                     color: Colors.blueGrey, fontWeight: FontWeight.bold),
               ),
             ),
@@ -163,7 +163,7 @@ class TaskSectionHeader extends StatelessWidget {
                 children: [
                   TextSpan(
                     text: patientName,
-                    style: Theme.of(context).textTheme.subtitle1.copyWith(
+                    style: Theme.of(context).textTheme.subtitle2.copyWith(
                         color: Colors.blueGrey,
                         fontStyle: FontStyle.normal,
                         fontWeight: FontWeight.bold),

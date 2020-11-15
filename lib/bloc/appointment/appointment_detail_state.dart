@@ -17,3 +17,7 @@ class AppointmentCancelFailed extends AppointmentDetailState {
   final String error;
   AppointmentCancelFailed(this.error);
 }
+
+class AppointmentStartFailed extends AppointmentDetailState {}
+
+class AppointmentEnded extends AppointmentDetailState {}

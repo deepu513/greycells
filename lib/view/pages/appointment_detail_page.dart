@@ -1,18 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:greycells/bloc/timer/timer_bloc.dart';
 import 'package:greycells/constants/user_type.dart';
 import 'package:greycells/models/appointment/appointment.dart';
 import 'package:greycells/models/appointment/appointment_status.dart';
+import 'package:greycells/models/home/patient_home.dart';
+import 'package:greycells/models/home/therapist_home.dart';
 import 'package:greycells/models/task/assign_task_args.dart';
 import 'package:greycells/route/route_name.dart';
+import 'package:greycells/time_watcher.dart';
 import 'package:greycells/view/widgets/appointment_status_widget.dart';
 import 'package:greycells/view/widgets/circle_avatar_or_initials.dart';
 import 'package:greycells/view/widgets/colored_page_section.dart';
 import 'package:greycells/view/widgets/page_section.dart';
 import 'package:greycells/extensions.dart';
 import 'package:greycells/bloc/appointment/appointment_detail_bloc.dart';
+import 'package:jitsi_meet/feature_flag/feature_flag_enum.dart';
+import 'package:jitsi_meet/jitsi_meet.dart';
+import 'package:jitsi_meet/jitsi_meeting_listener.dart';
+import 'package:provider/provider.dart';
 
-//TODO: UI for loading appointment cancellation
 class AppointmentDetailPage extends StatelessWidget {
   final UserType userType;
   final Appointment appointment;
@@ -22,8 +29,16 @@ class AppointmentDetailPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<AppointmentDetailBloc, AppointmentDetailState>(
-      listener: (context, state) {
-        if (state is AppointmentCancelled) {}
+      listener: (context, state) async {
+        if (state is AppointmentCancelled) {
+          await showSuccessDialog(
+            context: context,
+            message: "This appointment is cancelled successfully",
+            showIcon: true,
+            onPressed: () => Navigator.of(context).pop(),
+          );
+          Navigator.of(context).pop(true);
+        }
       },
       builder: (context, state) {
         return Scaffold(
@@ -41,22 +56,33 @@ class AppointmentDetailPage extends StatelessWidget {
             child: Column(
               children: [
                 Expanded(
+                  child: BlocProvider<TimerBloc>(
+                    create: (context) => TimerBloc(),
                     child: MainContent(
-                  userType: userType,
-                  appointment: appointment,
-                )),
+                      userType: userType,
+                      appointment: appointment,
+                    ),
+                  ),
+                ),
                 Padding(
                   padding: const EdgeInsets.symmetric(
                       horizontal: 16.0, vertical: 16.0),
                   child: Visibility(
-                    // TODO: Add condition here to check the meeting time.
-                    visible:
-                        appointment.status != AppointmentStatus.cancelled.index,
+                    visible: !(appointment.status ==
+                                AppointmentStatus.cancelled.index ||
+                            appointment.status ==
+                                AppointmentStatus.completed.index) &&
+                        _shouldShowCancel(context, appointment.date,
+                            appointment.timeSlot.startTime),
                     child: CancelAppointmentSection(
-                      onCancelPressed: () {
-                        BlocProvider.of<AppointmentDetailBloc>(context)
-                            .add(CancelAppointment(appointment.id));
-                      },
+                      showLoading: state is AppointmentCancelling,
+                      onCancelPressed: state is AppointmentCancelling ||
+                              state is AppointmentCancelled
+                          ? null
+                          : () {
+                              BlocProvider.of<AppointmentDetailBloc>(context)
+                                  .add(CancelAppointment(appointment.id));
+                            },
                     ),
                   ),
                 ),
@@ -66,6 +92,22 @@ class AppointmentDetailPage extends StatelessWidget {
         );
       },
     );
+  }
+
+  bool _shouldShowCancel(
+      BuildContext context, String appointmentDate, String appointmentTime) {
+    String serverTime = userType == UserType.therapist
+        ? Provider.of<TherapistHome>(context, listen: false).serverTimestamp
+        : Provider.of<PatientHome>(context, listen: false).serverTimestamp;
+    DateTime serverDateTime = serverTime
+        .serverTimestampAsDate()
+        .add(TimeWatcher.getInstance().elapsedDuration());
+    DateTime aDate = appointmentDate.asDate();
+    DateTime aTime = appointmentTime.timeAsDate();
+    DateTime fullAppointmentDateTime =
+        DateTime(aDate.year, aDate.month, aDate.day, aTime.hour, aTime.minute);
+
+    return !fullAppointmentDateTime.difference(serverDateTime).isNegative;
   }
 }
 
@@ -88,6 +130,24 @@ class _MainContentState extends State<MainContent> {
   void initState() {
     super.initState();
     readableDate = widget.appointment.date.convertToDateFormat("EEE dd MMM");
+    String serverTime = widget.userType == UserType.therapist
+        ? Provider.of<TherapistHome>(context, listen: false).serverTimestamp
+        : Provider.of<PatientHome>(context, listen: false).serverTimestamp;
+    DateTime serverDateTime = serverTime
+        .serverTimestampAsDate()
+        .add(TimeWatcher.getInstance().elapsedDuration());
+    DateTime aDate = widget.appointment.date.asDate();
+    DateTime aTime = widget.appointment.timeSlot.startTime.timeAsDate();
+    DateTime fullAppointmentDateTime =
+        DateTime(aDate.year, aDate.month, aDate.day, aTime.hour, aTime.minute);
+    BlocProvider.of<TimerBloc>(context)
+        .add(InitiateTimer(serverDateTime, fullAppointmentDateTime));
+
+    JitsiMeet.addListener(JitsiMeetingListener(
+        onConferenceWillJoin: _onConferenceWillJoin,
+        onConferenceJoined: _onConferenceJoined,
+        onConferenceTerminated: _onConferenceTerminated,
+        onError: _onError));
   }
 
   @override
@@ -129,6 +189,25 @@ class _MainContentState extends State<MainContent> {
                         arguments: widget.appointment.patient);
                   },
                 ),
+          Align(
+            alignment: Alignment.topRight,
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Icon(
+                  Icons.info_outline,
+                  size: 16.0,
+                  color: Colors.blueAccent,
+                ),
+                SizedBox(width: 4.0),
+                Text(
+                  "Click to see full profile",
+                  style: Theme.of(context).textTheme.caption,
+                ),
+              ],
+            ),
+          ),
           Divider(
             height: 32.0,
           ),
@@ -139,11 +218,13 @@ class _MainContentState extends State<MainContent> {
           Divider(
             height: 32.0,
           ),
-          ScheduleDetailsSection(),
+          ScheduleDetailsSection(
+              date: widget.appointment.date.asDate().readableDate(),
+              time: widget.appointment.timeSlot.startTime),
           Divider(
             height: 32.0,
           ),
-          AppointmentStatusDetails(widget.appointment),
+          AppointmentStatusDetails(widget.appointment, widget.userType),
           Visibility(
             visible: widget.userType == UserType.therapist,
             child: Divider(
@@ -151,7 +232,9 @@ class _MainContentState extends State<MainContent> {
             ),
           ),
           Visibility(
-            visible: widget.userType == UserType.therapist,
+            visible: widget.userType == UserType.therapist &&
+                (widget.appointment.status !=
+                    AppointmentStatus.cancelled.index),
             child: AddTasksSection(
               onAddTasksPressed: () {
                 Navigator.of(context).pushNamed(RouteName.ADD_TASKS_PAGE,
@@ -165,6 +248,22 @@ class _MainContentState extends State<MainContent> {
         ],
       ),
     );
+  }
+
+  _onConferenceWillJoin({message}) {
+    debugPrint("Conference joining $message");
+  }
+
+  _onConferenceJoined({message}) {
+    debugPrint("_onConferenceJoined $message");
+  }
+
+  _onConferenceTerminated({message}) {
+    debugPrint("_onConferenceTerminated $message");
+  }
+
+  _onError(error) {
+    debugPrint("Conference error $error");
   }
 }
 
@@ -357,7 +456,8 @@ class AppointmentSummary extends StatelessWidget {
         ),
         RichText(
           text: TextSpan(
-            text: "Follow up",
+            text:
+                "Follow up", // TODO: Remove this hardcode value from appointment card also
             style: Theme.of(context).textTheme.bodyText1.copyWith(
                 color: Color(0xFF100249),
                 letterSpacing: 0.7,
@@ -385,7 +485,12 @@ class AppointmentSummary extends StatelessWidget {
 }
 
 class ScheduleDetailsSection extends StatelessWidget {
-  const ScheduleDetailsSection({Key key}) : super(key: key);
+  final String date;
+  final String time;
+
+  const ScheduleDetailsSection(
+      {Key key, @required this.date, @required this.time})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -408,7 +513,7 @@ class ScheduleDetailsSection extends StatelessWidget {
               color: Colors.blueGrey,
             ),
             title: "Date",
-            description: "Tuesday, 25 October, 2020",
+            description: date,
             descriptionIsItalic: false,
           ),
           SizedBox(
@@ -422,7 +527,7 @@ class ScheduleDetailsSection extends StatelessWidget {
               color: Colors.blueGrey,
             ),
             title: "Time",
-            description: "12:30 PM",
+            description: time,
             descriptionIsItalic: false,
           ),
         ],
@@ -433,8 +538,10 @@ class ScheduleDetailsSection extends StatelessWidget {
 
 class CancelAppointmentSection extends StatelessWidget {
   final VoidCallback onCancelPressed;
+  final bool showLoading;
 
-  const CancelAppointmentSection({Key key, @required this.onCancelPressed})
+  const CancelAppointmentSection(
+      {Key key, @required this.onCancelPressed, @required this.showLoading})
       : super(key: key);
 
   @override
@@ -467,11 +574,20 @@ class CancelAppointmentSection extends StatelessWidget {
           children: [
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16.0),
-              child: Icon(
-                Icons.cancel_rounded,
-                color: Colors.brown,
-                size: 20.0,
-              ),
+              child: showLoading == true
+                  ? SizedBox(
+                      width: 16.0,
+                      height: 16.0,
+                      child: CircularProgressIndicator(
+                        valueColor: AlwaysStoppedAnimation<Color>(Colors.brown),
+                        strokeWidth: 2.0,
+                      ),
+                    )
+                  : Icon(
+                      Icons.cancel_rounded,
+                      color: Colors.brown,
+                      size: 20.0,
+                    ),
             ),
             Expanded(
               child: Column(
@@ -496,17 +612,81 @@ class CancelAppointmentSection extends StatelessWidget {
 
 class AppointmentStatusDetails extends StatelessWidget {
   final Appointment appointment;
+  final UserType userType;
 
-  AppointmentStatusDetails(this.appointment);
+  AppointmentStatusDetails(this.appointment, this.userType);
 
   @override
   Widget build(BuildContext context) {
-    // TODO: Add condition here to check the meeting time.
     if (appointment.status == AppointmentStatus.upcoming.index) {
-      return OngoingAppointmentSection();
-    }
-    if (appointment.status == AppointmentStatus.upcoming.index) {
-      return UpcomingAppointmentSection();
+      return BlocBuilder<TimerBloc, TimerState>(
+        builder: (context, state) {
+          if (state is Finished)
+            return OngoingAppointmentSection(
+              remainingDuration: "00:00",
+              onJoinAppointmentRequested: () {
+                BlocProvider.of<AppointmentDetailBloc>(context)
+                    .add(StartAppointment(
+                      patientName: userType == UserType.patient
+                      ? Provider.of<PatientHome>(context, listen: false)
+                          .patient
+                          .fullName
+                      : appointment.patient.fullName,
+                      therapistName: userType == UserType.patient
+                      ? appointment.therapist.fullName
+                      : Provider.of<TherapistHome>(context, listen: false)
+                          .therapist
+                          .fullName,
+                  subject: userType == UserType.patient
+                      ? "Meeting with ${appointment.therapist.fullName}"
+                      : "Meeting with ${appointment.patient.fullName}",
+                  displayName: userType == UserType.patient
+                      ? Provider.of<PatientHome>(context, listen: false)
+                          .patient
+                          .fullName
+                      : Provider.of<TherapistHome>(context, listen: false)
+                          .therapist
+                          .fullName,
+                ));
+              },
+              canJoin: true,
+            );
+
+          // if (state is TimeInPast) {
+          //   return CompletedAppointmentSection();
+          // }
+
+          return OngoingAppointmentSection(
+            remainingDuration: state.readableDuration,
+            onJoinAppointmentRequested: () {
+                BlocProvider.of<AppointmentDetailBloc>(context)
+                    .add(StartAppointment(
+                      patientName: userType == UserType.patient
+                      ? Provider.of<PatientHome>(context, listen: false)
+                          .patient
+                          .fullName
+                      : appointment.patient.fullName,
+                      therapistName: userType == UserType.patient
+                      ? appointment.therapist.fullName
+                      : Provider.of<TherapistHome>(context, listen: false)
+                          .therapist
+                          .fullName,
+                  subject: userType == UserType.patient
+                      ? "Meeting with ${appointment.therapist.fullName}"
+                      : "Meeting with ${appointment.patient.fullName}",
+                  displayName: userType == UserType.patient
+                      ? Provider.of<PatientHome>(context, listen: false)
+                          .patient
+                          .fullName
+                      : Provider.of<TherapistHome>(context, listen: false)
+                          .therapist
+                          .fullName,
+                ));
+              },
+            canJoin: false,
+          );
+        },
+      );
     }
     if (appointment.status == AppointmentStatus.cancelled.index) {
       return CancelledAppointmentSection();
@@ -519,10 +699,15 @@ class AppointmentStatusDetails extends StatelessWidget {
 }
 
 class OngoingAppointmentSection extends StatelessWidget {
+  final String remainingDuration;
+  final bool canJoin;
   final VoidCallback onJoinAppointmentRequested;
 
   const OngoingAppointmentSection(
-      {Key key, @required this.onJoinAppointmentRequested})
+      {Key key,
+      @required this.onJoinAppointmentRequested,
+      @required this.remainingDuration,
+      @required this.canJoin})
       : super(key: key);
 
   @override
@@ -553,7 +738,9 @@ class OngoingAppointmentSection extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    "Appointment Started",
+                    canJoin
+                        ? "Appointment started"
+                        : "Starting in $remainingDuration",
                     style: Theme.of(context).textTheme.subtitle1.copyWith(
                         color: Colors.white, fontWeight: FontWeight.w700),
                   ),
@@ -561,7 +748,9 @@ class OngoingAppointmentSection extends StatelessWidget {
                     height: 4.0,
                   ),
                   Text(
-                    "Your appointment has been started. Click here to join!",
+                    canJoin
+                        ? "Your appointment has been started. Click here to join!"
+                        : "You will be able to join the video call 5 minutes before the scheduled time.",
                     style: Theme.of(context).textTheme.bodyText1.copyWith(
                           color: Colors.white,
                         ),
@@ -572,25 +761,6 @@ class OngoingAppointmentSection extends StatelessWidget {
           ],
         ),
       ),
-    );
-  }
-}
-
-class UpcomingAppointmentSection extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return ColoredPageSection(
-      icon: Icon(
-        Icons.info_outline_rounded,
-        size: 20.0,
-        color: Colors.blue.shade700,
-      ),
-      title: "Info",
-      description:
-          "You will be able to join the video call 5 minutes before the scheduled time.",
-      textColor: Colors.blue.shade700,
-      sectionColor: Colors.blue.shade50,
-      descriptionIsItalic: false,
     );
   }
 }

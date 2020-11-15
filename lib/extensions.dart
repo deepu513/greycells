@@ -90,13 +90,13 @@ extension PatientExtension on Patient {
 }
 
 extension dialogs on Widget {
-  _showDialog(
+  Future<T> _showDialog<T>(
       {@required BuildContext context,
       @required String title,
       @required String message,
       Icon icon,
       @required VoidCallback onPressed}) {
-    showModal(
+    return showModal(
         context: context,
         configuration: FadeScaleTransitionConfiguration(),
         builder: (context) {
@@ -125,12 +125,12 @@ extension dialogs on Widget {
         });
   }
 
-  void showErrorDialog(
+  Future<T> showErrorDialog<T>(
       {@required BuildContext context,
       @required String message,
       @required bool showIcon,
       @required VoidCallback onPressed}) {
-    _showDialog(
+    return _showDialog(
         context: context,
         title: Strings.error,
         message: message,
@@ -143,12 +143,12 @@ extension dialogs on Widget {
         onPressed: onPressed);
   }
 
-  void showHelpDialog(
+  Future<T> showHelpDialog<T>(
       {@required BuildContext context,
       @required String message,
       @required bool showIcon,
       @required VoidCallback onPressed}) {
-    _showDialog(
+    return _showDialog(
         context: context,
         title: Strings.info,
         message: message,
@@ -161,12 +161,12 @@ extension dialogs on Widget {
         onPressed: onPressed);
   }
 
-  void showSuccessDialog(
+  Future<T> showSuccessDialog<T>(
       {@required BuildContext context,
       @required String message,
       @required bool showIcon,
       @required VoidCallback onPressed}) {
-    _showDialog(
+    return _showDialog(
         context: context,
         title: Strings.success,
         message: message,
@@ -179,12 +179,12 @@ extension dialogs on Widget {
         onPressed: onPressed);
   }
 
-  void showConfirmationDialog(
+  Future<T> showConfirmationDialog<T>(
       {@required BuildContext context,
       @required String message,
       @required VoidCallback onConfirmed,
       @required VoidCallback onCancelled}) {
-    showModal(
+    return showModal(
         context: context,
         configuration: FadeScaleTransitionConfiguration(),
         builder: (context) {

@@ -69,6 +69,17 @@ class HttpService {
         .catchError((e, stackTrace) => _handleError(e, stackTrace));
   }
 
+  Future<Response<ResponseType>> getRaw<RequestType, ResponseType>(
+      Request<RequestType> request,
+      Serializable<ResponseType> responseSerializable) {
+    return http
+        .get(request.url,
+            headers: request.headers ?? _getDefaultHeaders(url: request.url))
+        .then((http.Response value) =>
+            _processResponse(value, responseSerializable))
+        .catchError((e, stackTrace) => _handleError(e, stackTrace));
+  }
+
   Future<List<ResponseType>> getAll<RequestType, ResponseType>(
       Request<RequestType> request,
       Serializable<ResponseType> responseSerializable) {

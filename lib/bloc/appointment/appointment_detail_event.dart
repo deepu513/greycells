@@ -11,3 +11,17 @@ class CancelAppointment extends AppointmentDetailEvent {
   final int appointmentId;
   CancelAppointment(this.appointmentId);
 }
+
+class StartAppointment extends AppointmentDetailEvent {
+  final String displayName;
+  final String subject;
+  final String patientName;
+  final String therapistName;
+
+  StartAppointment({
+    @required this.displayName,
+    @required this.subject,
+    @required this.patientName,
+    @required this.therapistName
+  });
+}

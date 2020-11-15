@@ -15,6 +15,9 @@ import 'package:greycells/view/widgets/colored_page_section.dart';
 import 'package:greycells/view/widgets/page_section.dart';
 import 'package:greycells/extensions.dart';
 import 'package:greycells/bloc/appointment/appointment_detail_bloc.dart';
+import 'package:jitsi_meet/feature_flag/feature_flag_enum.dart';
+import 'package:jitsi_meet/jitsi_meet.dart';
+import 'package:jitsi_meet/jitsi_meeting_listener.dart';
 import 'package:provider/provider.dart';
 
 class AppointmentDetailPage extends StatelessWidget {
@@ -139,6 +142,12 @@ class _MainContentState extends State<MainContent> {
         DateTime(aDate.year, aDate.month, aDate.day, aTime.hour, aTime.minute);
     BlocProvider.of<TimerBloc>(context)
         .add(InitiateTimer(serverDateTime, fullAppointmentDateTime));
+
+    JitsiMeet.addListener(JitsiMeetingListener(
+        onConferenceWillJoin: _onConferenceWillJoin,
+        onConferenceJoined: _onConferenceJoined,
+        onConferenceTerminated: _onConferenceTerminated,
+        onError: _onError));
   }
 
   @override
@@ -215,7 +224,7 @@ class _MainContentState extends State<MainContent> {
           Divider(
             height: 32.0,
           ),
-          AppointmentStatusDetails(widget.appointment),
+          AppointmentStatusDetails(widget.appointment, widget.userType),
           Visibility(
             visible: widget.userType == UserType.therapist,
             child: Divider(
@@ -239,6 +248,22 @@ class _MainContentState extends State<MainContent> {
         ],
       ),
     );
+  }
+
+  _onConferenceWillJoin({message}) {
+    debugPrint("Conference joining $message");
+  }
+
+  _onConferenceJoined({message}) {
+    debugPrint("_onConferenceJoined $message");
+  }
+
+  _onConferenceTerminated({message}) {
+    debugPrint("_onConferenceTerminated $message");
+  }
+
+  _onError(error) {
+    debugPrint("Conference error $error");
   }
 }
 
@@ -587,8 +612,9 @@ class CancelAppointmentSection extends StatelessWidget {
 
 class AppointmentStatusDetails extends StatelessWidget {
   final Appointment appointment;
+  final UserType userType;
 
-  AppointmentStatusDetails(this.appointment);
+  AppointmentStatusDetails(this.appointment, this.userType);
 
   @override
   Widget build(BuildContext context) {
@@ -598,17 +624,65 @@ class AppointmentStatusDetails extends StatelessWidget {
           if (state is Finished)
             return OngoingAppointmentSection(
               remainingDuration: "00:00",
-              onJoinAppointmentRequested: () {},
+              onJoinAppointmentRequested: () {
+                BlocProvider.of<AppointmentDetailBloc>(context)
+                    .add(StartAppointment(
+                      patientName: userType == UserType.patient
+                      ? Provider.of<PatientHome>(context, listen: false)
+                          .patient
+                          .fullName
+                      : appointment.patient.fullName,
+                      therapistName: userType == UserType.patient
+                      ? appointment.therapist.fullName
+                      : Provider.of<TherapistHome>(context, listen: false)
+                          .therapist
+                          .fullName,
+                  subject: userType == UserType.patient
+                      ? "Meeting with ${appointment.therapist.fullName}"
+                      : "Meeting with ${appointment.patient.fullName}",
+                  displayName: userType == UserType.patient
+                      ? Provider.of<PatientHome>(context, listen: false)
+                          .patient
+                          .fullName
+                      : Provider.of<TherapistHome>(context, listen: false)
+                          .therapist
+                          .fullName,
+                ));
+              },
               canJoin: true,
             );
 
-          if (state is TimeInPast) {
-            return CompletedAppointmentSection();
-          }
+          // if (state is TimeInPast) {
+          //   return CompletedAppointmentSection();
+          // }
 
           return OngoingAppointmentSection(
             remainingDuration: state.readableDuration,
-            onJoinAppointmentRequested: null,
+            onJoinAppointmentRequested: () {
+                BlocProvider.of<AppointmentDetailBloc>(context)
+                    .add(StartAppointment(
+                      patientName: userType == UserType.patient
+                      ? Provider.of<PatientHome>(context, listen: false)
+                          .patient
+                          .fullName
+                      : appointment.patient.fullName,
+                      therapistName: userType == UserType.patient
+                      ? appointment.therapist.fullName
+                      : Provider.of<TherapistHome>(context, listen: false)
+                          .therapist
+                          .fullName,
+                  subject: userType == UserType.patient
+                      ? "Meeting with ${appointment.therapist.fullName}"
+                      : "Meeting with ${appointment.patient.fullName}",
+                  displayName: userType == UserType.patient
+                      ? Provider.of<PatientHome>(context, listen: false)
+                          .patient
+                          .fullName
+                      : Provider.of<TherapistHome>(context, listen: false)
+                          .therapist
+                          .fullName,
+                ));
+              },
             canJoin: false,
           );
         },

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:greycells/app_theme.dart';
 import 'package:greycells/constants/strings.dart';
 import 'package:greycells/route/route_name.dart';
 
@@ -86,7 +87,7 @@ class _WelcomePageState extends State<WelcomePage>
                         style: Theme.of(context)
                             .textTheme
                             .headline3
-                            .copyWith(color: Colors.black),
+                            .copyWith(color: Colors.black87),
                       )),
                 ],
               ),
@@ -143,12 +144,12 @@ class _WelcomePageState extends State<WelcomePage>
                 ),
                 SizedBox(height: 24.0),
                 ButtonTheme(
-                  minWidth: double.infinity,
+                  minWidth: double.maxFinite,
                   height: 48.0,
                   child: RaisedButton(
                     onPressed: () =>
                         {Navigator.pushNamed(context, RouteName.REGISTER)},
-                    color: Color(0xFF455a64),
+                    color: AppTheme.secondaryColor,
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(8.0)),
                     child: Text(

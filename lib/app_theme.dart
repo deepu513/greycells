@@ -3,13 +3,13 @@ import 'package:flutter/material.dart';
 class AppTheme {
   AppTheme._();
 
-  static Color _iconColor = Colors.redAccent.shade200;
-
-  static const Color primaryColor = Color(0xFFFCC03B);
-  static const Color primaryVariantColor = Colors.white;
-  static const Color secondaryColor = Color(0xFFf50057);
-  static const Color onPrimaryColor = Colors.black;
+  static const Color primaryColor = Colors.white;
+  static const Color primaryVariantColor = Color(0xFFE1E1E1);
+  static const Color secondaryColor = Color(0xFF455a64);
+  static const Color onPrimaryColor = Colors.black87;
+  static const Color onSecondaryColor = Colors.white;
   static const Color appBarColor = Colors.white;
+  static const Color iconColor = secondaryColor;
 
   static final ThemeData lightTheme = ThemeData(
     snackBarTheme: SnackBarThemeData(behavior: SnackBarBehavior.floating),
@@ -21,27 +21,19 @@ class AppTheme {
     splashFactory: InkRipple.splashFactory,
     visualDensity: VisualDensity.adaptivePlatformDensity,
     appBarTheme: AppBarTheme(
-      elevation: 0.0,
-      iconTheme: IconThemeData(color: onPrimaryColor),
+      elevation: 4.0,
+      iconTheme: IconThemeData(color: Colors.black87),
       brightness: Brightness.light,
       color: appBarColor,
     ),
     colorScheme: ColorScheme.light(
-      primary: primaryColor,
-      primaryVariant: Colors.white,
-      secondary: secondaryColor,
-      onPrimary: onPrimaryColor,
-    ),
+        primary: primaryColor,
+        primaryVariant: primaryVariantColor,
+        secondary: secondaryColor,
+        onPrimary: onPrimaryColor,
+        onSecondary: onSecondaryColor),
     iconTheme: IconThemeData(
-      color: _iconColor,
+      color: iconColor,
     ),
-    textTheme: _textTheme,
   );
-
-  static final TextTheme _textTheme = TextTheme(
-    headline1: _headingStyle,
-  );
-
-  static final TextStyle _headingStyle =
-      TextStyle(fontSize: 48.0, letterSpacing: 1.2, color: onPrimaryColor);
 }

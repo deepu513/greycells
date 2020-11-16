@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:greycells/app_theme.dart';
 import 'package:greycells/bloc/authentication/authentication_bloc.dart';
 import 'package:greycells/bloc/authentication/authentication_event.dart';
 import 'package:greycells/bloc/authentication/authentication_state.dart';
@@ -97,7 +98,6 @@ class LoginInputSection extends StatelessWidget {
                           ""),
                   maxLines: 1,
                   textInputAction: TextInputAction.next,
-                  style: TextStyle(fontSize: 18.0),
                   decoration: InputDecoration(
                     border: InputBorder.none,
                     icon: Icon(
@@ -131,9 +131,6 @@ class LoginInputSection extends StatelessWidget {
                               .password ??
                           ""),
                   maxLines: 1,
-                  style: TextStyle(
-                    fontSize: 18.0,
-                  ),
                   textInputAction: TextInputAction.done,
                   decoration: InputDecoration(
                     border: InputBorder.none,
@@ -177,19 +174,20 @@ class LoginInputSection extends StatelessWidget {
                   height: 24.0,
                 ),
                 ButtonTheme(
-                  minWidth: double.infinity,
+                  minWidth: double.maxFinite,
                   height: 48.0,
                   child: RaisedButton(
                     onPressed: authenticationState is AuthenticationLoading
                         ? null
                         : () => {_requestUserLogin(context)},
+                    color: AppTheme.secondaryColor,
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(8.0)),
                     child: Text(
                       Strings.login.toUpperCase(),
                       style: Theme.of(context).textTheme.button.copyWith(
                           letterSpacing: 0.7,
-                          color: Colors.grey[800],
+                          color: Colors.white,
                           fontWeight: FontWeight.bold),
                     ),
                   ),

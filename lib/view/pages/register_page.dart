@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:greycells/app_theme.dart';
 import 'package:greycells/bloc/registration/bloc.dart';
 import 'package:greycells/bloc/validation/bloc.dart';
 import 'package:greycells/bloc/validation/validation_field.dart';
@@ -14,9 +15,6 @@ class RegisterPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         elevation: 0.0,
-        backgroundColor: Colors.white,
-        iconTheme: IconThemeData(color: Colors.black87),
-        brightness: Brightness.light,
       ),
       body: SafeArea(
         child: SingleChildScrollView(
@@ -72,7 +70,7 @@ class RegisterInputSection extends StatelessWidget {
                   loadingBackgroundColor: Colors.white,
                 ),
                 SizedBox(
-                  height: 48.0,
+                  height: 42.0,
                 ),
                 TextField(
                     controller: TextEditingController(
@@ -82,7 +80,6 @@ class RegisterInputSection extends StatelessWidget {
                             ""),
                     maxLines: 1,
                     textInputAction: TextInputAction.next,
-                    style: TextStyle(fontSize: 18.0),
                     decoration: InputDecoration(
                       border: InputBorder.none,
                       icon: Icon(
@@ -112,7 +109,6 @@ class RegisterInputSection extends StatelessWidget {
                 ),
                 TextField(
                     maxLines: 1,
-                    style: TextStyle(fontSize: 18.0),
                     textInputAction: TextInputAction.next,
                     decoration: InputDecoration(
                       border: InputBorder.none,
@@ -150,7 +146,6 @@ class RegisterInputSection extends StatelessWidget {
                     maxLines: 1,
                     maxLength: 10,
                     textInputAction: TextInputAction.next,
-                    style: TextStyle(fontSize: 18.0),
                     decoration: InputDecoration(
                       border: InputBorder.none,
                       icon: Icon(
@@ -185,7 +180,6 @@ class RegisterInputSection extends StatelessWidget {
                 TextField(
                     maxLines: 1,
                     textInputAction: TextInputAction.next,
-                    style: TextStyle(fontSize: 18.0),
                     decoration: InputDecoration(
                       border: InputBorder.none,
                       icon: Icon(
@@ -220,7 +214,6 @@ class RegisterInputSection extends StatelessWidget {
                 TextField(
                   maxLines: 1,
                   textInputAction: TextInputAction.next,
-                  style: TextStyle(fontSize: 18.0),
                   decoration: InputDecoration(
                     border: InputBorder.none,
                     icon: Icon(
@@ -265,7 +258,6 @@ class RegisterInputSection extends StatelessWidget {
                 TextField(
                   maxLines: 1,
                   textInputAction: TextInputAction.done,
-                  style: TextStyle(fontSize: 18.0),
                   decoration: InputDecoration(
                     border: InputBorder.none,
                     icon: Icon(
@@ -318,13 +310,14 @@ class RegisterInputSection extends StatelessWidget {
                     onPressed: registrationState is RegistrationInProgress
                         ? null
                         : () => {_requestCreateNewUser(context)},
+                    color: AppTheme.secondaryColor,
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(8.0)),
                     child: Text(
                       Strings.register.toUpperCase(),
                       style: Theme.of(context).textTheme.button.copyWith(
                           letterSpacing: 0.7,
-                          color: Colors.grey[800],
+                          color: Colors.white,
                           fontWeight: FontWeight.bold),
                     ),
                   ),

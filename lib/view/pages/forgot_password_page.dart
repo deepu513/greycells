@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:greycells/app_theme.dart';
 import 'package:greycells/bloc/authentication/forgot_password_bloc.dart';
 import 'package:greycells/constants/strings.dart';
 import 'package:greycells/extensions.dart';
@@ -74,7 +75,6 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                 ),
                 TextField(
                   maxLines: 1,
-                  style: TextStyle(fontSize: 18.0),
                   enabled: state is! SendingEmail,
                   decoration: InputDecoration(
                       border: InputBorder.none,
@@ -111,13 +111,14 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                             BlocProvider.of<ForgotPasswordBloc>(context)
                                 .add(RequestSendEmail(email));
                           },
+                    color: AppTheme.secondaryColor,
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(8.0)),
                     child: Text(
                       Strings.confirm.toUpperCase(),
                       style: Theme.of(context).textTheme.button.copyWith(
                           letterSpacing: 0.7,
-                          color: Colors.grey[800],
+                          color: Colors.white,
                           fontWeight: FontWeight.bold),
                     ),
                   ),

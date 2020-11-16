@@ -130,6 +130,11 @@ class Strings {
       "We have sent you a password reset link via email. If you don't find the email in your inbox, please check the spam folder.";
   static const createAppointmentRequest = "CREATE_APPOINTMENT_REQUEST";
   static const title = "Title";
+
+  static const channelId = "greycells_nc_1";
+  static const channelName = "Reminders";
+  static const channelDescription =
+      "Used to send reminders for upcoming appointments";
 }
 
 /// This should contain strings which signify an error message

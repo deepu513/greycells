@@ -4,6 +4,7 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:greycells/constants/setting_key.dart';
 import 'package:greycells/constants/strings.dart';
+import 'package:greycells/local_notifications.dart';
 import 'package:greycells/models/appointment/create_appointment_request.dart';
 import 'package:greycells/models/payment/order_create.dart';
 import 'package:greycells/models/payment/order_create_response.dart';
@@ -16,6 +17,8 @@ import 'package:greycells/repository/payment_repository.dart';
 import 'package:greycells/repository/settings_repository.dart';
 import 'package:meta/meta.dart';
 import 'package:razorpay_flutter/razorpay_flutter.dart';
+import 'package:timezone/data/latest.dart' as tz;
+import 'package:timezone/timezone.dart' as tz;
 
 part 'payment_event.dart';
 
@@ -103,10 +106,25 @@ class PaymentBloc extends Bloc<PaymentEvent, PaymentState> {
                 .createAppointment(createAppointmentRequest);
             mPaymentForProcessing = null;
             paymentId = null;
-            if (result == true)
+            if (result == true) {
+              // Schedule notifications
+              final localNotifications = await LocalNotifications.getInstance();
+              localNotifications.zonedScheduleNotification(
+                  "Appointment reminder",
+                  "Friendly reminder! Your appointment is scheduled for today.",
+                  createAppointmentRequest.appointmentDateTime
+                      .subtract(Duration(hours: 3)));
+
+              localNotifications.zonedScheduleNotification(
+                  "Appointment reminder",
+                  "Your appointment will start in approximately 30 minutes.",
+                  createAppointmentRequest.appointmentDateTime
+                      .subtract(Duration(minutes: 35)));
+                      
               yield PaymentSuccess();
-            else
+            } else {
               yield PaymentStatusUnknown();
+            }
           }
         } else
           yield PaymentStatusUnknown();

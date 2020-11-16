@@ -22,6 +22,7 @@ class TherapistAppointmentsPage extends StatefulWidget {
 
 class _TherapistAppointmentsPageState extends State<TherapistAppointmentsPage> {
   List<Appointment> upcomingAppointments;
+  
   @override
   void initState() {
     super.initState();

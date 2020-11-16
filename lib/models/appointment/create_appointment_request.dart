@@ -23,6 +23,9 @@ class CreateAppointmentRequest {
   @JsonKey(name: "ChargeId")
   int chargeId;
 
+  @JsonKey(ignore: true)
+  DateTime appointmentDateTime;
+
   CreateAppointmentRequest();
 
   factory CreateAppointmentRequest.fromJson(Map<String, dynamic> json) =>

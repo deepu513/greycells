@@ -32,7 +32,7 @@ class AppointmentDetailPage extends StatelessWidget {
         if (state is AppointmentCancelled) {
           await showSuccessDialog(
             context: context,
-            message: "This appointment is cancelled successfully",
+            message: "This appointment is cancelled successfully.",
             showIcon: true,
             onPressed: () => Navigator.of(context).pop(),
           );

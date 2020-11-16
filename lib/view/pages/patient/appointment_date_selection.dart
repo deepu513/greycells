@@ -150,10 +150,14 @@ class _MainContentState extends State<MainContent> {
                   ..therapistId = widget.therapist.id
                   ..comments = ""
                   ..duration = widget.therapist.meetingDuration.duration
-                  ..patientId = Provider.of<PatientHome>(context, listen: false).patient.id
+                  ..patientId = Provider.of<PatientHome>(context, listen: false)
+                      .patient
+                      .id
                   ..timeslotId = mSelectedTimeslot.id
                   ..meetingTypeId = widget.selectedMeeting.meetingTypeId
                   ..chargeId = widget.selectedMeeting.chargeId
+                  ..appointmentDateTime = _getAppointmentDateTime(
+                      mSelectedDay, mSelectedTimeslot.startTime)
               };
             Navigator.of(context)
                 .pushNamed(RouteName.PAYMENT_PAGE, arguments: payment);
@@ -167,6 +171,13 @@ class _MainContentState extends State<MainContent> {
         }),
       ],
     );
+  }
+
+  DateTime _getAppointmentDateTime(
+      DateTime selectedDay, String appointmentStartTime) {
+    DateTime aTime = appointmentStartTime.timeAsDate();
+    return DateTime(selectedDay.year, selectedDay.month, selectedDay.day,
+        aTime.hour, aTime.minute);
   }
 
   void _getTimeslotsForDay(DateTime day) {

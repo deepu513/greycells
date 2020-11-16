@@ -49,7 +49,7 @@ class _PaymentPageState extends State<PaymentPage> {
         }
 
         if (state is PaymentSuccess) {
-          // TODO: After payment success show a good page with image?
+          // TODO: After payment success show a good page with image and rediredirect to refreshed home page on back.
           widget.showSuccessDialog(
               context: context,
               message: Strings.paymentSuccess,
@@ -73,55 +73,55 @@ class _PaymentPageState extends State<PaymentPage> {
             ),
           ),
           body: SafeArea(
-            child: Container(
-              padding: EdgeInsets.all(16.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  PaymentHeaderSection(mPayment),
-                  SizedBox(
-                    height: 8.0,
-                  ),
-                  Divider(),
-                  PaymentDetailsSection(mPayment),
-                  SizedBox(
-                    height: 8.0,
-                  ),
-                  Divider(),
-                  SizedBox(
-                    height: 8.0,
-                  ),
-                  BlocProvider<DiscountBloc>(
-                      create: (context) => DiscountBloc(),
-                      child: PromoCodeInputSection(
-                        onPromoCodeApplied: (discount) =>
-                            _giveDiscount(discount),
-                        onPromoCodeRemoved: () => _removeDiscount(),
-                      )),
-                  SizedBox(
-                    height: 8.0,
-                  ),
-                  Divider(),
-                  Spacer(),
-                  FlatButton(
-                    onPressed: () {
-                      BlocProvider.of<PaymentBloc>(context)
-                          .add(ProcessPayment(mPayment));
-                    },
-                    color: Theme.of(context).primaryColor,
-                    height: 56.0,
-                    minWidth: double.maxFinite,
-                    child: Text(
-                      Strings.makePayment.toUpperCase(),
-                      style: Theme.of(context).textTheme.subtitle1.copyWith(
-                            wordSpacing: 1.0,
-                            letterSpacing: 0.75,
-                            color: Colors.white,
-                          ),
+            child: Column(
+              children: [
+                Expanded(
+                  child: Container(
+                    padding: EdgeInsets.all(16.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        PaymentHeaderSection(mPayment),
+                        Divider(
+                          height: 32.0,
+                        ),
+                        PaymentDetailsSection(mPayment),
+                        Divider(
+                          height: 32.0,
+                        ),
+                        BlocProvider<DiscountBloc>(
+                            create: (context) => DiscountBloc(),
+                            child: PromoCodeInputSection(
+                              onPromoCodeApplied: (discount) =>
+                                  _giveDiscount(discount),
+                              onPromoCodeRemoved: () => _removeDiscount(),
+                            )),
+                        Divider(
+                          height: 32.0,
+                        ),
+                      ],
                     ),
                   ),
-                ],
-              ),
+                ),
+                FlatButton(
+                  onPressed: state is! PaymentProcessing ? () {
+                    BlocProvider.of<PaymentBloc>(context)
+                        .add(ProcessPayment(mPayment));
+                  } : null,
+                  color: Theme.of(context).primaryColor,
+                  disabledColor: Colors.grey,
+                  height: 56.0,
+                  minWidth: double.maxFinite,
+                  child: Text(
+                    Strings.makePayment.toUpperCase(),
+                    style: Theme.of(context).textTheme.subtitle1.copyWith(
+                          wordSpacing: 1.0,
+                          letterSpacing: 0.75,
+                          color: Colors.white,
+                        ),
+                  ),
+                ),
+              ],
             ),
           ),
         );
@@ -157,15 +157,15 @@ class PaymentHeaderSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Row(
-      crossAxisAlignment: CrossAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         Visibility(
             visible: payment.type == PaymentType.APPOINTMENT,
             child: CircleAvatarOrInitials(
-              radius: 36.0,
+              radius: 32.0,
               imageUrl:
                   payment.itemImageUrl != null ? payment.itemImageUrl : "",
-              stringForInitials: payment.title,
+              stringForInitials: payment.itemTitle,
             )),
         SizedBox(
           width: payment.type == PaymentType.APPOINTMENT ? 16.0 : 0.0,

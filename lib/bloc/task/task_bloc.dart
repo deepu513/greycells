@@ -52,7 +52,7 @@ class TaskBloc extends Bloc<TaskEvent, TaskState> {
             taskResponse.tasks.forEach((task) {
               task.taskItems.forEach((taskItem) {
                 if (taskItem.status == 0) {
-                  DateFormat dateFormat = DateFormat("mm-dd-yyyy HH:mm:ss a");
+                  DateFormat dateFormat = DateFormat("MM-dd-yyyy h:mm:ss a");
                   DateTime dateTime =
                       dateFormat.parse(taskItem.expectedCompletionDateTIme);
                   if (DateTime.now().isBefore(dateTime) == false) {

@@ -14,13 +14,13 @@ class CircleAvatarOrInitials extends StatelessWidget {
   Widget build(BuildContext context) {
     return CircleAvatar(
       backgroundImage: imageUrl != null ? NetworkImage(imageUrl) : null,
+      backgroundColor: Color(0xFF455a64),
       child: imageUrl.isNullOrEmpty()
           ? Text(
               stringForInitials.initials(),
-              style: Theme.of(context)
-                  .textTheme
-                  .subtitle1
-                  .copyWith(color: Colors.white, fontWeight: FontWeight.bold),
+              style: Theme.of(context).textTheme.headline6.copyWith(
+                    color: Colors.white,
+                  ),
             )
           : null,
       radius: radius,

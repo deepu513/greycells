@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:greycells/bloc/appointment/appointment_detail_bloc.dart';
 import 'package:greycells/bloc/assessment/assessment_bloc.dart';
 import 'package:greycells/bloc/authentication/forgot_password_bloc.dart';
+import 'package:greycells/bloc/payment/payment_bloc.dart';
 import 'package:greycells/bloc/registration/bloc.dart';
 import 'package:greycells/bloc/task/task_bloc.dart';
 import 'package:greycells/bloc/therapist/bloc/therapist_bloc.dart';
@@ -87,7 +88,9 @@ class RouteGenerator {
       case RouteName.DECIDER_PAGE:
         return MaterialPageRoute(builder: (_) => DeciderPage());
       case RouteName.PAYMENT_PAGE:
-        return MaterialPageRoute(builder: (_) => PaymentPage(args));
+        return MaterialPageRoute(
+            builder: (_) => BlocProvider<PaymentBloc>(
+                create: (_) => PaymentBloc(), child: PaymentPage(args)));
       case RouteName.PATIENT_SCORE_PAGE:
         return MaterialPageRoute(builder: (_) => PatientScorePage());
       case RouteName.THERAPIST_LIST_PAGE:

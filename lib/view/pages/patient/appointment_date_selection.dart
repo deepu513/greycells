@@ -13,7 +13,6 @@ import 'package:greycells/models/therapist/therapist.dart';
 import 'package:greycells/models/timeslot/timeslot.dart';
 import 'package:greycells/route/route_name.dart';
 import 'package:greycells/view/widgets/centered_circular_loading.dart';
-import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:table_calendar/table_calendar.dart';
 
@@ -151,12 +150,19 @@ class _MainContentState extends State<MainContent> {
                   ..therapistId = widget.therapist.id
                   ..comments = ""
                   ..duration = widget.therapist.meetingDuration.duration
-                  ..patientId = Provider.of<PatientHome>(context).patient.id
+                  ..patientId = Provider.of<PatientHome>(context, listen: false).patient.id
                   ..timeslotId = mSelectedTimeslot.id
                   ..meetingTypeId = widget.selectedMeeting.meetingTypeId
+                  ..chargeId = widget.selectedMeeting.chargeId
               };
             Navigator.of(context)
                 .pushNamed(RouteName.PAYMENT_PAGE, arguments: payment);
+          } else {
+            widget.showErrorDialog(
+                showIcon: true,
+                context: context,
+                message: "Please select a timeslot.",
+                onPressed: () => Navigator.of(context).pop());
           }
         }),
       ],
@@ -358,7 +364,7 @@ class TimeSlotSelector extends StatefulWidget {
 }
 
 class _TimeSlotSelectorState extends State<TimeSlotSelector> {
-  int _selectedIndex = 0;
+  int _selectedIndex = -1;
 
   @override
   Widget build(BuildContext context) {

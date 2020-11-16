@@ -20,6 +20,9 @@ class CreateAppointmentRequest {
   @JsonKey(name: "MeetingTypeId")
   int meetingTypeId;
 
+  @JsonKey(name: "ChargeId")
+  int chargeId;
+
   CreateAppointmentRequest();
 
   factory CreateAppointmentRequest.fromJson(Map<String, dynamic> json) =>

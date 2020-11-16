@@ -12,6 +12,7 @@ import 'package:greycells/view/widgets/centered_circular_loading.dart';
 import 'package:greycells/view/widgets/empty_state.dart';
 import 'package:greycells/view/widgets/error_with_retry.dart';
 import 'package:greycells/view/widgets/network_image_with_error.dart';
+import 'package:greycells/view/widgets/no_glow_scroll_behaviour.dart';
 import 'package:greycells/view/widgets/task_status_widget.dart';
 import 'package:intl/intl.dart';
 import 'package:greycells/extensions.dart';
@@ -23,16 +24,6 @@ class PatientTasksPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return DefaultStickyHeaderController(
       child: Scaffold(
-        appBar: AppBar(
-          elevation: 4.0,
-          title: Text(
-            'Tasks',
-            style: Theme.of(context)
-                .textTheme
-                .headline6
-                .copyWith(color: Colors.black87),
-          ),
-        ),
         body: SafeArea(
           child: BlocProvider<TaskBloc>(
             create: (context) => TaskBloc(),
@@ -65,17 +56,30 @@ class _AllTasksState extends State<AllTasks> {
     return BlocConsumer<TaskBloc, TaskState>(
       listener: (context, state) {},
       builder: (context, state) {
-        if (state is TaskLoading)
-          return CenteredCircularLoadingIndicator();
+        if (state is TaskLoading) return CenteredCircularLoadingIndicator();
         if (state is AllTasksLoaded)
-          return CustomScrollView(
-            slivers: [
-              ...state.tasks.map((task) {
-                return _TaskList(
-                  task: task,
-                );
-              })
-            ],
+          return ScrollConfiguration(
+            behavior: NoGlowScrollBehaviour(),
+            child: CustomScrollView(
+              slivers: [
+                SliverAppBar(
+                  elevation: 4.0,
+                  floating: true,
+                  title: Text(
+                    'Tasks',
+                    style: Theme.of(context)
+                        .textTheme
+                        .headline6
+                        .copyWith(color: Colors.black87),
+                  ),
+                ),
+                ...state.tasks.map((task) {
+                  return _TaskList(
+                    task: task,
+                  );
+                })
+              ],
+            ),
           );
         if (state is TasksEmpty) return Expanded(child: EmptyState());
         if (state is TasksError)
@@ -108,7 +112,8 @@ class _TaskList extends StatelessWidget {
       sliver: SliverList(
         delegate: SliverChildBuilderDelegate(
           (context, index) => Padding(
-            padding: const EdgeInsets.all(8.0),
+            padding:
+                const EdgeInsets.symmetric(horizontal: 8.0, vertical: 16.0),
             child: _TaskItemWidget(
               taskItem: task.taskItems[index],
             ),
@@ -144,7 +149,7 @@ class TaskSectionHeader extends StatelessWidget {
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.baseline,
           children: [
-            Flexible(
+            Expanded(
               child: Text(
                 taskTitle,
                 style: Theme.of(context).textTheme.headline6.copyWith(

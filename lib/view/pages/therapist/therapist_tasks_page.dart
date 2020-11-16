@@ -23,16 +23,6 @@ class TherapistTasksPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return DefaultStickyHeaderController(
       child: Scaffold(
-        appBar: AppBar(
-          elevation: 4.0,
-          title: Text(
-            'Tasks',
-            style: Theme.of(context)
-                .textTheme
-                .headline6
-                .copyWith(color: Colors.black87),
-          ),
-        ),
         body: SafeArea(
           child: BlocProvider<TaskBloc>(
             create: (context) => TaskBloc(),
@@ -65,11 +55,21 @@ class _AllTasksState extends State<AllTasks> {
     return BlocConsumer<TaskBloc, TaskState>(
       listener: (context, state) {},
       builder: (context, state) {
-        if (state is TaskLoading)
-          return CenteredCircularLoadingIndicator();
+        if (state is TaskLoading) return CenteredCircularLoadingIndicator();
         if (state is AllTasksLoaded)
           return CustomScrollView(
             slivers: [
+              SliverAppBar(
+                floating: true,
+                elevation: 4.0,
+                title: Text(
+                  'Tasks',
+                  style: Theme.of(context)
+                      .textTheme
+                      .headline6
+                      .copyWith(color: Colors.black87),
+                ),
+              ),
               ...state.tasks.map((task) {
                 return _TaskList(
                   task: task,

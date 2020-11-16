@@ -40,9 +40,25 @@ class AppointmentDetailBloc
       }
     }
 
+    if (event is CompleteAppointment) {
+      yield AppointmentCancelling();
+      try {
+        bool result = await repository.updateAppointment(
+            event.appointmentId, AppointmentStatus.completed);
+
+        if (result != null && result == true) {
+          yield AppointmentCancelled();
+        } else
+          yield AppointmentCancelFailed(ErrorMessages.GENERIC_ERROR_MESSAGE);
+      } catch (e) {
+        yield AppointmentCancelFailed(ErrorMessages.GENERIC_ERROR_MESSAGE);
+      }
+    }
+
     if (event is StartAppointment) {
       try {
-        var str = event.patientName+event.therapistName;
+        yield AppointmentStarting();
+        var str = event.patientName + event.therapistName;
         var bytes = utf8.encode(str);
         var base64Str = hex.encode(bytes);
 
@@ -60,6 +76,7 @@ class AppointmentDetailBloc
           };
 
         await JitsiMeet.joinMeeting(options);
+        yield AppointmentEnded();
       } catch (error) {
         print("Error while joining call $error");
         yield AppointmentStartFailed();

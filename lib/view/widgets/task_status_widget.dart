@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:greycells/bloc/task/task_status.dart';
-import 'package:greycells/models/appointment/appointment_status.dart';
 
 class TaskStatusWidget extends StatelessWidget {
   final TaskStatus taskStatus;

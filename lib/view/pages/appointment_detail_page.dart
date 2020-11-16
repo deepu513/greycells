@@ -15,7 +15,6 @@ import 'package:greycells/view/widgets/colored_page_section.dart';
 import 'package:greycells/view/widgets/page_section.dart';
 import 'package:greycells/extensions.dart';
 import 'package:greycells/bloc/appointment/appointment_detail_bloc.dart';
-import 'package:jitsi_meet/feature_flag/feature_flag_enum.dart';
 import 'package:jitsi_meet/jitsi_meet.dart';
 import 'package:jitsi_meet/jitsi_meeting_listener.dart';
 import 'package:provider/provider.dart';
@@ -38,6 +37,16 @@ class AppointmentDetailPage extends StatelessWidget {
             onPressed: () => Navigator.of(context).pop(),
           );
           Navigator.of(context).pop(true);
+        }
+
+        if (state is AppointmentCompleted) {
+          await showSuccessDialog(
+            context: context,
+            message:
+                "This appointment is now marked as complete. You can assign tasks to your client.",
+            showIcon: true,
+            onPressed: () => Navigator.of(context).pop(),
+          );
         }
       },
       builder: (context, state) {
@@ -189,6 +198,9 @@ class _MainContentState extends State<MainContent> {
                         arguments: widget.appointment.patient);
                   },
                 ),
+          SizedBox(
+            height: 8.0,
+          ),
           Align(
             alignment: Alignment.topRight,
             child: Row(
@@ -260,6 +272,20 @@ class _MainContentState extends State<MainContent> {
 
   _onConferenceTerminated({message}) {
     debugPrint("_onConferenceTerminated $message");
+
+    if (widget.userType == UserType.therapist) {
+      widget.showConfirmationDialog(
+        context: context,
+        message:
+            "We noticed the call being disconnected. Do you want to mark this appointment as complete?",
+        onConfirmed: () {
+          BlocProvider.of<AppointmentDetailBloc>(context)
+              .add(CancelAppointment(widget.appointment.id));
+          Navigator.of(context).pop();
+        },
+        onCancelled: () => Navigator.of(context).pop(),
+      );
+    }
   }
 
   _onError(error) {
@@ -627,12 +653,12 @@ class AppointmentStatusDetails extends StatelessWidget {
               onJoinAppointmentRequested: () {
                 BlocProvider.of<AppointmentDetailBloc>(context)
                     .add(StartAppointment(
-                      patientName: userType == UserType.patient
+                  patientName: userType == UserType.patient
                       ? Provider.of<PatientHome>(context, listen: false)
                           .patient
                           .fullName
                       : appointment.patient.fullName,
-                      therapistName: userType == UserType.patient
+                  therapistName: userType == UserType.patient
                       ? appointment.therapist.fullName
                       : Provider.of<TherapistHome>(context, listen: false)
                           .therapist
@@ -652,37 +678,13 @@ class AppointmentStatusDetails extends StatelessWidget {
               canJoin: true,
             );
 
-          // if (state is TimeInPast) {
-          //   return CompletedAppointmentSection();
-          // }
+          if (state is TimeInPast) {
+            return CompletedAppointmentSection();
+          }
 
           return OngoingAppointmentSection(
             remainingDuration: state.readableDuration,
-            onJoinAppointmentRequested: () {
-                BlocProvider.of<AppointmentDetailBloc>(context)
-                    .add(StartAppointment(
-                      patientName: userType == UserType.patient
-                      ? Provider.of<PatientHome>(context, listen: false)
-                          .patient
-                          .fullName
-                      : appointment.patient.fullName,
-                      therapistName: userType == UserType.patient
-                      ? appointment.therapist.fullName
-                      : Provider.of<TherapistHome>(context, listen: false)
-                          .therapist
-                          .fullName,
-                  subject: userType == UserType.patient
-                      ? "Meeting with ${appointment.therapist.fullName}"
-                      : "Meeting with ${appointment.patient.fullName}",
-                  displayName: userType == UserType.patient
-                      ? Provider.of<PatientHome>(context, listen: false)
-                          .patient
-                          .fullName
-                      : Provider.of<TherapistHome>(context, listen: false)
-                          .therapist
-                          .fullName,
-                ));
-              },
+            onJoinAppointmentRequested: null,
             canJoin: false,
           );
         },

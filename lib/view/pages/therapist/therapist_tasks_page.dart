@@ -52,40 +52,47 @@ class _AllTasksState extends State<AllTasks> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<TaskBloc, TaskState>(
-      listener: (context, state) {},
-      builder: (context, state) {
-        if (state is TaskLoading) return CenteredCircularLoadingIndicator();
-        if (state is AllTasksLoaded)
-          return CustomScrollView(
-            slivers: [
-              SliverAppBar(
-                floating: true,
-                elevation: 4.0,
-                title: Text(
-                  'Tasks',
-                  style: Theme.of(context)
-                      .textTheme
-                      .headline6
-                      .copyWith(color: Colors.black87),
-                ),
-              ),
-              ...state.tasks.map((task) {
-                return _TaskList(
-                  task: task,
-                );
-              })
-            ],
-          );
-        if (state is TasksEmpty) return Expanded(child: EmptyState());
-        if (state is TasksError)
-          return ErrorWithRetry(
-            onRetryPressed: () {
-              _loadAllTasks();
-            },
-          );
-        return Container();
+    return RefreshIndicator(
+      onRefresh: () async {
+        return Future.delayed(Duration(milliseconds: 100), () {
+          _loadAllTasks();
+        });
       },
+      child: BlocConsumer<TaskBloc, TaskState>(
+        listener: (context, state) {},
+        builder: (context, state) {
+          if (state is TaskLoading) return CenteredCircularLoadingIndicator();
+          if (state is AllTasksLoaded)
+            return CustomScrollView(
+              slivers: [
+                SliverAppBar(
+                  floating: true,
+                  elevation: 4.0,
+                  title: Text(
+                    'Tasks',
+                    style: Theme.of(context)
+                        .textTheme
+                        .headline6
+                        .copyWith(color: Colors.black87),
+                  ),
+                ),
+                ...state.tasks.map((task) {
+                  return _TaskList(
+                    task: task,
+                  );
+                })
+              ],
+            );
+          if (state is TasksEmpty) return Expanded(child: EmptyState());
+          if (state is TasksError)
+            return ErrorWithRetry(
+              onRetryPressed: () {
+                _loadAllTasks();
+              },
+            );
+          return Container();
+        },
+      ),
     );
   }
 }

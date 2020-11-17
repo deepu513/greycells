@@ -3,7 +3,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:greycells/bloc/appointment/appointment_bloc.dart';
 import 'package:greycells/constants/user_type.dart';
 import 'package:greycells/models/appointment/appointment.dart';
+import 'package:greycells/models/appointment/appointment_detail_arguments.dart';
 import 'package:greycells/models/appointment/appointment_status.dart';
+import 'package:greycells/route/route_name.dart';
 import 'package:greycells/view/widgets/appointment_card.dart';
 import 'package:greycells/view/widgets/appointment_status_selector.dart';
 import 'package:greycells/view/widgets/centered_circular_loading.dart';
@@ -84,7 +86,11 @@ class AppointmentList extends StatelessWidget {
       itemBuilder: (context, index) {
         return Padding(
           padding: const EdgeInsets.fromLTRB(8.0, 8.0, 8.0, 0.0),
-          child: AppointmentCard(allAppointments[index], userType, () {}),
+          child: AppointmentCard(allAppointments[index], userType, () {
+            Navigator.of(context).pushNamed(RouteName.APPOINTMENT_DETAIL_PAGE,
+                arguments: AppointmentDetailArguments(
+                    allAppointments[index], userType));
+          }),
         );
       },
       itemCount: allAppointments.length,

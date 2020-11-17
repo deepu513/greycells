@@ -167,59 +167,41 @@ class _MainContentState extends State<MainContent> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           widget.userType == UserType.patient
-              ? TherapistDetailsSection(
-                  therapistName: widget.appointment.therapist.fullName,
-                  therapistType:
-                      widget.appointment.therapist.therapistType.name,
-                  medicalCouncil: widget.appointment.therapist.medicalCouncil,
-                  experience:
-                      widget.appointment.therapist.totalExperience.toString(),
-                  profilePicUrl: widget.appointment.therapist.file != null
-                      ? widget.appointment.therapist.file.name
-                          .withBaseUrlForImage()
-                      : "",
-                  onTherapistProfileRequested: () {
+              ? _TappableSection(
+                  onTap: () {
                     Navigator.of(context).pushNamed(
                         RouteName.THERAPIST_PROFILE_PAGE,
                         arguments: widget.appointment.therapist);
                   },
+                  firstWidget: TherapistDetailsSection(
+                    therapistName: widget.appointment.therapist.fullName,
+                    therapistType:
+                        widget.appointment.therapist.therapistType.name,
+                    medicalCouncil: widget.appointment.therapist.medicalCouncil,
+                    experience:
+                        widget.appointment.therapist.totalExperience.toString(),
+                    profilePicUrl: widget.appointment.therapist.file != null
+                        ? widget.appointment.therapist.file.name
+                            .withBaseUrlForImage()
+                        : "",
+                  ),
                 )
-              : PatientDetailsSection(
-                  patientName: widget.appointment.patient.fullName,
-                  patientMobileNumber:
-                      widget.appointment.patient.user.mobileNumber,
-                  profilePicUrl: widget.appointment.patient.file != null
-                      ? widget.appointment.patient.file.name
-                          .withBaseUrlForImage()
-                      : "",
-                  onPatientProfileRequested: () {
+              : _TappableSection(
+                  onTap: () {
                     Navigator.of(context).pushNamed(
                         RouteName.PATIENT_PROFILE_PAGE,
                         arguments: widget.appointment.patient);
                   },
+                  firstWidget: PatientDetailsSection(
+                    patientName: widget.appointment.patient.fullName,
+                    patientMobileNumber:
+                        widget.appointment.patient.user.mobileNumber,
+                    profilePicUrl: widget.appointment.patient.file != null
+                        ? widget.appointment.patient.file.name
+                            .withBaseUrlForImage()
+                        : "",
+                  ),
                 ),
-          SizedBox(
-            height: 8.0,
-          ),
-          Align(
-            alignment: Alignment.topRight,
-            child: Row(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Icon(
-                  Icons.info_outline,
-                  size: 16.0,
-                  color: Colors.blueAccent,
-                ),
-                SizedBox(width: 4.0),
-                Text(
-                  "Click to see full profile",
-                  style: Theme.of(context).textTheme.caption,
-                ),
-              ],
-            ),
-          ),
           Divider(
             height: 32.0,
           ),
@@ -293,13 +275,57 @@ class _MainContentState extends State<MainContent> {
   }
 }
 
+class _TappableSection extends StatelessWidget {
+  final Widget firstWidget;
+  final VoidCallback onTap;
+
+  const _TappableSection({
+    Key key,
+    @required this.firstWidget,
+    @required this.onTap,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+      onTap: onTap,
+      child: Column(
+        children: [
+          firstWidget,
+          SizedBox(
+            height: 8.0,
+          ),
+          Align(
+            alignment: Alignment.topRight,
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Icon(
+                  Icons.info_outline,
+                  size: 16.0,
+                  color: Colors.blueAccent,
+                ),
+                SizedBox(width: 4.0),
+                Text(
+                  "Click to see full profile",
+                  style: Theme.of(context).textTheme.caption,
+                ),
+              ],
+            ),
+          )
+        ],
+      ),
+    );
+  }
+}
+
 class TherapistDetailsSection extends StatelessWidget {
   final String therapistName;
   final String therapistType;
   final String medicalCouncil;
   final String profilePicUrl;
   final String experience;
-  final VoidCallback onTherapistProfileRequested;
 
   const TherapistDetailsSection(
       {Key key,
@@ -307,90 +333,86 @@ class TherapistDetailsSection extends StatelessWidget {
       @required this.therapistType,
       @required this.medicalCouncil,
       @required this.experience,
-      @required this.onTherapistProfileRequested,
       @required this.profilePicUrl})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
-      onTap: onTherapistProfileRequested,
-      child: IntrinsicHeight(
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            CircleAvatarOrInitials(
-              radius: 32.0,
-              imageUrl: profilePicUrl,
-              stringForInitials: therapistName,
-            ),
-            SizedBox(
-              width: 16.0,
-            ),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisSize: MainAxisSize.max,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    therapistName ?? "",
-                    style: Theme.of(context).textTheme.headline6,
-                    overflow: TextOverflow.clip,
-                  ),
-                  Text(
-                    therapistType ?? "",
-                    style: Theme.of(context).textTheme.subtitle2,
-                    overflow: TextOverflow.clip,
-                  ),
-                  Visibility(
-                    visible: medicalCouncil != null,
-                    child: Text(
-                      medicalCouncil ?? "",
-                      style: Theme.of(context).textTheme.caption,
-                      overflow: TextOverflow.clip,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            VerticalDivider(
-              thickness: 1.0,
-              width: 32.0,
-              indent: 8.0,
-              endIndent: 8.0,
-            ),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisSize: MainAxisSize.min,
+    return IntrinsicHeight(
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          CircleAvatarOrInitials(
+            radius: 32.0,
+            imageUrl: profilePicUrl,
+            stringForInitials: therapistName,
+          ),
+          SizedBox(
+            width: 16.0,
+          ),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.max,
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Container(
-                  decoration: BoxDecoration(
-                      shape: BoxShape.circle, color: Colors.purple.shade50),
-                  padding: EdgeInsets.all(8.0),
+                Text(
+                  therapistName ?? "",
+                  style: Theme.of(context).textTheme.headline6,
+                  overflow: TextOverflow.clip,
+                ),
+                Text(
+                  therapistType ?? "",
+                  style: Theme.of(context).textTheme.subtitle2,
+                  overflow: TextOverflow.clip,
+                ),
+                Visibility(
+                  visible: medicalCouncil != null,
                   child: Text(
-                    experience,
-                    style: Theme.of(context).textTheme.headline6.copyWith(
-                        color: Colors.purple, fontWeight: FontWeight.w700),
+                    medicalCouncil ?? "",
+                    style: Theme.of(context).textTheme.caption,
                     overflow: TextOverflow.clip,
                   ),
-                ),
-                Text(
-                  "years",
-                  style: Theme.of(context).textTheme.bodyText1.copyWith(
-                      color: Colors.black87, fontStyle: FontStyle.italic),
-                  overflow: TextOverflow.clip,
-                ),
-                Text(
-                  "exp",
-                  style: Theme.of(context).textTheme.bodyText1.copyWith(
-                      color: Colors.black87, fontStyle: FontStyle.italic),
-                  overflow: TextOverflow.clip,
                 ),
               ],
-            )
-          ],
-        ),
+            ),
+          ),
+          VerticalDivider(
+            thickness: 1.0,
+            width: 32.0,
+            indent: 8.0,
+            endIndent: 8.0,
+          ),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Container(
+                decoration: BoxDecoration(
+                    shape: BoxShape.circle, color: Colors.purple.shade50),
+                padding: EdgeInsets.all(8.0),
+                child: Text(
+                  experience,
+                  style: Theme.of(context).textTheme.headline6.copyWith(
+                      color: Colors.purple, fontWeight: FontWeight.w700),
+                  overflow: TextOverflow.clip,
+                ),
+              ),
+              Text(
+                "years",
+                style: Theme.of(context).textTheme.bodyText1.copyWith(
+                    color: Colors.black87, fontStyle: FontStyle.italic),
+                overflow: TextOverflow.clip,
+              ),
+              Text(
+                "exp",
+                style: Theme.of(context).textTheme.bodyText1.copyWith(
+                    color: Colors.black87, fontStyle: FontStyle.italic),
+                overflow: TextOverflow.clip,
+              ),
+            ],
+          )
+        ],
       ),
     );
   }
@@ -400,63 +422,60 @@ class PatientDetailsSection extends StatelessWidget {
   final String patientName;
   final String patientMobileNumber;
   final String profilePicUrl;
-  final VoidCallback onPatientProfileRequested;
 
-  const PatientDetailsSection(
-      {Key key,
-      @required this.patientName,
-      @required this.patientMobileNumber,
-      @required this.profilePicUrl,
-      @required this.onPatientProfileRequested})
-      : super(key: key);
+  const PatientDetailsSection({
+    Key key,
+    @required this.patientName,
+    @required this.patientMobileNumber,
+    @required this.profilePicUrl,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
-      onTap: onPatientProfileRequested,
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          CircleAvatarOrInitials(
-            radius: 32.0,
-            imageUrl: profilePicUrl,
-            stringForInitials: patientName,
-          ),
-          SizedBox(width: 16.0),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                patientName,
-                style: Theme.of(context).textTheme.headline6.copyWith(
-                    color: Colors.black87, fontWeight: FontWeight.w700),
-              ),
-              SizedBox(
-                height: 4.0,
-              ),
-              Row(
-                children: [
-                  Icon(
-                    Icons.call,
-                    size: 14.0,
-                    color: Colors.grey,
-                  ),
-                  SizedBox(
-                    width: 4.0,
-                  ),
-                  SelectableText(
-                    patientMobileNumber,
-                    style: Theme.of(context)
-                        .textTheme
-                        .caption
-                        .copyWith(fontSize: 14.0),
-                  ),
-                ],
-              )
-            ],
-          ),
-        ],
-      ),
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        CircleAvatarOrInitials(
+          radius: 32.0,
+          imageUrl: profilePicUrl,
+          stringForInitials: patientName,
+        ),
+        SizedBox(width: 16.0),
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              patientName,
+              style: Theme.of(context)
+                  .textTheme
+                  .headline6
+                  .copyWith(color: Colors.black87, fontWeight: FontWeight.w700),
+            ),
+            SizedBox(
+              height: 4.0,
+            ),
+            Row(
+              children: [
+                Icon(
+                  Icons.call,
+                  size: 14.0,
+                  color: Colors.grey,
+                ),
+                SizedBox(
+                  width: 4.0,
+                ),
+                SelectableText(
+                  patientMobileNumber,
+                  style: Theme.of(context)
+                      .textTheme
+                      .caption
+                      .copyWith(fontSize: 14.0),
+                ),
+              ],
+            )
+          ],
+        ),
+      ],
     );
   }
 }
@@ -482,8 +501,7 @@ class AppointmentSummary extends StatelessWidget {
         ),
         RichText(
           text: TextSpan(
-            text:
-                "${appointment.charge.meetingType.name}",
+            text: "${appointment.charge.meetingType.name}",
             style: Theme.of(context).textTheme.bodyText1.copyWith(
                 color: Color(0xFF100249),
                 letterSpacing: 0.7,

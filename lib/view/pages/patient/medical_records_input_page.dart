@@ -50,6 +50,7 @@ class MedicalRecordsInputPage extends StatelessWidget {
             BlocProvider.of<PatientDetailsBloc>(context)
                 .add(AddMedicalRecordFile(state.pickedFile));
           }
+          
           if (state is PdfFilePicked) {
             BlocProvider.of<PatientDetailsBloc>(context)
                 .add(AddMedicalRecordFile(state.pickedFile));

@@ -5,16 +5,13 @@ import 'package:greycells/app_theme.dart';
 import 'package:greycells/bloc/authentication/bloc.dart';
 import 'package:greycells/bloc/decider/decider_bloc.dart';
 import 'package:greycells/bloc/notification/notification_bloc.dart';
-import 'package:greycells/bloc/task/task_bloc.dart';
 import 'package:greycells/bloc/validation/validation_bloc.dart';
 import 'package:greycells/models/home/patient_home.dart';
 import 'package:greycells/models/home/therapist_home.dart';
 import 'package:greycells/route/route_generator.dart';
 import 'package:greycells/simple_bloc_observer.dart';
 import 'package:greycells/view/pages/decider_page.dart';
-import 'package:greycells/view/pages/image_viewer.dart';
 import 'package:greycells/view/pages/splash_page.dart';
-import 'package:greycells/view/pages/therapist/assign_tasks_page.dart';
 import 'package:greycells/view/pages/welcome_page.dart';
 import 'package:provider/provider.dart';
 

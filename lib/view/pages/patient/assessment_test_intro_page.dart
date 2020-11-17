@@ -140,37 +140,32 @@ class _AssessmentTestIntroPageState extends State<AssessmentTestIntroPage>
     });
 
     _firstPointFadeController.addStatusListener((status) {
-      if (status == AnimationStatus.completed ||
-          status == AnimationStatus.forward) {
+      if (status == AnimationStatus.completed) {
         currentPoint = 1;
         _buttonFadeController.forward();
       }
     });
 
     _secondPointFadeController.addStatusListener((status) {
-      if (status == AnimationStatus.completed ||
-          status == AnimationStatus.forward) {
+      if (status == AnimationStatus.completed) {
         currentPoint = 2;
       }
     });
 
     _thirdPointFadeController.addStatusListener((status) {
-      if (status == AnimationStatus.completed ||
-          status == AnimationStatus.forward) {
+      if (status == AnimationStatus.completed) {
         currentPoint = 3;
       }
     });
 
     _fourthPointFadeController.addStatusListener((status) {
-      if (status == AnimationStatus.completed ||
-          status == AnimationStatus.forward) {
+      if (status == AnimationStatus.completed) {
         currentPoint = 4;
       }
     });
 
     _fifthPointFadeController.addStatusListener((status) {
-      if (status == AnimationStatus.completed ||
-          status == AnimationStatus.forward) {
+      if (status == AnimationStatus.completed) {
         setState(() {
           currentPoint = 5;
         });
@@ -263,14 +258,14 @@ class _AssessmentTestIntroPageState extends State<AssessmentTestIntroPage>
                         style: Theme.of(context)
                             .textTheme
                             .button
-                            .copyWith(color: Theme.of(context).accentColor),
+                            .copyWith(color: Theme.of(context).primaryColor),
                       ),
                       secondChild: Text(
                         "Let's begin".toUpperCase(),
                         style: Theme.of(context)
                             .textTheme
                             .button
-                            .copyWith(color: Theme.of(context).accentColor),
+                            .copyWith(color: Theme.of(context).primaryColor),
                       ),
                     ),
                     onPressed: showNextPoint,
@@ -293,8 +288,8 @@ class _AssessmentTestIntroPageState extends State<AssessmentTestIntroPage>
                                   .textTheme
                                   .headline5
                                   .copyWith(
-                                      color: Colors.black87,
-                                      fontWeight: FontWeight.w300)),
+                                    color: Colors.black87,
+                                  )),
                           SizedBox(
                             width: 72.0,
                             child: Divider(
@@ -324,7 +319,6 @@ class _AssessmentTestIntroPageState extends State<AssessmentTestIntroPage>
                                     .bodyText2
                                     .copyWith(
                                         color: Colors.black87,
-                                        fontWeight: FontWeight.w300,
                                         fontSize: 18.0,
                                         height: 1.4,
                                         letterSpacing: 0.7),
@@ -351,7 +345,6 @@ class _AssessmentTestIntroPageState extends State<AssessmentTestIntroPage>
                                     .bodyText2
                                     .copyWith(
                                         color: Colors.black87,
-                                        fontWeight: FontWeight.w300,
                                         fontSize: 18.0,
                                         height: 1.4,
                                         letterSpacing: 0.6),
@@ -363,7 +356,7 @@ class _AssessmentTestIntroPageState extends State<AssessmentTestIntroPage>
                                     .bodyText2
                                     .copyWith(
                                         color: Colors.black87,
-                                        fontWeight: FontWeight.w400,
+                                        fontWeight: FontWeight.bold,
                                         fontSize: 18.0,
                                         height: 1.4,
                                         letterSpacing: 0.6),
@@ -391,19 +384,18 @@ class _AssessmentTestIntroPageState extends State<AssessmentTestIntroPage>
                                     .bodyText2
                                     .copyWith(
                                         color: Colors.black87,
-                                        fontWeight: FontWeight.w300,
                                         fontSize: 18.0,
                                         height: 1.4,
                                         letterSpacing: 0.6),
                               ),
                               TextSpan(
-                                text: "This is not what is desired here.",
+                                text: " This is not what is desired here.",
                                 style: Theme.of(context)
                                     .textTheme
                                     .bodyText2
                                     .copyWith(
                                         color: Colors.black87,
-                                        fontWeight: FontWeight.w400,
+                                        fontWeight: FontWeight.bold,
                                         fontSize: 18.0,
                                         height: 1.4,
                                         letterSpacing: 0.6),
@@ -431,7 +423,6 @@ class _AssessmentTestIntroPageState extends State<AssessmentTestIntroPage>
                                     .bodyText2
                                     .copyWith(
                                         color: Colors.black87,
-                                        fontWeight: FontWeight.w300,
                                         fontSize: 18.0,
                                         height: 1.4,
                                         letterSpacing: 0.6),
@@ -459,7 +450,6 @@ class _AssessmentTestIntroPageState extends State<AssessmentTestIntroPage>
                                     .bodyText2
                                     .copyWith(
                                         color: Colors.black87,
-                                        fontWeight: FontWeight.w300,
                                         fontSize: 18.0,
                                         height: 1.4,
                                         letterSpacing: 0.6),
@@ -472,7 +462,7 @@ class _AssessmentTestIntroPageState extends State<AssessmentTestIntroPage>
                                     .bodyText2
                                     .copyWith(
                                         color: Colors.black87,
-                                        fontWeight: FontWeight.w400,
+                                        fontWeight: FontWeight.bold,
                                         fontSize: 18.0,
                                         height: 1.4,
                                         letterSpacing: 0.6),

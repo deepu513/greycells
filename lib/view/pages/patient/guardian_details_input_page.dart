@@ -213,13 +213,16 @@ class _GuardianRelationshipInputState extends State<GuardianRelationshipInput> {
           builder: (context, constraints) {
             return ToggleButtons(
               children: relationShipList
-                  .map((value) => Text(value.toString()))
+                  .map((value) => Text(value.toString(),
+                      style: Theme.of(context).textTheme.bodyText1))
                   .toList(),
+              borderRadius: BorderRadius.circular(8.0),
               constraints: BoxConstraints.expand(
                   width:
-                      (constraints.maxWidth - 24.0) / relationShipList.length,
+                      (constraints.maxWidth - 16.0) / relationShipList.length,
                   height: 48.0),
               isSelected: _toggleStateList,
+              selectedBorderColor: Colors.blue,
               onPressed: (index) {
                 _toggleStateList[_selectedIndex] =
                     !_toggleStateList[_selectedIndex];

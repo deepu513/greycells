@@ -24,7 +24,7 @@ class RegisterPage extends StatelessWidget {
               return BlocListener<RegistrationBloc, RegistrationState>(
                 listener: (context, current) {
                   if (current is RegistrationSuccessful) {
-                    Navigator.pushNamed(context, RouteName.LOGIN,
+                    Navigator.popAndPushNamed(context, RouteName.LOGIN,
                         arguments: true);
                   }
 

@@ -167,7 +167,7 @@ class DateOfBirthInput extends StatelessWidget {
           children: [
             Icon(
               Icons.event,
-              color: Colors.black87,
+              color: Colors.black54,
               size: 18.0,
             ),
             SizedBox(
@@ -175,7 +175,7 @@ class DateOfBirthInput extends StatelessWidget {
             ),
             Text(Strings.dateOfBirth,
                 style: Theme.of(context).textTheme.subtitle1.copyWith(
-                    fontWeight: FontWeight.w400, color: Colors.black87)),
+                    fontWeight: FontWeight.w400, color: Colors.black54)),
           ],
         ),
         SizedBox(
@@ -354,7 +354,7 @@ class TimeOfBirthWidget extends StatelessWidget {
           children: [
             Icon(
               Icons.access_time,
-              color: Colors.black87,
+              color: Colors.black54,
               size: 18.0,
             ),
             SizedBox(
@@ -362,7 +362,7 @@ class TimeOfBirthWidget extends StatelessWidget {
             ),
             Text(Strings.timeOfBirth,
                 style: Theme.of(context).textTheme.subtitle1.copyWith(
-                    fontWeight: FontWeight.w400, color: Colors.black87)),
+                    fontWeight: FontWeight.w400, color: Colors.black54)),
           ],
         ),
         SizedBox(
@@ -513,8 +513,9 @@ class _AmPmToggleState extends State<_AmPmToggle> {
   Widget build(BuildContext context) {
     return ToggleButtons(
       children: List<Widget>.generate(
-          _options.length, (index) => Text(_options[index])),
+          _options.length, (index) => Text(_options[index], style: Theme.of(context).textTheme.bodyText1,)),
       borderRadius: BorderRadius.circular(8.0),
+      selectedBorderColor: Colors.blue,
       isSelected: _selections,
       onPressed: (index) {
         setState(() {

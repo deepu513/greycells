@@ -7,7 +7,6 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:greycells/bloc/patient_details/patient_details_bloc.dart';
 import 'package:greycells/bloc/validation/validation_bloc.dart';
 import 'package:greycells/constants/gender.dart';
-import 'package:greycells/constants/strings.dart';
 import 'package:greycells/interface/validatable.dart';
 import 'package:greycells/view/widgets/number_slider.dart';
 
@@ -90,7 +89,10 @@ class _HealthDetailsInputPageState extends State<HealthDetailsInputPage> {
               children: [
                 Text(
                   "Weight",
-                  style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.w400),
+                  style: TextStyle(
+                      fontSize: 20.0,
+                      fontWeight: FontWeight.w400,
+                      color: Colors.black87),
                 ),
                 Spacer(),
                 FittedBox(
@@ -150,8 +152,10 @@ class _HealthDetailsInputPageState extends State<HealthDetailsInputPage> {
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
                 Text("Height",
-                    style:
-                        TextStyle(fontSize: 20.0, fontWeight: FontWeight.w400)),
+                    style: TextStyle(
+                        fontSize: 20.0,
+                        fontWeight: FontWeight.w400,
+                        color: Colors.black87)),
                 Spacer(),
                 cmToFeetInches(selectedHeight)
               ],

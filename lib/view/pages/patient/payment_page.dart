@@ -355,8 +355,7 @@ class _PromoCodeInputSectionState extends State<PromoCodeInputSection> {
                 Navigator.of(context).pop();
               });
         }
-      },
-      builder: (context, state) {
+
         if (state is PromoCodeApplied) {
           widget.onPromoCodeApplied.call(state.discountResponse);
         }
@@ -364,7 +363,8 @@ class _PromoCodeInputSectionState extends State<PromoCodeInputSection> {
         if (state is PromoCodeRemoved) {
           widget.onPromoCodeRemoved.call();
         }
-
+      },
+      builder: (context, state) {
         return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [

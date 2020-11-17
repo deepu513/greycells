@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:greycells/extensions.dart';
 
@@ -13,7 +14,8 @@ class CircleAvatarOrInitials extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CircleAvatar(
-      backgroundImage: imageUrl != null ? NetworkImage(imageUrl) : null,
+      backgroundImage:
+          imageUrl != null ? CachedNetworkImageProvider(imageUrl) : null,
       backgroundColor: Color(0xFF455a64),
       child: imageUrl.isNullOrEmpty()
           ? Text(

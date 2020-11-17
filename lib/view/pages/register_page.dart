@@ -97,6 +97,7 @@ class RegisterInputSection extends StatelessWidget {
                     ),
                     autofocus: false,
                     keyboardType: TextInputType.text,
+                    textCapitalization: TextCapitalization.words,
                     enabled: registrationState is! RegistrationInProgress,
                     onChanged: (value) =>
                         BlocProvider.of<RegistrationBloc>(context)
@@ -127,6 +128,7 @@ class RegisterInputSection extends StatelessWidget {
                     ),
                     autofocus: false,
                     enabled: registrationState is! RegistrationInProgress,
+                    textCapitalization: TextCapitalization.words,
                     keyboardType: TextInputType.text,
                     controller: TextEditingController(
                         text: BlocProvider.of<RegistrationBloc>(context)

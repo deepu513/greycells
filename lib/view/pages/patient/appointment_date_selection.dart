@@ -156,6 +156,7 @@ class _MainContentState extends State<MainContent> {
                   ..timeslotId = mSelectedTimeslot.id
                   ..meetingTypeId = widget.selectedMeeting.meetingTypeId
                   ..chargeId = widget.selectedMeeting.chargeId
+                  ..appointmentDate = mSelectedDay.formatToddMMyyyy()
                   ..appointmentDateTime = _getAppointmentDateTime(
                       mSelectedDay, mSelectedTimeslot.startTime)
               };

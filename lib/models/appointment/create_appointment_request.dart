@@ -23,6 +23,9 @@ class CreateAppointmentRequest {
   @JsonKey(name: "ChargeId")
   int chargeId;
 
+  @JsonKey(name: "date")
+  String appointmentDate;
+
   @JsonKey(ignore: true)
   DateTime appointmentDateTime;
 

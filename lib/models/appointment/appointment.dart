@@ -1,3 +1,4 @@
+import 'package:greycells/models/appointment/appointment_charge.dart';
 import 'package:greycells/models/patient/patient.dart';
 import 'package:greycells/models/therapist/charge.dart';
 import 'package:greycells/models/therapist/therapist.dart';
@@ -22,8 +23,9 @@ class Appointment {
   String comments;
   Therapist therapist;
   Patient patient;
-  MeetingCharge charge;
+  AppointmentCharge charge;
   Timeslot timeSlot;
+
   //           "payment": null,
 
   Appointment();

@@ -9,7 +9,7 @@ import 'package:json_annotation/json_annotation.dart';
 part 'therapist.g.dart';
 
 @JsonSerializable(explicitToJson: true)
-class   Therapist {
+class Therapist {
   @JsonKey(includeIfNull: false)
   int id;
 

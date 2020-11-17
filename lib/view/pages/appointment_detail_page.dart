@@ -483,7 +483,7 @@ class AppointmentSummary extends StatelessWidget {
         RichText(
           text: TextSpan(
             text:
-                "Follow up", // TODO: Remove this hardcode value from appointment card also
+                "${appointment.charge.meetingType.name}",
             style: Theme.of(context).textTheme.bodyText1.copyWith(
                 color: Color(0xFF100249),
                 letterSpacing: 0.7,

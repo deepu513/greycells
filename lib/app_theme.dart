@@ -9,7 +9,7 @@ class AppTheme {
   static const Color onPrimaryColor = Colors.black87;
   static const Color onSecondaryColor = Colors.white;
   static const Color appBarColor = Colors.white;
-  static const Color iconColor = secondaryColor;
+  static const Color iconColor = Colors.pink;
 
   static final ThemeData lightTheme = ThemeData(
     snackBarTheme: SnackBarThemeData(behavior: SnackBarBehavior.floating),

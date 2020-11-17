@@ -116,7 +116,7 @@ class _AppointmentSummary extends StatelessWidget {
                 ),
                 RichText(
                   text: TextSpan(
-                    text: "Follow up",
+                    text: "${appointment.charge.meetingType.name}",
                     style: Theme.of(context).textTheme.bodyText1.copyWith(
                         color: Color(0xFF100249),
                         letterSpacing: 0.7,

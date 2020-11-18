@@ -2,7 +2,7 @@ part of 'goals_bloc.dart';
 
 abstract class GoalsState extends Equatable {
   const GoalsState();
-  
+
   @override
   List<Object> get props => [];
 }
@@ -20,6 +20,8 @@ class AllGoalsLoaded extends GoalsState {
 class GoalCreated extends GoalsState {}
 
 class GoalsError extends GoalsState {}
+
+class DuplicateGoal extends GoalsState {}
 
 class GoalsEmpty extends GoalsState {}
 

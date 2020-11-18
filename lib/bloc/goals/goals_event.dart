@@ -7,6 +7,8 @@ abstract class GoalsEvent extends Equatable {
   List<Object> get props => [];
 }
 
+class LoadGoalsMaster extends GoalsEvent {}
+
 class LoadGoalsByPatient extends GoalsEvent {}
 
 class CreateGoal extends GoalsEvent {

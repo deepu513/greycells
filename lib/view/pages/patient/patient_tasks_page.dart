@@ -70,6 +70,7 @@ class _AllTasksState extends State<AllTasks> {
                 slivers: [
                   SliverAppBar(
                     elevation: 4.0,
+                    forceElevated: true,
                     floating: true,
                     title: Text(
                       'Tasks',

@@ -75,6 +75,7 @@ class __AllGoalsState extends State<_AllGoals> {
                 slivers: [
                   SliverAppBar(
                     elevation: 4.0,
+                    forceElevated: true,
                     floating: true,
                     title: Text(
                       'Goals',
@@ -212,15 +213,18 @@ class _GoalTypeWidget extends StatelessWidget {
             SizedBox(
               height: 8.0,
             ),
-            TextButton(
-              child: Text(
-                "Mark as done".toUpperCase(),
-                style: Theme.of(context).textTheme.button.copyWith(
-                    color: AppTheme.primaryColor,
-                    fontWeight: FontWeight.bold,
-                    letterSpacing: 0.7),
+            Visibility(
+              visible: goalType.status == "InProgress",
+              child: TextButton(
+                child: Text(
+                  "Mark as done".toUpperCase(),
+                  style: Theme.of(context).textTheme.button.copyWith(
+                      color: AppTheme.primaryColor,
+                      fontWeight: FontWeight.bold,
+                      letterSpacing: 0.7),
+                ),
+                onPressed: () => onMarkAsDonePressed.call(goalType),
               ),
-              onPressed: () => onMarkAsDonePressed.call(goalType),
             )
           ],
         ),

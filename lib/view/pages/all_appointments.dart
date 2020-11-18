@@ -53,9 +53,11 @@ class _AllAppointmentsState extends State<AllAppointments> {
             if (state is AppointmentsLoading)
               Expanded(child: CenteredCircularLoadingIndicator()),
             if (state is AppointmentsLoaded)
-              AppointmentList(
-                allAppointments: state.allAppointments,
-                userType: widget.userType,
+              Expanded(
+                child: AppointmentList(
+                  allAppointments: state.allAppointments,
+                  userType: widget.userType,
+                ),
               ),
             if (state is AppointmentsEmpty) Expanded(child: EmptyState()),
             if (state is AppointmentsLoadError)

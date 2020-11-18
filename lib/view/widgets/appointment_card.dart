@@ -30,7 +30,7 @@ class _AppointmentCardState extends State<AppointmentCard> {
   @override
   Widget build(BuildContext context) {
     return Card(
-      elevation: 4.0,
+      elevation: 3.0,
       margin: EdgeInsets.all(8.0),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.0)),
       child: InkWell(

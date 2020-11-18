@@ -92,6 +92,20 @@ class HttpService {
         .catchError((e, stackTrace) => _handleError(e, stackTrace));
   }
 
+  Future<List<ResponseType>> postAll<RequestType, ResponseType>(
+      Request<RequestType> request,
+      Serializable<ResponseType> responseSerializable) {
+    print(request.toJsonString());
+    return http
+        .post(request.url,
+            body: request.toJsonString(),
+            headers: request.headers ?? _getDefaultHeaders(url: request.url))
+        .then((http.Response value) =>
+            _processResponse(value, responseSerializable)
+                .getResponseBodyAsList())
+        .catchError((e, stackTrace) => _handleError(e, stackTrace));
+  }
+
   Future<ResponseType> put<RequestType, ResponseType>(
       Request<RequestType> request,
       Serializable<ResponseType> responseSerializable) {
@@ -101,6 +115,20 @@ class HttpService {
             headers: request.headers ?? _getDefaultHeaders(url: request.url))
         .then((http.Response value) =>
             _processResponse(value, responseSerializable).getResponseBody())
+        .catchError((e, stackTrace) => _handleError(e, stackTrace));
+  }
+
+  Future<List<ResponseType>> putAll<RequestType, ResponseType>(
+      Request<RequestType> request,
+      Serializable<ResponseType> responseSerializable) {
+    print(request.toJsonString());
+    return http
+        .put(request.url,
+            body: request.toJsonString(),
+            headers: request.headers ?? _getDefaultHeaders(url: request.url))
+        .then((http.Response value) =>
+            _processResponse(value, responseSerializable)
+                .getResponseBodyAsList())
         .catchError((e, stackTrace) => _handleError(e, stackTrace));
   }
 

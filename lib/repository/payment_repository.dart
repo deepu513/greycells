@@ -1,7 +1,4 @@
 import 'package:greycells/flavor_config.dart';
-import 'package:greycells/models/appointment/appointment_status.dart';
-import 'package:greycells/models/appointment/create_appointment_request.dart';
-import 'package:greycells/models/appointment/create_appointment_request_serializable.dart';
 import 'package:greycells/models/payment/discount_request.dart';
 import 'package:greycells/models/payment/discount_request_serializable.dart';
 import 'package:greycells/models/payment/discount_response.dart';
@@ -16,7 +13,6 @@ import 'package:greycells/models/payment/payment_verify_response_serializable.da
 import 'package:greycells/models/payment/payment_verify_serializable.dart';
 import 'package:greycells/networking/http_service.dart';
 import 'package:greycells/networking/request.dart';
-import 'package:greycells/networking/response.dart';
 
 class PaymentRepository {
   HttpService _httpService;

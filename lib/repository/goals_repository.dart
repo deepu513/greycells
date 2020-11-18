@@ -39,15 +39,16 @@ class GoalsRepository {
   Future<List<Goal>> createGoal(CreateGoalRequest createGoalRequest) async {
     Request<CreateGoalRequest> request = Request(
         "${FlavorConfig.getBaseUrl()}Goals/Post",
-        _createGoalRequestSerializable);
+        _createGoalRequestSerializable)
+      ..setBody(createGoalRequest);
 
     return await _httpService.postAll(request, _goalSerializable);
   }
 
-  Future<List<Goal>> updateGoal(UpdateGoalRequest createGoalRequest) async {
+  Future<List<Goal>> updateGoal(UpdateGoalRequest updateGoalRequest) async {
     Request<UpdateGoalRequest> request = Request(
-        "${FlavorConfig.getBaseUrl()}Goals/Put",
-        _updateGoalRequestSerializable);
+        "${FlavorConfig.getBaseUrl()}Goals/Put", _updateGoalRequestSerializable)
+      ..setBody(updateGoalRequest);
 
     return await _httpService.putAll(request, _goalSerializable);
   }

@@ -86,10 +86,17 @@ class HttpService {
     return http
         .get(request.url,
             headers: request.headers ?? _getDefaultHeaders(url: request.url))
-        .then((http.Response value) =>
-            _processResponse(value, responseSerializable)
-                .getResponseBodyAsList())
-        .catchError((e, stackTrace) => _handleError(e, stackTrace));
+        .then((http.Response value) {
+      if (_isSuccessOrThrow(value.statusCode)) {
+        if (responseSerializable == null) {
+          return null;
+        } else
+          return Response<ResponseType>.fromJsonArray(
+                  value.body, responseSerializable,
+                  statusCode: value.statusCode)
+              .getResponseBodyAsList();
+      }
+    }).catchError((e, stackTrace) => _handleError(e, stackTrace));
   }
 
   Future<List<ResponseType>> postAll<RequestType, ResponseType>(
@@ -100,10 +107,17 @@ class HttpService {
         .post(request.url,
             body: request.toJsonString(),
             headers: request.headers ?? _getDefaultHeaders(url: request.url))
-        .then((http.Response value) =>
-            _processResponse(value, responseSerializable)
-                .getResponseBodyAsList())
-        .catchError((e, stackTrace) => _handleError(e, stackTrace));
+        .then((http.Response value) {
+      if (_isSuccessOrThrow(value.statusCode)) {
+        if (responseSerializable == null) {
+          return null;
+        } else
+          return Response<ResponseType>.fromJsonArray(
+                  value.body, responseSerializable,
+                  statusCode: value.statusCode)
+              .getResponseBodyAsList();
+      }
+    }).catchError((e, stackTrace) => _handleError(e, stackTrace));
   }
 
   Future<ResponseType> put<RequestType, ResponseType>(
@@ -126,10 +140,17 @@ class HttpService {
         .put(request.url,
             body: request.toJsonString(),
             headers: request.headers ?? _getDefaultHeaders(url: request.url))
-        .then((http.Response value) =>
-            _processResponse(value, responseSerializable)
-                .getResponseBodyAsList())
-        .catchError((e, stackTrace) => _handleError(e, stackTrace));
+        .then((http.Response value) {
+      if (_isSuccessOrThrow(value.statusCode)) {
+        if (responseSerializable == null) {
+          return null;
+        } else
+          return Response<ResponseType>.fromJsonArray(
+                  value.body, responseSerializable,
+                  statusCode: value.statusCode)
+              .getResponseBodyAsList();
+      }
+    }).catchError((e, stackTrace) => _handleError(e, stackTrace));
   }
 
   Future<Response<ResponseType>> putRaw<RequestType, ResponseType>(

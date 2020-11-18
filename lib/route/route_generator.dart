@@ -15,6 +15,7 @@ import 'package:greycells/models/task/task_item_page_args.dart';
 import 'package:greycells/route/route_name.dart';
 import 'package:greycells/view/pages/appointment_detail_page.dart';
 import 'package:greycells/view/pages/image_viewer.dart';
+import 'package:greycells/view/pages/patient/add_goals_page.dart';
 import 'package:greycells/view/pages/patient/appointment_date_selection.dart';
 import 'package:greycells/view/pages/patient/assessment_test_intro_page.dart';
 import 'package:greycells/view/pages/patient/assessment_test_page.dart';
@@ -145,6 +146,8 @@ class RouteGenerator {
         );
       case RouteName.IMAGE_VIEWER_PAGE:
         return MaterialPageRoute(builder: (_) => ImageViewer(imageUrl: args));
+      case RouteName.ADD_GOALS_PAGE:
+        return MaterialPageRoute(builder: (_) => AddGoalsPage());
       default:
         // If there is no such named route in the switch statement, e.g. /third
         return _errorRoute();

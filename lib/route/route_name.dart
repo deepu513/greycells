@@ -23,4 +23,5 @@ abstract class RouteName {
   static const ADD_TASK_ITEM_PAGE = "/add_task_item_page";
   static const TASK_ITEM_PAGE = "/task_item_page";
   static const IMAGE_VIEWER_PAGE = "/image_viewer_page";
+  static const ADD_GOALS_PAGE = "/add_goals_page";
 }

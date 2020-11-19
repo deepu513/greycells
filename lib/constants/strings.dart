@@ -122,7 +122,7 @@ class Strings {
   static const success = "Success";
   // TODO: Add email address here
   static const paymentStatusUnknown =
-      "We were unable to identify the status of this payment. If amount is deducted from your account and doesn't show up in system, please send an email on:";
+      "We were unable to identify the status of this payment.\nIf amount is deducted from your bank account, please send us an email on:";
   static const paymentSuccess = "Congratulations! Your payment was successfull";
   static const forgotPasswordNotFound =
       "We couldn't find any accounts with this email ID.";

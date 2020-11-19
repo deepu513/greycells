@@ -180,11 +180,11 @@ class AppointmentMetaInfo extends StatelessWidget {
             RichText(
               text: TextSpan(
                 text: "at ",
-                style: Theme.of(context).textTheme.subtitle1,
+                style: Theme.of(context).textTheme.subtitle2,
                 children: [
                   TextSpan(
                     text: appointment.timeSlot.startTime,
-                    style: Theme.of(context).textTheme.subtitle1.copyWith(
+                    style: Theme.of(context).textTheme.subtitle2.copyWith(
                         color: Color(0xFF100249),
                         letterSpacing: 0.7,
                         fontWeight: FontWeight.bold),

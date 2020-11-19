@@ -7,8 +7,10 @@ import 'package:greycells/constants/strings.dart';
 import 'package:greycells/extensions.dart';
 import 'package:greycells/models/payment/payment.dart';
 import 'package:greycells/models/payment/payment_item.dart';
+import 'package:greycells/models/payment/payment_success_args.dart';
 import 'package:greycells/models/payment/payment_type.dart';
 import 'package:greycells/models/payment/discount_response.dart';
+import 'package:greycells/route/route_name.dart';
 import 'package:greycells/view/widgets/circle_avatar_or_initials.dart';
 
 class PaymentPage extends StatefulWidget {
@@ -39,24 +41,20 @@ class _PaymentPageState extends State<PaymentPage> {
         }
 
         if (state is PaymentStatusUnknown) {
-          widget.showErrorDialog(
-              context: context,
-              message: Strings.paymentStatusUnknown,
-              showIcon: true,
-              onPressed: () async {
-                Navigator.of(context).pop();
-              });
+          Navigator.of(context).pushNamed(RouteName.PAYMENT_FAIL_PAGE,
+              arguments: state.paymentId?.toString());
         }
 
         if (state is PaymentSuccess) {
-          // TODO: After payment success show a good page with image and rediredirect to refreshed home page on back.
-          widget.showSuccessDialog(
-              context: context,
-              message: Strings.paymentSuccess,
-              showIcon: true,
-              onPressed: () async {
-                Navigator.of(context).pop();
-              });
+          PaymentSuccessArgs paymentSuccessArgs = PaymentSuccessArgs(
+            paymentId: state.createAppointmentRequest.razorPayPaymentId,
+            appointmentDate: state.createAppointmentRequest.appointmentDateTime
+                .readableDate(),
+            appointmentTime: state.createAppointmentRequest.appointmentDateTime
+                .readableTime(),
+          );
+          Navigator.of(context).pushNamed(RouteName.PAYMENT_SUCCESS_PAGE,
+              arguments: paymentSuccessArgs);
         }
       },
       builder: (context, state) {
@@ -103,11 +101,20 @@ class _PaymentPageState extends State<PaymentPage> {
                     ),
                   ),
                 ),
+                Visibility(
+                  visible: state is PaymentProcessing,
+                  child: LinearProgressIndicator(
+                    minHeight: 2.0,
+                    backgroundColor: Colors.white,
+                  ),
+                ),
                 FlatButton(
-                  onPressed: state is! PaymentProcessing ? () {
-                    BlocProvider.of<PaymentBloc>(context)
-                        .add(ProcessPayment(mPayment));
-                  } : null,
+                  onPressed: state is! PaymentProcessing
+                      ? () {
+                          BlocProvider.of<PaymentBloc>(context)
+                              .add(ProcessPayment(mPayment));
+                        }
+                      : null,
                   color: Theme.of(context).primaryColor,
                   disabledColor: Colors.grey,
                   height: 56.0,

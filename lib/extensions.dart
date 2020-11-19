@@ -77,6 +77,16 @@ extension DateTimeExtensions on DateTime {
     }
     return "";
   }
+
+  String readableTime() {
+    try {
+      DateFormat dateFormat = DateFormat("h:mm a");
+      return dateFormat.format(this);
+    } catch (e) {
+      print(e);
+    }
+    return "";
+  }
 }
 
 extension TherapistExtension on Therapist {

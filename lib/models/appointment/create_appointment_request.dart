@@ -29,6 +29,9 @@ class CreateAppointmentRequest {
   @JsonKey(ignore: true)
   DateTime appointmentDateTime;
 
+  @JsonKey(ignore: true)
+  String razorPayPaymentId;
+
   CreateAppointmentRequest();
 
   factory CreateAppointmentRequest.fromJson(Map<String, dynamic> json) =>

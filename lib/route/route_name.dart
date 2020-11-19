@@ -24,4 +24,6 @@ abstract class RouteName {
   static const TASK_ITEM_PAGE = "/task_item_page";
   static const IMAGE_VIEWER_PAGE = "/image_viewer_page";
   static const ADD_GOALS_PAGE = "/add_goals_page";
+  static const PAYMENT_SUCCESS_PAGE = "/payment_success_page";
+  static const PAYMENT_FAIL_PAGE = "/payment_fail_page";
 }

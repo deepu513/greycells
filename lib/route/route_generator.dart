@@ -11,6 +11,7 @@ import 'package:greycells/bloc/timeslot/timeslot_bloc.dart';
 import 'package:greycells/bloc/validation/bloc.dart';
 import 'package:greycells/models/appointment/appointment_date_args.dart';
 import 'package:greycells/models/appointment/appointment_detail_arguments.dart';
+import 'package:greycells/models/payment/payment_success_args.dart';
 import 'package:greycells/models/task/task_item_page_args.dart';
 import 'package:greycells/route/route_name.dart';
 import 'package:greycells/view/pages/appointment_detail_page.dart';
@@ -26,7 +27,9 @@ import 'package:greycells/view/pages/patient/patient_appointment_page.dart';
 import 'package:greycells/view/pages/patient/patient_detail_input.dart';
 import 'package:greycells/view/pages/patient/patient_main_page.dart';
 import 'package:greycells/view/pages/patient/patient_score_page.dart';
+import 'package:greycells/view/pages/patient/payment_fail_page.dart';
 import 'package:greycells/view/pages/patient/payment_page.dart';
+import 'package:greycells/view/pages/patient/payment_success_page.dart';
 import 'package:greycells/view/pages/patient_profile_page.dart';
 import 'package:greycells/view/pages/register_page.dart';
 import 'package:greycells/view/pages/patient/second_test_intro_page.dart';
@@ -148,6 +151,19 @@ class RouteGenerator {
         return MaterialPageRoute(builder: (_) => ImageViewer(imageUrl: args));
       case RouteName.ADD_GOALS_PAGE:
         return MaterialPageRoute(builder: (_) => AddGoalsPage());
+      case RouteName.PAYMENT_SUCCESS_PAGE:
+        PaymentSuccessArgs arguments = args as PaymentSuccessArgs;
+        return MaterialPageRoute(
+            builder: (_) => PaymentSuccessPage(
+                  paymentId: arguments.paymentId,
+                  appointmentDate: arguments.appointmentDate,
+                  appointmentTime: arguments.appointmentTime,
+                ));
+      case RouteName.PAYMENT_FAIL_PAGE:
+        return MaterialPageRoute(
+            builder: (_) => PaymentFailurePage(
+                  paymentId: args,
+                ));
       default:
         // If there is no such named route in the switch statement, e.g. /third
         return _errorRoute();

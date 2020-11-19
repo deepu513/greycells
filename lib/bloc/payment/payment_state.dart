@@ -12,8 +12,14 @@ class PaymentInitial extends PaymentState {}
 
 class PaymentProcessing extends PaymentState {}
 
-class PaymentSuccess extends PaymentState {}
+class PaymentSuccess extends PaymentState {
+  final CreateAppointmentRequest createAppointmentRequest;
+  PaymentSuccess(this.createAppointmentRequest);
+}
 
 class PaymentFailure extends PaymentState {}
 
-class PaymentStatusUnknown extends PaymentState {}
+class PaymentStatusUnknown extends PaymentState {
+  final int paymentId;
+  PaymentStatusUnknown(this.paymentId);
+}

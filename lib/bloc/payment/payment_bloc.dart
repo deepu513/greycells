@@ -102,6 +102,7 @@ class PaymentBloc extends Bloc<PaymentEvent, PaymentState> {
               mPaymentForProcessing.extras[Strings.createAppointmentRequest];
           if (createAppointmentRequest != null) {
             createAppointmentRequest.paymentId = paymentId;
+            createAppointmentRequest.razorPayPaymentId = event.paymentId;
             bool result = await _appointmentRepository
                 .createAppointment(createAppointmentRequest);
             mPaymentForProcessing = null;
@@ -120,17 +121,17 @@ class PaymentBloc extends Bloc<PaymentEvent, PaymentState> {
                   "Your appointment will start in approximately 30 minutes.",
                   createAppointmentRequest.appointmentDateTime
                       .subtract(Duration(minutes: 35)));
-                      
-              yield PaymentSuccess();
+
+              yield PaymentSuccess(createAppointmentRequest);
             } else {
-              yield PaymentStatusUnknown();
+              yield PaymentStatusUnknown(createAppointmentRequest.paymentId);
             }
           }
         } else
-          yield PaymentStatusUnknown();
+          yield PaymentStatusUnknown(paymentId);
       } catch (e) {
         print(e);
-        yield PaymentStatusUnknown();
+        yield PaymentStatusUnknown(paymentId);
       }
     }
 

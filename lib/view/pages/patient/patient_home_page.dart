@@ -206,7 +206,6 @@ class UpcomingAppointmentSection extends StatelessWidget {
         controller: PageController(viewportFraction: 0.9),
         itemBuilder: (context, index) =>
             AppointmentCard(upcomingAppointments[index], UserType.patient, () {
-          //TODO: Appointment status can be updated here, update status in main object too
           Navigator.of(context).pushNamed(RouteName.APPOINTMENT_DETAIL_PAGE,
               arguments: AppointmentDetailArguments(
                   upcomingAppointments[index], UserType.patient));

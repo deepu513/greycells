@@ -11,14 +11,24 @@ import 'package:greycells/view/widgets/empty_state.dart';
 import 'package:greycells/view/widgets/error_with_retry.dart';
 import 'package:greycells/view/widgets/no_glow_scroll_behaviour.dart';
 
-class PatientGoalsPage extends StatefulWidget {
+class PatientGoalsPage extends StatelessWidget {
   const PatientGoalsPage();
 
   @override
-  _PatientGoalsPageState createState() => _PatientGoalsPageState();
+  Widget build(BuildContext context) {
+    return BlocProvider<GoalsBloc>(
+      create: (_) => GoalsBloc(),
+      child: _ActualPatientGoals(),
+    );
+  }
 }
 
-class _PatientGoalsPageState extends State<PatientGoalsPage> {
+class _ActualPatientGoals extends StatefulWidget {
+  @override
+  __ActualPatientGoalsState createState() => __ActualPatientGoalsState();
+}
+
+class __ActualPatientGoalsState extends State<_ActualPatientGoals> {
   @override
   Widget build(BuildContext context) {
     return DefaultStickyHeaderController(
@@ -36,54 +46,51 @@ class _PatientGoalsPageState extends State<PatientGoalsPage> {
             color: Colors.white,
           ),
         ),
-        body: BlocProvider<GoalsBloc>(
-          create: (_) => GoalsBloc(),
-          child: RefreshIndicator(
-            onRefresh: () async {
-              return await Future.delayed(Duration(milliseconds: 100), () {
-                _loadAllGoals();
-              });
-            },
-            child: BlocConsumer<GoalsBloc, GoalsState>(
-              listener: (context, state) {},
-              builder: (context, state) {
-                if (state is GoalsLoading)
-                  return CenteredCircularLoadingIndicator();
-                if (state is AllGoalsLoaded)
-                  return ScrollConfiguration(
-                    behavior: NoGlowScrollBehaviour(),
-                    child: CustomScrollView(
-                      slivers: [
-                        SliverAppBar(
-                          elevation: 4.0,
-                          forceElevated: true,
-                          floating: true,
-                          title: Text(
-                            'Goals',
-                            style: Theme.of(context)
-                                .textTheme
-                                .headline6
-                                .copyWith(color: Colors.black87),
-                          ),
+        body: RefreshIndicator(
+          onRefresh: () async {
+            return await Future.delayed(Duration(milliseconds: 100), () {
+              _loadAllGoals();
+            });
+          },
+          child: BlocConsumer<GoalsBloc, GoalsState>(
+            listener: (context, state) {},
+            builder: (context, state) {
+              if (state is GoalsLoading)
+                return CenteredCircularLoadingIndicator();
+              if (state is AllGoalsLoaded)
+                return ScrollConfiguration(
+                  behavior: NoGlowScrollBehaviour(),
+                  child: CustomScrollView(
+                    slivers: [
+                      SliverAppBar(
+                        elevation: 4.0,
+                        forceElevated: true,
+                        floating: true,
+                        title: Text(
+                          'Goals',
+                          style: Theme.of(context)
+                              .textTheme
+                              .headline6
+                              .copyWith(color: Colors.black87),
                         ),
-                        ...state.goals.map((goal) {
-                          return _GoalsList(
-                            goal: goal,
-                          );
-                        })
-                      ],
-                    ),
-                  );
-                if (state is GoalsEmpty) return Expanded(child: EmptyState());
-                if (state is GoalsError)
-                  return ErrorWithRetry(
-                    onRetryPressed: () {
-                      _loadAllGoals();
-                    },
-                  );
-                return Container();
-              },
-            ),
+                      ),
+                      ...state.goals.map((goal) {
+                        return _GoalsList(
+                          goal: goal,
+                        );
+                      })
+                    ],
+                  ),
+                );
+              if (state is GoalsEmpty) return Expanded(child: EmptyState());
+              if (state is GoalsError)
+                return ErrorWithRetry(
+                  onRetryPressed: () {
+                    _loadAllGoals();
+                  },
+                );
+              return Container();
+            },
           ),
         ),
       ),

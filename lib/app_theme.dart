@@ -16,7 +16,7 @@ class AppTheme {
     scaffoldBackgroundColor: Colors.white,
     fontFamily: 'Lato',
     accentColorBrightness: Brightness.dark,
-    canvasColor: Colors.transparent,
+    canvasColor: Colors.white,
     bottomSheetTheme: BottomSheetThemeData(modalBackgroundColor: Colors.white),
     splashFactory: InkRipple.splashFactory,
     visualDensity: VisualDensity.adaptivePlatformDensity,

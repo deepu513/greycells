@@ -322,6 +322,8 @@ class _CalendarDateSelectorState extends State<CalendarDateSelector>
   Widget build(BuildContext context) {
     return TableCalendar(
       calendarController: _calendarController,
+      startDay: DateTime.now(),
+      endDay: DateTime.now().add(Duration(days: 90)),
       availableCalendarFormats: {
         CalendarFormat.month: 'Month',
       },

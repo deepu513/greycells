@@ -16,9 +16,7 @@ class TimerBloc extends Bloc<TimerEvent, TimerState> {
   TimerBloc() : super(Ready(0, ""));
 
   @override
-  Stream<TimerState> mapEventToState(
-    TimerEvent event,
-  ) async* {
+  Stream<TimerState> mapEventToState(TimerEvent event) async* {
     if (event is InitiateTimer) {
       DateTime currentDateTime =
           event.serverDateTime.add(TimeWatcher.getInstance().elapsedDuration());
@@ -28,7 +26,14 @@ class TimerBloc extends Bloc<TimerEvent, TimerState> {
           .difference(currentDateTime);
 
       if (differenceDuration.isNegative) {
-        yield TimeInPast();
+        if (differenceDuration.inMinutes <= 60) {
+          /*
+           * This is to make sure that the person is able to join 
+           * the meeting 60 minutes after the scheduled time.
+           */
+          yield Finished();
+        } else
+          yield TimeInPast();
       } else {
         yield* _mapStartToState(Start(duration: differenceDuration.inSeconds));
       }
@@ -93,12 +98,12 @@ class TimerBloc extends Bloc<TimerEvent, TimerState> {
     }
 
     if (remainingDuration.inDays <= 1) {
-      if (remainingDuration.inHours > 1) {
-        return "${remainingDuration.inHours} hours";
-      } else if (remainingDuration.inHours <= 1) {
-        if (remainingDuration.inMinutes > 10) {
+      if (remainingDuration.inHours >= 1) {
+        return "${remainingDuration.inHours} hour(s)";
+      } else if (remainingDuration.inHours < 1) {
+        if (remainingDuration.inMinutes >= 10) {
           return "${remainingDuration.inMinutes} minutes";
-        } else if (remainingDuration.inMinutes <= 10) {
+        } else if (remainingDuration.inMinutes < 10) {
           int remainingSeconds = remainingDuration.inSeconds;
           return "${(((remainingSeconds / 60) % 60).toInt().toString().padLeft(2, '0'))} : ${(remainingSeconds % 60).toString().padLeft(2, '0')} minutes";
         }

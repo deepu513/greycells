@@ -149,8 +149,8 @@ class _MainContentState extends State<MainContent> {
     DateTime aTime = widget.appointment.timeSlot.startTime.timeAsDate();
     DateTime fullAppointmentDateTime =
         DateTime(aDate.year, aDate.month, aDate.day, aTime.hour, aTime.minute);
-    BlocProvider.of<TimerBloc>(context)
-        .add(InitiateTimer(serverDateTime, fullAppointmentDateTime));
+    BlocProvider.of<TimerBloc>(context).add(InitiateTimer(
+        serverDateTime, fullAppointmentDateTime, widget.appointment.duration));
 
     JitsiMeet.addListener(JitsiMeetingListener(
         onConferenceWillJoin: _onConferenceWillJoin,

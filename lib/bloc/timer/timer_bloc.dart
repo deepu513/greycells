@@ -26,10 +26,11 @@ class TimerBloc extends Bloc<TimerEvent, TimerState> {
           .difference(currentDateTime);
 
       if (differenceDuration.isNegative) {
-        if (differenceDuration.inMinutes <= 60) {
+        if (differenceDuration.inMinutes.abs() <=
+            (event.meetingDuration + 10)) {
           /*
            * This is to make sure that the person is able to join 
-           * the meeting 60 minutes after the scheduled time.
+           * the meeting even after the scheduled time.
            */
           yield Finished();
         } else

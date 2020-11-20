@@ -12,8 +12,9 @@ abstract class TimerEvent extends Equatable {
 class InitiateTimer extends TimerEvent {
   final DateTime serverDateTime;
   final DateTime eventDateTime;
+  final int meetingDuration;
 
-  InitiateTimer(this.serverDateTime, this.eventDateTime);
+  InitiateTimer(this.serverDateTime, this.eventDateTime, this.meetingDuration);
 }
 
 class Start extends TimerEvent {

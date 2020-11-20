@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flutter/foundation.dart';
 import 'package:greycells/bloc/task/task_status.dart';
 import 'package:greycells/models/task/task.dart';
 import 'package:greycells/models/task/task_item.dart';
@@ -36,7 +37,7 @@ class TaskBloc extends Bloc<TaskEvent, TaskState> {
         } else
           yield TasksError();
       } catch (e) {
-        print(e);
+        debugPrint(e);
         yield TasksError();
       }
     }
@@ -66,7 +67,7 @@ class TaskBloc extends Bloc<TaskEvent, TaskState> {
         } else
           yield TasksError();
       } catch (e) {
-        print(e);
+        debugPrint(e);
         yield TasksError();
       }
     }
@@ -89,7 +90,26 @@ class TaskBloc extends Bloc<TaskEvent, TaskState> {
         } else
           yield TasksError();
       } catch (e) {
-        print(e);
+        debugPrint(e);
+        yield TasksError();
+      }
+    }
+
+    if (event is LoadPatientTasks) {
+      yield TaskLoading();
+      try {
+        List<Task> tasks =
+            await _appointmentRepository.getTaskByPatientId(event.patientId);
+        if (tasks != null) {
+          if (tasks.isEmpty)
+            yield TasksEmpty();
+          else {
+            yield AllTasksLoaded(tasks);
+          }
+        } else
+          yield TasksError();
+      } catch (e) {
+        debugPrint(e);
         yield TasksError();
       }
     }

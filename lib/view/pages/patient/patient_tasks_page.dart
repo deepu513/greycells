@@ -303,7 +303,7 @@ class __TaskItemWidgetState extends State<_TaskItemWidget> {
       DateTime dateTime = dateFormat.parse(date);
       return DateFormat("EEE, dd MMM, yyyy").format(dateTime);
     } catch (e) {
-      print(e);
+      debugPrint(e);
     }
     return "";
   }

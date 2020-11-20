@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter/foundation.dart';
 import 'package:greycells/constants/setting_key.dart';
 import 'package:greycells/models/token/token.dart';
 import 'package:greycells/repository/settings_repository.dart';
@@ -49,7 +50,8 @@ class NotificationBloc extends Bloc<NotificationEvent, NotificationState> {
       if (_settingsRepository.get(SettingKey.KEY_IS_LOGGED_IN,
           defaultValue: false)) {
         if (firebaseToken != existingToken) {
-           await _settingsRepository.saveValue(SettingKey.KEY_FCM_TOKEN, firebaseToken);
+          await _settingsRepository.saveValue(
+              SettingKey.KEY_FCM_TOKEN, firebaseToken);
           try {
             bool result = await _userRepository.updateToken(
                 token: Token()
@@ -62,7 +64,7 @@ class NotificationBloc extends Bloc<NotificationEvent, NotificationState> {
             } else
               yield TokenUpdateFailed();
           } catch (e) {
-            print(e);
+            debugPrint(e);
             yield TokenUpdateFailed();
           }
         }

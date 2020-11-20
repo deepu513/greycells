@@ -307,7 +307,7 @@ class TaskMetaInfo extends StatelessWidget {
       DateTime dateTime = dateFormat.parse(date);
       return DateFormat("EEE, dd MMM, yyyy").format(dateTime);
     } catch (e) {
-      print(e);
+      debugPrint(e);
     }
     return "";
   }

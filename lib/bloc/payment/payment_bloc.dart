@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flutter/foundation.dart';
 import 'package:greycells/constants/setting_key.dart';
 import 'package:greycells/constants/strings.dart';
 import 'package:greycells/local_notifications.dart';
@@ -81,7 +82,7 @@ class PaymentBloc extends Bloc<PaymentEvent, PaymentState> {
           yield PaymentFailure();
         }
       } catch (e) {
-        print(e);
+        debugPrint(e);
         yield PaymentFailure();
       }
     }
@@ -130,7 +131,7 @@ class PaymentBloc extends Bloc<PaymentEvent, PaymentState> {
         } else
           yield PaymentStatusUnknown(paymentId);
       } catch (e) {
-        print(e);
+        debugPrint(e);
         yield PaymentStatusUnknown(paymentId);
       }
     }

@@ -21,6 +21,7 @@ class AppointmentRepository {
   AllAppointmentResponseSerializable _allAppointmentResponseSerializable;
   TimeslotRequestSerializable _timeslotRequestSerializable;
   TimeslotResponseSerializable _timeslotResponseSerializable;
+  TaskSerializable _taskSerializable;
 
   AppointmentRepository() {
     this._httpService = HttpService();
@@ -28,6 +29,7 @@ class AppointmentRepository {
         AllAppointmentResponseSerializable();
     this._timeslotRequestSerializable = TimeslotRequestSerializable();
     this._timeslotResponseSerializable = TimeslotResponseSerializable();
+    this._taskSerializable = TaskSerializable();
   }
 
   Future<AllAppointmentsResponse> getAllAppointments(
@@ -56,7 +58,8 @@ class AppointmentRepository {
         null)
       ..setBody(null);
 
-    Response updateAppointmentResponse = await _httpService.getRaw(request, null);
+    Response updateAppointmentResponse =
+        await _httpService.getRaw(request, null);
     return updateAppointmentResponse.statusCode == 200;
   }
 
@@ -95,5 +98,13 @@ class AppointmentRepository {
 
     Response response = await _httpService.postRaw(request, null);
     return response.statusCode == 200;
+  }
+
+  Future<List<Task>> getTaskByPatientId(int patientId) async {
+    Request<Task> request = Request(
+        "${FlavorConfig.getBaseUrl()}Patient/tasks?id=$patientId",
+        _taskSerializable);
+
+    return await _httpService.getAll(request, _taskSerializable);
   }
 }

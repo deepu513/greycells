@@ -96,11 +96,18 @@ class UserRepository {
 
   Future<bool> updateToken({@required Token token}) async {
     Request<Token> request = Request(
-        "${FlavorConfig.getBaseUrl()}Customer/UpdateToken",
-        TokenSerializable())
-      ..setBody(token);
+      "${FlavorConfig.getBaseUrl()}Customer/UpdateToken",
+      TokenSerializable(),
+    )..setBody(token);
 
     Response updateResponse = await _httpService.putRaw(request, null);
     return updateResponse.statusCode == 200;
+  }
+
+  Future<List<Patient>> getAllPatients() async {
+    Request<Patient> request = Request(
+        "${FlavorConfig.getBaseUrl()}patient/all", _patientSerializable);
+
+    return await _httpService.getAll(request, _patientSerializable);
   }
 }

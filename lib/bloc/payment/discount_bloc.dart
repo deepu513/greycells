@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:bloc/bloc.dart';
+import 'package:flutter/foundation.dart';
 import 'package:greycells/constants/setting_key.dart';
 import 'package:greycells/repository/payment_repository.dart';
 import 'package:greycells/models/payment/discount_request.dart';
@@ -44,7 +45,7 @@ class DiscountBloc extends Bloc<DiscountEvent, DiscountState> {
           } else
             yield PromoCodeFailed();
         } catch (e) {
-          print(e);
+          debugPrint(e);
           yield PromoCodeFailed();
         }
       }

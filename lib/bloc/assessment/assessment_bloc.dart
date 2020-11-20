@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:bloc/bloc.dart';
+import 'package:flutter/foundation.dart';
 import 'package:greycells/constants/setting_key.dart';
 import 'package:greycells/models/assessment/option.dart';
 import 'package:greycells/models/assessment/question.dart';
@@ -53,7 +54,7 @@ class AssessmentBloc extends Bloc<AssessmentEvent, AssessmentState> {
         } else
           yield AssessmentError();
       } catch (e) {
-        print(e);
+        debugPrint(e);
         yield AssessmentError();
       }
     }
@@ -103,7 +104,7 @@ class AssessmentBloc extends Bloc<AssessmentEvent, AssessmentState> {
                 _test.questions.length);
           }
         } catch (e) {
-          print(e);
+          debugPrint(e);
           yield ErrorWhileSavingSelectedOption(
               _test.questions[_currentQuestionNumber], _test.questions.length);
         }

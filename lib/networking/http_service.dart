@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:flutter/foundation.dart';
 import 'package:greycells/constants/setting_key.dart';
 import 'package:greycells/extensions.dart';
 import 'package:greycells/models/file/server_file.dart';
@@ -222,7 +223,7 @@ class HttpService {
   }
 
   void _handleError(e, stackTrace) {
-    print(e);
+    debugPrint(e);
     print(stackTrace.toString());
     if (e is SocketException) {
       throw FetchDataException();

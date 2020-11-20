@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flutter/foundation.dart';
 import 'package:greycells/constants/strings.dart';
 import 'package:greycells/networking/http_exceptions.dart';
 import 'package:greycells/repository/user_repository.dart';
@@ -35,7 +36,7 @@ class ForgotPasswordBloc
           } else
             yield ForgotPasswordError(ErrorMessages.GENERIC_ERROR_MESSAGE);
         } catch (e) {
-          print(e);
+          debugPrint(e);
           if (e is ResourceNotFoundException) {
             yield ForgotPasswordError(Strings.forgotPasswordNotFound);
           }

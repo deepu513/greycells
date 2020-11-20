@@ -15,6 +15,11 @@ class CreateTask extends TaskEvent {
   CreateTask(this.task);
 }
 
+class LoadPatientTasks extends TaskEvent {
+  final int patientId;
+  LoadPatientTasks(this.patientId);
+}
+
 class UpdateTaskItem extends TaskEvent {
   final TaskItem taskItem;
 

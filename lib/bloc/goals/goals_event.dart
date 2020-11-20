@@ -9,7 +9,10 @@ abstract class GoalsEvent extends Equatable {
 
 class LoadGoalsMaster extends GoalsEvent {}
 
-class LoadGoalsByPatient extends GoalsEvent {}
+class LoadGoalsByPatient extends GoalsEvent {
+  final int patientId;
+  LoadGoalsByPatient({this.patientId});
+}
 
 class CreateGoal extends GoalsEvent {
   final int goalTypeId;

@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:greycells/bloc/patient/patient_bloc.dart';
 import 'package:greycells/models/patient/patient.dart';
 import 'package:greycells/route/route_name.dart';
-import 'package:greycells/view/widgets/centered_circular_loading.dart';
 import 'package:greycells/view/widgets/circle_avatar_or_initials.dart';
 import 'package:greycells/view/widgets/empty_state.dart';
 import 'package:greycells/view/widgets/error_with_retry.dart';
@@ -76,7 +75,7 @@ class __ActualPatientListState extends State<_ActualPatientList> {
                         patient: state.patients[index],
                         onPatientTilePressed: () {
                           Navigator.of(context).pushNamed(
-                              RouteName.PATIENT_PROFILE_PAGE,
+                              RouteName.PATIENT_PROFILE_DETAIL_PAGE,
                               arguments: state.patients[index]);
                         },
                       );

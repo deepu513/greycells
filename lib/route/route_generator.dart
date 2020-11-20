@@ -103,6 +103,12 @@ class RouteGenerator {
                 create: (_) => TherapistBloc(), child: TherapistListPage()));
       case RouteName.PATIENT_APPOINTMENT_LIST_PAGE:
         return MaterialPageRoute(builder: (_) => PatientAppointmentPage());
+      case RouteName.PATIENT_PROFILE_DETAIL_PAGE:
+        return MaterialPageRoute(
+            builder: (_) => PatientProfilePage(
+                  args,
+                  showDetails: true,
+                ));
       case RouteName.PATIENT_PROFILE_PAGE:
         return MaterialPageRoute(builder: (_) => PatientProfilePage(args));
       case RouteName.THERAPIST_PROFILE_PAGE:

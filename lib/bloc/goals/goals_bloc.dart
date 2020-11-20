@@ -32,7 +32,9 @@ class GoalsBloc extends Bloc<GoalsEvent, GoalsState> {
         _settingsRepository = await SettingsRepository.getInstance();
 
         List<Goal> goals = await _goalsRepository.getGoalsByPatientId(
-            _settingsRepository.get(SettingKey.KEY_PATIENT_ID));
+            event.patientId == null
+                ? _settingsRepository.get(SettingKey.KEY_PATIENT_ID)
+                : event.patientId);
 
         if (goals != null) {
           if (goals.isEmpty) {

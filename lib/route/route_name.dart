@@ -15,6 +15,7 @@ abstract class RouteName {
   static const THERAPIST_LIST_PAGE = "/therapist_list";
   static const PATIENT_APPOINTMENT_LIST_PAGE = "/patient_appointment_list";
   static const PATIENT_PROFILE_PAGE = "/patient_profile_page";
+  static const PATIENT_PROFILE_DETAIL_PAGE = "/patient_profile_detail_page";
   static const THERAPIST_PROFILE_PAGE = "/therapist_profile_page";
   static const APPOINTMENT_DATE_SELECTION_PAGE =
       "/appointment_date_selection_page";

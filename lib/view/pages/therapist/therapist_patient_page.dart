@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:greycells/bloc/patient/patient_bloc.dart';
 import 'package:greycells/models/patient/patient.dart';
 import 'package:greycells/route/route_name.dart';
+import 'package:greycells/view/widgets/centered_circular_loading.dart';
 import 'package:greycells/view/widgets/circle_avatar_or_initials.dart';
 import 'package:greycells/view/widgets/empty_state.dart';
 import 'package:greycells/view/widgets/error_with_retry.dart';
@@ -45,7 +46,7 @@ class __ActualPatientListState extends State<_ActualPatientList> {
     return BlocConsumer<PatientBloc, PatientState>(
       listener: (context, state) {},
       builder: (context, state) {
-        if (state is Loading) return CircularProgressIndicator();
+        if (state is Loading) return CenteredCircularLoadingIndicator();
         if (state is Error)
           return ErrorWithRetry(
             onRetryPressed: () => _loadAllPatients(),
@@ -147,7 +148,7 @@ class _PatientTile extends StatelessWidget {
                         SizedBox(
                           width: 4.0,
                         ),
-                        SelectableText(
+                        Text(
                           patient.user.mobileNumber,
                           style: Theme.of(context)
                               .textTheme
@@ -165,7 +166,7 @@ class _PatientTile extends StatelessWidget {
                         SizedBox(
                           width: 4.0,
                         ),
-                        SelectableText(
+                        Text(
                           patient.user.email,
                           style: Theme.of(context)
                               .textTheme

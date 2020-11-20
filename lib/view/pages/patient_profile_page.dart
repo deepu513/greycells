@@ -590,18 +590,6 @@ class _AllTasksState extends State<AllTasks> {
               behavior: NoGlowScrollBehaviour(),
               child: CustomScrollView(
                 slivers: [
-                  SliverAppBar(
-                    elevation: 4.0,
-                    forceElevated: true,
-                    floating: true,
-                    title: Text(
-                      'Tasks',
-                      style: Theme.of(context)
-                          .textTheme
-                          .headline6
-                          .copyWith(color: Colors.black87),
-                    ),
-                  ),
                   ...state.tasks.map((task) {
                     return _TaskList(
                       task: task,

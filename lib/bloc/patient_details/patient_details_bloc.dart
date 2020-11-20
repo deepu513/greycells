@@ -110,13 +110,31 @@ class PatientDetailsBloc
     }
 
     if (event is AddressValidated) {
-      patient.address.readableAddress =
-          patient.address.houseNumber + ", " + patient.address.roadName;
+      patient.address.readableAddress = patient.address.houseNumber +
+          ", " +
+          patient.address.roadName +
+          ", " +
+          patient.address.city +
+          ", " +
+          patient.address.state +
+          ", " +
+          patient.address.country +
+          " " +
+          patient.address.pincode;
 
       patient.guardian.address.readableAddress =
           patient.guardian.address.houseNumber +
               ", " +
-              patient.guardian.address.roadName;
+              patient.guardian.address.roadName +
+              ", " +
+              patient.guardian.address.city +
+              ", " +
+              patient.guardian.address.state +
+              ", " +
+              patient.guardian.address.country +
+              " " +
+              patient.guardian.address.pincode;
+
       yield StateOK();
     }
 

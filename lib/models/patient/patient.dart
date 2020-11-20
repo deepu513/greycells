@@ -39,7 +39,6 @@ class Patient {
   @JsonKey(name: "IsMinor")
   bool isMinor = true;
 
-  @JsonKey(name: "Address")
   /// Not a atomic value
   Address address;
 
@@ -47,7 +46,6 @@ class Patient {
   bool isEligibleForTest;
 
   /// Not a atomic value
-  @JsonKey(name: "HealthRecord")
   HealthRecord healthRecord;
 
   /// Not a atomic value

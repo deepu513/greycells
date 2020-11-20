@@ -20,13 +20,13 @@ Patient _$PatientFromJson(Map<String, dynamic> json) {
         ? null
         : File.fromJson(json['file'] as Map<String, dynamic>)
     ..isMinor = json['IsMinor'] as bool
-    ..address = json['Address'] == null
+    ..address = json['address'] == null
         ? null
-        : Address.fromJson(json['Address'] as Map<String, dynamic>)
+        : Address.fromJson(json['address'] as Map<String, dynamic>)
     ..isEligibleForTest = json['isEligibleForTest'] as bool
-    ..healthRecord = json['HealthRecord'] == null
+    ..healthRecord = json['healthRecord'] == null
         ? null
-        : HealthRecord.fromJson(json['HealthRecord'] as Map<String, dynamic>)
+        : HealthRecord.fromJson(json['healthRecord'] as Map<String, dynamic>)
     ..guardian = json['guardian'] == null
         ? null
         : Guardian.fromJson(json['guardian'] as Map<String, dynamic>)
@@ -57,9 +57,9 @@ Map<String, dynamic> _$PatientToJson(Patient instance) {
   val['fileId'] = instance.profilePicId;
   val['file'] = instance.file?.toJson();
   val['IsMinor'] = instance.isMinor;
-  val['Address'] = instance.address?.toJson();
+  val['address'] = instance.address?.toJson();
   val['isEligibleForTest'] = instance.isEligibleForTest;
-  val['HealthRecord'] = instance.healthRecord?.toJson();
+  val['healthRecord'] = instance.healthRecord?.toJson();
   val['guardian'] = instance.guardian?.toJson();
   val['placeOfBirth'] = instance.placeOfBirth;
   val['dateOfBirth'] = instance.dateOfBirth;

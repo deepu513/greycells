@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:greycells/constants/gender.dart';
+import 'package:greycells/models/patient/guardian/guardian.dart';
 import 'package:greycells/models/patient/patient.dart';
 import 'package:greycells/view/widgets/circle_avatar_or_initials.dart';
 import 'package:greycells/extensions.dart';
+import 'package:greycells/view/widgets/colored_page_section.dart';
+import 'package:greycells/view/widgets/page_section.dart';
 
 class PatientProfilePage extends StatelessWidget {
   final Patient patient;
@@ -54,11 +58,15 @@ class PatientProfilePage extends StatelessWidget {
                   child: TabBarView(children: <Widget>[
                     Padding(
                       padding: const EdgeInsets.all(16.0),
-                      child: PersonalInformation(),
+                      child: PersonalInformation(
+                        patient: patient,
+                      ),
                     ),
                     Padding(
                       padding: const EdgeInsets.all(16.0),
-                      child: GuardianInformation(),
+                      child: GuardianInformation(
+                        guardian: patient.guardian,
+                      ),
                     ),
                   ]),
                 ),
@@ -91,39 +99,49 @@ class ProfileHeaderSection extends StatelessWidget {
           ),
         ),
         SizedBox(width: 16.0),
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              "Deepak Ramrakhyani",
-              style: Theme.of(context)
-                  .textTheme
-                  .headline6
-                  .copyWith(color: Colors.black87, fontWeight: FontWeight.w700),
-            ),
-            SizedBox(
-              height: 4.0,
-            ),
-            Row(
-              children: [
-                Icon(
-                  Icons.call,
-                  size: 14.0,
-                  color: Colors.grey,
-                ),
-                SizedBox(
-                  width: 4.0,
-                ),
-                SelectableText(
-                  "7666131849",
-                  style: Theme.of(context)
-                      .textTheme
-                      .caption
-                      .copyWith(fontSize: 14.0),
-                ),
-              ],
-            )
-          ],
+        Expanded(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                patient.fullName,
+                style: Theme.of(context).textTheme.headline6.copyWith(
+                    color: Colors.black87, fontWeight: FontWeight.w700),
+              ),
+              SizedBox(
+                height: 4.0,
+              ),
+              SizedBox(
+                height: 8.0,
+              ),
+              Row(
+                children: [
+                  Icon(
+                    Icons.call_rounded,
+                    size: 14.0,
+                  ),
+                  SizedBox(
+                    width: 4.0,
+                  ),
+                  SelectableText(patient.user.mobileNumber,
+                      style: Theme.of(context).textTheme.bodyText1),
+                ],
+              ),
+              Row(
+                children: [
+                  Icon(
+                    Icons.alternate_email_rounded,
+                    size: 14.0,
+                  ),
+                  SizedBox(
+                    width: 4.0,
+                  ),
+                  SelectableText(patient.user.email,
+                      style: Theme.of(context).textTheme.bodyText1),
+                ],
+              )
+            ],
+          ),
         ),
       ],
     );
@@ -131,110 +149,178 @@ class ProfileHeaderSection extends StatelessWidget {
 }
 
 class PersonalInformation extends StatelessWidget {
+  final Patient patient;
+
+  const PersonalInformation({Key key, @required this.patient})
+      : super(key: key);
+
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        // *Email
-        ProfileMetaSection(
-          metaIcon: Icons.email,
-          title: "Email ID",
-          description: "dpkramrakhyani@gmail.com",
-        ),
-        SizedBox(
-          height: 16.0,
-        ),
-        //* Date of birth
-        ProfileMetaSection(
-          metaIcon: Icons.cake,
-          title: "Date of Birth",
-          description: "20 April, 2020",
-        ),
-        SizedBox(
-          height: 16.0,
-        ),
-        // * Gender
-        ProfileMetaSection(
-          metaIcon: Icons.wc,
-          title: "Gender",
-          description: "Male",
-        ),
-        SizedBox(
-          height: 16.0,
-        ),
-        // * Gender
-        Row(
-          children: [
-            //* Height
-            Expanded(
-              child: ProfileMetaSection(
-                metaIcon: Icons.height,
-                title: "Height",
-                description: "172 cm",
-              ),
+    return SingleChildScrollView(
+      child: Column(
+        children: [
+          ColoredPageSection(
+            icon: Icon(
+              Icons.cake_rounded,
+              color: Colors.blueGrey,
             ),
-            //* Weight
-            Expanded(
-              child: ProfileMetaSection(
-                metaIcon: Icons.settings_input_svideo,
-                title: "Weight",
-                description: "70 kgs",
-              ),
+            description: patient.dateOfBirth,
+            title: "Date of Birth",
+            textColor: Colors.blueGrey,
+            sectionColor: Colors.grey.shade50,
+            descriptionIsItalic: false,
+          ),
+          //* Date of birth
+          SizedBox(
+            height: 16.0,
+          ),
+          // * Gender
+          ColoredPageSection(
+            icon: Icon(
+              Icons.wc_rounded,
+              color: Colors.blueGrey,
             ),
-          ],
-        ),
-        SizedBox(
-          height: 16.0,
-        ),
-        // * Address
-        ProfileMetaSection(
-          metaIcon: Icons.location_city,
-          title: "Contact Address",
-          description:
-              "31/20, Xyz Street,  ABC Nagar, ABC Nagar, ABC Nagar, Mumbai - 421003",
-        ),
-      ],
+            description: Gender.values()[patient.genderValue].toString(),
+            title: "Gender",
+            textColor: Colors.blueGrey,
+            sectionColor: Colors.grey.shade50,
+            descriptionIsItalic: false,
+          ),
+          SizedBox(
+            height: 16.0,
+          ),
+          // * Gender
+          Container(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(8.0),
+              shape: BoxShape.rectangle,
+              color: Colors.grey.shade50,
+            ),
+            padding: EdgeInsets.symmetric(horizontal: 8.0, vertical: 12.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                PageSection(
+                  textColor: Colors.blueGrey,
+                  icon: Icon(
+                    Icons.height,
+                    color: Colors.blueGrey,
+                  ),
+                  title: "Height",
+                  description:
+                      "${patient.healthRecord.heightInCm.toString()} cms",
+                  descriptionIsItalic: false,
+                ),
+                SizedBox(
+                  height: 24.0,
+                ),
+                PageSection(
+                  textColor: Colors.blueGrey,
+                  icon: Icon(
+                    Icons.settings_input_svideo,
+                    color: Colors.blueGrey,
+                  ),
+                  title: "Weight",
+                  description:
+                      "${patient.healthRecord.weightInKg.toString()} kgs",
+                  descriptionIsItalic: false,
+                ),
+              ],
+            ),
+          ),
+
+          SizedBox(
+            height: 16.0,
+          ),
+          // * Address
+          ColoredPageSection(
+            icon: Icon(
+              Icons.location_city,
+              color: Colors.blueGrey,
+            ),
+            description: patient.address.readableAddress,
+            title: "Contact Address",
+            textColor: Colors.blueGrey,
+            sectionColor: Colors.grey.shade50,
+            descriptionIsItalic: false,
+          ),
+        ],
+      ),
     );
   }
 }
 
 class GuardianInformation extends StatelessWidget {
+  final Guardian guardian;
+
+  const GuardianInformation({Key key, @required this.guardian})
+      : super(key: key);
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        ProfileMetaSection(
-          metaIcon: Icons.group,
-          title: "Relationship",
-          description: "Father",
-        ),
-        SizedBox(
-          height: 16.0,
-        ),
-        ProfileMetaSection(
-          metaIcon: Icons.call,
-          title: "Contact Number",
-          description: "7666131849",
-        ),
-        SizedBox(
-          height: 16.0,
-        ),
-        ProfileMetaSection(
-          metaIcon: Icons.email,
-          title: "Email ID",
-          description: "dpkramrakhyani@gmail.com",
-        ),
-        SizedBox(
-          height: 16.0,
-        ),
-        // * Address
-        ProfileMetaSection(
-          metaIcon: Icons.location_city,
-          title: "Contact Address",
-          description:
-              "31/20, Xyz Street,  ABC Nagar, ABC Nagar, ABC Nagar, Mumbai - 421003",
-        ),
-      ],
+    return SingleChildScrollView(
+      child: Column(
+        children: [
+          ColoredPageSection(
+            icon: Icon(
+              Icons.group_rounded,
+              color: Colors.blueGrey,
+            ),
+            description: guardian.readableRelationship,
+            title: "Relationship",
+            textColor: Colors.blueGrey,
+            sectionColor: Colors.grey.shade50,
+            descriptionIsItalic: false,
+          ),
+          SizedBox(
+            height: 16.0,
+          ),
+          ColoredPageSection(
+            icon: Icon(
+              Icons.call_rounded,
+              color: Colors.blueGrey,
+            ),
+            description: guardian.mobileNumber,
+            title: "Contact Number",
+            textColor: Colors.blueGrey,
+            sectionColor: Colors.grey.shade50,
+            descriptionIsItalic: false,
+          ),
+          SizedBox(
+            height: 16.0,
+          ),
+          ColoredPageSection(
+            icon: Icon(
+              Icons.alternate_email_rounded,
+              color: Colors.blueGrey,
+            ),
+            description: guardian.email.isNullOrEmpty()
+                ? "not available"
+                : guardian.email,
+            title: "Email ID",
+            textColor: Colors.blueGrey,
+            sectionColor: Colors.grey.shade50,
+            descriptionIsItalic: guardian.email.isNullOrEmpty(),
+          ),
+          SizedBox(
+            height: 16.0,
+          ),
+          // * Address
+          ColoredPageSection(
+            icon: Icon(
+              Icons.location_city_rounded,
+              color: Colors.blueGrey,
+            ),
+            description: guardian.address == null
+                ? "not available"
+                : guardian.address.readableAddress,
+            title: "Contact Address",
+            textColor: Colors.blueGrey,
+            sectionColor: Colors.grey.shade50,
+            descriptionIsItalic: guardian.address == null,
+          ),
+        ],
+      ),
     );
   }
 }

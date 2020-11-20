@@ -83,7 +83,7 @@ class _AllTasksState extends State<AllTasks> {
                 })
               ],
             );
-          if (state is TasksEmpty) return Expanded(child: EmptyState());
+          if (state is TasksEmpty) return EmptyState();
           if (state is TasksError)
             return ErrorWithRetry(
               onRetryPressed: () {

@@ -27,4 +27,5 @@ abstract class RouteName {
   static const ADD_GOALS_PAGE = "/add_goals_page";
   static const PAYMENT_SUCCESS_PAGE = "/payment_success_page";
   static const PAYMENT_FAIL_PAGE = "/payment_fail_page";
+  static const INTRO_PAGE = "/intro_page";
 }

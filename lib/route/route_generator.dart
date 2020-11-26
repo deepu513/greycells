@@ -16,6 +16,7 @@ import 'package:greycells/models/task/task_item_page_args.dart';
 import 'package:greycells/route/route_name.dart';
 import 'package:greycells/view/pages/appointment_detail_page.dart';
 import 'package:greycells/view/pages/image_viewer.dart';
+import 'package:greycells/view/pages/intro_page.dart';
 import 'package:greycells/view/pages/patient/add_goals_page.dart';
 import 'package:greycells/view/pages/patient/appointment_date_selection.dart';
 import 'package:greycells/view/pages/patient/assessment_test_intro_page.dart';
@@ -170,6 +171,8 @@ class RouteGenerator {
             builder: (_) => PaymentFailurePage(
                   paymentId: args,
                 ));
+      case RouteName.INTRO_PAGE:
+        return MaterialPageRoute(builder: (_) => IntroScreen());
       default:
         // If there is no such named route in the switch statement, e.g. /third
         return _errorRoute();

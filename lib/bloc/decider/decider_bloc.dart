@@ -60,7 +60,7 @@ class DeciderBloc extends Bloc<DeciderEvent, DeciderState> {
   DeciderState _decidePatientNextPage(PatientHome home) {
     if (home != null) {
       if (home.patient == null) {
-        return NextPageDecided(RouteName.PATIENT_DETAIL_INPUT_PAGE, home);
+        return NextPageDecided(RouteName.INTRO_PAGE, home);
       } else if (home.patient != null &&
           home.patient.isEligibleForTest == false) {
         _settingsRepository.saveValue(

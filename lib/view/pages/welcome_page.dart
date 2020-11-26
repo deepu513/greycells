@@ -105,14 +105,11 @@ class _WelcomePageState extends State<WelcomePage>
           ),
         ),
         Align(
-          alignment: Alignment.topCenter,
-          child: Padding(
-            padding: const EdgeInsets.only(top: 80.0),
-            child: FadeTransition(
-              opacity: _contentFadeAnimation,
-              child: SvgPicture.asset(
-                "images/self_care_illustration.svg",
-              ),
+          alignment: Alignment.center,
+          child: FadeTransition(
+            opacity: _contentFadeAnimation,
+            child: Image.asset(
+              "images/self_care_illustration.png",
             ),
           ),
         ),

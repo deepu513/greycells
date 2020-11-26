@@ -55,6 +55,8 @@ extension StringExtensions on String {
   DateTime asDate() => DateFormat("yyyy-MM-dd'T'HH:mm:ss").parse(this);
 
   DateTime timeAsDate() => DateFormat("h:mm a").parse(this);
+  
+  DateTime fromddMMyyyy() => DateFormat("dd/MM/yyyy").parse(this);
 }
 
 extension DateTimeExtensions on DateTime {

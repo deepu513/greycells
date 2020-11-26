@@ -7,6 +7,7 @@ import 'package:greycells/models/timeslot/timeslot.dart';
 import 'package:greycells/models/timeslot/timeslot_request.dart';
 import 'package:greycells/models/timeslot/timeslot_response.dart';
 import 'package:greycells/repository/appointment_repository.dart';
+import 'package:greycells/extensions.dart';
 
 part 'timeslot_event.dart';
 part 'timeslot_state.dart';
@@ -35,7 +36,22 @@ class TimeslotBloc extends Bloc<TimeslotEvent, TimeslotState> {
         if (response != null &&
             response.timeslots != null &&
             response.timeslots.isNotEmpty) {
-          yield TimeslotsLoaded(response.timeslots);
+          DateTime currentDateTime = DateTime.now();
+          DateTime selectedDate = event.selectedDate.fromddMMyyyy();
+          List<Timeslot> validTimeslots = List();
+          response.timeslots.forEach((timeslot) {
+            DateTime aTime = timeslot.startTime.timeAsDate();
+            DateTime fullDateTime = DateTime(selectedDate.year,
+                selectedDate.month, selectedDate.day, aTime.hour, aTime.minute);
+
+            if (currentDateTime.isBefore(fullDateTime)) {
+              validTimeslots.add(timeslot);
+            }
+          });
+          if (validTimeslots.isNotEmpty)
+            yield TimeslotsLoaded(response.timeslots);
+          else
+            yield TimeslotsEmpty();
         } else if (response != null &&
             response.timeslots != null &&
             response.timeslots.isEmpty) {

@@ -26,8 +26,6 @@ class AssessmentBloc extends Bloc<AssessmentEvent, AssessmentState> {
   AssessmentBloc() : super(AssessmentInitial()) {
     _testRepository = AssessmentTestRepository();
     _currentQuestionNumber = 0;
-    SettingsRepository.getInstance()
-        .then((value) => _settingsRepository = value);
   }
 
   @override
@@ -75,6 +73,7 @@ class AssessmentBloc extends Bloc<AssessmentEvent, AssessmentState> {
               _test.questions[_currentQuestionNumber], _test.questions.length);
 
           final currentQuestion = _test.questions[_currentQuestionNumber];
+          _settingsRepository = await SettingsRepository.getInstance();
           final int patientId =
               await _settingsRepository.get(SettingKey.KEY_PATIENT_ID);
 

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_sticky_header/flutter_sticky_header.dart';
+import 'package:greycells/bloc/assessment/assessment_bloc.dart';
+import 'package:greycells/bloc/assessment/assessment_score_bloc.dart';
 import 'package:greycells/bloc/goals/goals_bloc.dart';
 import 'package:greycells/bloc/task/task_bloc.dart';
 import 'package:greycells/bloc/task/task_status.dart';
@@ -46,7 +48,7 @@ class PatientProfilePage extends StatelessWidget {
         ),
       ),
       body: DefaultTabController(
-        length: showDetails ? 4 : 2,
+        length: showDetails ? 5 : 2,
         child: SafeArea(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -61,7 +63,7 @@ class PatientProfilePage extends StatelessWidget {
               TabBar(
                   labelColor: Colors.black87,
                   unselectedLabelColor: Colors.grey,
-                  isScrollable: false,
+                  isScrollable: true,
                   labelStyle: Theme.of(context).textTheme.subtitle1,
                   unselectedLabelStyle: Theme.of(context).textTheme.subtitle1,
                   tabs: <Widget>[
@@ -75,6 +77,12 @@ class PatientProfilePage extends StatelessWidget {
                         "Guardian",
                       ),
                     ),
+                    if (showDetails)
+                      Tab(
+                        child: Text(
+                          "Assessment",
+                        ),
+                      ),
                     if (showDetails)
                       Tab(
                         child: Text(
@@ -103,6 +111,13 @@ class PatientProfilePage extends StatelessWidget {
                         guardian: patient.guardian,
                       ),
                     ),
+                    if (showDetails)
+                      BlocProvider<AssessmentScoreBloc>(
+                        create: (context) => AssessmentScoreBloc(),
+                        child: _AssessmentScore(
+                          patientId: patient.id,
+                        ),
+                      ),
                     if (showDetails)
                       BlocProvider<TaskBloc>(
                         create: (context) => TaskBloc(),
@@ -810,5 +825,71 @@ class __TaskItemWidgetState extends State<_TaskItemWidget> {
       debugPrint(e);
     }
     return "";
+  }
+}
+
+class _AssessmentScore extends StatefulWidget {
+  final int patientId;
+
+  const _AssessmentScore({Key key, this.patientId}) : super(key: key);
+
+  @override
+  __AssessmentScoreState createState() => __AssessmentScoreState();
+}
+
+class __AssessmentScoreState extends State<_AssessmentScore> {
+  @override
+  void initState() {
+    super.initState();
+    _loadAllAssessments();
+  }
+
+  void _loadAllAssessments() {
+    BlocProvider.of<AssessmentScoreBloc>(context)
+        .add(LoadAssessmentScores(widget.patientId));
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocConsumer<AssessmentScoreBloc, AssessmentScoreState>(
+      listener: (context, state) {},
+      builder: (context, state) {
+        if (state is AssessmentScoreLoading)
+          return CenteredCircularLoadingIndicator();
+        if (state is AssessmentScoreLoaded)
+          return ScrollConfiguration(
+            behavior: NoGlowScrollBehaviour(),
+            child: ListView.separated(
+              itemBuilder: (context, index) {
+                return ListTile(
+                  onTap: () {
+                    Navigator.of(context).pushNamed(RouteName.FULL_SCORE_PAGE,
+                        arguments: state.assessmentScores[index]);
+                  },
+                  title: Text(
+                    "Assessment #${index+1}",
+                    style: Theme.of(context).textTheme.headline6,
+                  ),
+                  subtitle: Text(
+                      "Completed on ${state.assessmentScores[index].assessment.createdDate.asDate().readableDate()}"),
+                      trailing: Icon(Icons.chevron_right_rounded),
+                );
+              },
+              separatorBuilder: (context, index) {
+                return Divider();
+              },
+              itemCount: state.assessmentScores.length,
+            ),
+          );
+        if (state is AssessmentScoreEmpty) return Expanded(child: EmptyState());
+        if (state is AssessmentError)
+          return ErrorWithRetry(
+            onRetryPressed: () {
+              _loadAllAssessments();
+            },
+          );
+        return Container();
+      },
+    );
   }
 }

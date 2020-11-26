@@ -1,5 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:greycells/flavor_config.dart';
+import 'package:greycells/models/assessment/assessment_response.dart';
+import 'package:greycells/models/assessment/assessment_response_serializable.dart';
 import 'package:greycells/models/assessment/save_option_serializable.dart';
 import 'package:greycells/models/assessment/test.dart';
 import 'package:greycells/models/assessment/test_serializable.dart';
@@ -26,13 +28,20 @@ class AssessmentTestRepository {
     return await _httpService.get(request, _testSerializable);
   }
 
-  Future<bool> saveOption({@required SaveOptionRequest saveOptionRequest}) async {
+  Future<bool> saveOption(
+      {@required SaveOptionRequest saveOptionRequest}) async {
     Request<SaveOptionRequest> request = Request(
-        "${FlavorConfig.getBaseUrl()}Assessment",
-        _optionRequestSerializable)
+        "${FlavorConfig.getBaseUrl()}Assessment", _optionRequestSerializable)
       ..setBody(saveOptionRequest);
 
     Response optionSavedResponse = await _httpService.postRaw(request, null);
     return optionSavedResponse.statusCode == 200;
+  }
+
+  Future<List<AssessmentResponse>> getAssessmentScores(int patientId) async {
+    Request request = Request(
+        "${FlavorConfig.getBaseUrl()}Patient/assessments?id=$patientId", null);
+
+    return await _httpService.getAll(request, AssessmentResponseSerializable());
   }
 }

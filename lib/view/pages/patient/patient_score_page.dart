@@ -49,7 +49,7 @@ class _PatientScorePageState extends State<PatientScorePage> {
               Padding(
                 padding: const EdgeInsets.fromLTRB(16.0, 16.0, 16.0, 8.0),
                 child: Text(
-                  "Your Behaviour",
+                  "Behaviour",
                   style: Theme.of(context)
                       .textTheme
                       .headline6
@@ -300,7 +300,7 @@ class _PatientScorePageState extends State<PatientScorePage> {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     Text(
-                      "Your Personality",
+                      "Personality",
                       style: Theme.of(context)
                           .textTheme
                           .headline6

@@ -36,7 +36,8 @@ class AppointmentDetailPage extends StatelessWidget {
             showIcon: true,
             onPressed: () => Navigator.of(context).pop(),
           );
-          Navigator.of(context).pop(true);
+          Navigator.of(context).pushNamedAndRemoveUntil(
+                        RouteName.DECIDER_PAGE, (route) => false);
         }
 
         if (state is AppointmentCompleted) {
@@ -143,8 +144,7 @@ class _MainContentState extends State<MainContent> {
         ? Provider.of<TherapistHome>(context, listen: false).serverTimestamp
         : Provider.of<PatientHome>(context, listen: false).serverTimestamp;
     DateTime serverDateTime = serverTime
-        .serverTimestampAsDate()
-        .add(TimeWatcher.getInstance().elapsedDuration());
+        .serverTimestampAsDate();
     DateTime aDate = widget.appointment.date.asDate();
     DateTime aTime = widget.appointment.timeSlot.startTime.timeAsDate();
     DateTime fullAppointmentDateTime =
@@ -262,7 +262,7 @@ class _MainContentState extends State<MainContent> {
             "We noticed the call being disconnected. Do you want to mark this appointment as complete?",
         onConfirmed: () {
           BlocProvider.of<AppointmentDetailBloc>(context)
-              .add(CancelAppointment(widget.appointment.id));
+              .add(CompleteAppointment(widget.appointment.id));
           Navigator.of(context).pop();
         },
         onCancelled: () => Navigator.of(context).pop(),

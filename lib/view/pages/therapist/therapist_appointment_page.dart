@@ -22,7 +22,7 @@ class TherapistAppointmentsPage extends StatefulWidget {
 
 class _TherapistAppointmentsPageState extends State<TherapistAppointmentsPage> {
   List<Appointment> upcomingAppointments;
-  
+
   @override
   void initState() {
     super.initState();
@@ -114,18 +114,12 @@ class _UpcomingAppointmentsState extends State<UpcomingAppointments> {
                   padding: const EdgeInsets.fromLTRB(8.0, 8.0, 8.0, 0.0),
                   child: AppointmentCard(
                       widget.upcomingAppointments[index], UserType.therapist,
-                      () async {
-                    var cancelled = await Navigator.of(context).pushNamed(
+                      () {
+                    Navigator.of(context).pushNamed(
                         RouteName.APPOINTMENT_DETAIL_PAGE,
                         arguments: AppointmentDetailArguments(
                             widget.upcomingAppointments[index],
                             UserType.therapist));
-
-                    if (cancelled == true) {
-                      setState(() {
-                        widget.upcomingAppointments[index].status = 1;
-                      });
-                    }
                   }),
                 );
               },

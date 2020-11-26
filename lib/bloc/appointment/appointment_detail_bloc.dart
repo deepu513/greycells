@@ -41,13 +41,13 @@ class AppointmentDetailBloc
     }
 
     if (event is CompleteAppointment) {
-      yield AppointmentCancelling();
+      yield AppointmentCompleting();
       try {
         bool result = await repository.updateAppointment(
             event.appointmentId, AppointmentStatus.completed);
 
         if (result != null && result == true) {
-          yield AppointmentCancelled();
+          yield AppointmentCompleted();
         } else
           yield AppointmentCancelFailed(ErrorMessages.GENERIC_ERROR_MESSAGE);
       } catch (e) {

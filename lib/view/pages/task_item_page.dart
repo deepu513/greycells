@@ -74,9 +74,12 @@ class TaskItemPage extends StatelessWidget {
                         Visibility(
                           visible: (taskItem.status == 1 ||
                                   userType == UserType.therapist) &&
+                              taskItem.file != null &&
                               !taskItem.file.name.isNullOrEmpty(),
                           child: ImageSection(
-                            imageUrl: taskItem.file.name.withBaseUrlForImage(),
+                            imageUrl: taskItem.file != null
+                                ? taskItem.file.name.withBaseUrlForImage()
+                                : "",
                           ),
                         ),
                         SizedBox(

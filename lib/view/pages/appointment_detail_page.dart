@@ -37,7 +37,7 @@ class AppointmentDetailPage extends StatelessWidget {
             onPressed: () => Navigator.of(context).pop(),
           );
           Navigator.of(context).pushNamedAndRemoveUntil(
-                        RouteName.DECIDER_PAGE, (route) => false);
+              RouteName.DECIDER_PAGE, (route) => false);
         }
 
         if (state is AppointmentCompleted) {
@@ -91,7 +91,17 @@ class AppointmentDetailPage extends StatelessWidget {
                           ? null
                           : () {
                               BlocProvider.of<AppointmentDetailBloc>(context)
-                                  .add(CancelAppointment(appointment.id));
+                                  .add(CancelAppointment(
+                                      appointment.id,
+                                      userType == UserType.therapist
+                                          ? Provider.of<PatientHome>(context,
+                                                  listen: false)
+                                              .patient
+                                              .id
+                                          : Provider.of<TherapistHome>(context,
+                                                  listen: false)
+                                              .therapist
+                                              .id));
                             },
                     ),
                   ),
@@ -143,8 +153,7 @@ class _MainContentState extends State<MainContent> {
     String serverTime = widget.userType == UserType.therapist
         ? Provider.of<TherapistHome>(context, listen: false).serverTimestamp
         : Provider.of<PatientHome>(context, listen: false).serverTimestamp;
-    DateTime serverDateTime = serverTime
-        .serverTimestampAsDate();
+    DateTime serverDateTime = serverTime.serverTimestampAsDate();
     DateTime aDate = widget.appointment.date.asDate();
     DateTime aTime = widget.appointment.timeSlot.startTime.timeAsDate();
     DateTime fullAppointmentDateTime =
@@ -261,8 +270,9 @@ class _MainContentState extends State<MainContent> {
         message:
             "We noticed the call being disconnected. Do you want to mark this appointment as complete?",
         onConfirmed: () {
-          BlocProvider.of<AppointmentDetailBloc>(context)
-              .add(CompleteAppointment(widget.appointment.id));
+          BlocProvider.of<AppointmentDetailBloc>(context).add(
+              CompleteAppointment(
+                  widget.appointment.id, widget.appointment.patient.id));
           Navigator.of(context).pop();
         },
         onCancelled: () => Navigator.of(context).pop(),

@@ -29,7 +29,7 @@ class AppointmentDetailBloc
       yield AppointmentCancelling();
       try {
         bool result = await repository.updateAppointment(
-            event.appointmentId, AppointmentStatus.cancelled);
+            event.appointmentId, AppointmentStatus.cancelled, event.notifierId);
 
         if (result != null && result == true) {
           yield AppointmentCancelled();
@@ -44,7 +44,7 @@ class AppointmentDetailBloc
       yield AppointmentCompleting();
       try {
         bool result = await repository.updateAppointment(
-            event.appointmentId, AppointmentStatus.completed);
+            event.appointmentId, AppointmentStatus.completed, event.notifierId);
 
         if (result != null && result == true) {
           yield AppointmentCompleted();

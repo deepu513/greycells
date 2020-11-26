@@ -9,12 +9,14 @@ abstract class AppointmentDetailEvent extends Equatable {
 
 class CancelAppointment extends AppointmentDetailEvent {
   final int appointmentId;
-  CancelAppointment(this.appointmentId);
+  final int notifierId;
+  CancelAppointment(this.appointmentId, this.notifierId);
 }
 
 class CompleteAppointment extends AppointmentDetailEvent {
   final int appointmentId;
-  CompleteAppointment(this.appointmentId);
+  final int notifierId;
+  CompleteAppointment(this.appointmentId, this.notifierId);
 }
 
 class StartAppointment extends AppointmentDetailEvent {

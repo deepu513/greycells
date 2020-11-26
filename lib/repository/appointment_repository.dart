@@ -52,9 +52,9 @@ class AppointmentRepository {
   }
 
   Future<bool> updateAppointment(
-      int appointmentId, AppointmentStatus status) async {
+      int appointmentId, AppointmentStatus status, int notifierId) async {
     Request<CreateAppointmentRequest> request = Request(
-        "${FlavorConfig.getBaseUrl()}Appointments/update?id=$appointmentId&status=${status.index}",
+        "${FlavorConfig.getBaseUrl()}Appointments/update?id=$appointmentId&status=${status.index}&notifierUserId=$notifierId",
         null)
       ..setBody(null);
 

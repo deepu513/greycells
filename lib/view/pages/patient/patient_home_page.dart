@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:greycells/bloc/authentication/authentication_bloc.dart';
+import 'package:greycells/bloc/authentication/authentication_event.dart';
 import 'package:greycells/constants/user_type.dart';
 import 'package:greycells/models/appointment/appointment.dart';
 import 'package:greycells/models/appointment/appointment_detail_arguments.dart';
 import 'package:greycells/models/home/patient_home.dart';
 import 'package:greycells/models/therapist/therapist.dart';
+import 'package:greycells/repository/settings_repository.dart';
 import 'package:greycells/route/route_name.dart';
 import 'package:greycells/view/widgets/appointment_card.dart';
 import 'package:greycells/view/widgets/circle_avatar_or_initials.dart';
@@ -166,24 +170,45 @@ class _AppBarSection extends StatelessWidget {
             .copyWith(color: Colors.black87),
       ),
       actions: [
-        Padding(
-          padding: const EdgeInsets.only(right: 12.0),
-          child: IconButton(
-            onPressed: () {
-              Navigator.of(context).pushNamed(RouteName.PATIENT_PROFILE_PAGE,
-                  arguments:
-                      Provider.of<PatientHome>(context, listen: false).patient);
-            },
-            icon: Hero(
-              tag: "profile_pic",
-              child: CircleAvatarOrInitials(
-                radius: 16.0,
-                imageUrl: profilePicUrl,
-                stringForInitials: patientName,
-              ),
+        IconButton(
+          onPressed: () {
+            Navigator.of(context).pushNamed(RouteName.PATIENT_PROFILE_PAGE,
+                arguments:
+                    Provider.of<PatientHome>(context, listen: false).patient);
+          },
+          icon: Hero(
+            tag: "profile_pic",
+            child: CircleAvatarOrInitials(
+              radius: 16.0,
+              imageUrl: profilePicUrl,
+              stringForInitials: patientName,
             ),
           ),
         ),
+        PopupMenuButton<String>(
+          onSelected: (value) async {
+            if (value == "logout") {
+              var result = await showConfirmationDialog<bool>(
+                context: context,
+                message: "Are you sure you want to logout?",
+                onConfirmed: () => Navigator.of(context).pop(true),
+                onCancelled: () => Navigator.of(context).pop(false),
+              );
+              if (result == true) {
+                var _settings = await SettingsRepository.getInstance();
+                await _settings.clear();
+                BlocProvider.of<AuthenticationBloc>(context).add(LoggedOut());
+                Navigator.pushNamedAndRemoveUntil(
+                    context, RouteName.INITIAL, (route) => false);
+              }
+            }
+          },
+          itemBuilder: (context) {
+            return [
+              PopupMenuItem<String>(value: "logout", child: Text('Logout'))
+            ];
+          },
+        )
       ],
       // Allows the user to reveal the app bar if they begin scrolling back
       // up the list of items.

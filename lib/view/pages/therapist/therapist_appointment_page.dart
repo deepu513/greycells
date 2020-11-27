@@ -1,15 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:greycells/bloc/appointment/appointment_bloc.dart';
+import 'package:greycells/bloc/authentication/bloc.dart';
 import 'package:greycells/constants/user_type.dart';
 import 'package:greycells/models/appointment/appointment.dart';
 import 'package:greycells/models/appointment/appointment_detail_arguments.dart';
 import 'package:greycells/models/home/therapist_home.dart';
+import 'package:greycells/repository/settings_repository.dart';
 import 'package:greycells/route/route_name.dart';
 import 'package:greycells/view/pages/all_appointments.dart';
 import 'package:greycells/view/widgets/appointment_card.dart';
 import 'package:greycells/view/widgets/empty_state.dart';
 import 'package:provider/provider.dart';
+import 'package:greycells/extensions.dart';
 
 class TherapistAppointmentsPage extends StatefulWidget {
   static const _NUMBER_OF_TABS = 2;
@@ -44,6 +47,36 @@ class _TherapistAppointmentsPageState extends State<TherapistAppointmentsPage> {
                   floating: true,
                   snap: true,
                   pinned: true,
+                  actions: [
+                    PopupMenuButton<String>(
+                      onSelected: (value) async {
+                        if (value == "logout") {
+                          var result =
+                              await widget.showConfirmationDialog<bool>(
+                            context: context,
+                            message: "Are you sure you want to logout?",
+                            onConfirmed: () => Navigator.of(context).pop(true),
+                            onCancelled: () => Navigator.of(context).pop(false),
+                          );
+                          if (result == true) {
+                            var _settings =
+                                await SettingsRepository.getInstance();
+                            await _settings.clear();
+                            BlocProvider.of<AuthenticationBloc>(context)
+                                .add(LoggedOut());
+                            Navigator.pushNamedAndRemoveUntil(
+                                context, RouteName.INITIAL, (route) => false);
+                          }
+                        }
+                      },
+                      itemBuilder: (context) {
+                        return [
+                          PopupMenuItem<String>(
+                              value: "logout", child: Text('Logout'))
+                        ];
+                      },
+                    )
+                  ],
                   forceElevated: innerBoxIsScrolled,
                   title: Text(
                     'Appointments',

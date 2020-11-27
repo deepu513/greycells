@@ -39,4 +39,8 @@ class SettingsRepository {
       return Future.value(false);
     }
   }
+
+  Future<bool> clear() {
+    return _preferences.clear();
+  }
 }

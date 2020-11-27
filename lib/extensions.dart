@@ -40,6 +40,11 @@ extension StringExtensions on String {
     return "https://www.greycellswellness.com/File/$this";
   }
 
+  String withBaseUrlForReport() {
+    if (this.isEmpty) return "";
+    return "https://www.greycellswellness.com/Report/$this";
+  }
+
   String initials() {
     if (this.isNullOrEmpty()) return "";
     String initials = "";

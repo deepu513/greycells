@@ -226,7 +226,7 @@ class ScoreAndReportSection extends StatelessWidget {
     HeaderCard(
       title: "Checkout your reports",
       svgImageName: "report.svg",
-      destination: RouteName.PATIENT_SCORE_PAGE,
+      destination: RouteName.PATIENT_REPORT_PAGE,
     )
   ];
 

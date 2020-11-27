@@ -1,22 +1,28 @@
+import 'package:greycells/models/file/file.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'medical_record.g.dart';
 
 @JsonSerializable(explicitToJson: true)
 class MedicalRecord {
+  @JsonKey(name: "PatientId")
+  int patientId;
 
-	@JsonKey(name : "PatientId")
-	int patientId;
+  @JsonKey(name: "fileId")
+  int fileId;
 
-	@JsonKey(name: "fileId")
-	int fileId;
+  @JsonKey(name: "file", includeIfNull: false)
+  File file;
 
-	MedicalRecord() {
-		patientId = 0;
-	}
+  @JsonKey(includeIfNull: false)
+  int id;
 
-	factory MedicalRecord.fromJson(Map<String, dynamic> json) => _$MedicalRecordFromJson(json);
+  MedicalRecord() {
+    patientId = 0;
+  }
 
-	  Map<String, dynamic> toJson() => _$MedicalRecordToJson(this);
+  factory MedicalRecord.fromJson(Map<String, dynamic> json) =>
+      _$MedicalRecordFromJson(json);
 
+  Map<String, dynamic> toJson() => _$MedicalRecordToJson(this);
 }

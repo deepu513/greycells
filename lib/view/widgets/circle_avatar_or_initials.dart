@@ -14,8 +14,9 @@ class CircleAvatarOrInitials extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CircleAvatar(
-      backgroundImage:
-          imageUrl != null ? CachedNetworkImageProvider(imageUrl) : null,
+      backgroundImage: imageUrl.isNullOrEmpty()
+          ? null
+          : CachedNetworkImageProvider(imageUrl),
       backgroundColor: Color(0xFF455a64),
       child: imageUrl.isNullOrEmpty()
           ? Text(

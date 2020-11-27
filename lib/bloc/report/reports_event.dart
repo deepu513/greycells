@@ -20,3 +20,9 @@ class DownloadReport extends ReportsEvent {
 
   DownloadReport(this.fileName);
 }
+
+class DownloadReportWithUrl extends ReportsEvent {
+  final String url;
+
+  DownloadReportWithUrl(this.url);
+}

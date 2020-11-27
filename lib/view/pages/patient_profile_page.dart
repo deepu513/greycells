@@ -4,6 +4,7 @@ import 'package:flutter_sticky_header/flutter_sticky_header.dart';
 import 'package:greycells/bloc/assessment/assessment_bloc.dart';
 import 'package:greycells/bloc/assessment/assessment_score_bloc.dart';
 import 'package:greycells/bloc/goals/goals_bloc.dart';
+import 'package:greycells/bloc/report/reports_bloc.dart';
 import 'package:greycells/bloc/task/task_bloc.dart';
 import 'package:greycells/bloc/task/task_status.dart';
 import 'package:greycells/constants/gender.dart';
@@ -11,6 +12,7 @@ import 'package:greycells/constants/user_type.dart';
 import 'package:greycells/models/goals/goal.dart';
 import 'package:greycells/models/goals/goal_type.dart';
 import 'package:greycells/models/patient/guardian/guardian.dart';
+import 'package:greycells/models/patient/medical/medical_record.dart';
 import 'package:greycells/models/patient/patient.dart';
 import 'package:greycells/models/task/task.dart';
 import 'package:greycells/models/task/task_item.dart';
@@ -48,7 +50,7 @@ class PatientProfilePage extends StatelessWidget {
         ),
       ),
       body: DefaultTabController(
-        length: showDetails ? 5 : 2,
+        length: showDetails ? 6 : 2,
         child: SafeArea(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -77,6 +79,12 @@ class PatientProfilePage extends StatelessWidget {
                         "Guardian",
                       ),
                     ),
+                    if (showDetails)
+                      Tab(
+                        child: Text(
+                          "Medical Records",
+                        ),
+                      ),
                     if (showDetails)
                       Tab(
                         child: Text(
@@ -111,6 +119,13 @@ class PatientProfilePage extends StatelessWidget {
                         guardian: patient.guardian,
                       ),
                     ),
+                    if (showDetails)
+                      BlocProvider<ReportsBloc>(
+                        create: (context) => ReportsBloc(),
+                        child: _MedicalRecordsTab(
+                          medicalRecords: patient.medicalRecords,
+                        ),
+                      ),
                     if (showDetails)
                       BlocProvider<AssessmentScoreBloc>(
                         create: (context) => AssessmentScoreBloc(),
@@ -867,12 +882,12 @@ class __AssessmentScoreState extends State<_AssessmentScore> {
                         arguments: state.assessmentScores[index]);
                   },
                   title: Text(
-                    "Assessment #${index+1}",
+                    "Assessment #${index + 1}",
                     style: Theme.of(context).textTheme.headline6,
                   ),
                   subtitle: Text(
                       "Completed on ${state.assessmentScores[index].assessment.createdDate.asDate().readableDate()}"),
-                      trailing: Icon(Icons.chevron_right_rounded),
+                  trailing: Icon(Icons.chevron_right_rounded),
                 );
               },
               separatorBuilder: (context, index) {
@@ -891,5 +906,71 @@ class __AssessmentScoreState extends State<_AssessmentScore> {
         return Container();
       },
     );
+  }
+}
+
+class _MedicalRecordsTab extends StatefulWidget {
+  final List<MedicalRecord> medicalRecords;
+
+  const _MedicalRecordsTab({Key key, @required this.medicalRecords})
+      : super(key: key);
+
+  @override
+  __MedicalRecordsTabState createState() => __MedicalRecordsTabState();
+}
+
+class __MedicalRecordsTabState extends State<_MedicalRecordsTab> {
+  @override
+  Widget build(BuildContext context) {
+    if (widget.medicalRecords == null ||
+        (widget.medicalRecords != null && widget.medicalRecords.isEmpty))
+      return EmptyState(
+        description: "Couldn't find any medical records",
+      );
+    else
+      return ListView.separated(
+          itemBuilder: (context, index) {
+            return ListTile(
+              onTap: () {
+                if (widget.medicalRecords[index].file.type == "image") {
+                  Navigator.of(context).pushNamed(RouteName.IMAGE_VIEWER_PAGE,
+                      arguments: widget.medicalRecords[index].file.name
+                          .withBaseUrlForImage());
+                } else {
+                  BlocProvider.of<ReportsBloc>(context).add(
+                      DownloadReportWithUrl(widget
+                          .medicalRecords[index].file.name
+                          .withBaseUrlForImage()));
+                }
+              },
+              leading: widget.medicalRecords[index].file.type == "image"
+                  ? Image.network(
+                      widget.medicalRecords[index].file.name
+                          .withBaseUrlForImage(),
+                      width: 80.0,
+                      fit: BoxFit.cover,
+                    )
+                  : Icon(Icons.insert_drive_file),
+              title: Text(
+                widget.medicalRecords[index].file.name,
+                overflow: TextOverflow.ellipsis,
+              ),
+              trailing: IconButton(
+                icon: Icon(Icons.arrow_circle_down_rounded),
+                iconSize: 20.0,
+                onPressed: () {
+                  BlocProvider.of<ReportsBloc>(context).add(
+                      DownloadReportWithUrl(widget
+                          .medicalRecords[index].file.name
+                          .withBaseUrlForImage()));
+                },
+              ),
+            );
+          },
+          separatorBuilder: (context, index) => Divider(
+                indent: 16.0,
+                endIndent: 16.0,
+              ),
+          itemCount: widget.medicalRecords.length);
   }
 }

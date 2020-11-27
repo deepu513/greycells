@@ -79,6 +79,18 @@ class ReportsBloc extends Bloc<ReportsEvent, ReportsState> {
             openFileFromNotification: true);
       }
     }
+
+    if (event is DownloadReportWithUrl) {
+      bool permissionGranted = await _checkPermission();
+
+      if (permissionGranted) {
+        await FlutterDownloader.enqueue(
+            url: event.url,
+            savedDir: (await _findLocalPath()),
+            showNotification: true,
+            openFileFromNotification: true);
+      }
+    }
   }
 
   Future<String> _findLocalPath() async {

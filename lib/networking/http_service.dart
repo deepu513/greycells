@@ -36,7 +36,7 @@ class HttpService {
   Future<Response<ResponseType>> postRaw<RequestType, ResponseType>(
       Request<RequestType> request,
       Serializable<ResponseType> responseSerializable) {
-    print(request.toJsonString());
+    debugPrint(request.toJsonString());
     return http
         .post(request.url,
             body: request.toJsonString(),
@@ -49,7 +49,7 @@ class HttpService {
   Future<ResponseType> post<RequestType, ResponseType>(
       Request<RequestType> request,
       Serializable<ResponseType> responseSerializable) {
-    print(request.toJsonString());
+    debugPrint(request.toJsonString());
     return http
         .post(request.url,
             body: request.toJsonString(),
@@ -103,7 +103,7 @@ class HttpService {
   Future<List<ResponseType>> postAll<RequestType, ResponseType>(
       Request<RequestType> request,
       Serializable<ResponseType> responseSerializable) {
-    print(request.toJsonString());
+    debugPrint(request.toJsonString());
     return http
         .post(request.url,
             body: request.toJsonString(),
@@ -136,7 +136,7 @@ class HttpService {
   Future<List<ResponseType>> putAll<RequestType, ResponseType>(
       Request<RequestType> request,
       Serializable<ResponseType> responseSerializable) {
-    print(request.toJsonString());
+    debugPrint(request.toJsonString());
     return http
         .put(request.url,
             body: request.toJsonString(),
@@ -211,7 +211,7 @@ class HttpService {
   Response<ResponseType> _processResponse<ResponseType>(
       http.Response actualResponse,
       Serializable<ResponseType> responseSerializable) {
-    print(actualResponse.body);
+    debugPrint(actualResponse.body);
     if (_isSuccessOrThrow(actualResponse.statusCode)) {
       if (responseSerializable == null) {
         return Response(null, null, statusCode: actualResponse.statusCode);
@@ -224,7 +224,7 @@ class HttpService {
 
   void _handleError(e, stackTrace) {
     debugPrint(e);
-    print(stackTrace.toString());
+    debugPrint(stackTrace.toString());
     if (e is SocketException) {
       throw FetchDataException();
     }
@@ -257,7 +257,7 @@ class HttpService {
         _settingsRepository.get(SettingKey.KEY_REQUEST_TOKEN, defaultValue: "");
     // token =
     //     "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6IjQ5IiwibmJmIjoxNjA1MDA4Mjk3LCJleHAiOjE2MDc2MDAyOTcsImlhdCI6MTYwNTAwODI5N30.shnkwx9c44xBCvMNPa3uzThR7-PLE2kLoueNFRuqZDk";
-    print("token $token");
+    debugPrint("token $token");
 
     if (!url.contains("authenticate") &&
         !url.contains("register") &&

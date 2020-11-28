@@ -4,6 +4,7 @@ import 'package:greycells/flavor_config.dart';
 import 'package:greycells/greycells_app.dart';
 import 'package:greycells/route/route_name.dart';
 import 'package:greycells/time_watcher.dart';
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

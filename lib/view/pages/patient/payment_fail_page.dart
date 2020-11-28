@@ -40,14 +40,29 @@ class PaymentFailurePage extends StatelessWidget {
                 ),
                 Visibility(
                   visible: paymentId != null,
-                  child: Text(
-                    "Your payment id is $paymentId",
+                  child: RichText(
                     textAlign: TextAlign.center,
-                    style: Theme.of(context).textTheme.bodyText1.copyWith(
-                        height: 1.3,
-                        letterSpacing: 0.5,
-                        wordSpacing: 0.7,
-                        color: Colors.grey),
+                    text: TextSpan(
+                      text: "Your payment id is ",
+                      style: Theme.of(context).textTheme.bodyText1.copyWith(
+                            height: 1.3,
+                            letterSpacing: 0.5,
+                            wordSpacing: 0.7,
+                            color: Colors.grey,
+                          ),
+                      children: [
+                        TextSpan(
+                          text: paymentId,
+                          style: Theme.of(context).textTheme.subtitle2.copyWith(
+                                height: 1.3,
+                                letterSpacing: 0.5,
+                                wordSpacing: 0.7,
+                                color: Colors.black87,
+                                fontWeight: FontWeight.bold,
+                              ),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
                 SizedBox(

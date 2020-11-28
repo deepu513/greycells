@@ -18,8 +18,6 @@ import 'package:greycells/repository/payment_repository.dart';
 import 'package:greycells/repository/settings_repository.dart';
 import 'package:meta/meta.dart';
 import 'package:razorpay_flutter/razorpay_flutter.dart';
-import 'package:timezone/data/latest.dart' as tz;
-import 'package:timezone/timezone.dart' as tz;
 
 part 'payment_event.dart';
 
@@ -125,14 +123,13 @@ class PaymentBloc extends Bloc<PaymentEvent, PaymentState> {
 
               yield PaymentSuccess(createAppointmentRequest);
             } else {
-              yield PaymentStatusUnknown(createAppointmentRequest.paymentId);
+              yield PaymentStatusUnknown(event.paymentId);
             }
           }
         } else
-          yield PaymentStatusUnknown(paymentId);
+          yield PaymentStatusUnknown(event.paymentId);
       } catch (e) {
-        debugPrint(e);
-        yield PaymentStatusUnknown(paymentId);
+        yield PaymentStatusUnknown(event.paymentId);
       }
     }
 

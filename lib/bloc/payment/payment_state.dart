@@ -20,6 +20,6 @@ class PaymentSuccess extends PaymentState {
 class PaymentFailure extends PaymentState {}
 
 class PaymentStatusUnknown extends PaymentState {
-  final int paymentId;
+  final String paymentId;
   PaymentStatusUnknown(this.paymentId);
 }

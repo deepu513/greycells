@@ -66,7 +66,7 @@ class _PatientHomePageState extends State<PatientHomePage> {
                     visible: upcomingAppointments != null &&
                         upcomingAppointments.isNotEmpty,
                     child: Padding(
-                      padding: const EdgeInsets.all(16.0),
+                      padding: const EdgeInsets.fromLTRB(16.0, 8.0, 16.0, 16.0),
                       child: UpcomingAppointmentHeaderSection(),
                     ),
                   ),
@@ -225,7 +225,7 @@ class UpcomingAppointmentSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 158.0,
+      height: 164.0,
       child: PageView.builder(
         itemCount: upcomingAppointments.length,
         controller: PageController(viewportFraction: 0.9),
@@ -289,7 +289,7 @@ class HeaderCard extends StatelessWidget {
           child: Container(
             padding: EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
             decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(16.0),
+              borderRadius: BorderRadius.circular(8.0),
               gradient: LinearGradient(
                 colors: [Color(0xFFC984A1), Color(0xFF4D2294)],
                 begin: Alignment.topLeft,
@@ -301,8 +301,8 @@ class HeaderCard extends StatelessWidget {
               children: [
                 SvgPicture.asset(
                   "images/$svgImageName",
-                  height: 96.0,
-                  width: 96.0,
+                  height: 72.0,
+                  width: 72.0,
                 ),
                 Expanded(
                   child: Text(

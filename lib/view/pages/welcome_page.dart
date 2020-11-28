@@ -1,3 +1,4 @@
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
 import 'package:greycells/app_theme.dart';
 import 'package:greycells/constants/strings.dart';

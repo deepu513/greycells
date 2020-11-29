@@ -441,7 +441,7 @@ class __ActualPatientGoalsState extends State<_ActualPatientGoals> {
                   ],
                 ),
               );
-            if (state is GoalsEmpty) return Expanded(child: EmptyState());
+            if (state is GoalsEmpty) return EmptyState();
             if (state is GoalsError)
               return ErrorWithRetry(
                 onRetryPressed: () {
@@ -628,7 +628,7 @@ class _AllTasksState extends State<AllTasks> {
                 ],
               ),
             );
-          if (state is TasksEmpty) return Expanded(child: EmptyState());
+          if (state is TasksEmpty) return EmptyState();
           if (state is TasksError)
             return ErrorWithRetry(
               onRetryPressed: () {
@@ -896,7 +896,7 @@ class __AssessmentScoreState extends State<_AssessmentScore> {
               itemCount: state.assessmentScores.length,
             ),
           );
-        if (state is AssessmentScoreEmpty) return Expanded(child: EmptyState());
+        if (state is AssessmentScoreEmpty) return EmptyState();
         if (state is AssessmentError)
           return ErrorWithRetry(
             onRetryPressed: () {

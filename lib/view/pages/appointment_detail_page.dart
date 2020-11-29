@@ -243,7 +243,10 @@ class _MainContentState extends State<MainContent> {
                 Navigator.of(context).pushNamed(RouteName.ADD_TASKS_PAGE,
                     arguments: AssignTaskArgs()
                       ..appointmentId = widget.appointment.id
-                      ..therapistId = widget.appointment.therapist.id
+                      ..therapistId =
+                          Provider.of<TherapistHome>(context, listen: false)
+                              .therapist
+                              .id
                       ..patientId = widget.appointment.patient.id);
               },
             ),

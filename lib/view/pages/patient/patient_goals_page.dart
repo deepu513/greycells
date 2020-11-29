@@ -82,7 +82,7 @@ class __ActualPatientGoalsState extends State<_ActualPatientGoals> {
                     ],
                   ),
                 );
-              if (state is GoalsEmpty) return Expanded(child: EmptyState());
+              if (state is GoalsEmpty) return EmptyState();
               if (state is GoalsError)
                 return ErrorWithRetry(
                   onRetryPressed: () {

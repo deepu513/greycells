@@ -78,7 +78,7 @@ class _AllReportsSectionState extends State<AllReportsSection> {
               itemCount: state.reports.length,
             ),
           );
-        if (state is ReportsEmpty) return Expanded(child: EmptyState());
+        if (state is ReportsEmpty) return EmptyState();
         if (state is ReportsError)
           return ErrorWithRetry(
             onRetryPressed: () {

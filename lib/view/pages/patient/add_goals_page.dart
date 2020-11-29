@@ -96,7 +96,7 @@ class __AllGoalsState extends State<_AllGoals> {
                 ],
               ),
             );
-          if (state is GoalsEmpty) return Expanded(child: EmptyState());
+          if (state is GoalsEmpty) return EmptyState();
           if (state is GoalsError)
             return ErrorWithRetry(
               onRetryPressed: () {

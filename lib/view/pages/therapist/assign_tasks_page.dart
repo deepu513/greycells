@@ -50,15 +50,16 @@ class _AssignTasksPageState extends State<AssignTasksPage> {
         child: Provider<Task>.value(
           value: task,
           child: BlocConsumer<TaskBloc, TaskState>(
-            listener: (context, state) {
+            listener: (context, state) async {
               if (state is TaskCreated) {
-                widget.showSuccessDialog(
+                await widget.showSuccessDialog(
                   context: context,
                   message: "Task created and assigned successfully!",
                   showIcon: true,
                   onPressed: () {
                     Navigator.of(context).pop();
                   });
+                  Navigator.of(context).pop();
               }
 
               if (state is TasksError) {

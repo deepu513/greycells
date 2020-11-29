@@ -64,7 +64,7 @@ class NotificationBloc extends Bloc<NotificationEvent, NotificationState> {
             } else
               yield TokenUpdateFailed();
           } catch (e) {
-            debugPrint(e);
+            debugPrint(e.toString());
             yield TokenUpdateFailed();
           }
         }

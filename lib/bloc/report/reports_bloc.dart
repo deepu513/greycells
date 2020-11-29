@@ -43,7 +43,7 @@ class ReportsBloc extends Bloc<ReportsEvent, ReportsState> {
         } else
           yield ReportsError();
       } catch (e) {
-        debugPrint(e);
+        debugPrint(e.toString());
         yield ReportsError();
       }
     }
@@ -63,7 +63,7 @@ class ReportsBloc extends Bloc<ReportsEvent, ReportsState> {
         } else
           yield ReportsError();
       } catch (e) {
-        debugPrint(e);
+        debugPrint(e.toString());
         yield ReportsError();
       }
     }

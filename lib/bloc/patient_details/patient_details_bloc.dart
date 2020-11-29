@@ -215,7 +215,7 @@ class PatientDetailsBloc
       return convertedFormat.format(serverDateTime);
     }
 
-    DateFormat convertedFormat = DateFormat("MM/dd/yyyy");
+    DateFormat convertedFormat = DateFormat("dd/MM/yyyy");
     return convertedFormat.format(serverDateTime);
   }
 

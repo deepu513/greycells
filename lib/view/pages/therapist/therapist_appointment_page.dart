@@ -85,35 +85,12 @@ class _TherapistAppointmentsPageState extends State<TherapistAppointmentsPage> {
                         .headline6
                         .copyWith(color: Colors.black87),
                   ),
-                  bottom: TabBar(
-                    labelColor: Colors.black87,
-                    unselectedLabelColor: Colors.grey,
-                    tabs: [
-                      Tab(
-                        child: Text(
-                          "UPCOMING",
-                          style: TextStyle(fontWeight: FontWeight.bold),
-                        ),
-                      ),
-                      Tab(
-                        child: Text(
-                          "ALL",
-                          style: TextStyle(fontWeight: FontWeight.bold),
-                        ),
-                      ),
-                    ],
-                  ),
                 ),
               ];
             },
-            body: TabBarView(
-              children: [
-                UpcomingAppointments(upcomingAppointments),
-                BlocProvider(
-                  create: (context) => AppointmentBloc(),
-                  child: AllAppointments(UserType.therapist),
-                ),
-              ],
+            body: BlocProvider(
+              create: (context) => AppointmentBloc(),
+              child: AllAppointments(UserType.therapist),
             ),
           ),
         ),

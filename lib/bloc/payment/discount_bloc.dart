@@ -45,7 +45,7 @@ class DiscountBloc extends Bloc<DiscountEvent, DiscountState> {
           } else
             yield PromoCodeFailed();
         } catch (e) {
-          debugPrint(e);
+          debugPrint(e.toString());
           yield PromoCodeFailed();
         }
       }

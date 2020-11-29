@@ -80,7 +80,7 @@ class PaymentBloc extends Bloc<PaymentEvent, PaymentState> {
           yield PaymentFailure();
         }
       } catch (e) {
-        debugPrint(e);
+        debugPrint(e.toString());
         yield PaymentFailure();
       }
     }

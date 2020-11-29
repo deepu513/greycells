@@ -223,7 +223,7 @@ class HttpService {
   }
 
   void _handleError(e, stackTrace) {
-    debugPrint(e);
+    debugPrint(e.toString());
     debugPrint(stackTrace.toString());
     if (e is SocketException) {
       throw FetchDataException();

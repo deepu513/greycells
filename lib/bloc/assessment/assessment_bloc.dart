@@ -52,7 +52,7 @@ class AssessmentBloc extends Bloc<AssessmentEvent, AssessmentState> {
         } else
           yield AssessmentError();
       } catch (e) {
-        debugPrint(e);
+        debugPrint(e.toString());
         yield AssessmentError();
       }
     }
@@ -103,7 +103,7 @@ class AssessmentBloc extends Bloc<AssessmentEvent, AssessmentState> {
                 _test.questions.length);
           }
         } catch (e) {
-          debugPrint(e);
+          debugPrint(e.toString());
           yield ErrorWhileSavingSelectedOption(
               _test.questions[_currentQuestionNumber], _test.questions.length);
         }

@@ -37,7 +37,7 @@ class TaskBloc extends Bloc<TaskEvent, TaskState> {
         } else
           yield TasksError();
       } catch (e) {
-        debugPrint(e);
+        debugPrint(e.toString());
         yield TasksError();
       }
     }
@@ -53,7 +53,7 @@ class TaskBloc extends Bloc<TaskEvent, TaskState> {
             taskResponse.tasks.forEach((task) {
               task.taskItems.forEach((taskItem) {
                 if (taskItem.status == 0) {
-                  DateFormat dateFormat = DateFormat("MM-dd-yyyy h:mm:ss a");
+                  DateFormat dateFormat = DateFormat("dd/MM/yyyy h:mm:ss a");
                   DateTime dateTime =
                       dateFormat.parse(taskItem.expectedCompletionDateTIme);
                   if (DateTime.now().isBefore(dateTime) == false) {
@@ -67,7 +67,7 @@ class TaskBloc extends Bloc<TaskEvent, TaskState> {
         } else
           yield TasksError();
       } catch (e) {
-        debugPrint(e);
+        debugPrint(e.toString());
         yield TasksError();
       }
     }
@@ -90,7 +90,7 @@ class TaskBloc extends Bloc<TaskEvent, TaskState> {
         } else
           yield TasksError();
       } catch (e) {
-        debugPrint(e);
+        debugPrint(e.toString());
         yield TasksError();
       }
     }
@@ -109,7 +109,7 @@ class TaskBloc extends Bloc<TaskEvent, TaskState> {
         } else
           yield TasksError();
       } catch (e) {
-        debugPrint(e);
+        debugPrint(e.toString());
         yield TasksError();
       }
     }

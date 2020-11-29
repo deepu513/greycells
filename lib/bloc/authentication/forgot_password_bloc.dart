@@ -36,7 +36,7 @@ class ForgotPasswordBloc
           } else
             yield ForgotPasswordError(ErrorMessages.GENERIC_ERROR_MESSAGE);
         } catch (e) {
-          debugPrint(e);
+          debugPrint(e.toString());
           if (e is ResourceNotFoundException) {
             yield ForgotPasswordError(Strings.forgotPasswordNotFound);
           }

@@ -30,7 +30,7 @@ extension StringExtensions on String {
       DateTime dateTime = dateFormat.parse(this);
       return DateFormat(format).format(dateTime);
     } catch (e) {
-      debugPrint(e);
+      debugPrint(e.toString());
     }
     return "";
   }
@@ -60,7 +60,7 @@ extension StringExtensions on String {
   DateTime asDate() => DateFormat("yyyy-MM-dd'T'HH:mm:ss").parse(this);
 
   DateTime timeAsDate() => DateFormat("h:mm a").parse(this);
-  
+
   DateTime fromddMMyyyy() => DateFormat("dd/MM/yyyy").parse(this);
 }
 
@@ -70,7 +70,7 @@ extension DateTimeExtensions on DateTime {
       DateFormat dateFormat = DateFormat("dd/MM/yyyy");
       return dateFormat.format(this);
     } catch (e) {
-      debugPrint(e);
+      debugPrint(e.toString());
     }
     return "";
   }
@@ -80,7 +80,7 @@ extension DateTimeExtensions on DateTime {
       DateFormat dateFormat = DateFormat("EEE, dd MMM, yyyy");
       return dateFormat.format(this);
     } catch (e) {
-      debugPrint(e);
+      debugPrint(e.toString());
     }
     return "";
   }
@@ -90,7 +90,7 @@ extension DateTimeExtensions on DateTime {
       DateFormat dateFormat = DateFormat("h:mm a");
       return dateFormat.format(this);
     } catch (e) {
-      debugPrint(e);
+      debugPrint(e.toString());
     }
     return "";
   }

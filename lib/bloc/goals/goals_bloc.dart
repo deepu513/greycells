@@ -45,7 +45,7 @@ class GoalsBloc extends Bloc<GoalsEvent, GoalsState> {
         } else
           yield GoalsError();
       } catch (e) {
-        debugPrint(e);
+        debugPrint(e.toString());
         yield GoalsError();
       }
     }
@@ -67,7 +67,7 @@ class GoalsBloc extends Bloc<GoalsEvent, GoalsState> {
         } else
           yield GoalsError();
       } catch (e) {
-        debugPrint(e);
+        debugPrint(e.toString());
         yield GoalsError();
       }
     }
@@ -86,7 +86,7 @@ class GoalsBloc extends Bloc<GoalsEvent, GoalsState> {
         } else
           yield GoalsError();
       } catch (e) {
-        debugPrint(e);
+        debugPrint(e.toString());
         yield GoalsError();
       }
     }
@@ -107,7 +107,7 @@ class GoalsBloc extends Bloc<GoalsEvent, GoalsState> {
         } else
           yield GoalsError();
       } catch (e) {
-        debugPrint(e);
+        debugPrint(e.toString());
         if (e is BadRequestException) {
           yield DuplicateGoal();
         } else

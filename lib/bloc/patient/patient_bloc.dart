@@ -32,7 +32,7 @@ class PatientBloc extends Bloc<PatientEvent, PatientState> {
         } else
           yield Error(ErrorMessages.GENERIC_ERROR_MESSAGE);
       } catch (e) {
-        debugPrint(e);
+        debugPrint(e.toString());
         yield Error(ErrorMessages.GENERIC_ERROR_MESSAGE);
       }
     }

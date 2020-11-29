@@ -36,7 +36,7 @@ class AssessmentScoreBloc
         } else
           yield AssessmentScoreError();
       } catch (e) {
-        debugPrint(e);
+        debugPrint(e.toString());
         yield AssessmentScoreError();
       }
     }

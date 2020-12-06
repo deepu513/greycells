@@ -120,9 +120,8 @@ class Strings {
   static const promoApplied = "Promo code applied";
   static const error = "Error";
   static const success = "Success";
-  // TODO: Add email address here
   static const paymentStatusUnknown =
-      "We were unable to identify the status of this payment.\nIf amount is deducted from your bank account, please send us an email on:";
+      "We were unable to identify the status of this payment.\nIf amount is deducted from your bank account, please send us an email on: honawar@gmail.com";
   static const paymentSuccess = "Congratulations! Your payment was successfull";
   static const forgotPasswordNotFound =
       "We couldn't find any accounts with this email ID.";

@@ -44,10 +44,12 @@ class AppointmentDetailPage extends StatelessWidget {
           await showSuccessDialog(
             context: context,
             message:
-                "This appointment is now marked as complete. You can assign tasks to your client.",
+                "This appointment is now marked as complete.",
             showIcon: true,
             onPressed: () => Navigator.of(context).pop(),
           );
+          Navigator.of(context).pushNamedAndRemoveUntil(
+              RouteName.DECIDER_PAGE, (route) => false);
         }
       },
       builder: (context, state) {
@@ -98,7 +100,8 @@ class AppointmentDetailPage extends StatelessWidget {
                                                   listen: false)
                                               .patient
                                               .id
-                                          : Provider.of<TherapistHome>(context,
+                                          : Provider.of<TherapistHome>(
+                                                  context,
                                                   listen: false)
                                               .therapist
                                               .id));
@@ -676,9 +679,25 @@ class AppointmentStatusDetails extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (appointment.status == AppointmentStatus.upcoming.index) {
-      return BlocBuilder<TimerBloc, TimerState>(
+      return BlocConsumer<TimerBloc, TimerState>(
+        listener: (context, state) async {
+          if (state is TimeInPast && userType == UserType.therapist) {
+            await showConfirmationDialog(
+              context: context,
+              message:
+                  "Looks like this appointment is completed but is not marked as complete.\nDo you want to mark this appointment as complete?",
+              onConfirmed: () {
+                BlocProvider.of<AppointmentDetailBloc>(context).add(
+                    CompleteAppointment(
+                        appointment.id, appointment.patient.id));
+                Navigator.of(context).pop();
+              },
+              onCancelled: () => Navigator.of(context).pop(),
+            );
+          }
+        },
         builder: (context, state) {
-          if (state is Finished)
+          if (state is Finished || state is TimeInPast)
             return OngoingAppointmentSection(
               remainingDuration: "00:00",
               onJoinAppointmentRequested: () {
@@ -708,10 +727,6 @@ class AppointmentStatusDetails extends StatelessWidget {
               },
               canJoin: true,
             );
-
-          if (state is TimeInPast) {
-            return CompletedAppointmentSection();
-          }
 
           return OngoingAppointmentSection(
             remainingDuration: state.readableDuration,

@@ -16,8 +16,8 @@ void main() async {
   FlavorConfig(
       flavor: Flavor.PRODUCTION,
       initialRoute: RouteName.INITIAL,
-      flavorValues:
-          FlavorValues(baseUrl: "https://www.greycellswellness.com/api/"));
+      flavorValues: FlavorValues(
+          baseUrl: "https://www.admin.greycellswellness.com/api/"));
 
   TimeWatcher.getInstance().start();
   await Firebase.initializeApp();

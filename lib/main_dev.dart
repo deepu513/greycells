@@ -14,7 +14,7 @@ void main() async {
       flavor: Flavor.DEVELOPMENT,
       initialRoute: RouteName.INITIAL,
       flavorValues:
-          FlavorValues(baseUrl: "https://www.greycellswellness.com/api/"));
+          FlavorValues(baseUrl: "https://www.admin.greycellswellness.com/api/"));
 
   TimeWatcher.getInstance().start();
 

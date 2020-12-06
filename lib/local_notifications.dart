@@ -45,7 +45,7 @@ class LocalNotifications {
   Future<void> zonedScheduleNotification(
       String title, String description, DateTime dateTime) async {
     await flutterLocalNotificationsPlugin.zonedSchedule(
-        0,
+        DateTime.now().millisecondsSinceEpoch,
         title,
         description,
         tz.TZDateTime.from(dateTime, tz.local),

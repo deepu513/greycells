@@ -177,6 +177,7 @@ class _MainContentState extends State<MainContent> {
   DateTime _getAppointmentDateTime(
       DateTime selectedDay, String appointmentStartTime) {
     DateTime aTime = appointmentStartTime.timeAsDate();
+    //DateTime aTime = appointmentStartTime.in24HoursFormat();
     return DateTime(selectedDay.year, selectedDay.month, selectedDay.day,
         aTime.hour, aTime.minute);
   }

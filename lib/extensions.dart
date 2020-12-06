@@ -37,12 +37,12 @@ extension StringExtensions on String {
 
   String withBaseUrlForImage() {
     if (this.isEmpty) return "";
-    return "https://www.greycellswellness.com/File/$this";
+    return "https://www.admin.greycellswellness.com/File/$this";
   }
 
   String withBaseUrlForReport() {
     if (this.isEmpty) return "";
-    return "https://www.greycellswellness.com/Report/$this";
+    return "https://www.admin.greycellswellness.com/Report/$this";
   }
 
   String initials() {
@@ -60,6 +60,9 @@ extension StringExtensions on String {
   DateTime asDate() => DateFormat("yyyy-MM-dd'T'HH:mm:ss").parse(this);
 
   DateTime timeAsDate() => DateFormat("h:mm a").parse(this);
+
+  // DateTime in24HoursFormat() =>
+  //     DateFormat.Hm().parse(DateFormat("HH:mm").format(this.timeAsDate()));
 
   DateTime fromddMMyyyy() => DateFormat("dd/MM/yyyy").parse(this);
 }

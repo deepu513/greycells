@@ -41,6 +41,7 @@ class TimeslotBloc extends Bloc<TimeslotEvent, TimeslotState> {
           List<Timeslot> validTimeslots = List();
           response.timeslots.forEach((timeslot) {
             DateTime aTime = timeslot.startTime.timeAsDate();
+            //DateTime aTime = timeslot.startTime.in24HoursFormat();
             DateTime fullDateTime = DateTime(selectedDate.year,
                 selectedDate.month, selectedDate.day, aTime.hour, aTime.minute);
 

@@ -100,9 +100,10 @@ class AppointmentRepository {
     return response.statusCode == 200;
   }
 
-  Future<List<Task>> getTaskByPatientId(int patientId) async {
+  Future<List<Task>> getTaskByPatientId(
+      int patientId, bool forTherapist, int therapistId) async {
     Request<Task> request = Request(
-        "${FlavorConfig.getBaseUrl()}Patient/tasks?id=$patientId",
+        "${FlavorConfig.getBaseUrl()}Patient/tasks?id=$patientId&forTherapist=$forTherapist&therapistId=$therapistId",
         _taskSerializable);
 
     return await _httpService.getAll(request, _taskSerializable);

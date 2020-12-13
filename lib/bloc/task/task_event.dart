@@ -17,7 +17,9 @@ class CreateTask extends TaskEvent {
 
 class LoadPatientTasks extends TaskEvent {
   final int patientId;
-  LoadPatientTasks(this.patientId);
+  final bool forTherapist;
+  final int therapistId;
+  LoadPatientTasks(this.patientId, {this.forTherapist, this.therapistId});
 }
 
 class UpdateTaskItem extends TaskEvent {

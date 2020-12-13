@@ -99,7 +99,7 @@ class TaskBloc extends Bloc<TaskEvent, TaskState> {
       yield TaskLoading();
       try {
         List<Task> tasks =
-            await _appointmentRepository.getTaskByPatientId(event.patientId);
+            await _appointmentRepository.getTaskByPatientId(event.patientId, event.forTherapist ?? false, event.therapistId ?? 0);
         if (tasks != null) {
           if (tasks.isEmpty)
             yield TasksEmpty();

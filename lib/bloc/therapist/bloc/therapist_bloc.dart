@@ -5,6 +5,7 @@ import 'package:equatable/equatable.dart';
 import 'package:greycells/constants/strings.dart';
 import 'package:greycells/models/therapist/all_therapists.dart';
 import 'package:greycells/models/therapist/therapist.dart';
+import 'package:greycells/models/therapist/therapist_type.dart';
 import 'package:greycells/repository/therapist_repository.dart';
 
 part 'therapist_event.dart';
@@ -26,6 +27,22 @@ class TherapistBloc extends Bloc<TherapistEvent, TherapistState> {
       try {
         AllTherapists allTherapists =
             await _therapistRepository.getTherapists(1);
+
+        if (allTherapists.availableTherapists == null ||
+            allTherapists.availableTherapists.isEmpty) {
+          yield TherapistsEmpty();
+        } else
+          yield TherapistsLoaded(allTherapists.availableTherapists);
+      } catch (e) {
+        yield TherapistsLoadError(ErrorMessages.GENERIC_ERROR_MESSAGE);
+      }
+    }
+
+    if (event is LoadTherapistsWithType) {
+      yield TherapistsLoading();
+      try {
+        AllTherapists allTherapists =
+            await _therapistRepository.getTherapistsWithType(event.therapistType);
 
         if (allTherapists.availableTherapists == null ||
             allTherapists.availableTherapists.isEmpty) {

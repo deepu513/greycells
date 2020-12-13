@@ -8,3 +8,9 @@ abstract class TherapistEvent extends Equatable {
 }
 
 class LoadTherapists extends TherapistEvent {}
+
+class LoadTherapistsWithType extends TherapistEvent {
+  final TherapistType therapistType;
+
+  LoadTherapistsWithType(this.therapistType);
+}

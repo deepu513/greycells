@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:greycells/bloc/appointment/appointment_detail_bloc.dart';
 import 'package:greycells/bloc/assessment/assessment_bloc.dart';
+import 'package:greycells/bloc/assessment/assessment_score_bloc.dart';
 import 'package:greycells/bloc/authentication/forgot_password_bloc.dart';
 import 'package:greycells/bloc/payment/payment_bloc.dart';
 import 'package:greycells/bloc/registration/bloc.dart';
@@ -19,6 +20,7 @@ import 'package:greycells/view/pages/image_viewer.dart';
 import 'package:greycells/view/pages/intro_page.dart';
 import 'package:greycells/view/pages/patient/add_goals_page.dart';
 import 'package:greycells/view/pages/patient/appointment_date_selection.dart';
+import 'package:greycells/view/pages/patient/assessment_list_page.dart';
 import 'package:greycells/view/pages/patient/assessment_test_intro_page.dart';
 import 'package:greycells/view/pages/patient/assessment_test_page.dart';
 import 'package:greycells/view/pages/decider_page.dart';
@@ -99,7 +101,10 @@ class RouteGenerator {
             builder: (_) => BlocProvider<PaymentBloc>(
                 create: (_) => PaymentBloc(), child: PaymentPage(args)));
       case RouteName.PATIENT_SCORE_PAGE:
-        return MaterialPageRoute(builder: (_) => PatientScorePage());
+        return MaterialPageRoute(
+            builder: (_) => PatientScorePage(
+                  assessmentResponse: args,
+                ));
       case RouteName.THERAPIST_LIST_PAGE:
         return MaterialPageRoute(
             builder: (_) => BlocProvider<TherapistBloc>(
@@ -183,6 +188,11 @@ class RouteGenerator {
         );
       case RouteName.PATIENT_REPORT_PAGE:
         return MaterialPageRoute(builder: (_) => PatientReportsPage());
+      case RouteName.ASSESSMENT_LIST_PAGE:
+        return MaterialPageRoute(
+            builder: (_) => BlocProvider<AssessmentScoreBloc>(
+                create: (_) => AssessmentScoreBloc(),
+                child: AssessmentListPage()));
       default:
         // If there is no such named route in the switch statement, e.g. /third
         return _errorRoute();

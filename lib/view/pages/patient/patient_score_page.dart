@@ -2,28 +2,30 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:greycells/models/assessment/assessment_response.dart';
 import 'package:greycells/models/assessment/personality_type.dart';
-import 'package:greycells/models/home/patient_home.dart';
 import 'package:greycells/view/widgets/circle_text.dart';
-import 'package:provider/provider.dart';
+
 
 class PatientScorePage extends StatefulWidget {
+  final AssessmentResponse assessmentResponse;
+
+  const PatientScorePage({Key key,@required this.assessmentResponse}) : super(key: key);
+
   @override
   _PatientScorePageState createState() => _PatientScorePageState();
 }
 
 class _PatientScorePageState extends State<PatientScorePage> {
-  PatientHome _homeData;
   List<PersonalityType> _filteredList;
 
   @override
   void initState() {
     super.initState();
-    _homeData = Provider.of<PatientHome>(context, listen: false);
     _filteredList = List();
-    for (int i = 0; i < _homeData.personalityScore.length; i++) {
+    for (int i = 0; i < widget.assessmentResponse.personalityScore.length; i++) {
       PersonalityType type = PersonalityType.values.firstWhere((element) =>
-          element.initials() == _homeData.personalityScore[i].groupName);
+          element.initials() == widget.assessmentResponse.personalityScore[i].groupName);
       _filteredList.add(type);
     }
   }
@@ -147,7 +149,7 @@ class _PatientScorePageState extends State<PatientScorePage> {
                       ),
                       CircleText(
                         text: Text(
-                          _homeData.behaviourScore
+                          widget.assessmentResponse.behaviourScore
                               .firstWhere(
                                   (element) => element.groupName == "EI")
                               .score
@@ -162,7 +164,7 @@ class _PatientScorePageState extends State<PatientScorePage> {
                       ),
                       CircleText(
                         text: Text(
-                          _homeData.behaviourScore
+                          widget.assessmentResponse.behaviourScore
                               .firstWhere(
                                   (element) => element.groupName == "WI")
                               .score
@@ -202,7 +204,7 @@ class _PatientScorePageState extends State<PatientScorePage> {
                       ),
                       CircleText(
                         text: Text(
-                          _homeData.behaviourScore
+                          widget.assessmentResponse.behaviourScore
                               .firstWhere(
                                   (element) => element.groupName == "EC")
                               .score
@@ -217,7 +219,7 @@ class _PatientScorePageState extends State<PatientScorePage> {
                       ),
                       CircleText(
                         text: Text(
-                          _homeData.behaviourScore
+                          widget.assessmentResponse.behaviourScore
                               .firstWhere(
                                   (element) => element.groupName == "WC")
                               .score
@@ -257,7 +259,7 @@ class _PatientScorePageState extends State<PatientScorePage> {
                       ),
                       CircleText(
                         text: Text(
-                          _homeData.behaviourScore
+                          widget.assessmentResponse.behaviourScore
                               .firstWhere(
                                   (element) => element.groupName == "EA")
                               .score
@@ -272,7 +274,7 @@ class _PatientScorePageState extends State<PatientScorePage> {
                       ),
                       CircleText(
                         text: Text(
-                          _homeData.behaviourScore
+                          widget.assessmentResponse.behaviourScore
                               .firstWhere(
                                   (element) => element.groupName == "WA")
                               .score

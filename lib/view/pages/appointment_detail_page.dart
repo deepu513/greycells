@@ -43,8 +43,7 @@ class AppointmentDetailPage extends StatelessWidget {
         if (state is AppointmentCompleted) {
           await showSuccessDialog(
             context: context,
-            message:
-                "This appointment is now marked as complete.",
+            message: "This appointment is now marked as complete.",
             showIcon: true,
             onPressed: () => Navigator.of(context).pop(),
           );
@@ -96,14 +95,13 @@ class AppointmentDetailPage extends StatelessWidget {
                                   .add(CancelAppointment(
                                       appointment.id,
                                       userType == UserType.therapist
-                                          ? Provider.of<PatientHome>(context,
-                                                  listen: false)
-                                              .patient
-                                              .id
-                                          : Provider.of<TherapistHome>(
-                                                  context,
+                                          ? Provider.of<TherapistHome>(context,
                                                   listen: false)
                                               .therapist
+                                              .id
+                                          : Provider.of<PatientHome>(context,
+                                                  listen: false)
+                                              .patient
                                               .id));
                             },
                     ),

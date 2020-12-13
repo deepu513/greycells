@@ -134,9 +134,6 @@ class _PatientTile extends StatelessWidget {
                           color: Colors.black87, fontWeight: FontWeight.w700),
                     ),
                     SizedBox(
-                      height: 4.0,
-                    ),
-                    SizedBox(
                       height: 8.0,
                     ),
                     Row(
@@ -148,13 +145,8 @@ class _PatientTile extends StatelessWidget {
                         SizedBox(
                           width: 4.0,
                         ),
-                        Text(
-                          patient.user.mobileNumber,
-                          style: Theme.of(context)
-                              .textTheme
-                              .bodyText1
-                              
-                        ),
+                        Text(patient.user.mobileNumber,
+                            style: Theme.of(context).textTheme.bodyText1),
                       ],
                     ),
                     Row(
@@ -166,13 +158,23 @@ class _PatientTile extends StatelessWidget {
                         SizedBox(
                           width: 4.0,
                         ),
-                        Text(
-                          patient.user.email,
-                          style: Theme.of(context)
-                              .textTheme
-                              .bodyText1
-                              
+                        Text(patient.user.email,
+                            style: Theme.of(context).textTheme.bodyText1),
+                      ],
+                    ),
+                    Divider(),
+                    Row(
+                      children: [
+                        Text("# No. of appointments:",
+                            style: Theme.of(context).textTheme.bodyText1),
+                        SizedBox(
+                          width: 4.0,
                         ),
+                        Text(patient.noOfAppointments.toString(),
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodyText1
+                                .copyWith(fontWeight: FontWeight.bold)),
                       ],
                     )
                   ],

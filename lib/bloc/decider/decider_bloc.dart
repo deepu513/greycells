@@ -45,7 +45,7 @@ class DeciderBloc extends Bloc<DeciderEvent, DeciderState> {
             therapistHome.upcomingAppointments.forEach((appointment) {
               appointment.therapist = therapistHome.therapist;
             });
-            
+
             yield DecidedTherapistPage(therapistHome);
           } else {
             yield DeciderError();
@@ -92,9 +92,13 @@ class DeciderBloc extends Bloc<DeciderEvent, DeciderState> {
                 resumeFromQuestionNumber:
                     home.personalityLastAttemptedQuestion.sequence),
           );
-        } else if (home.behaviourLastAttemptedQuestion == null) {
+        } else if (home.behaviourLastAttemptedQuestion == null ||
+            (home.behaviourLastAttemptedQuestion != null &&
+                home.behaviourLastAttemptedQuestion.isLastQuestion == true)) {
           return NextPageDecided(RouteName.ASSESSMENT_TEST_INTRO, home);
-        } else if (home.personalityLastAttemptedQuestion == null) {
+        } else if (home.personalityLastAttemptedQuestion == null ||
+            (home.personalityLastAttemptedQuestion != null &&
+                home.personalityLastAttemptedQuestion.isLastQuestion == true)) {
           return NextPageDecided(
             RouteName.ASSESSMENT_TEST,
             home,

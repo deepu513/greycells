@@ -46,15 +46,8 @@ class _PaymentPageState extends State<PaymentPage> {
         }
 
         if (state is PaymentSuccess) {
-          PaymentSuccessArgs paymentSuccessArgs = PaymentSuccessArgs(
-            paymentId: state.createAppointmentRequest.razorPayPaymentId,
-            appointmentDate: state.createAppointmentRequest.appointmentDateTime
-                .readableDate(),
-            appointmentTime: state.createAppointmentRequest.appointmentDateTime
-                .readableTime(),
-          );
           Navigator.of(context).pushNamed(RouteName.PAYMENT_SUCCESS_PAGE,
-              arguments: paymentSuccessArgs);
+              arguments: state.paymentSuccessArgs);
         }
       },
       builder: (context, state) {

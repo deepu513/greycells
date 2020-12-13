@@ -11,6 +11,7 @@ import 'package:greycells/constants/gender.dart';
 import 'package:greycells/constants/user_type.dart';
 import 'package:greycells/models/goals/goal.dart';
 import 'package:greycells/models/goals/goal_type.dart';
+import 'package:greycells/models/home/therapist_home.dart';
 import 'package:greycells/models/patient/guardian/guardian.dart';
 import 'package:greycells/models/patient/medical/medical_record.dart';
 import 'package:greycells/models/patient/patient.dart';
@@ -29,6 +30,7 @@ import 'package:greycells/view/widgets/no_glow_scroll_behaviour.dart';
 import 'package:greycells/view/widgets/page_section.dart';
 import 'package:greycells/view/widgets/task_status_widget.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 
 class PatientProfilePage extends StatelessWidget {
   final Patient patient;
@@ -600,7 +602,10 @@ class _AllTasksState extends State<AllTasks> {
   }
 
   void _loadAllTasks() {
-    BlocProvider.of<TaskBloc>(context).add(LoadPatientTasks(widget.patientId));
+    BlocProvider.of<TaskBloc>(context).add(LoadPatientTasks(widget.patientId,
+        forTherapist: true,
+        therapistId:
+            Provider.of<TherapistHome>(context, listen: false).therapist.id));
   }
 
   @override
@@ -716,7 +721,7 @@ class TaskSectionHeader extends StatelessWidget {
                 children: [
                   TextSpan(
                     text: therapistName,
-                    style: Theme.of(context).textTheme.subtitle1.copyWith(
+                    style: Theme.of(context).textTheme.subtitle2.copyWith(
                         color: Colors.blueGrey,
                         fontStyle: FontStyle.normal,
                         fontWeight: FontWeight.bold),

@@ -110,4 +110,13 @@ class UserRepository {
 
     return await _httpService.getAll(request, _patientSerializable);
   }
+
+  Future<bool> markEligibleForTest({@required int patientId}) async {
+    Request request = Request(
+        "${FlavorConfig.getBaseUrl()}patient/eligibleforassessment?id=$patientId",
+        null);
+
+    Response response = await _httpService.getRaw(request, null);
+    return response.statusCode == 200;
+  }
 }

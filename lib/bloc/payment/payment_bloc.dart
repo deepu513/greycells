@@ -10,14 +10,17 @@ import 'package:greycells/models/appointment/create_appointment_request.dart';
 import 'package:greycells/models/payment/order_create.dart';
 import 'package:greycells/models/payment/order_create_response.dart';
 import 'package:greycells/models/payment/payment.dart';
+import 'package:greycells/models/payment/payment_success_args.dart';
 import 'package:greycells/models/payment/payment_type.dart';
 import 'package:greycells/models/payment/payment_verify.dart';
 import 'package:greycells/models/payment/payment_verify_response.dart';
 import 'package:greycells/repository/appointment_repository.dart';
 import 'package:greycells/repository/payment_repository.dart';
 import 'package:greycells/repository/settings_repository.dart';
+import 'package:greycells/repository/user_repository.dart';
 import 'package:meta/meta.dart';
 import 'package:razorpay_flutter/razorpay_flutter.dart';
+import 'package:greycells/extensions.dart';
 
 part 'payment_event.dart';
 
@@ -29,6 +32,7 @@ class PaymentBloc extends Bloc<PaymentEvent, PaymentState> {
   PaymentRepository _paymentRepository;
   SettingsRepository _settingsRepository;
   AppointmentRepository _appointmentRepository;
+  UserRepository _userRepository;
 
   int paymentId;
   Payment mPaymentForProcessing;
@@ -37,6 +41,8 @@ class PaymentBloc extends Bloc<PaymentEvent, PaymentState> {
     _razorPay = Razorpay();
     _paymentRepository = PaymentRepository();
     _appointmentRepository = AppointmentRepository();
+    _userRepository = UserRepository();
+
     SettingsRepository.getInstance()
         .then((value) => _settingsRepository = value);
 
@@ -97,34 +103,57 @@ class PaymentBloc extends Bloc<PaymentEvent, PaymentState> {
         PaymentVerifyResponse response =
             await _paymentRepository.verifyPayment(verify);
         if (response != null && response.result == true) {
-          CreateAppointmentRequest createAppointmentRequest =
-              mPaymentForProcessing.extras[Strings.createAppointmentRequest];
-          if (createAppointmentRequest != null) {
-            createAppointmentRequest.paymentId = paymentId;
-            createAppointmentRequest.razorPayPaymentId = event.paymentId;
-            bool result = await _appointmentRepository
-                .createAppointment(createAppointmentRequest);
-            mPaymentForProcessing = null;
-            paymentId = null;
-            if (result == true) {
-              // Schedule notifications
-              final localNotifications = await LocalNotifications.getInstance();
-              localNotifications.zonedScheduleNotification(
-                  "Appointment reminder",
-                  "Friendly reminder! Your appointment is scheduled for today.",
-                  createAppointmentRequest.appointmentDateTime
-                      .subtract(Duration(hours: 3)));
+          if (mPaymentForProcessing.type == PaymentType.APPOINTMENT) {
+            CreateAppointmentRequest createAppointmentRequest =
+                mPaymentForProcessing.extras[Strings.createAppointmentRequest];
+            if (createAppointmentRequest != null) {
+              createAppointmentRequest.paymentId = paymentId;
+              createAppointmentRequest.razorPayPaymentId = event.paymentId;
+              bool result = await _appointmentRepository
+                  .createAppointment(createAppointmentRequest);
+              mPaymentForProcessing = null;
+              paymentId = null;
+              if (result == true) {
+                // Schedule notifications
+                final localNotifications =
+                    await LocalNotifications.getInstance();
+                localNotifications.zonedScheduleNotification(
+                    "Appointment reminder",
+                    "Friendly reminder! Your appointment is scheduled for today.",
+                    createAppointmentRequest.appointmentDateTime
+                        .subtract(Duration(hours: 3)));
 
-              localNotifications.zonedScheduleNotification(
-                  "Appointment reminder",
-                  "Your appointment will start in approximately 30 minutes.",
-                  createAppointmentRequest.appointmentDateTime
-                      .subtract(Duration(minutes: 35)));
+                localNotifications.zonedScheduleNotification(
+                    "Appointment reminder",
+                    "Your appointment will start in approximately 30 minutes.",
+                    createAppointmentRequest.appointmentDateTime
+                        .subtract(Duration(minutes: 35)));
 
-              yield PaymentSuccess(createAppointmentRequest);
-            } else {
-              yield PaymentStatusUnknown(event.paymentId);
+                yield PaymentSuccess(PaymentSuccessArgs(
+                  paymentType: mPaymentForProcessing.type,
+                  paymentId: createAppointmentRequest.razorPayPaymentId,
+                  appointmentDate: createAppointmentRequest.appointmentDateTime
+                      .readableDate(),
+                  appointmentTime: createAppointmentRequest.appointmentDateTime
+                      .readableTime(),
+                ));
+              } else {
+                yield PaymentStatusUnknown(event.paymentId);
+              }
             }
+          } else if (mPaymentForProcessing.type == PaymentType.ASSESSMENT) {
+            bool result = await _userRepository.markEligibleForTest(
+                patientId: _settingsRepository.get(SettingKey.KEY_PATIENT_ID));
+
+            if (result != null && result == true) {
+              yield PaymentSuccess(PaymentSuccessArgs(
+                paymentType: mPaymentForProcessing.type,
+                paymentId: event.paymentId,
+                appointmentDate: "",
+                appointmentTime: "",
+              ));
+            } else
+              yield PaymentStatusUnknown(event.paymentId);
           }
         } else
           yield PaymentStatusUnknown(event.paymentId);

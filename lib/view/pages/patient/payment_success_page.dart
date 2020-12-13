@@ -1,18 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:greycells/app_theme.dart';
+import 'package:greycells/models/payment/payment_success_args.dart';
+import 'package:greycells/models/payment/payment_type.dart';
 import 'package:greycells/route/route_name.dart';
 
 class PaymentSuccessPage extends StatelessWidget {
-  final String appointmentDate;
-  final String appointmentTime;
-  final String paymentId;
+  final PaymentSuccessArgs paymentSuccessArgs;
 
-  const PaymentSuccessPage(
-      {Key key,
-      @required this.appointmentDate,
-      @required this.appointmentTime,
-      @required this.paymentId})
-      : super(key: key);
+  const PaymentSuccessPage({
+    Key key,
+    @required this.paymentSuccessArgs,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -55,7 +53,7 @@ class PaymentSuccessPage extends StatelessWidget {
                         ),
                     children: [
                       TextSpan(
-                        text: paymentId,
+                        text: paymentSuccessArgs.paymentId,
                         style: Theme.of(context).textTheme.subtitle2.copyWith(
                               height: 1.3,
                               letterSpacing: 0.5,
@@ -64,54 +62,70 @@ class PaymentSuccessPage extends StatelessWidget {
                               fontWeight: FontWeight.bold,
                             ),
                       ),
-                      
                     ],
                   ),
                 ),
                 SizedBox(
                   height: 16.0,
                 ),
-                RichText(
-                  textAlign: TextAlign.center,
-                  text: TextSpan(
-                    text: "Your appointment is scheduled on ",
+                Visibility(
+                  visible:
+                      paymentSuccessArgs.paymentType == PaymentType.ASSESSMENT,
+                  child: Text(
+                    "You are now eligible for taking a new assessment test.",
                     style: Theme.of(context).textTheme.bodyText1.copyWith(
                           height: 1.3,
                           letterSpacing: 0.5,
                           wordSpacing: 0.7,
                           color: Colors.grey,
                         ),
-                    children: [
-                      TextSpan(
-                        text: appointmentDate,
-                        style: Theme.of(context).textTheme.subtitle2.copyWith(
-                              height: 1.3,
-                              letterSpacing: 0.5,
-                              wordSpacing: 0.7,
-                              color: Colors.black87,
-                              fontWeight: FontWeight.bold,
-                            ),
-                      ),
-                      TextSpan(
-                        text: " at ",
-                        style: Theme.of(context).textTheme.bodyText1.copyWith(
-                              height: 1.3,
-                              letterSpacing: 0.5,
-                              wordSpacing: 0.7,
-                              color: Colors.grey,
-                            ),
-                      ),
-                      TextSpan(
-                        text: appointmentTime,
-                        style: Theme.of(context).textTheme.subtitle2.copyWith(
-                              height: 1.3,
-                              letterSpacing: 0.5,
-                              wordSpacing: 0.7,
-                              color: Colors.black87,
-                              fontWeight: FontWeight.bold,
-                            ),
-                      ),
-                    ],
+                  ),
+                ),
+                Visibility(
+                  visible:
+                      paymentSuccessArgs.paymentType == PaymentType.APPOINTMENT,
+                  child: RichText(
+                    textAlign: TextAlign.center,
+                    text: TextSpan(
+                      text: "Your appointment is scheduled on ",
+                      style: Theme.of(context).textTheme.bodyText1.copyWith(
+                            height: 1.3,
+                            letterSpacing: 0.5,
+                            wordSpacing: 0.7,
+                            color: Colors.grey,
+                          ),
+                      children: [
+                        TextSpan(
+                          text: paymentSuccessArgs.appointmentDate,
+                          style: Theme.of(context).textTheme.subtitle2.copyWith(
+                                height: 1.3,
+                                letterSpacing: 0.5,
+                                wordSpacing: 0.7,
+                                color: Colors.black87,
+                                fontWeight: FontWeight.bold,
+                              ),
+                        ),
+                        TextSpan(
+                          text: " at ",
+                          style: Theme.of(context).textTheme.bodyText1.copyWith(
+                                height: 1.3,
+                                letterSpacing: 0.5,
+                                wordSpacing: 0.7,
+                                color: Colors.grey,
+                              ),
+                        ),
+                        TextSpan(
+                          text: paymentSuccessArgs.appointmentTime,
+                          style: Theme.of(context).textTheme.subtitle2.copyWith(
+                                height: 1.3,
+                                letterSpacing: 0.5,
+                                wordSpacing: 0.7,
+                                color: Colors.black87,
+                                fontWeight: FontWeight.bold,
+                              ),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
                 SizedBox(

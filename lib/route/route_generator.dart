@@ -166,12 +166,9 @@ class RouteGenerator {
       case RouteName.ADD_GOALS_PAGE:
         return MaterialPageRoute(builder: (_) => AddGoalsPage());
       case RouteName.PAYMENT_SUCCESS_PAGE:
-        PaymentSuccessArgs arguments = args as PaymentSuccessArgs;
         return MaterialPageRoute(
             builder: (_) => PaymentSuccessPage(
-                  paymentId: arguments.paymentId,
-                  appointmentDate: arguments.appointmentDate,
-                  appointmentTime: arguments.appointmentTime,
+                  paymentSuccessArgs: args,
                 ));
       case RouteName.PAYMENT_FAIL_PAGE:
         return MaterialPageRoute(

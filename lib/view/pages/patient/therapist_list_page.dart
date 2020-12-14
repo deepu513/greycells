@@ -6,6 +6,7 @@ import 'package:greycells/models/therapist/therapist_type.dart';
 import 'package:greycells/view/widgets/centered_circular_loading.dart';
 import 'package:greycells/view/widgets/empty_state.dart';
 import 'package:greycells/view/widgets/error_with_retry.dart';
+import 'package:greycells/view/widgets/no_glow_scroll_behaviour.dart';
 import 'package:greycells/view/widgets/therapist_list_tile.dart';
 
 class TherapistListPage extends StatefulWidget {
@@ -14,9 +15,13 @@ class TherapistListPage extends StatefulWidget {
 }
 
 class _TherapistListPageState extends State<TherapistListPage> {
+  TherapistTypeBloc _therapistTypeBloc;
+  TherapistType selectedTherapistType;
+
   @override
   void initState() {
     super.initState();
+    _therapistTypeBloc = TherapistTypeBloc();
     _loadTherapists();
   }
 
@@ -25,7 +30,8 @@ class _TherapistListPageState extends State<TherapistListPage> {
   }
 
   void _loadTherapistWithType(TherapistType therapistType) {
-    BlocProvider.of<TherapistBloc>(context).add(LoadTherapistsWithType(therapistType));
+    BlocProvider.of<TherapistBloc>(context)
+        .add(LoadTherapistsWithType(therapistType));
   }
 
   @override
@@ -96,29 +102,44 @@ class _TherapistListPageState extends State<TherapistListPage> {
       context: context,
       isDismissible: true,
       builder: (newContext) {
-        return BlocProvider<TherapistTypeBloc>(
-          create: (context) => TherapistTypeBloc(),
-          child: TherapistTypesList(
-            onTherapistTypeSelected: (therapistType) =>
-                _loadTherapistWithType(therapistType),
-          ),
+        return BlocProvider<TherapistTypeBloc>.value(
+          value: _therapistTypeBloc,
+          child: TherapistTypesFilter(
+              onTherapistTypeSelected: (therapistType) {
+                selectedTherapistType = therapistType;
+                if (therapistType.id == -1)
+                  _loadTherapists();
+                else
+                  _loadTherapistWithType(therapistType);
+              },
+              selectedTherapistType: selectedTherapistType),
         );
       },
     );
   }
+
+  @override
+  void dispose() {
+    _therapistTypeBloc.close();
+    super.dispose();
+  }
 }
 
-class TherapistTypesList extends StatefulWidget {
+class TherapistTypesFilter extends StatefulWidget {
   final ValueChanged<TherapistType> onTherapistTypeSelected;
+  final TherapistType selectedTherapistType;
 
-  const TherapistTypesList({Key key, @required this.onTherapistTypeSelected})
+  const TherapistTypesFilter(
+      {Key key,
+      @required this.onTherapistTypeSelected,
+      this.selectedTherapistType})
       : super(key: key);
 
   @override
-  _TherapistTypesListState createState() => _TherapistTypesListState();
+  _TherapistTypesFilterState createState() => _TherapistTypesFilterState();
 }
 
-class _TherapistTypesListState extends State<TherapistTypesList> {
+class _TherapistTypesFilterState extends State<TherapistTypesFilter> {
   @override
   void initState() {
     super.initState();
@@ -130,22 +151,22 @@ class _TherapistTypesListState extends State<TherapistTypesList> {
     return BlocBuilder<TherapistTypeBloc, TherapistTypeState>(
       builder: (context, state) {
         if (state is TherapistTypesLoaded) {
-          return ListView.separated(
-            shrinkWrap: true,
-            itemCount: state.therapistTypes.length,
-            itemBuilder: (context, index) {
-              return ListTile(
-                title: Text(state.therapistTypes[index].name),
-                onTap: () {
-                  widget.onTherapistTypeSelected
-                      .call(state.therapistTypes[index]);
-                  Navigator.pop(context);
-                },
-              );
-            },
-            separatorBuilder: (context, index) {
-              return Divider();
-            },
+          return Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Text(
+                  "Select a therapist type",
+                  style: Theme.of(context).textTheme.subtitle1,
+                ),
+              ),
+              TherapistTypesList(
+                therapistTypes: state.therapistTypes,
+                onTherapistTypeSelected: widget.onTherapistTypeSelected,
+                selectedType: widget.selectedTherapistType,
+              )
+            ],
           );
         } else if (state is TherapistTypesError) {
           return Center(child: Text("There was some problem loading filters"));
@@ -155,6 +176,54 @@ class _TherapistTypesListState extends State<TherapistTypesList> {
           return Center(child: CircularProgressIndicator());
         return Container();
       },
+    );
+  }
+}
+
+class TherapistTypesList extends StatefulWidget {
+  final List<TherapistType> therapistTypes;
+  final ValueChanged<TherapistType> onTherapistTypeSelected;
+  final TherapistType selectedType;
+
+  const TherapistTypesList(
+      {Key key,
+      @required this.therapistTypes,
+      @required this.onTherapistTypeSelected,
+      this.selectedType})
+      : super(key: key);
+
+  @override
+  _TherapistTypesListState createState() => _TherapistTypesListState();
+}
+
+class _TherapistTypesListState extends State<TherapistTypesList> {
+  @override
+  Widget build(BuildContext context) {
+    return ScrollConfiguration(
+      behavior: NoGlowScrollBehaviour(),
+      child: ListView.separated(
+        shrinkWrap: true,
+        itemCount: widget.therapistTypes.length,
+        itemBuilder: (context, index) {
+          return ListTile(
+            title: Text(widget.therapistTypes[index].name),
+            leading: widget.selectedType != null &&
+                    widget.selectedType.id == widget.therapistTypes[index].id
+                ? Icon(
+                    Icons.check_circle_outline_rounded,
+                    color: Colors.green,
+                  )
+                : Icon(Icons.panorama_fish_eye_rounded),
+            onTap: () {
+              widget.onTherapistTypeSelected.call(widget.therapistTypes[index]);
+              Navigator.pop(context);
+            },
+          );
+        },
+        separatorBuilder: (context, index) {
+          return Divider();
+        },
+      ),
     );
   }
 }

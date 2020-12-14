@@ -21,10 +21,16 @@ class TherapistTypeBloc extends Bloc<TherapistTypeEvent, TherapistTypeState> {
     TherapistTypeEvent event,
   ) async* {
     if (event is LoadTherapistTypes) {
+      yield TherapistTypesLoading();
       try {
         if (cachedTherapistTypes == null) {
           var result = await _therapistRepository.getTherapistTypes();
           cachedTherapistTypes = result.therapytypes;
+          cachedTherapistTypes.insert(
+              0,
+              TherapistType()
+                ..name = "All"
+                ..id = -1);
         }
 
         if (cachedTherapistTypes != null && cachedTherapistTypes.isNotEmpty) {

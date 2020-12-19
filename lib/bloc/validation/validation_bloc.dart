@@ -63,6 +63,14 @@ class ValidationBloc extends Bloc<ValidationEvent, ValidationState> {
       } else
         yield ValidationInvalidField(field: validationField);
     }
+
+    if (event is ValidatePersonalDetailsField) {
+      if (event.patient.user.mobileNumber.isNullOrEmpty() ||
+          !event.patient.user.mobileNumber.hasRequiredLength(10))
+        yield ValidationInvalidField(field: ValidationField.CONTACT_NUMBER);
+      else
+        yield PersonalDetailsValid(event.patient);
+    }
   }
 
   ValidationField _validateRegistrationFields(Registration registration) {

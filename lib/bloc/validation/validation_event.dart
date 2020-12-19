@@ -35,6 +35,12 @@ class ValidateGuardianDetailsFields extends ValidationEvent {
   ValidateGuardianDetailsFields(this.patient);
 }
 
+class ValidatePersonalDetailsField extends ValidationEvent {
+  final Patient patient;
+
+  ValidatePersonalDetailsField(this.patient);
+}
+
 class ValidateTaskItemFields extends ValidationEvent {
   final TaskItem taskItem;
 

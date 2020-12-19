@@ -40,6 +40,12 @@ class GuardianDetailsValid extends ValidationState {
   GuardianDetailsValid(this.patient);
 }
 
+class PersonalDetailsValid extends ValidationState {
+  final Patient patient;
+
+  PersonalDetailsValid(this.patient);
+}
+
 class TaskItemValid extends ValidationState {
   final TaskItem taskItem;
 

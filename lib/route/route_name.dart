@@ -31,4 +31,5 @@ abstract class RouteName {
   static const FULL_SCORE_PAGE = "/full_score_page";
   static const PATIENT_REPORT_PAGE = "/patient_report_page";
   static const ASSESSMENT_LIST_PAGE = "/assessment_list_page";
+  static const PATIENT_EDIT_PAGE = "/patient_edit_page";
 }

@@ -50,6 +50,17 @@ class PatientProfilePage extends StatelessWidget {
               .headline6
               .copyWith(color: Colors.black87),
         ),
+        actions: [
+          Visibility(
+            visible: showDetails == false,
+            child: IconButton(
+              icon: Icon(Icons.create_rounded),
+              onPressed: () {
+                Navigator.of(context).pushNamed(RouteName.PATIENT_EDIT_PAGE);
+              },
+            ),
+          )
+        ],
       ),
       body: DefaultTabController(
         length: showDetails ? 6 : 2,

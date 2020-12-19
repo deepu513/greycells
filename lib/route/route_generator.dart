@@ -27,6 +27,7 @@ import 'package:greycells/view/pages/decider_page.dart';
 import 'package:greycells/view/pages/forgot_password_page.dart';
 import 'package:greycells/view/pages/login_page.dart';
 import 'package:greycells/view/pages/patient/patient_appointment_page.dart';
+import 'package:greycells/view/pages/patient/patient_detail_edit.dart';
 import 'package:greycells/view/pages/patient/patient_detail_input.dart';
 import 'package:greycells/view/pages/patient/patient_main_page.dart';
 import 'package:greycells/view/pages/patient/patient_reports_page.dart';
@@ -190,6 +191,8 @@ class RouteGenerator {
             builder: (_) => BlocProvider<AssessmentScoreBloc>(
                 create: (_) => AssessmentScoreBloc(),
                 child: AssessmentListPage()));
+      case RouteName.PATIENT_EDIT_PAGE:
+        return MaterialPageRoute(builder: (_) => PatientDetailEdit());
       default:
         // If there is no such named route in the switch statement, e.g. /third
         return _errorRoute();

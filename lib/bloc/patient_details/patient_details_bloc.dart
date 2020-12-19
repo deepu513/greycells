@@ -196,7 +196,6 @@ class PatientDetailsBloc
         } else
           yield ErrorWhileUploading();
       } catch (error) {
-        print(error);
         yield ErrorWhileUploading();
       }
     }

@@ -15,7 +15,7 @@ import 'package:greycells/view/pages/patient/address_details_edit_page.dart';
 import 'package:greycells/view/pages/patient/guardian_details_edit_page.dart';
 import 'package:greycells/view/pages/patient/health_details_edit_page.dart';
 import 'package:greycells/view/pages/patient/medical_records_input_page.dart';
-import 'package:greycells/view/pages/patient/patient_upload_page.dart';
+import 'package:greycells/view/pages/patient/patient_edit_upload_page.dart';
 import 'package:greycells/view/pages/patient/personal_details_edit_page.dart';
 import 'package:greycells/view/widgets/navigation_button_row.dart';
 import 'package:provider/provider.dart';
@@ -53,11 +53,11 @@ class _PatientDetailEditState extends State<PatientDetailEdit>
       const GuardianDetailsEditPage(),
       const AddressDetailEditPage(),
       // const MedicalRecordsInputPage(),
-      // PatientUploadPage(
-      //   onUploadStart: _onUploadStart,
-      //   onUploadComplete: _onUploadComplete,
-      //   onError: _onUploadError,
-      // ),
+      PatientEditUploadPage(
+        onUploadStart: _onUploadStart,
+        onUploadComplete: _onUploadComplete,
+        onError: _onUploadError,
+      ),
     ]);
 
     _controller = AnimationController(vsync: this);
@@ -96,15 +96,15 @@ class _PatientDetailEditState extends State<PatientDetailEdit>
         _patientDetailUploadComplete = true;
 
         Future.delayed(Duration(seconds: 1), () {
-          _navigateToTestPage();
+          _navigateToHomePage();
         });
       });
     });
   }
 
-  void _navigateToTestPage() {
+  void _navigateToHomePage() {
     Navigator.of(context)
-        .pushNamed(RouteName.ASSESSMENT_TEST_INTRO, arguments: false);
+        .pushNamedAndRemoveUntil(RouteName.DECIDER_PAGE, (route) => false);
   }
 
   @override

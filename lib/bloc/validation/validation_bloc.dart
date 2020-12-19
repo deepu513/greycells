@@ -105,20 +105,19 @@ class ValidationBloc extends Bloc<ValidationEvent, ValidationState> {
     if (patient.address.state.isNullOrEmpty()) return ValidationField.STATE;
     if (patient.address.country.isNullOrEmpty()) return ValidationField.COUNTRY;
     if (patient.address.pincode.isNullOrEmpty()) return ValidationField.PINCODE;
-    if (patient.isMinor) {
-      if (patient.guardian.address.houseNumber.isNullOrEmpty())
-        return ValidationField.GUARDIAN_HOUSE_NUMBER;
-      if (patient.guardian.address.roadName.isNullOrEmpty())
-        return ValidationField.GUARDIAN_ROAD_NAME;
-      if (patient.guardian.address.city.isNullOrEmpty())
-        return ValidationField.GUARDIAN_CITY;
-      if (patient.guardian.address.state.isNullOrEmpty())
-        return ValidationField.GUARDIAN_STATE;
-      if (patient.guardian.address.country.isNullOrEmpty())
-        return ValidationField.GUARDIAN_COUNTRY;
-      if (patient.guardian.address.pincode.isNullOrEmpty())
-        return ValidationField.GUARDIAN_PINCODE;
-    }
+    if (patient.guardian.address.houseNumber.isNullOrEmpty())
+      return ValidationField.GUARDIAN_HOUSE_NUMBER;
+    if (patient.guardian.address.roadName.isNullOrEmpty())
+      return ValidationField.GUARDIAN_ROAD_NAME;
+    if (patient.guardian.address.city.isNullOrEmpty())
+      return ValidationField.GUARDIAN_CITY;
+    if (patient.guardian.address.state.isNullOrEmpty())
+      return ValidationField.GUARDIAN_STATE;
+    if (patient.guardian.address.country.isNullOrEmpty())
+      return ValidationField.GUARDIAN_COUNTRY;
+    if (patient.guardian.address.pincode.isNullOrEmpty())
+      return ValidationField.GUARDIAN_PINCODE;
+
     return ValidationField.NONE;
   }
 

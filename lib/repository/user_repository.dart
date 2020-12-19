@@ -10,6 +10,8 @@ import 'package:greycells/models/patient/create_patient_response.dart';
 import 'package:greycells/models/patient/create_patient_serializable.dart';
 import 'package:greycells/models/patient/patient.dart';
 import 'package:greycells/models/patient/patient_serializable.dart';
+import 'package:greycells/models/patient/update_patient_request.dart';
+import 'package:greycells/models/patient/update_patient_request_serializable.dart';
 import 'package:greycells/models/registration/registration.dart';
 import 'package:greycells/models/registration/registration_serializable.dart';
 import 'package:greycells/models/token/token.dart';
@@ -26,6 +28,7 @@ class UserRepository {
   PatientSerializable _patientSerializable;
   UserSerializable _userSerializable;
   CreatePatientResponseSerializable _createPatientResponseSerializable;
+  UpdatePatientRequestSerializable _updatePatientRequestSerializable;
   HomeSerializable _homeSerializable;
   TherapistHomeSerializable _therapistHomeSerializable;
 
@@ -37,6 +40,7 @@ class UserRepository {
     _loginRequestSerializable = LoginRequestSerializable();
     _patientSerializable = PatientSerializable();
     _createPatientResponseSerializable = CreatePatientResponseSerializable();
+    _updatePatientRequestSerializable = UpdatePatientRequestSerializable();
     _userSerializable = UserSerializable();
     _homeSerializable = HomeSerializable();
     _therapistHomeSerializable = TherapistHomeSerializable();
@@ -118,5 +122,15 @@ class UserRepository {
 
     Response response = await _httpService.getRaw(request, null);
     return response.statusCode == 200;
+  }
+
+  Future<Patient> updatePatientDetails(
+      {@required UpdatePatientRequest updatePatientRequest}) async {
+    Request<UpdatePatientRequest> request = Request(
+        "${FlavorConfig.getBaseUrl()}Patient/profile",
+        _updatePatientRequestSerializable)
+      ..setBody(updatePatientRequest);
+
+    return await _httpService.post(request, _patientSerializable);
   }
 }

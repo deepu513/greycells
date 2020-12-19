@@ -14,7 +14,9 @@ User _$UserFromJson(Map<String, dynamic> json) {
     ..lastName = json['lastName'] as String
     ..mobileNumber = json['mobileNumber'] as String
     ..userType = _$enumDecodeNullable(_$UserTypeEnumMap, json['userType'])
-    ..token = json['token'] as String;
+    ..token = json['token'] as String
+    ..passwordHash = json['passwordHash'] as String ?? ''
+    ..passwordSalt = json['passwordSalt'] as String ?? '';
 }
 
 Map<String, dynamic> _$UserToJson(User instance) => <String, dynamic>{
@@ -25,6 +27,8 @@ Map<String, dynamic> _$UserToJson(User instance) => <String, dynamic>{
       'mobileNumber': instance.mobileNumber,
       'userType': _$UserTypeEnumMap[instance.userType],
       'token': instance.token,
+      'passwordHash': instance.passwordHash,
+      'passwordSalt': instance.passwordSalt,
     };
 
 T _$enumDecode<T>(

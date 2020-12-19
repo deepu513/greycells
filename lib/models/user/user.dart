@@ -13,6 +13,12 @@ class User {
   UserType userType;
   String token;
 
+  @JsonKey(defaultValue: "")
+  String passwordHash;
+  
+  @JsonKey(defaultValue: "")
+  String passwordSalt;
+
   User();
 
   factory User.fromJson(Map<String, dynamic> json) => _$UserFromJson(json);

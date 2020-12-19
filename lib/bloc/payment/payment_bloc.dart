@@ -111,8 +111,6 @@ class PaymentBloc extends Bloc<PaymentEvent, PaymentState> {
               createAppointmentRequest.razorPayPaymentId = event.paymentId;
               bool result = await _appointmentRepository
                   .createAppointment(createAppointmentRequest);
-              mPaymentForProcessing = null;
-              paymentId = null;
               if (result == true) {
                 // Schedule notifications
                 final localNotifications =
@@ -137,6 +135,8 @@ class PaymentBloc extends Bloc<PaymentEvent, PaymentState> {
                   appointmentTime: createAppointmentRequest.appointmentDateTime
                       .readableTime(),
                 ));
+                mPaymentForProcessing = null;
+                paymentId = null;
               } else {
                 yield PaymentStatusUnknown(event.paymentId);
               }

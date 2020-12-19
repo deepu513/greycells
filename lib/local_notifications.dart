@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:greycells/constants/strings.dart';
 import 'package:timezone/data/latest.dart' as tz;
@@ -45,7 +47,7 @@ class LocalNotifications {
   Future<void> zonedScheduleNotification(
       String title, String description, DateTime dateTime) async {
     await flutterLocalNotificationsPlugin.zonedSchedule(
-        DateTime.now().millisecondsSinceEpoch,
+        Random().nextInt(100),
         title,
         description,
         tz.TZDateTime.from(dateTime, tz.local),

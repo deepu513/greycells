@@ -161,10 +161,12 @@ class _TherapistTypesFilterState extends State<TherapistTypesFilter> {
                   style: Theme.of(context).textTheme.subtitle1,
                 ),
               ),
-              TherapistTypesList(
-                therapistTypes: state.therapistTypes,
-                onTherapistTypeSelected: widget.onTherapistTypeSelected,
-                selectedType: widget.selectedTherapistType,
+              Expanded(
+                child: TherapistTypesList(
+                  therapistTypes: state.therapistTypes,
+                  onTherapistTypeSelected: widget.onTherapistTypeSelected,
+                  selectedType: widget.selectedTherapistType,
+                ),
               )
             ],
           );
@@ -199,31 +201,28 @@ class TherapistTypesList extends StatefulWidget {
 class _TherapistTypesListState extends State<TherapistTypesList> {
   @override
   Widget build(BuildContext context) {
-    return ScrollConfiguration(
-      behavior: NoGlowScrollBehaviour(),
-      child: ListView.separated(
-        shrinkWrap: true,
-        itemCount: widget.therapistTypes.length,
-        itemBuilder: (context, index) {
-          return ListTile(
-            title: Text(widget.therapistTypes[index].name),
-            leading: widget.selectedType != null &&
-                    widget.selectedType.id == widget.therapistTypes[index].id
-                ? Icon(
-                    Icons.check_circle_outline_rounded,
-                    color: Colors.green,
-                  )
-                : Icon(Icons.panorama_fish_eye_rounded),
-            onTap: () {
-              widget.onTherapistTypeSelected.call(widget.therapistTypes[index]);
-              Navigator.pop(context);
-            },
-          );
-        },
-        separatorBuilder: (context, index) {
-          return Divider();
-        },
-      ),
+    return ListView.separated(
+      shrinkWrap: true,
+      itemCount: widget.therapistTypes.length,
+      itemBuilder: (context, index) {
+        return ListTile(
+          title: Text(widget.therapistTypes[index].name),
+          leading: widget.selectedType != null &&
+                  widget.selectedType.id == widget.therapistTypes[index].id
+              ? Icon(
+                  Icons.check_circle_outline_rounded,
+                  color: Colors.green,
+                )
+              : Icon(Icons.panorama_fish_eye_rounded),
+          onTap: () {
+            widget.onTherapistTypeSelected.call(widget.therapistTypes[index]);
+            Navigator.pop(context);
+          },
+        );
+      },
+      separatorBuilder: (context, index) {
+        return Divider();
+      },
     );
   }
 }

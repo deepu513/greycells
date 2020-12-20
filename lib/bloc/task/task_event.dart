@@ -19,7 +19,16 @@ class LoadPatientTasks extends TaskEvent {
   final int patientId;
   final bool forTherapist;
   final int therapistId;
+
   LoadPatientTasks(this.patientId, {this.forTherapist, this.therapistId});
+}
+
+class ApplyFilter extends TaskEvent {
+  final List<Task> existingTasks;
+  final List<String> allTherapistNames;
+  final String therapistName;
+
+  ApplyFilter(this.existingTasks, this.therapistName, this.allTherapistNames);
 }
 
 class UpdateTaskItem extends TaskEvent {

@@ -50,7 +50,12 @@ class TaskBloc extends Bloc<TaskEvent, TaskState> {
           if (taskResponse.tasks.isEmpty)
             yield TasksEmpty();
           else {
+            List<String> therapistNames = List();
+            therapistNames.add("All");
+
             taskResponse.tasks.forEach((task) {
+              therapistNames.add(task.therapist.fullName);
+
               task.taskItems.forEach((taskItem) {
                 if (taskItem.status == 0) {
                   DateFormat dateFormat = DateFormat("dd/MM/yyyy h:mm:ss a");
@@ -62,13 +67,29 @@ class TaskBloc extends Bloc<TaskEvent, TaskState> {
                 }
               });
             });
-            yield AllTasksLoaded(taskResponse.tasks);
+
+            yield AllTasksLoaded(
+                taskResponse.tasks, therapistNames.toSet().toList());
           }
         } else
           yield TasksError();
       } catch (e) {
         debugPrint(e.toString());
         yield TasksError();
+      }
+    }
+
+    if (event is ApplyFilter) {
+      List<Task> filteredTasks = List();
+      if (event.therapistName == "All") {
+        yield FilterApplied(event.existingTasks, event.allTherapistNames);
+      } else {
+        event.existingTasks.forEach((task) {
+          if (task.therapist.fullName == event.therapistName) {
+            filteredTasks.add(task);
+          }
+        });
+        yield FilterApplied(filteredTasks, event.allTherapistNames);
       }
     }
 
@@ -98,13 +119,15 @@ class TaskBloc extends Bloc<TaskEvent, TaskState> {
     if (event is LoadPatientTasks) {
       yield TaskLoading();
       try {
-        List<Task> tasks =
-            await _appointmentRepository.getTaskByPatientId(event.patientId, event.forTherapist ?? false, event.therapistId ?? 0);
+        List<Task> tasks = await _appointmentRepository.getTaskByPatientId(
+            event.patientId,
+            event.forTherapist ?? false,
+            event.therapistId ?? 0);
         if (tasks != null) {
           if (tasks.isEmpty)
             yield TasksEmpty();
           else {
-            yield AllTasksLoaded(tasks);
+            yield AllTasksLoaded(tasks, null);
           }
         } else
           yield TasksError();

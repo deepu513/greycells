@@ -41,6 +41,9 @@ class AllTasks extends StatefulWidget {
 }
 
 class _AllTasksState extends State<AllTasks> {
+  String selectedTherapist;
+  List<Task> existingTasks;
+
   @override
   void initState() {
     super.initState();
@@ -60,7 +63,11 @@ class _AllTasksState extends State<AllTasks> {
         });
       },
       child: BlocConsumer<TaskBloc, TaskState>(
-        listener: (context, state) {},
+        listener: (context, state) {
+          if (state is AllTasksLoaded) {
+            this.existingTasks = state.tasks;
+          }
+        },
         builder: (context, state) {
           if (state is TaskLoading) return CenteredCircularLoadingIndicator();
           if (state is AllTasksLoaded)
@@ -79,6 +86,14 @@ class _AllTasksState extends State<AllTasks> {
                           .headline6
                           .copyWith(color: Colors.black87),
                     ),
+                    actions: [
+                      IconButton(
+                        icon: Icon(Icons.filter_list_rounded),
+                        onPressed: () {
+                          _showBottomSheet(context, state.therapistNames);
+                        },
+                      )
+                    ],
                   ),
                   ...state.tasks.map((task) {
                     return _TaskList(
@@ -88,6 +103,40 @@ class _AllTasksState extends State<AllTasks> {
                 ],
               ),
             );
+          if (state is FilterApplied) {
+            return ScrollConfiguration(
+              behavior: NoGlowScrollBehaviour(),
+              child: CustomScrollView(
+                slivers: [
+                  SliverAppBar(
+                    elevation: 4.0,
+                    forceElevated: true,
+                    floating: true,
+                    title: Text(
+                      'Tasks',
+                      style: Theme.of(context)
+                          .textTheme
+                          .headline6
+                          .copyWith(color: Colors.black87),
+                    ),
+                    actions: [
+                      IconButton(
+                        icon: Icon(Icons.filter_list_rounded),
+                        onPressed: () {
+                          _showBottomSheet(context, state.therapistNames);
+                        },
+                      )
+                    ],
+                  ),
+                  ...state.tasks.map((task) {
+                    return _TaskList(
+                      task: task,
+                    );
+                  })
+                ],
+              ),
+            );
+          }
           if (state is TasksEmpty) return EmptyState();
           if (state is TasksError)
             return ErrorWithRetry(
@@ -98,6 +147,95 @@ class _AllTasksState extends State<AllTasks> {
           return Container();
         },
       ),
+    );
+  }
+
+  _showBottomSheet(context, List<String> therapistNames) {
+    showModalBottomSheet(
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(8.0),
+      ),
+      context: context,
+      isDismissible: true,
+      builder: (newContext) {
+        return TherapistFilter(
+            therapistNames: therapistNames,
+            onTherapistSelected: (therapist) {
+              selectedTherapist = therapist;
+              _applyFilter(therapist, therapistNames);
+            },
+            selectedTherapistType: selectedTherapist);
+      },
+    );
+  }
+
+  _applyFilter(String therapistName, List<String> allTherapistNames) {
+    BlocProvider.of<TaskBloc>(context)
+        .add(ApplyFilter(existingTasks, therapistName, allTherapistNames));
+  }
+}
+
+class TherapistFilter extends StatefulWidget {
+  final List<String> therapistNames;
+  final ValueChanged<String> onTherapistSelected;
+  final String selectedTherapistType;
+
+  const TherapistFilter(
+      {Key key,
+      @required this.therapistNames,
+      @required this.onTherapistSelected,
+      this.selectedTherapistType})
+      : super(key: key);
+
+  @override
+  _TherapistFilterState createState() => _TherapistFilterState();
+}
+
+class _TherapistFilterState extends State<TherapistFilter> {
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Text(
+            "Select a therapist to filter tasks",
+            style: Theme.of(context).textTheme.subtitle1,
+          ),
+        ),
+        Expanded(
+          child: ListView.separated(
+            shrinkWrap: true,
+            itemCount: widget.therapistNames.length,
+            itemBuilder: (context, index) {
+              return ListTile(
+                title: Text(widget.therapistNames[index]),
+                leading: widget.selectedTherapistType != null &&
+                        widget.selectedTherapistType ==
+                            widget.therapistNames[index]
+                    ? Icon(
+                        Icons.check_circle_outline_rounded,
+                        color: Colors.green,
+                      )
+                    : Icon(Icons.panorama_fish_eye_rounded),
+                onTap: () {
+                  widget.onTherapistSelected.call(widget.therapistNames[index]);
+                  Navigator.pop(context);
+                },
+              );
+            },
+            separatorBuilder: (context, index) {
+              return Divider();
+            },
+          ),
+        )
+      ],
     );
   }
 }

@@ -9,7 +9,9 @@ abstract class AppointmentEvent extends Equatable {
 
 class LoadAppointments extends AppointmentEvent {
   final AppointmentStatus status;
+  final TherapistType therapistType;
   final int pageNumber;
 
-  LoadAppointments(this.pageNumber, this.status);
+  LoadAppointments(this.pageNumber,
+      {this.status, this.therapistType});
 }

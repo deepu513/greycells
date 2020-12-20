@@ -6,7 +6,6 @@ import 'package:greycells/models/therapist/therapist_type.dart';
 import 'package:greycells/view/widgets/centered_circular_loading.dart';
 import 'package:greycells/view/widgets/empty_state.dart';
 import 'package:greycells/view/widgets/error_with_retry.dart';
-import 'package:greycells/view/widgets/no_glow_scroll_behaviour.dart';
 import 'package:greycells/view/widgets/therapist_list_tile.dart';
 
 class TherapistListPage extends StatefulWidget {

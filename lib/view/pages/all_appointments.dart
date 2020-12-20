@@ -5,6 +5,7 @@ import 'package:greycells/constants/user_type.dart';
 import 'package:greycells/models/appointment/appointment.dart';
 import 'package:greycells/models/appointment/appointment_detail_arguments.dart';
 import 'package:greycells/models/appointment/appointment_status.dart';
+import 'package:greycells/models/therapist/therapist_type.dart';
 import 'package:greycells/route/route_name.dart';
 import 'package:greycells/view/widgets/appointment_card.dart';
 import 'package:greycells/view/widgets/appointment_status_selector.dart';
@@ -14,8 +15,9 @@ import 'package:greycells/view/widgets/error_with_retry.dart';
 
 class AllAppointments extends StatefulWidget {
   final UserType userType;
+  final TherapistType therapistType;
 
-  AllAppointments(this.userType);
+  AllAppointments(this.userType, {this.therapistType});
 
   @override
   _AllAppointmentsState createState() => _AllAppointmentsState();
@@ -31,7 +33,8 @@ class _AllAppointmentsState extends State<AllAppointments> {
   }
 
   _loadAppointments(AppointmentStatus status) {
-    BlocProvider.of<AppointmentBloc>(context).add(LoadAppointments(1, status));
+    BlocProvider.of<AppointmentBloc>(context)
+        .add(LoadAppointments(1, status: status));
   }
 
   @override

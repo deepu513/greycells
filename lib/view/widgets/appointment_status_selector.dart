@@ -31,9 +31,9 @@ class _AppointmentStatusSelectorState extends State<AppointmentStatusSelector> {
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
-          Icon(
-            Icons.filter_list,
-            color: Colors.pink,
+          Text(
+            "Status:",
+            style: Theme.of(context).textTheme.subtitle1,
           ),
           OutlinedChip("Upcoming", selectedStatus == AppointmentStatus.upcoming,
               () {

@@ -94,6 +94,7 @@ class Patient {
   @JsonKey(ignore: true)
   List<PickedFile> pickedFiles;
 
+  @JsonKey(includeIfNull: false)
   int noOfAppointments;
 
   Patient() {

@@ -67,6 +67,6 @@ Map<String, dynamic> _$PatientToJson(Patient instance) {
   val['timeOfBirth'] = instance.timeOfBirth;
   val['medicalRecord'] =
       instance.medicalRecords?.map((e) => e?.toJson())?.toList();
-  val['noOfAppointments'] = instance.noOfAppointments;
+  writeNotNull('noOfAppointments', instance.noOfAppointments);
   return val;
 }

@@ -54,7 +54,8 @@ class TaskBloc extends Bloc<TaskEvent, TaskState> {
             therapistNames.add("All");
 
             taskResponse.tasks.forEach((task) {
-              therapistNames.add(task.therapist.fullName);
+              if (task.therapist != null)
+                therapistNames.add(task.therapist.fullName);
 
               task.taskItems.forEach((taskItem) {
                 if (taskItem.status == 0) {

@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:greycells/bloc/patient/eligibility_check_bloc.dart';
 import 'package:greycells/constants/strings.dart';
 import 'package:greycells/models/appointment/appointment_date_args.dart';
 import 'package:greycells/models/therapist/charge.dart';
@@ -24,85 +26,145 @@ class _TherapistProfilePageState extends State<TherapistProfilePage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          "Profile",
-          style: Theme.of(context)
-              .textTheme
-              .headline6
-              .copyWith(color: Colors.black87),
-        ),
-        elevation: 4.0,
-      ),
-      body: SafeArea(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Expanded(
-              child: SingleChildScrollView(
-                padding: EdgeInsets.all(16.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    HeaderSection(
-                        widget.therapist.fullName,
-                        widget.therapist.therapistType.name,
-                        widget.therapist.medicalCouncil,
-                        widget.therapist.totalExperience.toString(),
-                        widget.therapist.file != null
-                            ? widget.therapist.file.name.withBaseUrlForImage()
-                            : ""),
-                    SizedBox(
-                      height: 24.0,
-                    ),
-                    ExpertiseSection(widget.therapist.therapistType.expertise,
-                        widget.therapist.therapistType.specialisation),
-                    SizedBox(
-                      height: 16.0,
-                    ),
-                    QualificationSection(widget.therapist.qualification),
-                    SizedBox(
-                      height: 16.0,
-                    ),
-                    LanguageSection(widget.therapist.spokenLanguage),
-                    Divider(
-                      height: 32.0,
-                    ),
-                    SizedBox(
-                      height: 4.0,
-                    ),
-                    MeetingChargesSection(widget.therapist.charges,
-                        widget.therapist.meetingDuration?.duration.toString(),
-                        (selectedMeeting) {
-                      setState(() => selectedMeetingCharge = selectedMeeting);
-                    }),
-                  ],
+    return BlocProvider<EligibilityCheckBloc>(
+      create: (context) => EligibilityCheckBloc(),
+      child: Builder(
+        builder: (context) {
+          return BlocConsumer<EligibilityCheckBloc, EligibilityCheckState>(
+            listener: (context, state) {
+              if (state is FollowupNotEligible) {
+                widget.showErrorDialog(
+                    context: context,
+                    message:
+                        "You are not eligible for a follow up appointment. Please book a new one.",
+                    showIcon: true,
+                    onPressed: () async {
+                      Navigator.of(context).pop();
+                    });
+              }
+
+              if (state is FollowupEligiblie) {
+                navigateToTimeslotSelection(context);
+              }
+            },
+            builder: (context, state) {
+              return Scaffold(
+                appBar: AppBar(
+                  title: Text(
+                    "Profile",
+                    style: Theme.of(context)
+                        .textTheme
+                        .headline6
+                        .copyWith(color: Colors.black87),
+                  ),
+                  elevation: 4.0,
                 ),
-              ),
-            ),
-            Visibility(
-              visible: widget.allowBooking == true,
-              child: BookAppointmentButton(() {
-                if (selectedMeetingCharge != null)
-                  Navigator.of(context).pushNamed(
-                    RouteName.APPOINTMENT_DATE_SELECTION_PAGE,
-                    arguments: AppointmentDateSelectionArguments(
-                        widget.therapist, selectedMeetingCharge),
-                  );
-                else
-                  widget.showErrorDialog(
-                      context: context,
-                      message: "Please select an appointment type",
-                      showIcon: true,
-                      onPressed: () async {
-                        Navigator.of(context).pop();
-                      });
-              }),
-            ),
-          ],
-        ),
+                body: SafeArea(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Expanded(
+                        child: SingleChildScrollView(
+                          padding: EdgeInsets.all(16.0),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              HeaderSection(
+                                  widget.therapist.fullName,
+                                  widget.therapist.therapistType.name,
+                                  widget.therapist.medicalCouncil,
+                                  widget.therapist.totalExperience.toString(),
+                                  widget.therapist.file != null
+                                      ? widget.therapist.file.name
+                                          .withBaseUrlForImage()
+                                      : ""),
+                              SizedBox(
+                                height: 24.0,
+                              ),
+                              ExpertiseSection(
+                                  widget.therapist.therapistType.expertise,
+                                  widget
+                                      .therapist.therapistType.specialisation),
+                              SizedBox(
+                                height: 16.0,
+                              ),
+                              QualificationSection(
+                                  widget.therapist.qualification),
+                              SizedBox(
+                                height: 16.0,
+                              ),
+                              LanguageSection(widget.therapist.spokenLanguage),
+                              Divider(
+                                height: 32.0,
+                              ),
+                              SizedBox(
+                                height: 4.0,
+                              ),
+                              Visibility(
+                                visible: widget.allowBooking == true,
+                                child: MeetingChargesSection(
+                                    widget.therapist.charges,
+                                    widget.therapist.meetingDuration?.duration
+                                        .toString(), (selectedMeeting) {
+                                  setState(() =>
+                                      selectedMeetingCharge = selectedMeeting);
+                                }),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                      Visibility(
+                        visible: state is EligibilityChecking,
+                        child: LinearProgressIndicator(
+                          minHeight: 2.0,
+                          backgroundColor: Colors.white,
+                        ),
+                      ),
+                      Visibility(
+                        visible: widget.allowBooking == true,
+                        child: BookAppointmentButton(state
+                                is EligibilityChecking
+                            ? null
+                            : () {
+                                if (selectedMeetingCharge != null &&
+                                    selectedMeetingCharge.meetingType
+                                            .toLowerCase()
+                                            .trim() ==
+                                        "follow up") {
+                                  BlocProvider.of<EligibilityCheckBloc>(context)
+                                      .add(CheckFollowupEligibility(
+                                          widget.therapist.id,
+                                          selectedMeetingCharge.meetingTypeId));
+                                } else if (selectedMeetingCharge != null)
+                                  navigateToTimeslotSelection(context);
+                                else
+                                  widget.showErrorDialog(
+                                      context: context,
+                                      message:
+                                          "Please select an appointment type",
+                                      showIcon: true,
+                                      onPressed: () async {
+                                        Navigator.of(context).pop();
+                                      });
+                              }),
+                      ),
+                    ],
+                  ),
+                ),
+              );
+            },
+          );
+        },
       ),
+    );
+  }
+
+  void navigateToTimeslotSelection(BuildContext context) {
+    Navigator.of(context).pushNamed(
+      RouteName.APPOINTMENT_DATE_SELECTION_PAGE,
+      arguments: AppointmentDateSelectionArguments(
+          widget.therapist, selectedMeetingCharge),
     );
   }
 }

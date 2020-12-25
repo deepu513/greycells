@@ -133,4 +133,14 @@ class UserRepository {
 
     return await _httpService.post(request, _patientSerializable);
   }
+
+  Future<bool> isEligibleForFollowup(
+      {@required int therapistId, @required int meetingTypeId}) async {
+    Request request = Request(
+        "${FlavorConfig.getBaseUrl()}Appointments/Iseligibleforfollowup?therapistId=$therapistId&meetingTypeid=$meetingTypeId",
+        null);
+
+    Response response = await _httpService.getRaw(request, null);
+    return response.statusCode == 200;
+  }
 }

@@ -43,53 +43,60 @@ class __ActualPatientListState extends State<_ActualPatientList> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<PatientBloc, PatientState>(
-      listener: (context, state) {},
-      builder: (context, state) {
-        if (state is Loading) return CenteredCircularLoadingIndicator();
-        if (state is Error)
-          return ErrorWithRetry(
-            onRetryPressed: () => _loadAllPatients(),
-          );
-        if (state is Empty) return EmptyState();
-        if (state is Loaded)
-          return ScrollConfiguration(
-            behavior: NoGlowScrollBehaviour(),
-            child: CustomScrollView(
-              slivers: [
-                SliverAppBar(
-                  elevation: 4.0,
-                  forceElevated: true,
-                  floating: true,
-                  title: Text(
-                    'Patients',
-                    style: Theme.of(context)
-                        .textTheme
-                        .headline6
-                        .copyWith(color: Colors.black87),
-                  ),
-                ),
-                SliverList(
-                  delegate: SliverChildBuilderDelegate(
-                    (context, index) {
-                      return _PatientTile(
-                        patient: state.patients[index],
-                        onPatientTilePressed: () {
-                          Navigator.of(context).pushNamed(
-                              RouteName.PATIENT_PROFILE_DETAIL_PAGE,
-                              arguments: state.patients[index]);
-                        },
-                      );
-                    },
-                    childCount: state.patients.length,
-                  ),
-                ),
-              ],
-            ),
-          );
-
-        return Container();
+    return RefreshIndicator(
+      onRefresh: () async {
+        return await Future.delayed(Duration(milliseconds: 50), () {
+              _loadAllPatients();
+            });
       },
+      child: BlocConsumer<PatientBloc, PatientState>(
+        listener: (context, state) {},
+        builder: (context, state) {
+          if (state is Loading) return CenteredCircularLoadingIndicator();
+          if (state is Error)
+            return ErrorWithRetry(
+              onRetryPressed: () => _loadAllPatients(),
+            );
+          if (state is Empty) return EmptyState();
+          if (state is Loaded)
+            return ScrollConfiguration(
+              behavior: NoGlowScrollBehaviour(),
+              child: CustomScrollView(
+                slivers: [
+                  SliverAppBar(
+                    elevation: 4.0,
+                    forceElevated: true,
+                    floating: true,
+                    title: Text(
+                      'Patients',
+                      style: Theme.of(context)
+                          .textTheme
+                          .headline6
+                          .copyWith(color: Colors.black87),
+                    ),
+                  ),
+                  SliverList(
+                    delegate: SliverChildBuilderDelegate(
+                      (context, index) {
+                        return _PatientTile(
+                          patient: state.patients[index],
+                          onPatientTilePressed: () {
+                            Navigator.of(context).pushNamed(
+                                RouteName.PATIENT_PROFILE_DETAIL_PAGE,
+                                arguments: state.patients[index]);
+                          },
+                        );
+                      },
+                      childCount: state.patients.length,
+                    ),
+                  ),
+                ],
+              ),
+            );
+
+          return Container();
+        },
+      ),
     );
   }
 }

@@ -69,7 +69,7 @@ class __ActualPatientGoalsState extends State<_ActualPatientGoals> {
         ),
         body: RefreshIndicator(
           onRefresh: () async {
-            return await Future.delayed(Duration(milliseconds: 100), () {
+            return await Future.delayed(Duration(milliseconds: 50), () {
               _loadAllGoals();
             });
           },

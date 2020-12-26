@@ -26,3 +26,5 @@ class DuplicateGoal extends GoalsState {}
 class GoalsEmpty extends GoalsState {}
 
 class GoalUpdated extends GoalsState {}
+
+class GoalCompleted extends GoalsState {}

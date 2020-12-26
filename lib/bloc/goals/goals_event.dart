@@ -26,3 +26,16 @@ class UpdateGoal extends GoalsEvent {
 
   UpdateGoal({@required this.status, @required this.patientGoalMappingId});
 }
+
+class LoadCompletedGoals extends GoalsEvent {
+  final String date;
+
+  LoadCompletedGoals(this.date);
+}
+
+class CompleteGoal extends GoalsEvent {
+  final int goalId;
+  final String selectedDate;
+
+  CompleteGoal(this.goalId, this.selectedDate);
+}

@@ -10,6 +10,8 @@ import 'package:greycells/view/widgets/centered_circular_loading.dart';
 import 'package:greycells/view/widgets/empty_state.dart';
 import 'package:greycells/view/widgets/error_with_retry.dart';
 import 'package:greycells/view/widgets/no_glow_scroll_behaviour.dart';
+import 'package:table_calendar/table_calendar.dart';
+import 'package:greycells/extensions.dart';
 
 class PatientGoalsPage extends StatelessWidget {
   const PatientGoalsPage();
@@ -29,6 +31,15 @@ class _ActualPatientGoals extends StatefulWidget {
 }
 
 class __ActualPatientGoalsState extends State<_ActualPatientGoals> {
+  DateTime _selectedDay;
+
+  @override
+  void initState() {
+    super.initState();
+    _selectedDay = DateTime.now();
+    _loadAllGoals();
+  }
+
   @override
   Widget build(BuildContext context) {
     return DefaultStickyHeaderController(
@@ -46,72 +57,88 @@ class __ActualPatientGoalsState extends State<_ActualPatientGoals> {
             color: Colors.white,
           ),
         ),
+        appBar: AppBar(
+          elevation: 4.0,
+          title: Text(
+            'Goals',
+            style: Theme.of(context)
+                .textTheme
+                .headline6
+                .copyWith(color: Colors.black87),
+          ),
+        ),
         body: RefreshIndicator(
           onRefresh: () async {
             return await Future.delayed(Duration(milliseconds: 100), () {
               _loadAllGoals();
             });
           },
-          child: BlocConsumer<GoalsBloc, GoalsState>(
-            listener: (context, state) {},
-            builder: (context, state) {
-              if (state is GoalsLoading)
-                return CenteredCircularLoadingIndicator();
-              if (state is AllGoalsLoaded)
-                return ScrollConfiguration(
-                  behavior: NoGlowScrollBehaviour(),
-                  child: CustomScrollView(
-                    slivers: [
-                      SliverAppBar(
-                        elevation: 4.0,
-                        forceElevated: true,
-                        floating: true,
-                        title: Text(
-                          'Goals',
-                          style: Theme.of(context)
-                              .textTheme
-                              .headline6
-                              .copyWith(color: Colors.black87),
+          child: Column(
+            children: [
+              CalendarDateSelector(
+                onDaySelected: (selectedDay) {
+                  _selectedDay = selectedDay;
+                  _loadAllGoals();
+                },
+              ),
+              Expanded(
+                child: BlocConsumer<GoalsBloc, GoalsState>(
+                  listener: (context, state) {},
+                  builder: (context, state) {
+                    if (state is GoalsLoading)
+                      return CenteredCircularLoadingIndicator();
+                    if (state is AllGoalsLoaded)
+                      return ScrollConfiguration(
+                        behavior: NoGlowScrollBehaviour(),
+                        child: CustomScrollView(
+                          slivers: [
+                            ...state.goals.map((goal) {
+                              return _GoalsList(
+                                goal: goal,
+                                onMarkAsDonePressed: (goalType) {
+                                  BlocProvider.of<GoalsBloc>(context).add(
+                                    CompleteGoal(
+                                      goalType.id,
+                                      _selectedDay.formatToddMMyyyy(),
+                                    ),
+                                  );
+                                },
+                              );
+                            })
+                          ],
                         ),
-                      ),
-                      ...state.goals.map((goal) {
-                        return _GoalsList(
-                          goal: goal,
-                        );
-                      })
-                    ],
-                  ),
-                );
-              if (state is GoalsEmpty) return EmptyState();
-              if (state is GoalsError)
-                return ErrorWithRetry(
-                  onRetryPressed: () {
-                    _loadAllGoals();
+                      );
+                    if (state is GoalsEmpty) return EmptyState();
+                    if (state is GoalsError)
+                      return ErrorWithRetry(
+                        onRetryPressed: () {
+                          _loadAllGoals();
+                        },
+                      );
+                    return Container();
                   },
-                );
-              return Container();
-            },
+                ),
+              ),
+            ],
           ),
         ),
       ),
     );
   }
 
-  @override
-  void initState() {
-    super.initState();
-    _loadAllGoals();
-  }
-
   void _loadAllGoals() {
-    BlocProvider.of<GoalsBloc>(context).add(LoadGoalsByPatient());
+    BlocProvider.of<GoalsBloc>(context)
+        .add(LoadCompletedGoals(_selectedDay.formatToddMMyyyy()));
   }
 }
 
 class _GoalsList extends StatelessWidget {
   final Goal goal;
+  final void Function(GoalType goalType) onMarkAsDonePressed;
 
-  const _GoalsList({Key key, @required this.goal}) : super(key: key);
+  const _GoalsList(
+      {Key key, @required this.goal, @required this.onMarkAsDonePressed})
+      : super(key: key);
   @override
   Widget build(BuildContext context) {
     return SliverStickyHeader(
@@ -124,11 +151,7 @@ class _GoalsList extends StatelessWidget {
             padding: const EdgeInsets.all(8.0),
             child: _GoalTypeWidget(
               goalType: goal.goalsTypes[index],
-              onMarkAsDonePressed: (goalType) {
-                BlocProvider.of<GoalsBloc>(context).add(UpdateGoal(
-                    status: 1,
-                    patientGoalMappingId: goalType.patientGoalMappingId));
-              },
+              onMarkAsDonePressed: onMarkAsDonePressed,
             ),
           ),
           childCount: goal.goalsTypes.length,
@@ -245,5 +268,75 @@ class _GoalTypeWidget extends StatelessWidget {
       return Colors.blue.shade700;
     }
     return Colors.green.shade700;
+  }
+}
+
+class CalendarDateSelector extends StatefulWidget {
+  final ValueChanged<DateTime> onDaySelected;
+
+  CalendarDateSelector({@required this.onDaySelected});
+
+  @override
+  _CalendarDateSelectorState createState() => _CalendarDateSelectorState();
+}
+
+class _CalendarDateSelectorState extends State<CalendarDateSelector>
+    with TickerProviderStateMixin {
+  CalendarController _calendarController;
+
+  @override
+  void initState() {
+    super.initState();
+    _calendarController = CalendarController();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return TableCalendar(
+      calendarController: _calendarController,
+      startDay: DateTime.now().subtract(Duration(days: 30)),
+      endDay: DateTime.now(),
+      initialCalendarFormat: CalendarFormat.week,
+      availableCalendarFormats: {CalendarFormat.week: 'Week'},
+      startingDayOfWeek: StartingDayOfWeek.monday,
+      calendarStyle: CalendarStyle(
+        selectedColor: Colors.blue,
+        todayColor: Colors.blue.shade200,
+        outsideDaysVisible: false,
+        weekendStyle: TextStyle(),
+      ),
+      daysOfWeekStyle: DaysOfWeekStyle(
+          weekendStyle: TextStyle(color: const Color(0xFF616161))),
+      headerStyle: HeaderStyle(
+        formatButtonVisible: false,
+        rightChevronIcon: Icon(
+          Icons.chevron_right_rounded,
+          color: Colors.black87,
+        ),
+        leftChevronIcon: Icon(
+          Icons.chevron_left_rounded,
+          color: Colors.black87,
+        ),
+      ),
+      onDaySelected: _onDaySelected,
+      onVisibleDaysChanged: _onVisibleDaysChanged,
+      onCalendarCreated: _onCalendarCreated,
+    );
+  }
+
+  void _onDaySelected(DateTime day, List events, List holidays) {
+    widget.onDaySelected.call(day);
+  }
+
+  void _onVisibleDaysChanged(
+      DateTime first, DateTime last, CalendarFormat format) {}
+
+  void _onCalendarCreated(
+      DateTime first, DateTime last, CalendarFormat format) {}
+
+  @override
+  void dispose() {
+    _calendarController.dispose();
+    super.dispose();
   }
 }

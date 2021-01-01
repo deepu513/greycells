@@ -42,6 +42,9 @@ class Therapist {
   @JsonKey(name: "meetingDuration")
   MeetingDuration meetingDuration;
 
+  @JsonKey(name: "disorderTypes")
+  List<Disorder> disorderTypes;
+
   String spokenLanguage;
 
   String medicalCouncil;

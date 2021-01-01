@@ -4,6 +4,7 @@ import 'package:greycells/bloc/patient/eligibility_check_bloc.dart';
 import 'package:greycells/constants/strings.dart';
 import 'package:greycells/models/appointment/appointment_date_args.dart';
 import 'package:greycells/models/therapist/charge.dart';
+import 'package:greycells/models/therapist/disorder.dart';
 import 'package:greycells/models/therapist/therapist.dart';
 import 'package:greycells/route/route_name.dart';
 import 'package:greycells/extensions.dart';
@@ -83,8 +84,8 @@ class _TherapistProfilePageState extends State<TherapistProfilePage> {
                               ),
                               ExpertiseSection(
                                   widget.therapist.therapistType.expertise,
-                                  widget
-                                      .therapist.therapistType.specialisation),
+                                  widget.therapist.therapistType.specialisation,
+                                  getDisorderNames(widget.therapist.disorderTypes)),
                               SizedBox(
                                 height: 16.0,
                               ),
@@ -159,6 +160,12 @@ class _TherapistProfilePageState extends State<TherapistProfilePage> {
       ),
     );
   }
+
+  List<String> getDisorderNames(List<Disorder> disorderTypes) {
+      return disorderTypes.map((disorder) {
+        return disorder.name;
+      }).toList();
+    }
 
   void navigateToTimeslotSelection(BuildContext context) {
     Navigator.of(context).pushNamed(
@@ -306,8 +313,10 @@ class LanguageSection extends StatelessWidget {
 class ExpertiseSection extends StatelessWidget {
   final String therapistExpertise;
   final String therapistSpecialization;
+  final List<String> disorderTypes;
 
-  const ExpertiseSection(this.therapistExpertise, this.therapistSpecialization);
+  const ExpertiseSection(this.therapistExpertise, this.therapistSpecialization,
+      this.disorderTypes);
 
   @override
   Widget build(BuildContext context) {
@@ -341,6 +350,17 @@ class ExpertiseSection extends StatelessWidget {
             ),
             title: "Specializes in",
             description: therapistSpecialization,
+          ),
+          SizedBox(height: 16.0),
+          PageSection(
+            textColor: Colors.teal,
+            icon: Icon(
+              Icons.emoji_objects_outlined,
+              size: 20.0,
+              color: Colors.teal,
+            ),
+            title: "Advisory for",
+            description: disorderTypes.join(", "),
           ),
         ],
       ),

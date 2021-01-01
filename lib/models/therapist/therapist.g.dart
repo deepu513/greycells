@@ -32,6 +32,10 @@ Therapist _$TherapistFromJson(Map<String, dynamic> json) {
         ? null
         : MeetingDuration.fromJson(
             json['meetingDuration'] as Map<String, dynamic>)
+    ..disorderTypes = (json['disorderTypes'] as List)
+        ?.map((e) =>
+            e == null ? null : Disorder.fromJson(e as Map<String, dynamic>))
+        ?.toList()
     ..spokenLanguage = json['spokenLanguage'] as String
     ..medicalCouncil = json['medicalCouncil'] as String
     ..disorder = json['disorderType'] == null
@@ -59,6 +63,8 @@ Map<String, dynamic> _$TherapistToJson(Therapist instance) {
   val['therapyType'] = instance.therapistType?.toJson();
   val['charges'] = instance.charges?.map((e) => e?.toJson())?.toList();
   val['meetingDuration'] = instance.meetingDuration?.toJson();
+  val['disorderTypes'] =
+      instance.disorderTypes?.map((e) => e?.toJson())?.toList();
   val['spokenLanguage'] = instance.spokenLanguage;
   val['medicalCouncil'] = instance.medicalCouncil;
   val['disorderType'] = instance.disorder?.toJson();

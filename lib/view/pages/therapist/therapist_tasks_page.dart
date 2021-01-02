@@ -41,6 +41,9 @@ class AllTasks extends StatefulWidget {
 }
 
 class _AllTasksState extends State<AllTasks> {
+  String selectedPatient;
+  List<Task> existingTasks;
+
   @override
   void initState() {
     super.initState();
@@ -48,7 +51,7 @@ class _AllTasksState extends State<AllTasks> {
   }
 
   void _loadAllTasks() {
-    BlocProvider.of<TaskBloc>(context).add(LoadAllTasks());
+    BlocProvider.of<TaskBloc>(context).add(LoadAllTasks(UserType.patient));
   }
 
   @override
@@ -60,15 +63,48 @@ class _AllTasksState extends State<AllTasks> {
         });
       },
       child: BlocConsumer<TaskBloc, TaskState>(
-        listener: (context, state) {},
+        listener: (context, state) {
+          if (state is AllTasksLoaded) {
+            this.existingTasks = state.tasks;
+          }
+        },
         builder: (context, state) {
           if (state is TaskLoading) return CenteredCircularLoadingIndicator();
           if (state is AllTasksLoaded)
             return CustomScrollView(
               slivers: [
                 SliverAppBar(
-                  floating: true,
+                    floating: true,
+                    elevation: 4.0,
+                    title: Text(
+                      'Tasks',
+                      style: Theme.of(context)
+                          .textTheme
+                          .headline6
+                          .copyWith(color: Colors.black87),
+                    ),
+                    actions: [
+                      IconButton(
+                        icon: Icon(Icons.filter_list_rounded),
+                        onPressed: () {
+                          _showBottomSheet(context, state.patientNames);
+                        },
+                      )
+                    ]),
+                ...state.tasks.map((task) {
+                  return _TaskList(
+                    task: task,
+                  );
+                })
+              ],
+            );
+            if (state is FilterApplied) {
+            return CustomScrollView(
+              slivers: [
+                SliverAppBar(
                   elevation: 4.0,
+                  forceElevated: true,
+                  floating: true,
                   title: Text(
                     'Tasks',
                     style: Theme.of(context)
@@ -76,6 +112,14 @@ class _AllTasksState extends State<AllTasks> {
                         .headline6
                         .copyWith(color: Colors.black87),
                   ),
+                  actions: [
+                    IconButton(
+                      icon: Icon(Icons.filter_list_rounded),
+                      onPressed: () {
+                        _showBottomSheet(context, state.filteredNames);
+                      },
+                    )
+                  ],
                 ),
                 ...state.tasks.map((task) {
                   return _TaskList(
@@ -84,6 +128,7 @@ class _AllTasksState extends State<AllTasks> {
                 })
               ],
             );
+          }
           if (state is TasksEmpty) return EmptyState();
           if (state is TasksError)
             return ErrorWithRetry(
@@ -94,6 +139,95 @@ class _AllTasksState extends State<AllTasks> {
           return Container();
         },
       ),
+    );
+  }
+
+  _showBottomSheet(context, List<String> patientNames) {
+    showModalBottomSheet(
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(8.0),
+      ),
+      context: context,
+      isDismissible: true,
+      builder: (newContext) {
+        return PatientsFilter(
+            patientNames: patientNames,
+            onPatientSelected: (patient) {
+              selectedPatient = patient;
+              _applyFilter(patient, patientNames);
+            },
+            selectedPatientName: selectedPatient);
+      },
+    );
+  }
+
+  _applyFilter(String patientName, List<String> allPatientNames) {
+    BlocProvider.of<TaskBloc>(context).add(ApplyFilter(
+        existingTasks, patientName, allPatientNames,
+        userType: UserType.patient));
+  }
+}
+
+class PatientsFilter extends StatefulWidget {
+  final List<String> patientNames;
+  final ValueChanged<String> onPatientSelected;
+  final String selectedPatientName;
+
+  const PatientsFilter(
+      {Key key,
+      @required this.patientNames,
+      @required this.onPatientSelected,
+      this.selectedPatientName})
+      : super(key: key);
+
+  @override
+  _PatientsFilterState createState() => _PatientsFilterState();
+}
+
+class _PatientsFilterState extends State<PatientsFilter> {
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Text(
+            "Select a patient to filter tasks",
+            style: Theme.of(context).textTheme.subtitle1,
+          ),
+        ),
+        Expanded(
+          child: ListView.separated(
+            shrinkWrap: true,
+            itemCount: widget.patientNames.length,
+            itemBuilder: (context, index) {
+              return ListTile(
+                title: Text(widget.patientNames[index]),
+                leading: widget.selectedPatientName != null &&
+                        widget.selectedPatientName == widget.patientNames[index]
+                    ? Icon(
+                        Icons.check_circle_outline_rounded,
+                        color: Colors.green,
+                      )
+                    : Icon(Icons.panorama_fish_eye_rounded),
+                onTap: () {
+                  widget.onPatientSelected.call(widget.patientNames[index]);
+                  Navigator.pop(context);
+                },
+              );
+            },
+            separatorBuilder: (context, index) {
+              return Divider();
+            },
+          ),
+        )
+      ],
     );
   }
 }
@@ -117,7 +251,8 @@ class _TaskList extends StatelessWidget {
               .pushNamed(RouteName.EDIT_TAK_PAGE, arguments: task);
 
           if (result == true) {
-            BlocProvider.of<TaskBloc>(context).add(LoadAllTasks());
+            BlocProvider.of<TaskBloc>(context)
+                .add(LoadAllTasks(UserType.patient));
           }
         },
       ),
@@ -168,7 +303,8 @@ class TaskSectionHeader extends StatelessWidget {
                 Text(
                   taskTitle,
                   style: Theme.of(context).textTheme.subtitle1.copyWith(
-                      color: Colors.blueGrey, ),
+                        color: Colors.blueGrey,
+                      ),
                 ),
                 SizedBox(
                   height: 4.0,

@@ -7,7 +7,11 @@ abstract class TaskEvent extends Equatable {
   List<Object> get props => [];
 }
 
-class LoadAllTasks extends TaskEvent {}
+class LoadAllTasks extends TaskEvent {
+  final UserType userType;
+
+  LoadAllTasks(this.userType);
+}
 
 class CreateTask extends TaskEvent {
   final Task task;
@@ -30,10 +34,12 @@ class LoadPatientTasks extends TaskEvent {
 
 class ApplyFilter extends TaskEvent {
   final List<Task> existingTasks;
-  final List<String> allTherapistNames;
-  final String therapistName;
+  final List<String> allNames;
+  final String filterName;
+  final UserType userType;
 
-  ApplyFilter(this.existingTasks, this.therapistName, this.allTherapistNames);
+  ApplyFilter(this.existingTasks, this.filterName, this.allNames,
+      {this.userType});
 }
 
 class UpdateTaskItem extends TaskEvent {

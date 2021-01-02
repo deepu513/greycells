@@ -4,6 +4,7 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/foundation.dart';
 import 'package:greycells/bloc/task/task_status.dart';
+import 'package:greycells/constants/user_type.dart';
 import 'package:greycells/models/task/task.dart';
 import 'package:greycells/models/task/task_item.dart';
 import 'package:greycells/models/task/task_response.dart';
@@ -64,27 +65,51 @@ class TaskBloc extends Bloc<TaskEvent, TaskState> {
           if (taskResponse.tasks.isEmpty)
             yield TasksEmpty();
           else {
-            List<String> therapistNames = List();
-            therapistNames.add("All");
+            if (event.userType == UserType.therapist) {
+              List<String> therapistNames = List();
+              therapistNames.add("All");
 
-            taskResponse.tasks.forEach((task) {
-              if (task.therapist != null)
-                therapistNames.add(task.therapist.fullName);
+              taskResponse.tasks.forEach((task) {
+                if (task.therapist != null)
+                  therapistNames.add(task.therapist.fullName);
 
-              task.taskItems.forEach((taskItem) {
-                if (taskItem.status == 0) {
-                  DateFormat dateFormat = DateFormat("dd/MM/yyyy h:mm:ss a");
-                  DateTime dateTime =
-                      dateFormat.parse(taskItem.expectedCompletionDateTIme);
-                  if (DateTime.now().isBefore(dateTime) == false) {
-                    taskItem.status = TaskStatus.overdue.index;
+                task.taskItems.forEach((taskItem) {
+                  if (taskItem.status == 0) {
+                    DateFormat dateFormat = DateFormat("dd/MM/yyyy h:mm:ss a");
+                    DateTime dateTime =
+                        dateFormat.parse(taskItem.expectedCompletionDateTIme);
+                    if (DateTime.now().isBefore(dateTime) == false) {
+                      taskItem.status = TaskStatus.overdue.index;
+                    }
                   }
-                }
+                });
               });
-            });
 
-            yield AllTasksLoaded(
-                taskResponse.tasks, therapistNames.toSet().toList());
+              yield AllTasksLoaded(taskResponse.tasks,
+                  therapistNames: therapistNames.toSet().toList());
+            } else {
+              List<String> patientNames = List();
+              patientNames.add("All");
+
+              taskResponse.tasks.forEach((task) {
+                if (task.patient != null)
+                  patientNames.add(task.patient.fullName);
+
+                task.taskItems.forEach((taskItem) {
+                  if (taskItem.status == 0) {
+                    DateFormat dateFormat = DateFormat("dd/MM/yyyy h:mm:ss a");
+                    DateTime dateTime =
+                        dateFormat.parse(taskItem.expectedCompletionDateTIme);
+                    if (DateTime.now().isBefore(dateTime) == false) {
+                      taskItem.status = TaskStatus.overdue.index;
+                    }
+                  }
+                });
+              });
+
+              yield AllTasksLoaded(taskResponse.tasks,
+                  patientNames: patientNames.toSet().toList());
+            }
           }
         } else
           yield TasksError();
@@ -96,15 +121,28 @@ class TaskBloc extends Bloc<TaskEvent, TaskState> {
 
     if (event is ApplyFilter) {
       List<Task> filteredTasks = List();
-      if (event.therapistName == "All") {
-        yield FilterApplied(event.existingTasks, event.allTherapistNames);
-      } else {
-        event.existingTasks.forEach((task) {
-          if (task.therapist.fullName == event.therapistName) {
-            filteredTasks.add(task);
-          }
-        });
-        yield FilterApplied(filteredTasks, event.allTherapistNames);
+      if (event.userType == UserType.therapist) {
+        if (event.filterName == "All") {
+          yield FilterApplied(event.existingTasks, event.allNames);
+        } else {
+          event.existingTasks.forEach((task) {
+            if (task.therapist.fullName == event.filterName) {
+              filteredTasks.add(task);
+            }
+          });
+          yield FilterApplied(filteredTasks, event.allNames);
+        }
+      } else if (event.userType == UserType.patient) {
+        if (event.filterName == "All") {
+          yield FilterApplied(event.existingTasks, event.allNames);
+        } else {
+          event.existingTasks.forEach((task) {
+            if (task.patient.fullName == event.filterName) {
+              filteredTasks.add(task);
+            }
+          });
+          yield FilterApplied(filteredTasks, event.allNames);
+        }
       }
     }
 
@@ -142,7 +180,7 @@ class TaskBloc extends Bloc<TaskEvent, TaskState> {
           if (tasks.isEmpty)
             yield TasksEmpty();
           else {
-            yield AllTasksLoaded(tasks, null);
+            yield AllTasksLoaded(tasks);
           }
         } else
           yield TasksError();

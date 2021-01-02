@@ -51,7 +51,7 @@ class _AllTasksState extends State<AllTasks> {
   }
 
   void _loadAllTasks() {
-    BlocProvider.of<TaskBloc>(context).add(LoadAllTasks());
+    BlocProvider.of<TaskBloc>(context).add(LoadAllTasks(UserType.therapist));
   }
 
   @override
@@ -123,7 +123,7 @@ class _AllTasksState extends State<AllTasks> {
                       IconButton(
                         icon: Icon(Icons.filter_list_rounded),
                         onPressed: () {
-                          _showBottomSheet(context, state.therapistNames);
+                          _showBottomSheet(context, state.filteredNames);
                         },
                       )
                     ],
@@ -170,8 +170,9 @@ class _AllTasksState extends State<AllTasks> {
   }
 
   _applyFilter(String therapistName, List<String> allTherapistNames) {
-    BlocProvider.of<TaskBloc>(context)
-        .add(ApplyFilter(existingTasks, therapistName, allTherapistNames));
+    BlocProvider.of<TaskBloc>(context).add(ApplyFilter(
+        existingTasks, therapistName, allTherapistNames,
+        userType: UserType.therapist));
   }
 }
 

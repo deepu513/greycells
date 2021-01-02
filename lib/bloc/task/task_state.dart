@@ -11,15 +11,16 @@ class TaskLoading extends TaskState {}
 class AllTasksLoaded extends TaskState {
   final List<Task> tasks;
   final List<String> therapistNames;
+  final List<String> patientNames;
 
-  AllTasksLoaded(this.tasks, this.therapistNames);
+  AllTasksLoaded(this.tasks, {this.therapistNames, this.patientNames});
 }
 
 class FilterApplied extends TaskState {
   final List<Task> tasks;
-  final List<String> therapistNames;
+  final List<String> filteredNames;
 
-  FilterApplied(this.tasks, this.therapistNames);
+  FilterApplied(this.tasks, this.filteredNames);
 }
 
 class TaskCreated extends TaskState {}

@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:greycells/bloc/patient/patient_bloc.dart';
@@ -46,8 +48,8 @@ class __ActualPatientListState extends State<_ActualPatientList> {
     return RefreshIndicator(
       onRefresh: () async {
         return await Future.delayed(Duration(milliseconds: 50), () {
-              _loadAllPatients();
-            });
+          _loadAllPatients();
+        });
       },
       child: BlocConsumer<PatientBloc, PatientState>(
         listener: (context, state) {},
@@ -120,74 +122,115 @@ class _PatientTile extends StatelessWidget {
         borderRadius: BorderRadius.circular(8.0),
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 16.0),
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              CircleAvatarOrInitials(
-                radius: 32.0,
-                imageUrl: patient.file != null
-                    ? patient.file.name.withBaseUrlForImage()
-                    : "",
-                stringForInitials: patient.fullName,
-              ),
-              SizedBox(width: 16.0),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      patient.fullName,
-                      style: Theme.of(context).textTheme.headline6.copyWith(
-                          color: Colors.black87, fontWeight: FontWeight.w700),
-                    ),
-                    SizedBox(
-                      height: 8.0,
-                    ),
-                    Row(
-                      children: [
-                        Icon(
-                          Icons.call_rounded,
-                          size: 14.0,
-                        ),
-                        SizedBox(
-                          width: 4.0,
-                        ),
-                        Text(patient.user.mobileNumber,
-                            style: Theme.of(context).textTheme.bodyText1),
-                      ],
-                    ),
-                    Row(
-                      children: [
-                        Icon(
-                          Icons.alternate_email_rounded,
-                          size: 14.0,
-                        ),
-                        SizedBox(
-                          width: 4.0,
-                        ),
-                        Text(patient.user.email,
-                            style: Theme.of(context).textTheme.bodyText1),
-                      ],
-                    ),
-                    Divider(),
-                    Row(
-                      children: [
-                        Text("# No. of appointments:",
-                            style: Theme.of(context).textTheme.bodyText1),
-                        SizedBox(
-                          width: 4.0,
-                        ),
-                        Text(patient.noOfAppointments.toString(),
+          child: IntrinsicHeight(
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                CircleAvatarOrInitials(
+                  radius: 32.0,
+                  imageUrl: patient.file != null
+                      ? patient.file.name.withBaseUrlForImage()
+                      : "",
+                  stringForInitials: patient.fullName,
+                ),
+                SizedBox(width: 16.0),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        patient.fullName,
+                        style: Theme.of(context).textTheme.headline6.copyWith(
+                            color: Colors.black87, fontWeight: FontWeight.w700),
+                      ),
+                      SizedBox(
+                        height: 8.0,
+                      ),
+                      Row(
+                        children: [
+                          Icon(
+                            Icons.call_rounded,
+                            size: 14.0,
+                          ),
+                          SizedBox(
+                            width: 4.0,
+                          ),
+                          Text(patient.user.mobileNumber,
+                              style: Theme.of(context).textTheme.bodyText1),
+                        ],
+                      ),
+                      Row(
+                        children: [
+                          Icon(
+                            Icons.alternate_email_rounded,
+                            size: 14.0,
+                          ),
+                          SizedBox(
+                            width: 4.0,
+                          ),
+                          Text(patient.user.email,
+                              style: Theme.of(context).textTheme.bodyText1),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+                VerticalDivider(
+                  thickness: 1.0,
+                  indent: 4.0,
+                  endIndent: 4.0,
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                  child: Column(
+                    children: [
+                      ConstrainedBox(
+                        constraints:
+                            BoxConstraints(minHeight: 32.0, minWidth: 32.0),
+                        child: Container(
+                          decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              color: Colors.purple.shade50),
+                          alignment: Alignment.center,
+                          child: Text(
+                            patient.noOfAppointments.toString(),
                             style: Theme.of(context)
                                 .textTheme
-                                .bodyText1
-                                .copyWith(fontWeight: FontWeight.bold)),
-                      ],
-                    )
-                  ],
-                ),
-              ),
-            ],
+                                .subtitle1
+                                .copyWith(
+                                    fontFeatures: [
+                                  FontFeature.tabularFigures(),
+                                ],
+                                    color: Colors.purple,
+                                    fontWeight: FontWeight.w700),
+                            overflow: TextOverflow.clip,
+                          ),
+                        ),
+                      ),
+                      SizedBox(
+                        height: 4.0,
+                      ),
+                      Text(
+                        patient.noOfAppointments > 1 ? "sessions" : "session",
+                        style: Theme.of(context)
+                            .textTheme
+                            .caption
+                            .copyWith(fontStyle: FontStyle.italic),
+                        overflow: TextOverflow.clip,
+                      ),
+                      Text(
+                        "done",
+                        style: Theme.of(context)
+                            .textTheme
+                            .caption
+                            .copyWith(fontStyle: FontStyle.italic),
+                        overflow: TextOverflow.clip,
+                      ),
+                    ],
+                  ),
+                )
+              ],
+            ),
           ),
         ),
       ),

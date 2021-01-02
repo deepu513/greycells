@@ -99,7 +99,7 @@ class CountSection extends StatelessWidget {
             .copyWith(color: Colors.black87, fontWeight: FontWeight.bold),
         children: [
           TextSpan(
-            text: count > 1 ?" appointments": " appointment",
+            text: count > 1 ?"  appointments": "  appointment",
             style: Theme.of(context)
                 .textTheme
                 .caption

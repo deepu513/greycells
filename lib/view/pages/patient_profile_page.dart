@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_sticky_header/flutter_sticky_header.dart';
@@ -70,7 +72,7 @@ class PatientProfilePage extends StatelessWidget {
             children: [
               Padding(
                 padding: const EdgeInsets.all(16.0),
-                child: ProfileHeaderSection(patient),
+                child: ProfileHeaderSection(patient, showDetails),
               ),
               Divider(
                 height: 2.0,
@@ -173,7 +175,8 @@ class PatientProfilePage extends StatelessWidget {
 
 class ProfileHeaderSection extends StatelessWidget {
   final Patient patient;
-  ProfileHeaderSection(this.patient);
+  final bool showDetails;
+  ProfileHeaderSection(this.patient, this.showDetails);
 
   @override
   Widget build(BuildContext context) {
@@ -193,15 +196,13 @@ class ProfileHeaderSection extends StatelessWidget {
         SizedBox(width: 16.0),
         Expanded(
           child: Column(
+            mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
                 patient.fullName,
                 style: Theme.of(context).textTheme.headline6.copyWith(
                     color: Colors.black87, fontWeight: FontWeight.w700),
-              ),
-              SizedBox(
-                height: 4.0,
               ),
               SizedBox(
                 height: 8.0,
@@ -235,6 +236,65 @@ class ProfileHeaderSection extends StatelessWidget {
             ],
           ),
         ),
+        Visibility(
+          visible: showDetails,
+          child: SizedBox(
+            height: 72.0,
+            child: VerticalDivider(
+              thickness: 1.0,
+              indent: 4.0,
+              endIndent: 4.0,
+            ),
+          ),
+        ),
+        Visibility(
+          visible: showDetails,
+          child: Padding(
+            padding: const EdgeInsets.only(left: 8.0),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                ConstrainedBox(
+                  constraints: BoxConstraints(minHeight: 32.0, minWidth: 32.0),
+                  child: Container(
+                    decoration: BoxDecoration(
+                        shape: BoxShape.circle, color: Colors.purple.shade50),
+                    alignment: Alignment.center,
+                    child: Text(
+                      patient.noOfAppointments.toString(),
+                      style: Theme.of(context)
+                          .textTheme
+                          .subtitle1
+                          .copyWith(fontFeatures: [
+                        FontFeature.tabularFigures(),
+                      ], color: Colors.purple, fontWeight: FontWeight.w700),
+                      overflow: TextOverflow.clip,
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  height: 4.0,
+                ),
+                Text(
+                  patient.noOfAppointments > 1 ? "sessions" : "session",
+                  style: Theme.of(context)
+                      .textTheme
+                      .caption
+                      .copyWith(fontStyle: FontStyle.italic),
+                  overflow: TextOverflow.clip,
+                ),
+                Text(
+                  "done",
+                  style: Theme.of(context)
+                      .textTheme
+                      .caption
+                      .copyWith(fontStyle: FontStyle.italic),
+                  overflow: TextOverflow.clip,
+                ),
+              ],
+            ),
+          ),
+        )
       ],
     );
   }
@@ -251,18 +311,56 @@ class PersonalInformation extends StatelessWidget {
     return SingleChildScrollView(
       child: Column(
         children: [
-          ColoredPageSection(
-            icon: Icon(
-              Icons.cake_rounded,
-              color: Colors.blueGrey,
+          Container(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(8.0),
+              shape: BoxShape.rectangle,
+              color: Colors.grey.shade50,
             ),
-            description: patient.dateOfBirth,
-            title: "Date of Birth",
-            textColor: Colors.blueGrey,
-            sectionColor: Colors.grey.shade50,
-            descriptionIsItalic: false,
+            padding: EdgeInsets.symmetric(horizontal: 8.0, vertical: 12.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                PageSection(
+                  textColor: Colors.blueGrey,
+                  icon: Icon(
+                    Icons.cake_rounded,
+                    color: Colors.blueGrey,
+                  ),
+                  description: patient.dateOfBirth,
+                  title: "Date of Birth",
+                  descriptionIsItalic: false,
+                ),
+                SizedBox(
+                  height: 24.0,
+                ),
+                PageSection(
+                  textColor: Colors.blueGrey,
+                  icon: Icon(
+                    Icons.pin_drop_rounded,
+                    color: Colors.blueGrey,
+                  ),
+                  description: patient.placeOfBirth,
+                  title: "Place of Birth",
+                  descriptionIsItalic: false,
+                ),
+                SizedBox(
+                  height: 24.0,
+                ),
+                PageSection(
+                  textColor: Colors.blueGrey,
+                  icon: Icon(
+                    Icons.access_time_rounded,
+                    color: Colors.blueGrey,
+                  ),
+                  description: patient.timeOfBirth,
+                  title: "Time of Birth",
+                  descriptionIsItalic: false,
+                ),
+              ],
+            ),
           ),
-          //* Date of birth
           SizedBox(
             height: 16.0,
           ),
@@ -321,7 +419,6 @@ class PersonalInformation extends StatelessWidget {
               ],
             ),
           ),
-
           SizedBox(
             height: 16.0,
           ),

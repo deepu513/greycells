@@ -231,7 +231,7 @@ class UpcomingAppointmentSection extends StatelessWidget {
       height: 164.0,
       child: PageView.builder(
         itemCount: upcomingAppointments.length,
-        controller: PageController(viewportFraction: 0.9),
+        controller: PageController(viewportFraction: 0.96),
         itemBuilder: (context, index) =>
             AppointmentCard(upcomingAppointments[index], UserType.patient, () {
           Navigator.of(context).pushNamed(RouteName.APPOINTMENT_DETAIL_PAGE,
@@ -262,11 +262,26 @@ class ScoreAndReportSection extends StatelessWidget {
   Widget build(BuildContext context) {
     return SizedBox(
       height: 100.0,
-      child: PageView.builder(
-        itemCount: 2,
-        controller: PageController(viewportFraction: 0.90),
-        itemBuilder: (context, index) => headerCards[index],
-        scrollDirection: Axis.horizontal,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 8.0),
+        child: Row(
+
+          children: [
+          Expanded(
+            child: HeaderCard(
+        title: "Assessment score",
+        svgImageName: "score.svg",
+        destination: RouteName.ASSESSMENT_LIST_PAGE,
+    ),
+          ),
+    Expanded(
+        child: HeaderCard(
+          title: "Reports",
+          svgImageName: "report.svg",
+          destination: RouteName.PATIENT_REPORT_PAGE,
+        ),
+    )
+        ],),
       ),
     );
   }
@@ -290,7 +305,7 @@ class HeaderCard extends StatelessWidget {
       children: [
         Card(
           child: Container(
-            padding: EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
+            padding: EdgeInsets.symmetric(horizontal: 8.0, vertical: 12.0),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(8.0),
               gradient: LinearGradient(
@@ -312,17 +327,10 @@ class HeaderCard extends StatelessWidget {
                     title,
                     textAlign: TextAlign.center,
                     style: Theme.of(context).textTheme.subtitle1.copyWith(
-                        color: Colors.white, fontStyle: FontStyle.italic),
+                        color: Colors.white, fontStyle: FontStyle.italic,fontSize: 18.0),
                     overflow: TextOverflow.clip,
                   ),
                 ),
-                SizedBox(
-                  width: 8.0,
-                ),
-                Icon(
-                  Icons.chevron_right,
-                  color: Colors.white,
-                )
               ],
             ),
           ),

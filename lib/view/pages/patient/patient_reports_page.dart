@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:greycells/app_theme.dart';
 import 'package:greycells/bloc/report/reports_bloc.dart';
 import 'package:greycells/view/widgets/centered_circular_loading.dart';
 import 'package:greycells/view/widgets/empty_state.dart';
@@ -63,13 +64,43 @@ class _AllReportsSectionState extends State<AllReportsSection> {
                     BlocProvider.of<ReportsBloc>(context)
                         .add(DownloadReport(state.reports[index].fileName));
                   },
-                  title: Text(
-                    "Assessment Report #${index + 1}",
-                    style: Theme.of(context).textTheme.headline6,
+                  leading: RichText(
+                    text: TextSpan(
+                      text: "${index + 1}",
+                      style: Theme.of(context).textTheme.headline4.copyWith(
+                          color: Colors.purple, fontWeight: FontWeight.bold),
+                      children: [
+                        TextSpan(
+                          text: "${getDayOfMonthSuffix(index + 1)}",
+                          style: Theme.of(context).textTheme.subtitle2.copyWith(
+                                color: Colors.purple,
+                              ),
+                        ),
+                      ],
+                    ),
                   ),
-                  subtitle: Text(
-                      "Created on ${state.reports[index].createdDate.asDate().readableDate()}"),
-                  trailing: Icon(Icons.arrow_circle_down_rounded),
+                  title: Text(
+                    "Assessment Report",
+                  ),
+                  subtitle: RichText(
+                    text: TextSpan(
+                      text: "Created on ",
+                      style: Theme.of(context).textTheme.caption.copyWith(),
+                      children: [
+                        TextSpan(
+                          text:
+                              " ${state.reports[index].createdDate.asDate().readableDate()}",
+                          style: Theme.of(context).textTheme.subtitle2.copyWith(
+                                color: Colors.black87,
+                              ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  trailing: Icon(
+                    Icons.arrow_circle_down_rounded,
+                    color: AppTheme.iconColor,
+                  ),
                 );
               },
               separatorBuilder: (context, index) {
@@ -88,5 +119,21 @@ class _AllReportsSectionState extends State<AllReportsSection> {
         return Container();
       },
     );
+  }
+
+  String getDayOfMonthSuffix(final int n) {
+    if (n >= 11 && n <= 13) {
+      return "th";
+    }
+    switch (n % 10) {
+      case 1:
+        return "st";
+      case 2:
+        return "nd";
+      case 3:
+        return "rd";
+      default:
+        return "th";
+    }
   }
 }

@@ -1,5 +1,8 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:greycells/app_theme.dart';
 import 'package:greycells/bloc/assessment/assessment_bloc.dart';
 import 'package:greycells/bloc/assessment/assessment_score_bloc.dart';
 import 'package:greycells/models/home/patient_home.dart';
@@ -67,22 +70,6 @@ class _AssessmentListPageState extends State<AssessmentListPage> {
                   ..itemPrice = 300
               ]
               ..totalAmount = 300;
-            // ..extras = {
-            //   // * Payment id should be added after payment
-            //   Strings.createAppointmentRequest: CreateAppointmentRequest()
-            //     ..therapistId = widget.therapist.id
-            //     ..comments = ""
-            //     ..duration = widget.therapist.meetingDuration.duration
-            //     ..patientId = Provider.of<PatientHome>(context, listen: false)
-            //         .patient
-            //         .id
-            //     ..timeslotId = mSelectedTimeslot.id
-            //     ..meetingTypeId = widget.selectedMeeting.meetingTypeId
-            //     ..chargeId = widget.selectedMeeting.chargeId
-            //     ..appointmentDate = mSelectedDay.formatToddMMyyyy()
-            //     ..appointmentDateTime = _getAppointmentDateTime(
-            //         mSelectedDay, mSelectedTimeslot.startTime)
-            // };
             Navigator.of(context)
                 .pushNamed(RouteName.PAYMENT_PAGE, arguments: payment);
           },
@@ -105,13 +92,45 @@ class _AssessmentListPageState extends State<AssessmentListPage> {
                           RouteName.PATIENT_SCORE_PAGE,
                           arguments: state.assessmentScores[index]);
                     },
-                    title: Text(
-                      "Assessment #${index + 1}",
-                      style: Theme.of(context).textTheme.headline6,
+                    leading: RichText(
+                      text: TextSpan(
+                        text: "${index + 1}",
+                        style: Theme.of(context).textTheme.headline4.copyWith(
+                            color: Colors.purple, fontWeight: FontWeight.bold),
+                        children: [
+                          TextSpan(
+                            text: "${getDayOfMonthSuffix(index + 1)}",
+                            style:
+                                Theme.of(context).textTheme.subtitle2.copyWith(
+                                      color: Colors.purple,
+                                    ),
+                          ),
+                        ],
+                      ),
                     ),
-                    subtitle: Text(
-                        "Completed on ${state.assessmentScores[index].assessment.createdDate.asDate().readableDate()}"),
-                    trailing: Icon(Icons.chevron_right_rounded),
+                    title: Text(
+                      "Assessment",
+                    ),
+                    subtitle: RichText(
+                      text: TextSpan(
+                        text: "Completed on ",
+                        style: Theme.of(context).textTheme.caption.copyWith(),
+                        children: [
+                          TextSpan(
+                            text:
+                                " ${state.assessmentScores[index].assessment.createdDate.asDate().readableDate()}",
+                            style:
+                                Theme.of(context).textTheme.subtitle2.copyWith(
+                                      color: Colors.black87,
+                                    ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    trailing: Icon(
+                      Icons.chevron_right_rounded,
+                      color: AppTheme.iconColor,
+                    ),
                   );
                 },
                 separatorBuilder: (context, index) {
@@ -131,5 +150,21 @@ class _AssessmentListPageState extends State<AssessmentListPage> {
         ),
       ),
     );
+  }
+
+  String getDayOfMonthSuffix(final int n) {
+    if (n >= 11 && n <= 13) {
+      return "th";
+    }
+    switch (n % 10) {
+      case 1:
+        return "st";
+      case 2:
+        return "nd";
+      case 3:
+        return "rd";
+      default:
+        return "th";
+    }
   }
 }

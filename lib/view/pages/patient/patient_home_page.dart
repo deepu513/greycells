@@ -36,8 +36,11 @@ class _PatientHomePageState extends State<PatientHomePage> {
     super.initState();
     upcomingAppointments =
         Provider.of<PatientHome>(context, listen: false).upcomingAppointments;
-    availableTherapist =
-        Provider.of<PatientHome>(context, listen: false).availableTherapists;
+    availableTherapist = Provider.of<PatientHome>(context, listen: false)
+        .availableTherapists
+        .take(upcomingAppointments != null && upcomingAppointments.isNotEmpty
+            ? 3
+            : 5).toList();
     patientName =
         Provider.of<PatientHome>(context, listen: false).patient.user.firstName;
     var file = Provider.of<PatientHome>(context, listen: false).patient.file;

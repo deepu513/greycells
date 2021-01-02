@@ -56,6 +56,13 @@ class _AllAppointmentsState extends State<AllAppointments> {
             if (state is AppointmentsLoading)
               Expanded(child: CenteredCircularLoadingIndicator()),
             if (state is AppointmentsLoaded)
+              Padding(
+                padding: const EdgeInsets.fromLTRB(16.0, 8.0, 16.0, 8.0),
+                child: CountSection(
+                  count: state.allAppointments.length,
+                ),
+              ),
+            if (state is AppointmentsLoaded)
               Expanded(
                 child: AppointmentList(
                   allAppointments: state.allAppointments,
@@ -72,6 +79,34 @@ class _AllAppointmentsState extends State<AllAppointments> {
           ],
         );
       },
+    );
+  }
+}
+
+class CountSection extends StatelessWidget {
+  final int count;
+
+  const CountSection({Key key, this.count}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return RichText(
+      text: TextSpan(
+        text: count.toString(),
+        style: Theme.of(context)
+            .textTheme
+            .subtitle2
+            .copyWith(color: Colors.black87, fontWeight: FontWeight.bold),
+        children: [
+          TextSpan(
+            text: count > 1 ?" appointments": " appointment",
+            style: Theme.of(context)
+                .textTheme
+                .caption
+                .copyWith(color: Colors.black38),
+          ),
+        ],
+      ),
     );
   }
 }

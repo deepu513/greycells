@@ -42,6 +42,20 @@ class TaskBloc extends Bloc<TaskEvent, TaskState> {
       }
     }
 
+    if (event is UpdateTask) {
+      yield TaskLoading();
+      try {
+        bool result = await _appointmentRepository.editTask(event.task);
+        if (result == true) {
+          yield TaskEdited();
+        } else
+          yield TasksError();
+      } catch (e) {
+        debugPrint(e.toString());
+        yield TasksError();
+      }
+    }
+
     if (event is LoadAllTasks) {
       yield TaskLoading();
       try {

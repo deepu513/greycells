@@ -84,6 +84,15 @@ class AppointmentRepository {
     return createTaskResponse.statusCode == 200;
   }
 
+  Future<bool> editTask(Task task) async {
+    Request<Task> request =
+        Request("${FlavorConfig.getBaseUrl()}Tasks/${task.id}", TaskSerializable())
+          ..setBody(task);
+
+    Response createTaskResponse = await _httpService.putRaw(request, null);
+    return createTaskResponse.statusCode == 200;
+  }
+
   Future<TaskResponse> getTasks() async {
     Request<TaskResponse> request =
         Request("${FlavorConfig.getBaseUrl()}Tasks", null)..setBody(null);

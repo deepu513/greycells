@@ -57,6 +57,9 @@ extension StringExtensions on String {
   DateTime serverTimestampAsDate() =>
       DateFormat("dd-MM-yyyy h:mm:ss a").parse(this);
 
+  DateTime expectedCompletionAsDate() =>
+      DateFormat("dd/MM/yyyy HH:mm:ss a").parse(this);
+
   DateTime asDate() => DateFormat("yyyy-MM-dd'T'HH:mm:ss").parse(this);
 
   DateTime timeAsDate() => DateFormat("h:mm a").parse(this);

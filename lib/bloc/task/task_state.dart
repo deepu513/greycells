@@ -1,6 +1,6 @@
 part of 'task_bloc.dart';
 
-abstract class TaskState  {
+abstract class TaskState {
   const TaskState();
 }
 
@@ -29,3 +29,5 @@ class TasksError extends TaskState {}
 class TasksEmpty extends TaskState {}
 
 class TaskUpdated extends TaskState {}
+
+class TaskEdited extends TaskState {}

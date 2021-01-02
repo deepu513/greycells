@@ -7,6 +7,8 @@ part 'task.g.dart';
 
 @JsonSerializable(explicitToJson: true)
 class Task {
+  int id;
+  
   String title;
 
   int appointmentId;

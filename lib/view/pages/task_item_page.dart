@@ -306,9 +306,13 @@ class TaskMetaInfo extends StatelessWidget {
 
   String _yetAnotherDateConversion(String date) {
     try {
-      DateFormat dateFormat = DateFormat("dd/MM/yyyy HH:mm:ss a");
-      DateTime dateTime = dateFormat.parse(date);
-      return DateFormat("EEE, dd MMM, yyyy").format(dateTime);
+      if (date.contains("AM") || date.contains("PM")) {
+        DateFormat dateFormat = DateFormat("dd/MM/yyyy HH:mm:ss a");
+        DateTime dateTime = dateFormat.parse(date);
+        return DateFormat("EEE, dd MMM, yyyy").format(dateTime);
+      } else {
+        return date.fromddMMyyyy().readableDate();
+      }
     } catch (e) {
       debugPrint(e.toString());
     }

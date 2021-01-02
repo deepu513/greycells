@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_sticky_header/flutter_sticky_header.dart';
+import 'package:greycells/app_theme.dart';
 import 'package:greycells/bloc/task/task_bloc.dart';
 import 'package:greycells/bloc/task/task_status.dart';
 import 'package:greycells/constants/user_type.dart';
@@ -111,6 +112,14 @@ class _TaskList extends StatelessWidget {
       header: TaskSectionHeader(
         taskTitle: task.title,
         patientName: task.patient.fullName,
+        onEditTaskRequested: () async {
+          var result = await Navigator.of(context)
+              .pushNamed(RouteName.EDIT_TAK_PAGE, arguments: task);
+
+          if (result == true) {
+            BlocProvider.of<TaskBloc>(context).add(LoadAllTasks());
+          }
+        },
       ),
       sliver: SliverList(
         delegate: SliverChildBuilderDelegate(
@@ -128,10 +137,13 @@ class _TaskList extends StatelessWidget {
 }
 
 class TaskSectionHeader extends StatelessWidget {
+  final VoidCallback onEditTaskRequested;
+
   const TaskSectionHeader({
     Key key,
     @required this.taskTitle,
     @required this.patientName,
+    @required this.onEditTaskRequested,
   }) : super(key: key);
 
   final String taskTitle;
@@ -139,47 +151,52 @@ class TaskSectionHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: EdgeInsets.symmetric(horizontal: 24.0, vertical: 16.0),
+    return Ink(
+      padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
       decoration: BoxDecoration(
           color: Colors.blueGrey.shade50,
           border: Border(
               bottom: BorderSide(color: Colors.blueGrey.shade100),
               top: BorderSide(color: Colors.blueGrey.shade100))),
-      alignment: Alignment.centerLeft,
-      child: IntrinsicHeight(
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.baseline,
-          children: [
-            Expanded(
-              child: Text(
-                taskTitle,
-                style: Theme.of(context).textTheme.subtitle1.copyWith(
-                    color: Colors.blueGrey, fontWeight: FontWeight.bold),
-              ),
-            ),
-            VerticalDivider(
-              width: 24.0,
-              color: Colors.blueGrey,
-            ),
-            RichText(
-              text: TextSpan(
-                text: "assigned to ",
-                style: Theme.of(context).textTheme.bodyText1.copyWith(
-                    color: Colors.blueGrey, fontStyle: FontStyle.italic),
-                children: [
-                  TextSpan(
-                    text: patientName,
-                    style: Theme.of(context).textTheme.subtitle2.copyWith(
-                        color: Colors.blueGrey,
-                        fontStyle: FontStyle.normal,
-                        fontWeight: FontWeight.bold),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  taskTitle,
+                  style: Theme.of(context).textTheme.subtitle1.copyWith(
+                      color: Colors.blueGrey, ),
+                ),
+                SizedBox(
+                  height: 4.0,
+                ),
+                RichText(
+                  text: TextSpan(
+                    text: "assigned to ",
+                    style: Theme.of(context).textTheme.bodyText1.copyWith(
+                        color: Colors.blueGrey, fontStyle: FontStyle.italic),
+                    children: [
+                      TextSpan(
+                        text: patientName,
+                        style: Theme.of(context).textTheme.subtitle2.copyWith(
+                            color: Colors.blueGrey,
+                            fontStyle: FontStyle.normal,
+                            fontWeight: FontWeight.bold),
+                      ),
+                    ],
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
-          ],
-        ),
+          ),
+          IconButton(
+            icon: Icon(Icons.edit),
+            onPressed: onEditTaskRequested,
+          )
+        ],
       ),
     );
   }
@@ -293,9 +310,13 @@ class __TaskItemWidgetState extends State<_TaskItemWidget> {
 
   String _yetAnotherDateConversion(String date) {
     try {
-      DateFormat dateFormat = DateFormat("dd/MM/yyyy HH:mm:ss a");
-      DateTime dateTime = dateFormat.parse(date);
-      return DateFormat("EEE, dd MMM, yyyy").format(dateTime);
+      if (date.contains("AM") || date.contains("PM")) {
+        DateFormat dateFormat = DateFormat("dd/MM/yyyy HH:mm:ss a");
+        DateTime dateTime = dateFormat.parse(date);
+        return DateFormat("EEE, dd MMM, yyyy").format(dateTime);
+      } else {
+        return date.fromddMMyyyy().readableDate();
+      }
     } catch (e) {
       debugPrint(e.toString());
     }

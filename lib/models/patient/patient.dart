@@ -36,7 +36,7 @@ class Patient {
   @JsonKey(ignore: true)
   String localProfilePicFilePath;
 
-  @JsonKey(name: "IsMinor")
+  @JsonKey(name: "IsMinor", includeIfNull: false)
   bool isMinor = true;
 
   /// Not a atomic value

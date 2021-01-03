@@ -36,7 +36,9 @@ PatientHome _$PatientHomeFromJson(Map<String, dynamic> json) {
         ?.map((e) =>
             e == null ? null : Therapist.fromJson(e as Map<String, dynamic>))
         ?.toList()
-    ..serverTimestamp = json['serverTimeStamp'] as String;
+    ..serverTimestamp = json['serverTimeStamp'] as String
+    ..assessmentCharge = json['assessmentCharge'] as String
+    ..cancellationWindow = json['cancellationWindow'] as String;
 }
 
 Map<String, dynamic> _$PatientHomeToJson(PatientHome instance) =>
@@ -55,4 +57,6 @@ Map<String, dynamic> _$PatientHomeToJson(PatientHome instance) =>
       'avaliableThrapist':
           instance.availableTherapists?.map((e) => e?.toJson())?.toList(),
       'serverTimeStamp': instance.serverTimestamp,
+      'assessmentCharge': instance.assessmentCharge,
+      'cancellationWindow': instance.cancellationWindow,
     };

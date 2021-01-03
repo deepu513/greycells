@@ -90,22 +90,30 @@ class CountSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return RichText(
-      text: TextSpan(
-        text: count.toString(),
-        style: Theme.of(context)
-            .textTheme
-            .subtitle2
-            .copyWith(color: Colors.black87, fontWeight: FontWeight.bold),
-        children: [
-          TextSpan(
-            text: count > 1 ?"  appointments": "  appointment",
-            style: Theme.of(context)
-                .textTheme
-                .caption
-                .copyWith(color: Colors.black38),
-          ),
-        ],
+    return Container(
+      padding: EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
+      decoration: BoxDecoration(
+        shape: BoxShape.rectangle,
+        borderRadius: BorderRadius.circular(4.0),
+        color: Colors.teal.shade50,
+      ),
+      child: RichText(
+        text: TextSpan(
+          text: count.toString(),
+          style: Theme.of(context)
+              .textTheme
+              .subtitle2
+              .copyWith(color: Colors.teal.shade700, fontWeight: FontWeight.bold),
+          children: [
+            TextSpan(
+              text: count > 1 ?"  appointments".toUpperCase(): "  appointment".toUpperCase(),
+              style: Theme.of(context)
+                  .textTheme
+                  .overline
+                  .copyWith(color: Colors.teal.shade700,),
+            ),
+          ],
+        ),
       ),
     );
   }

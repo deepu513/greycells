@@ -7,14 +7,18 @@ part 'task.g.dart';
 
 @JsonSerializable(explicitToJson: true)
 class Task {
+  @JsonKey(includeIfNull: false)
   int id;
-  
+
   String title;
 
+  @JsonKey(includeIfNull: false)
   int appointmentId;
 
+  @JsonKey(includeIfNull: false)
   int patientId;
 
+  @JsonKey(includeIfNull: false)
   int therapistId;
 
   @JsonKey(includeIfNull: false)
@@ -22,6 +26,9 @@ class Task {
 
   @JsonKey(includeIfNull: false)
   Patient patient;
+
+  @JsonKey(name: "createddate", includeIfNull: false)
+  String createdDate;
 
   List<TaskItem> taskItems;
 

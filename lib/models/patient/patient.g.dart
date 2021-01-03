@@ -57,7 +57,7 @@ Map<String, dynamic> _$PatientToJson(Patient instance) {
   val['alternativeNumber'] = instance.alternativeNumber;
   val['fileId'] = instance.profilePicId;
   val['file'] = instance.file?.toJson();
-  val['IsMinor'] = instance.isMinor;
+  writeNotNull('IsMinor', instance.isMinor);
   val['address'] = instance.address?.toJson();
   val['isEligibleForTest'] = instance.isEligibleForTest;
   val['healthRecord'] = instance.healthRecord?.toJson();

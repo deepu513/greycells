@@ -110,13 +110,18 @@ class _TaskItemInputState extends State<TaskItemInputSection> {
   @override
   void initState() {
     super.initState();
-    initialDate = widget.existingItem.expectedCompletionDateTIme;
+
     if (widget.existingItem.expectedCompletionDateTIme.contains("AM") ||
         widget.existingItem.expectedCompletionDateTIme.contains("PM")) {
+      initialDate = widget.existingItem.expectedCompletionDateTIme
+          .expectedCompletionAsDate()
+          .formatToddMMyyyy();
+
       readableDate = widget.existingItem.expectedCompletionDateTIme
           .expectedCompletionAsDate()
           .readableDate();
     } else {
+      initialDate = widget.existingItem.expectedCompletionDateTIme;
       readableDate = widget.existingItem.expectedCompletionDateTIme
           .fromddMMyyyy()
           .readableDate();

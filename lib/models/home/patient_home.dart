@@ -29,10 +29,6 @@ class PatientHome {
   @JsonKey(name: "serverTimeStamp")
   String serverTimestamp;
 
-  String assessmentCharge;
-
-  String cancellationWindow;
-
   PatientHome();
 
   factory PatientHome.fromJson(Map<String, dynamic> json) =>

@@ -38,7 +38,9 @@ Patient _$PatientFromJson(Map<String, dynamic> json) {
             ? null
             : MedicalRecord.fromJson(e as Map<String, dynamic>))
         ?.toList()
-    ..noOfAppointments = json['noOfAppointments'] as int;
+    ..noOfAppointments = json['noOfAppointments'] as int
+    ..assessmentCharge = json['assessmentCharge'] as String
+    ..cancellationWindow = json['cancellationWindow'] as String;
 }
 
 Map<String, dynamic> _$PatientToJson(Patient instance) {
@@ -68,5 +70,7 @@ Map<String, dynamic> _$PatientToJson(Patient instance) {
   val['medicalRecord'] =
       instance.medicalRecords?.map((e) => e?.toJson())?.toList();
   writeNotNull('noOfAppointments', instance.noOfAppointments);
+  writeNotNull('assessmentCharge', instance.assessmentCharge);
+  writeNotNull('cancellationWindow', instance.cancellationWindow);
   return val;
 }

@@ -23,11 +23,16 @@ class AssessmentListPage extends StatefulWidget {
 
 class _AssessmentListPageState extends State<AssessmentListPage> {
   int patientId;
+  int assessmentCharge;
 
   @override
   void initState() {
     super.initState();
     patientId = Provider.of<PatientHome>(context, listen: false).patient.id;
+    assessmentCharge = int.parse(
+        Provider.of<PatientHome>(context, listen: false)
+            .patient
+            .assessmentCharge);
     _loadAllAssessments();
   }
 
@@ -63,13 +68,13 @@ class _AssessmentListPageState extends State<AssessmentListPage> {
               ..itemSubtitle = "Behaviour and Personality Assessment"
               ..promoCodeApplied = false
               ..discountAmount = 0
-              ..originalAmount = 300 // TODO: This needs to come from backend.
+              ..originalAmount = assessmentCharge
               ..items = [
                 PaymentItem()
                   ..itemName = "1 Test"
-                  ..itemPrice = 300
+                  ..itemPrice = assessmentCharge
               ]
-              ..totalAmount = 300;
+              ..totalAmount = assessmentCharge;
             Navigator.of(context)
                 .pushNamed(RouteName.PAYMENT_PAGE, arguments: payment);
           },

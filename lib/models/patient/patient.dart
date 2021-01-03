@@ -97,6 +97,12 @@ class Patient {
   @JsonKey(includeIfNull: false)
   int noOfAppointments;
 
+  @JsonKey(includeIfNull: false)
+  String assessmentCharge;
+
+  @JsonKey(includeIfNull: false)
+  String cancellationWindow;
+
   Patient() {
     pickedFiles = List<PickedFile>();
     medicalRecords = List<MedicalRecord>();

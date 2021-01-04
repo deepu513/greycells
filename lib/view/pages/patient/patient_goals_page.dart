@@ -199,17 +199,17 @@ class _GoalTypeWidget extends StatelessWidget {
       elevation: 3.0,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.0)),
       child: Container(
-        padding: EdgeInsets.fromLTRB(8.0, 8.0, 8.0, 8.0),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 8.0),
+              padding:
+                  const EdgeInsets.symmetric(horizontal: 16.0, vertical: 16.0),
               child: Row(
                 children: [
                   Text(
                     goalType.name,
-                    style: Theme.of(context).textTheme.subtitle1,
+                    style: Theme.of(context).textTheme.headline6,
                   ),
                   Spacer(),
                   Container(
@@ -234,22 +234,37 @@ class _GoalTypeWidget extends StatelessWidget {
                 ],
               ),
             ),
-            SizedBox(
-              height: 8.0,
-            ),
-            Visibility(
-              visible: goalType.status == "InProgress",
-              child: TextButton(
-                child: Text(
-                  "Mark as done".toUpperCase(),
-                  style: Theme.of(context).textTheme.button.copyWith(
-                      color: AppTheme.primaryColor,
-                      fontWeight: FontWeight.bold,
-                      letterSpacing: 0.7),
-                ),
-                onPressed: () => onMarkAsDonePressed.call(goalType),
+            if (goalType.status == "InProgress")
+              Divider(
+                height: 0.0,
               ),
-            )
+            if (goalType.status == "InProgress")
+              InkWell(
+                onTap: () => onMarkAsDonePressed.call(goalType),
+                splashColor: Colors.green.shade100,
+                borderRadius: BorderRadius.only(
+                        bottomLeft: Radius.circular(8.0),
+                        bottomRight: Radius.circular(8.0)),
+                child: Ink(
+                  padding: EdgeInsets.symmetric(vertical: 12.0),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.only(
+                        bottomLeft: Radius.circular(8.0),
+                        bottomRight: Radius.circular(8.0)),
+                    color: Colors.green.shade50,
+                  ),
+                  child: Align(
+                    alignment: Alignment.center,
+                    child: Text(
+                      "Mark as complete".toUpperCase(),
+                      style: Theme.of(context).textTheme.button.copyWith(
+                          color: Colors.green,
+                          fontWeight: FontWeight.bold,
+                          letterSpacing: 0.7),
+                    ),
+                  ),
+                ),
+              )
           ],
         ),
       ),

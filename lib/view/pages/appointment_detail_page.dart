@@ -86,6 +86,7 @@ class AppointmentDetailPage extends StatelessWidget {
                         _shouldShowCancel(context, appointment.date,
                             appointment.timeSlot.startTime),
                     child: CancelAppointmentSection(
+                      userType: userType,
                       showLoading: state is AppointmentCancelling,
                       onCancelPressed: state is AppointmentCancelling ||
                               state is AppointmentCancelled
@@ -597,9 +598,13 @@ class ScheduleDetailsSection extends StatelessWidget {
 class CancelAppointmentSection extends StatelessWidget {
   final VoidCallback onCancelPressed;
   final bool showLoading;
+  final UserType userType;
 
   const CancelAppointmentSection(
-      {Key key, @required this.onCancelPressed, @required this.showLoading})
+      {Key key,
+      @required this.onCancelPressed,
+      @required this.showLoading,
+      @required this.userType})
       : super(key: key);
 
   @override
@@ -658,6 +663,37 @@ class CancelAppointmentSection extends StatelessWidget {
                         .subtitle1
                         .copyWith(color: Colors.brown),
                   ),
+                  if (userType == UserType.patient)
+                    SizedBox(
+                      height: 4.0,
+                    ),
+                  if (userType == UserType.patient)
+                    RichText(
+                      text: TextSpan(
+                        text: "Amount will be refunded only if you cancel",
+                        style: Theme.of(context).textTheme.bodyText1.copyWith(
+                              color: Colors.brown,
+                            ),
+                        children: [
+                          TextSpan(
+                            text: " ${_getCancelationWindow(context)} hours ",
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodyText1
+                                .copyWith(
+                                    color: Colors.brown,
+                                    fontWeight: FontWeight.bold),
+                          ),
+                          TextSpan(
+                            text: "hours before the appointment time.",
+                            style:
+                                Theme.of(context).textTheme.bodyText1.copyWith(
+                                      color: Colors.brown,
+                                    ),
+                          )
+                        ],
+                      ),
+                    ),
                 ],
               ),
             ),
@@ -665,6 +701,15 @@ class CancelAppointmentSection extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  String _getCancelationWindow(BuildContext context) {
+    if (userType == UserType.patient)
+      return Provider.of<PatientHome>(context, listen: false)
+          .patient
+          .cancellationWindow;
+    else
+      return "0";
   }
 }
 

@@ -66,12 +66,12 @@ class _AllReportsSectionState extends State<AllReportsSection> {
                   },
                   leading: RichText(
                     text: TextSpan(
-                      text: "${index + 1}",
+                      text: "${state.reports.length - index}",
                       style: Theme.of(context).textTheme.headline4.copyWith(
                           color: Colors.purple, fontWeight: FontWeight.bold),
                       children: [
                         TextSpan(
-                          text: "${getDayOfMonthSuffix(index + 1)}",
+                          text: "${getDayOfMonthSuffix(state.reports.length - index)}",
                           style: Theme.of(context).textTheme.subtitle2.copyWith(
                                 color: Colors.purple,
                               ),

@@ -99,12 +99,12 @@ class _AssessmentListPageState extends State<AssessmentListPage> {
                     },
                     leading: RichText(
                       text: TextSpan(
-                        text: "${index + 1}",
+                        text: "${state.assessmentScores.length - index}",
                         style: Theme.of(context).textTheme.headline4.copyWith(
                             color: Colors.purple, fontWeight: FontWeight.bold),
                         children: [
                           TextSpan(
-                            text: "${getDayOfMonthSuffix(index + 1)}",
+                            text: "${getDayOfMonthSuffix(state.assessmentScores.length - index)}",
                             style:
                                 Theme.of(context).textTheme.subtitle2.copyWith(
                                       color: Colors.purple,

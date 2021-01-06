@@ -35,7 +35,7 @@ class _PatientHomePageState extends State<PatientHomePage> {
   void initState() {
     super.initState();
     upcomingAppointments =
-        Provider.of<PatientHome>(context, listen: false).upcomingAppointments;
+        Provider.of<PatientHome>(context, listen: false).upcomingAppointments.reversed.toList();
     availableTherapist = Provider.of<PatientHome>(context, listen: false)
         .availableTherapists
         .take(upcomingAppointments != null && upcomingAppointments.isNotEmpty

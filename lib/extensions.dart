@@ -81,6 +81,16 @@ extension DateTimeExtensions on DateTime {
     return "";
   }
 
+  String formatToddMMyyyyHHmm() {
+    try {
+      DateFormat dateFormat = DateFormat("dd/MM/yyyy HH:mm");
+      return dateFormat.format(this);
+    } catch (e) {
+      debugPrint(e.toString());
+    }
+    return "";
+  }
+
   String readableDate() {
     try {
       DateFormat dateFormat = DateFormat("EEE, dd MMM, yyyy");

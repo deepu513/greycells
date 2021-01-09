@@ -121,7 +121,7 @@ class Strings {
   static const error = "Error";
   static const success = "Success";
   static const paymentStatusUnknown =
-      "We were unable to identify the status of this payment.\nIf amount is deducted from your bank account, please send us an email on: honawar@gmail.com";
+      "We were unable to identify the status of this payment.\nIf amount is deducted from your bank account, please send us an email on: admin@greycellswellness.com";
   static const paymentSuccess = "Congratulations! Your payment was successfull";
   static const forgotPasswordNotFound =
       "We couldn't find any accounts with this email ID.";

@@ -86,26 +86,29 @@ class AppointmentDetailPage extends StatelessWidget {
                         _shouldShowCancel(context, appointment.date,
                             appointment.timeSlot.startTime),
                     child: CancelAppointmentSection(
-                      userType: userType,
-                      showLoading: state is AppointmentCancelling,
-                      onCancelPressed: state is AppointmentCancelling ||
-                              state is AppointmentCancelled
-                          ? null
-                          : () {
-                              BlocProvider.of<AppointmentDetailBloc>(context)
-                                  .add(CancelAppointment(
-                                      appointment.id,
-                                      userType == UserType.therapist
-                                          ? Provider.of<TherapistHome>(context,
-                                                  listen: false)
-                                              .therapist
-                                              .id
-                                          : Provider.of<PatientHome>(context,
-                                                  listen: false)
-                                              .patient
-                                              .id));
-                            },
-                    ),
+                        userType: userType,
+                        showLoading: state is AppointmentCancelling,
+                        onCancelPressed: state is AppointmentCancelling ||
+                                state is AppointmentCancelled
+                            ? null
+                            : (shouldRefund) {
+                                BlocProvider.of<AppointmentDetailBloc>(context)
+                                    .add(CancelAppointment(
+                                        appointment.id,
+                                        userType == UserType.therapist
+                                            ? Provider.of<TherapistHome>(
+                                                    context,
+                                                    listen: false)
+                                                .therapist
+                                                .id
+                                            : Provider.of<PatientHome>(context,
+                                                    listen: false)
+                                                .patient
+                                                .id,
+                                        shouldRefund));
+                              },
+                        appointmentDate: appointment.date,
+                        appointmentTime: appointment.timeSlot.startTime),
                   ),
                 ),
               ],
@@ -596,27 +599,37 @@ class ScheduleDetailsSection extends StatelessWidget {
 }
 
 class CancelAppointmentSection extends StatelessWidget {
-  final VoidCallback onCancelPressed;
+  final Function(bool shouldRefund) onCancelPressed;
   final bool showLoading;
   final UserType userType;
+  final String appointmentDate;
+  final String appointmentTime;
 
   const CancelAppointmentSection(
       {Key key,
       @required this.onCancelPressed,
       @required this.showLoading,
-      @required this.userType})
+      @required this.userType,
+      @required this.appointmentDate,
+      @required this.appointmentTime})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
+        var shouldRefund = _shouldRefund(context);
         showConfirmationDialog(
           context: context,
-          message: "Are you sure, you want to cancel this appointment?",
+          message: userType == UserType.patient
+              ? shouldRefund
+                  ? "Are you sure, you want to cancel this appointment?"
+                  : "Are you sure, you want to cancel this appointment?\nYou will not be eligible for a refund"
+              : "Are you sure, you want to cancel this appointment?",
           onConfirmed: () {
             Navigator.of(context).pop();
-            onCancelPressed.call();
+            onCancelPressed
+                .call(userType == UserType.patient ? shouldRefund : true);
           },
           onCancelled: () => Navigator.of(context).pop(),
         );
@@ -701,6 +714,31 @@ class CancelAppointmentSection extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  bool _shouldRefund(BuildContext context) {
+    int cancellationWindow = int.parse(
+        Provider.of<PatientHome>(context, listen: false)
+            .patient
+            .cancellationWindow);
+
+    DateTime serverTime = Provider.of<PatientHome>(context, listen: false)
+        .serverTimestamp
+        .serverTimestampAsDate();
+
+    DateTime currentDateTime =
+        serverTime.add(TimeWatcher.getInstance().elapsedDuration());
+
+    DateTime aDate = appointmentDate.asDate();
+    DateTime aTime = appointmentTime.timeAsDate();
+    DateTime fullAppointmentDateTime =
+        DateTime(aDate.year, aDate.month, aDate.day, aTime.hour, aTime.minute);
+
+    Duration differenceDuration = fullAppointmentDateTime
+        .subtract(Duration(hours: cancellationWindow))
+        .difference(currentDateTime);
+
+    return !differenceDuration.isNegative;
   }
 
   String _getCancelationWindow(BuildContext context) {

@@ -11,8 +11,10 @@ class AppointmentCard extends StatefulWidget {
   final Appointment appointment;
   final UserType userType;
   final VoidCallback onTap;
+  final bool showScrollIndicator;
 
-  AppointmentCard(this.appointment, this.userType, this.onTap);
+  AppointmentCard(
+      this.appointment, this.userType, this.onTap, this.showScrollIndicator);
 
   @override
   _AppointmentCardState createState() => _AppointmentCardState();
@@ -31,7 +33,6 @@ class _AppointmentCardState extends State<AppointmentCard> {
   Widget build(BuildContext context) {
     return Card(
       elevation: 3.0,
-      margin: EdgeInsets.all(8.0),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.0)),
       child: InkWell(
         onTap: widget.onTap,
@@ -40,6 +41,7 @@ class _AppointmentCardState extends State<AppointmentCard> {
           appointment: widget.appointment,
           userType: widget.userType,
           readableDate: readableDate,
+          showScrollIndicator: widget.showScrollIndicator,
         ),
       ),
     );
@@ -50,93 +52,111 @@ class _AppointmentSummary extends StatelessWidget {
   final Appointment appointment;
   final UserType userType;
   final String readableDate;
+  final bool showScrollIndicator;
 
   const _AppointmentSummary(
       {Key key,
       @required this.appointment,
       @required this.userType,
-      @required this.readableDate})
+      @required this.readableDate,
+      @required this.showScrollIndicator})
       : super(key: key);
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: EdgeInsets.symmetric(horizontal: 8.0, vertical: 16.0),
-      child: Column(
-        mainAxisSize: MainAxisSize.max,
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          IntrinsicHeight(
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                CircleAvatarOrInitials(
-                  radius: 24.0,
-                  imageUrl: userType == UserType.patient
-                      ? appointment.therapist.file != null
-                          ? appointment.therapist.file.name
-                              .withBaseUrlForImage()
-                          : ""
-                      : appointment.patient.file != null
-                          ? appointment.patient.file.name.withBaseUrlForImage()
-                          : "",
-                  stringForInitials: userType == UserType.patient
-                      ? appointment.therapist.fullName
-                      : appointment.patient.fullName,
-                ),
-                SizedBox(width: 16.0),
-                Expanded(child: AppointmentMetaInfo(appointment, userType)),
-                VerticalDivider(
-                  thickness: 1.0,
-                  indent: 4.0,
-                  endIndent: 4.0,
-                ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                  child: VerticalDate(readableDate.split(" ")[0],
-                      readableDate.split(" ")[1], readableDate.split(" ")[2]),
-                ),
-              ],
-            ),
+    return Row(
+      children: [
+        Visibility(
+          visible: showScrollIndicator,
+          child: Container(
+            width: 4.0,
+            decoration: BoxDecoration(
+                borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(16.0),
+                    bottomLeft: Radius.circular(16.0)),
+                color: Colors.blue),
           ),
-          Divider(
-            indent: 8.0,
-            endIndent: 8.0,
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 8.0),
-            child: Row(
+        ),
+        Expanded(
+          child: Container(
+            padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 16.0),
+            child: Column(
               children: [
-                Icon(
-                  Icons.meeting_room,
-                  color: Colors.blueGrey,
-                  size: 20.0,
-                ),
-                SizedBox(
-                  width: 4.0,
-                ),
-                RichText(
-                  text: TextSpan(
-                    text: "${appointment.charge.meetingType.name}",
-                    style: Theme.of(context).textTheme.bodyText1.copyWith(
-                        color: Color(0xFF100249),
-                        letterSpacing: 0.7,
-                        fontWeight: FontWeight.bold),
+                IntrinsicHeight(
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      TextSpan(
-                        text: " meeting",
-                        style: Theme.of(context).textTheme.caption,
-                      )
+                      CircleAvatarOrInitials(
+                        radius: 28.0,
+                        imageUrl: userType == UserType.patient
+                            ? appointment.therapist.file != null
+                                ? appointment.therapist.file.name
+                                    .withBaseUrlForImage()
+                                : ""
+                            : appointment.patient.file != null
+                                ? appointment.patient.file.name
+                                    .withBaseUrlForImage()
+                                : "",
+                        stringForInitials: userType == UserType.patient
+                            ? appointment.therapist.fullName
+                            : appointment.patient.fullName,
+                      ),
+                      SizedBox(width: 16.0),
+                      Expanded(
+                          child: AppointmentMetaInfo(appointment, userType)),
+                      VerticalDivider(
+                        thickness: 1.0,
+                        indent: 4.0,
+                        endIndent: 4.0,
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 8.0),
+                        child: VerticalDate(
+                            readableDate.split(" ")[0],
+                            readableDate.split(" ")[1],
+                            readableDate.split(" ")[2]),
+                      ),
                     ],
                   ),
                 ),
-                Spacer(),
-                AppointmentStatusWidget(
-                    AppointmentStatus.values[appointment.status])
+                Divider(),
+                SizedBox(
+                  height: 4.0,
+                ),
+                Row(
+                  children: [
+                    Icon(
+                      Icons.meeting_room,
+                      color: Colors.blueGrey,
+                      size: 20.0,
+                    ),
+                    SizedBox(
+                      width: 4.0,
+                    ),
+                    RichText(
+                      text: TextSpan(
+                        text: "${appointment.charge.meetingType.name}",
+                        style: Theme.of(context).textTheme.bodyText1.copyWith(
+                            color: Color(0xFF100249),
+                            letterSpacing: 0.7,
+                            fontWeight: FontWeight.bold),
+                        children: [
+                          TextSpan(
+                            text: " meeting",
+                            style: Theme.of(context).textTheme.caption,
+                          )
+                        ],
+                      ),
+                    ),
+                    Spacer(),
+                    AppointmentStatusWidget(
+                        AppointmentStatus.values[appointment.status])
+                  ],
+                ),
               ],
             ),
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 }

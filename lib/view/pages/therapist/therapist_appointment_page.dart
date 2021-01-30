@@ -130,7 +130,7 @@ class _UpcomingAppointmentsState extends State<UpcomingAppointments> {
                         arguments: AppointmentDetailArguments(
                             widget.upcomingAppointments[index],
                             UserType.therapist));
-                  }),
+                  }, false),
                 );
               },
               itemCount: widget.upcomingAppointments.length,

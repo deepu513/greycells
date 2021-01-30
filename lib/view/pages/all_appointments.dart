@@ -138,7 +138,7 @@ class AppointmentList extends StatelessWidget {
             Navigator.of(context).pushNamed(RouteName.APPOINTMENT_DETAIL_PAGE,
                 arguments: AppointmentDetailArguments(
                     allAppointments[index], userType));
-          }),
+          }, false),
         );
       },
       itemCount: allAppointments.length,

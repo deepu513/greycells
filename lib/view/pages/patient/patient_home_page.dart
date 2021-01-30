@@ -34,13 +34,16 @@ class _PatientHomePageState extends State<PatientHomePage> {
   @override
   void initState() {
     super.initState();
-    upcomingAppointments =
-        Provider.of<PatientHome>(context, listen: false).upcomingAppointments.reversed.toList();
+    upcomingAppointments = Provider.of<PatientHome>(context, listen: false)
+        .upcomingAppointments
+        .reversed
+        .toList();
     availableTherapist = Provider.of<PatientHome>(context, listen: false)
         .availableTherapists
         .take(upcomingAppointments != null && upcomingAppointments.isNotEmpty
             ? 3
-            : 5).toList();
+            : 5)
+        .toList();
     patientName =
         Provider.of<PatientHome>(context, listen: false).patient.user.firstName;
     var file = Provider.of<PatientHome>(context, listen: false).patient.file;
@@ -79,7 +82,7 @@ class _PatientHomePageState extends State<PatientHomePage> {
                     child: UpcomingAppointmentSection(upcomingAppointments),
                   ),
                   Padding(
-                    padding: const EdgeInsets.fromLTRB(16.0, 16.0, 4.0, 0.0),
+                    padding: const EdgeInsets.fromLTRB(16.0, 8.0, 4.0, 0.0),
                     child: TherapistHeaderSection(),
                   ),
                   Visibility(
@@ -228,16 +231,19 @@ class UpcomingAppointmentSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 164.0,
+      height: 156.0,
       child: PageView.builder(
         itemCount: upcomingAppointments.length,
-        controller: PageController(viewportFraction: 0.96),
-        itemBuilder: (context, index) =>
-            AppointmentCard(upcomingAppointments[index], UserType.patient, () {
-          Navigator.of(context).pushNamed(RouteName.APPOINTMENT_DETAIL_PAGE,
-              arguments: AppointmentDetailArguments(
-                  upcomingAppointments[index], UserType.patient));
-        }),
+        controller: PageController(viewportFraction: 0.92),
+        itemBuilder: (context, index) => Container(
+          margin: EdgeInsets.only(bottom: 8.0),
+          child: AppointmentCard(upcomingAppointments[index], UserType.patient,
+              () {
+            Navigator.of(context).pushNamed(RouteName.APPOINTMENT_DETAIL_PAGE,
+                arguments: AppointmentDetailArguments(
+                    upcomingAppointments[index], UserType.patient));
+          }, true),
+        ),
         scrollDirection: Axis.horizontal,
       ),
     );
@@ -265,23 +271,23 @@ class ScoreAndReportSection extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 8.0),
         child: Row(
-
           children: [
-          Expanded(
-            child: HeaderCard(
-        title: "Assessment score",
-        svgImageName: "score.svg",
-        destination: RouteName.ASSESSMENT_LIST_PAGE,
-    ),
-          ),
-    Expanded(
-        child: HeaderCard(
-          title: "Reports",
-          svgImageName: "report.svg",
-          destination: RouteName.PATIENT_REPORT_PAGE,
+            Expanded(
+              child: HeaderCard(
+                title: "Assessment score",
+                svgImageName: "score.svg",
+                destination: RouteName.ASSESSMENT_LIST_PAGE,
+              ),
+            ),
+            Expanded(
+              child: HeaderCard(
+                title: "Reports",
+                svgImageName: "report.svg",
+                destination: RouteName.PATIENT_REPORT_PAGE,
+              ),
+            )
+          ],
         ),
-    )
-        ],),
       ),
     );
   }
@@ -327,7 +333,9 @@ class HeaderCard extends StatelessWidget {
                     title,
                     textAlign: TextAlign.center,
                     style: Theme.of(context).textTheme.subtitle1.copyWith(
-                        color: Colors.white, fontStyle: FontStyle.italic,fontSize: 18.0),
+                        color: Colors.white,
+                        fontStyle: FontStyle.italic,
+                        fontSize: 18.0),
                     overflow: TextOverflow.clip,
                   ),
                 ),

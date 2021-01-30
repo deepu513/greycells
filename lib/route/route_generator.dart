@@ -124,6 +124,8 @@ class RouteGenerator {
         return MaterialPageRoute(builder: (_) => PatientProfilePage(args));
       case RouteName.THERAPIST_PROFILE_PAGE:
         return MaterialPageRoute(builder: (_) => TherapistProfilePage(args));
+      case RouteName.THERAPIST_PROFILE_PAGE_READ_ONLY:
+        return MaterialPageRoute(builder: (_) => TherapistProfilePage(args, false));
       case RouteName.APPOINTMENT_DATE_SELECTION_PAGE:
         AppointmentDateSelectionArguments arguments =
             args as AppointmentDateSelectionArguments;

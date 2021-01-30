@@ -184,7 +184,7 @@ class _MainContentState extends State<MainContent> {
               ? _TappableSection(
                   onTap: () {
                     Navigator.of(context).pushNamed(
-                        RouteName.THERAPIST_PROFILE_PAGE,
+                        RouteName.THERAPIST_PROFILE_PAGE_READ_ONLY,
                         arguments: widget.appointment.therapist);
                   },
                   firstWidget: TherapistDetailsSection(

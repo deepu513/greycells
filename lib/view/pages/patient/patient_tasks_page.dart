@@ -290,10 +290,8 @@ class TaskSectionHeader extends StatelessWidget {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 24.0, vertical: 12.0),
       decoration: BoxDecoration(
-          color: Colors.teal.shade50,
-          border: Border(
-              bottom: BorderSide(color: Colors.teal.shade100),
-              top: BorderSide(color: Colors.teal.shade100))),
+          color: Colors.white,
+          border: Border(top: BorderSide(color: Colors.teal.shade100))),
       alignment: Alignment.centerLeft,
       child: IntrinsicHeight(
         child: Row(

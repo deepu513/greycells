@@ -289,13 +289,11 @@ class TaskSectionHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Ink(
+    return Container(
       padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
       decoration: BoxDecoration(
-          color: Colors.teal.shade50,
-          border: Border(
-              bottom: BorderSide(color: Colors.teal.shade100),
-              top: BorderSide(color: Colors.teal.shade100))),
+          color: Colors.white,
+          border: Border(top: BorderSide(color: Colors.teal.shade100))),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
@@ -343,7 +341,9 @@ class TaskSectionHeader extends StatelessWidget {
             ),
           ),
           IconButton(
-            icon: Icon(Icons.edit,),
+            icon: Icon(
+              Icons.edit,
+            ),
             onPressed: onEditTaskRequested,
           )
         ],

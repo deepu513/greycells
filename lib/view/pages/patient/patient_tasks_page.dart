@@ -254,6 +254,7 @@ class _TaskList extends StatelessWidget {
     return SliverStickyHeader(
       header: TaskSectionHeader(
         taskTitle: task.title,
+        noOfItems: task.taskItems.length,
         therapistName: task.therapist.fullName,
       ),
       sliver: SliverList(
@@ -277,46 +278,61 @@ class TaskSectionHeader extends StatelessWidget {
     Key key,
     @required this.taskTitle,
     @required this.therapistName,
+    @required this.noOfItems,
   }) : super(key: key);
 
   final String taskTitle;
   final String therapistName;
+  final int noOfItems;
 
   @override
   Widget build(BuildContext context) {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 24.0, vertical: 12.0),
       decoration: BoxDecoration(
-          color: Colors.blueGrey.shade50,
+          color: Colors.teal.shade50,
           border: Border(
-              bottom: BorderSide(color: Colors.blueGrey.shade100),
-              top: BorderSide(color: Colors.blueGrey.shade100))),
+              bottom: BorderSide(color: Colors.teal.shade100),
+              top: BorderSide(color: Colors.teal.shade100))),
       alignment: Alignment.centerLeft,
       child: IntrinsicHeight(
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.baseline,
           children: [
             Expanded(
-              child: Text(
-                taskTitle,
-                style: Theme.of(context).textTheme.headline6.copyWith(
-                    color: Colors.blueGrey, fontWeight: FontWeight.bold),
+              child: RichText(
+                text: TextSpan(
+                  text: taskTitle,
+                  style: Theme.of(context).textTheme.subtitle1.copyWith(
+                      color: Colors.teal, fontWeight: FontWeight.bold),
+                  children: [
+                    TextSpan(
+                      text: " ($noOfItems ${noOfItems > 1 ? 'items' : 'item'})",
+                      style: Theme.of(context)
+                          .textTheme
+                          .caption
+                          .copyWith(color: Colors.teal),
+                    ),
+                  ],
+                ),
               ),
             ),
             VerticalDivider(
               width: 24.0,
-              color: Colors.blueGrey,
+              color: Colors.teal,
             ),
             RichText(
               text: TextSpan(
                 text: "assigned by ",
-                style: Theme.of(context).textTheme.bodyText1.copyWith(
-                    color: Colors.blueGrey, fontStyle: FontStyle.italic),
+                style: Theme.of(context)
+                    .textTheme
+                    .bodyText1
+                    .copyWith(color: Colors.teal, fontStyle: FontStyle.italic),
                 children: [
                   TextSpan(
                     text: therapistName,
                     style: Theme.of(context).textTheme.subtitle1.copyWith(
-                        color: Colors.blueGrey,
+                        color: Colors.teal,
                         fontStyle: FontStyle.normal,
                         fontWeight: FontWeight.bold),
                   ),
@@ -345,6 +361,7 @@ class __TaskItemWidgetState extends State<_TaskItemWidget> {
     return Card(
       elevation: 3.0,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.0)),
+      color: Colors.teal,
       child: InkWell(
         onTap: () async {
           var didUpdate = await Navigator.of(context).pushNamed(
@@ -359,78 +376,90 @@ class __TaskItemWidgetState extends State<_TaskItemWidget> {
           }
         },
         borderRadius: BorderRadius.circular(8.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Visibility(
-              visible: widget.taskItem.file != null &&
-                  !widget.taskItem.file.name.isNullOrEmpty(),
-              child: Container(
-                height: 194.0,
-                width: double.maxFinite,
-                child: widget.taskItem.file != null &&
-                        widget.taskItem.file.name.isNullOrEmpty()
-                    ? null
-                    : ClipRRect(
-                        borderRadius: BorderRadius.circular(8.0),
-                        child: NetworkImageWithError(
-                          imageUrl: widget.taskItem.file == null
-                              ? ""
-                              : widget.taskItem.file.name.withBaseUrlForImage(),
-                          boxFit: BoxFit.cover,
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Visibility(
+                visible: widget.taskItem.file != null &&
+                    !widget.taskItem.file.name.isNullOrEmpty(),
+                child: Container(
+                  height: 194.0,
+                  width: double.maxFinite,
+                  child: widget.taskItem.file != null &&
+                          widget.taskItem.file.name.isNullOrEmpty()
+                      ? null
+                      : ClipRRect(
+                          borderRadius: BorderRadius.circular(8.0),
+                          child: NetworkImageWithError(
+                            imageUrl: widget.taskItem.file == null
+                                ? ""
+                                : widget.taskItem.file.name
+                                    .withBaseUrlForImage(),
+                            boxFit: BoxFit.cover,
+                          ),
                         ),
-                      ),
+                ),
               ),
-            ),
-            Padding(
-              padding: const EdgeInsets.fromLTRB(16.0, 16.0, 16.0, 0.0),
-              child: Row(
+              Row(
                 crossAxisAlignment: CrossAxisAlignment.baseline,
                 children: [
                   Text(
                     widget.taskItem.title,
-                    style: Theme.of(context).textTheme.headline6,
+                    style: Theme.of(context)
+                        .textTheme
+                        .headline6
+                        .copyWith(color: Colors.white),
                   ),
                   Spacer(),
                   TaskStatusWidget(TaskStatus.values[widget.taskItem.status])
                 ],
               ),
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16.0),
-              child: Text.rich(TextSpan(
-                  text: "Expected by ",
+              Divider(
+                color: Colors.white,
+              ),
+              Text.rich(
+                TextSpan(
+                  text: "Expected by: ",
                   style: Theme.of(context)
                       .textTheme
                       .bodyText1
-                      .copyWith(color: Colors.black54),
+                      .copyWith(color: Colors.white),
                   children: [
                     TextSpan(
                       text: _yetAnotherDateConversion(
                           widget.taskItem.expectedCompletionDateTIme),
-                      style: Theme.of(context).textTheme.subtitle2,
+                      style: Theme.of(context).textTheme.subtitle2.copyWith(
+                          color: Colors.white, fontWeight: FontWeight.bold),
                     )
-                  ])),
-            ),
-            SizedBox(
-              height: 16.0,
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16.0),
-              child: Text(
-                widget.taskItem.description,
-                maxLines: 5,
-                overflow: TextOverflow.ellipsis,
-                style: Theme.of(context)
-                    .textTheme
-                    .bodyText1
-                    .copyWith(height: 1.4, wordSpacing: 0.7),
+                  ],
+                ),
               ),
-            ),
-            SizedBox(
-              height: 8.0,
-            ),
-          ],
+              Divider(
+                color: Colors.white,
+              ),
+              Text.rich(
+                TextSpan(
+                  text: "Description: ",
+                  style: Theme.of(context)
+                      .textTheme
+                      .bodyText1
+                      .copyWith(color: Colors.white),
+                  children: [
+                    TextSpan(
+                      text: widget.taskItem.description,
+                      style: Theme.of(context).textTheme.bodyText1.copyWith(
+                          height: 1.4,
+                          wordSpacing: 0.7,
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold),
+                    )
+                  ],
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );

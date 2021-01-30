@@ -34,7 +34,9 @@ class _TherapistMainPageState extends State<TherapistMainPage>
       ),
       bottomNavigationBar: BottomNavigationBar(
         type: BottomNavigationBarType.fixed,
-        backgroundColor: Colors.white,
+        backgroundColor: Color(0xFF455a64),
+        selectedItemColor: Colors.white,
+        unselectedItemColor: Colors.white54,
         showUnselectedLabels: true,
         currentIndex: _currentIndex,
         onTap: (index) {

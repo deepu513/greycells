@@ -27,19 +27,20 @@ class TaskStatusWidget extends StatelessWidget {
   }
 
   Color getBackgroundColorForStatus(TaskStatus status) {
-    if (status == TaskStatus.pending) {
-      return Colors.blue.shade50;
-    }
+    return Colors.white;
+    // if (status == TaskStatus.pending) {
+    //   return Colors.blue.shade50;
+    // }
 
-    if (status == TaskStatus.complete) {
-      return Colors.green.shade50;
-    }
+    // if (status == TaskStatus.complete) {
+    //   return Colors.green.shade50;
+    // }
 
-    if (status == TaskStatus.overdue) {
-      return Colors.pink.shade50;
-    }
+    // if (status == TaskStatus.overdue) {
+    //   return Colors.pink.shade50;
+    // }
 
-    return Colors.blue.shade50;
+    // return Colors.blue.shade50;
   }
 
   Color getTextColorForStatus(TaskStatus status) {

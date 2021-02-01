@@ -293,7 +293,7 @@ class TaskSectionHeader extends StatelessWidget {
       padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
       decoration: BoxDecoration(
           color: Colors.white,
-          border: Border(top: BorderSide(color: Colors.teal.shade100))),
+          border: Border(top: BorderSide(color: Colors.black26))),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
@@ -305,7 +305,7 @@ class TaskSectionHeader extends StatelessWidget {
                   text: TextSpan(
                     text: taskTitle,
                     style: Theme.of(context).textTheme.subtitle1.copyWith(
-                        color: Colors.teal, fontWeight: FontWeight.bold),
+                        color: Colors.black87, fontWeight: FontWeight.bold),
                     children: [
                       TextSpan(
                         text:
@@ -313,7 +313,7 @@ class TaskSectionHeader extends StatelessWidget {
                         style: Theme.of(context)
                             .textTheme
                             .caption
-                            .copyWith(color: Colors.teal),
+                            .copyWith(color: Colors.black54),
                       ),
                     ],
                   ),
@@ -325,12 +325,12 @@ class TaskSectionHeader extends StatelessWidget {
                   text: TextSpan(
                     text: "assigned to ",
                     style: Theme.of(context).textTheme.bodyText1.copyWith(
-                        color: Colors.teal, fontStyle: FontStyle.italic),
+                        color: Colors.black54, fontStyle: FontStyle.italic),
                     children: [
                       TextSpan(
                         text: patientName,
                         style: Theme.of(context).textTheme.subtitle2.copyWith(
-                            color: Colors.teal,
+                            color: Colors.black87,
                             fontStyle: FontStyle.normal,
                             fontWeight: FontWeight.bold),
                       ),
@@ -364,26 +364,24 @@ class _TaskItemWidget extends StatefulWidget {
 class __TaskItemWidgetState extends State<_TaskItemWidget> {
   @override
   Widget build(BuildContext context) {
-    return Card(
-      elevation: 3.0,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.0)),
-      color: Colors.teal,
-      child: InkWell(
-        onTap: () async {
-          var didUpdate = await Navigator.of(context).pushNamed(
-            RouteName.TASK_ITEM_PAGE,
-            arguments: TaskItemPageArgs(widget.taskItem, UserType.therapist),
-          );
-
-          if (didUpdate == true) {
-            setState(() {
-              widget.taskItem.status = 1;
-            });
-          }
-        },
-        borderRadius: BorderRadius.circular(8.0),
-        child: Padding(
+    return Stack(children: [
+      Card(
+        elevation: 3.0,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.0)),
+        child: Container(
           padding: const EdgeInsets.all(16.0),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(8.0),
+            gradient: LinearGradient(colors: [
+              Colors.deepPurple,
+              Colors.deepPurple.shade400,
+              Colors.deepPurple.shade300,
+            ], stops: [
+              0.1,
+              0.7,
+              1
+            ]),
+          ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -465,7 +463,32 @@ class __TaskItemWidgetState extends State<_TaskItemWidget> {
           ),
         ),
       ),
-    );
+      Positioned.fill(
+        child: Padding(
+          padding: const EdgeInsets.all(4.0),
+          child: Material(
+            color: Colors.transparent,
+            child: InkWell(
+              onTap: () async {
+                var didUpdate = await Navigator.of(context).pushNamed(
+                  RouteName.TASK_ITEM_PAGE,
+                  arguments:
+                      TaskItemPageArgs(widget.taskItem, UserType.therapist),
+                );
+
+                if (didUpdate == true) {
+                  setState(() {
+                    widget.taskItem.status = 1;
+                  });
+                }
+              },
+              borderRadius: BorderRadius.circular(8.0),
+              splashColor: Colors.white24,
+            ),
+          ),
+        ),
+      )
+    ]);
   }
 
   String _yetAnotherDateConversion(String date) {

@@ -51,8 +51,8 @@ class AppointmentRepository {
     return await _httpService.post(request, _timeslotResponseSerializable);
   }
 
-  Future<bool> updateAppointment(
-      int appointmentId, AppointmentStatus status, int notifierId, bool isRefund) async {
+  Future<bool> updateAppointment(int appointmentId, AppointmentStatus status,
+      int notifierId, bool isRefund) async {
     Request<CreateAppointmentRequest> request = Request(
         "${FlavorConfig.getBaseUrl()}Appointments/update?id=$appointmentId&status=${status.index}&notifierUserId=$notifierId&isRefund=$isRefund",
         null)
@@ -85,9 +85,9 @@ class AppointmentRepository {
   }
 
   Future<bool> editTask(Task task) async {
-    Request<Task> request =
-        Request("${FlavorConfig.getBaseUrl()}Tasks/${task.id}", TaskSerializable())
-          ..setBody(task);
+    Request<Task> request = Request(
+        "${FlavorConfig.getBaseUrl()}Tasks/${task.id}", TaskSerializable())
+      ..setBody(task);
 
     Response createTaskResponse = await _httpService.putRaw(request, null);
     return createTaskResponse.statusCode == 200;
@@ -101,9 +101,14 @@ class AppointmentRepository {
   }
 
   Future<bool> updateTask(int taskId, int taskStatus, int fileId) async {
-    Request<AllAppointmentsResponse> request = Request(
-        "${FlavorConfig.getBaseUrl()}Tasks/update?id=$taskId&status=$taskStatus&fileid=$fileId",
-        null);
+    var url =
+        "${FlavorConfig.getBaseUrl()}Tasks/update?id=$taskId&status=$taskStatus";
+
+    if (fileId != null && fileId >= 0) {
+      url += "&fileid=$fileId";
+    }
+
+    Request<AllAppointmentsResponse> request = Request(url, null);
 
     Response response = await _httpService.postRaw(request, null);
     return response.statusCode == 200;

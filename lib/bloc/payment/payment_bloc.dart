@@ -66,7 +66,7 @@ class PaymentBloc extends Bloc<PaymentEvent, PaymentState> {
             await _paymentRepository.createOrder(orderCreate);
         if (response != null && response.result == true) {
           var options = {
-            'key': 'rzp_test_KkImIAxTZ6MuDH',
+            'key': 'rzp_test_iFRhZ1Cod0LUQK',
             'amount': int.parse(response.razorPayAmount),
             'name': 'Greycells Wellness',
             'order_id': response.orderId,
@@ -175,6 +175,8 @@ class PaymentBloc extends Bloc<PaymentEvent, PaymentState> {
 
   void _handlePaymentError(PaymentFailureResponse response) {
     // Do something when payment fails
+    print(response.code);
+    print(response.message);
     add(FailPayment());
   }
 

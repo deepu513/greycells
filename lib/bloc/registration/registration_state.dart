@@ -19,3 +19,5 @@ class RegistrationUnsuccessful extends RegistrationState {
 class PasswordVisibilityToggled extends RegistrationState {}
 
 class ConfirmPasswordVisibilityToggled extends RegistrationState {}
+
+class TncToggled extends RegistrationState {}

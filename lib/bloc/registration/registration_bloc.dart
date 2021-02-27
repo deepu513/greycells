@@ -20,6 +20,7 @@ class RegistrationBloc extends Bloc<RegistrationEvent, RegistrationState> {
 
   bool shouldObscurePassword = true;
   bool shouldObscureConfirmPassword = true;
+  bool tncAgreed = false;
 
   final ValidationBloc validationBloc;
   StreamSubscription _validationSubscription;
@@ -74,6 +75,11 @@ class RegistrationBloc extends Bloc<RegistrationEvent, RegistrationState> {
     if (event is ToggleConfirmPasswordVisibility) {
       shouldObscureConfirmPassword = !shouldObscureConfirmPassword;
       yield ConfirmPasswordVisibilityToggled();
+    }
+
+    if (event is ToggleTnc) {
+      tncAgreed = !tncAgreed;
+      yield TncToggled();
     }
   }
 

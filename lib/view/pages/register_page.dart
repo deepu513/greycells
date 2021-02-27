@@ -1,3 +1,4 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:greycells/app_theme.dart';
@@ -8,6 +9,7 @@ import 'package:greycells/constants/strings.dart';
 import 'package:greycells/extensions.dart';
 import 'package:greycells/route/route_name.dart';
 import 'package:greycells/view/widgets/title_with_loading.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class RegisterPage extends StatelessWidget {
   @override
@@ -70,7 +72,7 @@ class RegisterInputSection extends StatelessWidget {
                   loadingBackgroundColor: Colors.white,
                 ),
                 SizedBox(
-                  height: 42.0,
+                  height: 36.0,
                 ),
                 TextField(
                     controller: TextEditingController(
@@ -305,11 +307,52 @@ class RegisterInputSection extends StatelessWidget {
                 SizedBox(
                   height: 24.0,
                 ),
+                Row(
+                  children: [
+                    Checkbox(
+                      value:
+                          BlocProvider.of<RegistrationBloc>(context).tncAgreed,
+                      onChanged: (checked) {
+                        BlocProvider.of<RegistrationBloc>(context)
+                            .add(new ToggleTnc());
+                      },
+                    ),
+                    GestureDetector(
+                      onTap: () {
+                        launch('https://greycellswellness.com/privacy');
+                      },
+                      child: RichText(
+                        text: TextSpan(
+                          children: [
+                            TextSpan(
+                              text: 'I agree to ',
+                              style: TextStyle(color: Colors.black),
+                            ),
+                            TextSpan(
+                              text: 'Terms & Conditions',
+                              style: TextStyle(color: Colors.blue),
+                            ),
+                            TextSpan(
+                              text: '.',
+                              style: TextStyle(color: Colors.black),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                SizedBox(
+                  height: 24.0,
+                ),
                 ButtonTheme(
                   minWidth: double.infinity,
                   height: 48.0,
                   child: RaisedButton(
-                    onPressed: registrationState is RegistrationInProgress
+                    onPressed: registrationState is RegistrationInProgress ||
+                            BlocProvider.of<RegistrationBloc>(context)
+                                    .tncAgreed ==
+                                false
                         ? null
                         : () => {_requestCreateNewUser(context)},
                     color: AppTheme.secondaryColor,

@@ -9,4 +9,7 @@ class RegistrationCreateUser extends RegistrationEvent {
 }
 
 class TogglePasswordVisibility extends RegistrationEvent {}
+
 class ToggleConfirmPasswordVisibility extends RegistrationEvent {}
+
+class ToggleTnc extends RegistrationEvent {}

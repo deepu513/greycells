@@ -66,7 +66,7 @@ class PaymentBloc extends Bloc<PaymentEvent, PaymentState> {
             await _paymentRepository.createOrder(orderCreate);
         if (response != null && response.result == true) {
           var options = {
-            'key': 'rzp_test_iFRhZ1Cod0LUQK',
+            'key': event.key,
             'amount': int.parse(response.razorPayAmount),
             'name': 'Greycells Wellness',
             'order_id': response.orderId,

@@ -5,6 +5,7 @@ import 'package:greycells/bloc/payment/discount_bloc.dart';
 import 'package:greycells/bloc/payment/payment_bloc.dart';
 import 'package:greycells/constants/strings.dart';
 import 'package:greycells/extensions.dart';
+import 'package:greycells/models/home/patient_home.dart';
 import 'package:greycells/models/payment/payment.dart';
 import 'package:greycells/models/payment/payment_item.dart';
 import 'package:greycells/models/payment/payment_success_args.dart';
@@ -12,9 +13,11 @@ import 'package:greycells/models/payment/payment_type.dart';
 import 'package:greycells/models/payment/discount_response.dart';
 import 'package:greycells/route/route_name.dart';
 import 'package:greycells/view/widgets/circle_avatar_or_initials.dart';
+import 'package:provider/provider.dart';
 
 class PaymentPage extends StatefulWidget {
   final Payment mPayment;
+
   PaymentPage(this.mPayment);
 
   @override
@@ -104,8 +107,12 @@ class _PaymentPageState extends State<PaymentPage> {
                 FlatButton(
                   onPressed: state is! PaymentProcessing
                       ? () {
-                          BlocProvider.of<PaymentBloc>(context)
-                              .add(ProcessPayment(mPayment));
+                          BlocProvider.of<PaymentBloc>(context).add(
+                              ProcessPayment(
+                                  mPayment,
+                                  Provider.of<PatientHome>(context,
+                                          listen: false)
+                                      .pgKey));
                         }
                       : null,
                   color: Theme.of(context).primaryColor,
@@ -336,6 +343,7 @@ class PromoCodeInputSection extends StatefulWidget {
 
 class _PromoCodeInputSectionState extends State<PromoCodeInputSection> {
   String promoCode;
+
   @override
   void initState() {
     super.initState();

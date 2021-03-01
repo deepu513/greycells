@@ -29,6 +29,9 @@ class PatientHome {
   @JsonKey(name: "serverTimeStamp")
   String serverTimestamp;
 
+  @JsonKey(name: "razorPayKey")
+  String pgKey;
+
   PatientHome();
 
   factory PatientHome.fromJson(Map<String, dynamic> json) =>

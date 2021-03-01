@@ -5,8 +5,9 @@ abstract class PaymentEvent {}
 
 class ProcessPayment extends PaymentEvent {
   final Payment payment;
+  final String key;
 
-  ProcessPayment(this.payment);
+  ProcessPayment(this.payment, this.key);
 }
 
 class VerifyPayment extends PaymentEvent {

@@ -57,8 +57,9 @@ class _DeciderPageState extends State<DeciderPage> {
                 ..behaviourScore = homeData.behaviourScore
                 ..serverTimestamp = homeData.serverTimestamp
                 ..availableTherapists = homeData.availableTherapists
-                ..upcomingAppointments = homeData.upcomingAppointments;
-                
+                ..upcomingAppointments = homeData.upcomingAppointments
+                ..pgKey = homeData.pgKey;
+
               // Navigate to decided page
               Navigator.of(context).pushNamedAndRemoveUntil(
                   state.routeName, (route) => false,

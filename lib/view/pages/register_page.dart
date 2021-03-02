@@ -317,10 +317,7 @@ class RegisterInputSection extends StatelessWidget {
                             .add(new ToggleTnc());
                       },
                     ),
-                    GestureDetector(
-                      onTap: () {
-                        launch('https://greycellswellness.com/privacy');
-                      },
+                    Expanded(
                       child: RichText(
                         text: TextSpan(
                           children: [
@@ -329,9 +326,25 @@ class RegisterInputSection extends StatelessWidget {
                               style: TextStyle(color: Colors.black),
                             ),
                             TextSpan(
-                              text: 'Terms & Conditions',
-                              style: TextStyle(color: Colors.blue),
+                                text: 'Terms & Conditions ',
+                                style: TextStyle(color: Colors.blue),
+                                recognizer: TapGestureRecognizer()
+                                  ..onTap = () {
+                                    launch(
+                                        'https://www.greycellswellness.com/?page_id=609');
+                                  }),
+                            TextSpan(
+                              text: 'and I have read ',
+                              style: TextStyle(color: Colors.black),
                             ),
+                            TextSpan(
+                                text: 'Privacy Policy',
+                                style: TextStyle(color: Colors.blue),
+                                recognizer: TapGestureRecognizer()
+                                  ..onTap = () {
+                                    launch(
+                                        'https://www.greycellswellness.com/?page_id=552');
+                                  }),
                             TextSpan(
                               text: '.',
                               style: TextStyle(color: Colors.black),

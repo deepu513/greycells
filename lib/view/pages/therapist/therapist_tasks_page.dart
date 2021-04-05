@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_sticky_header/flutter_sticky_header.dart';
-import 'package:greycells/app_theme.dart';
 import 'package:greycells/bloc/task/task_bloc.dart';
 import 'package:greycells/bloc/task/task_status.dart';
 import 'package:greycells/constants/user_type.dart';
@@ -373,9 +372,9 @@ class __TaskItemWidgetState extends State<_TaskItemWidget> {
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(8.0),
             gradient: LinearGradient(colors: [
-              Colors.deepPurple,
-              Colors.deepPurple.shade400,
-              Colors.deepPurple.shade300,
+              Colors.orange,
+              Colors.orange.shade400,
+              Colors.orange.shade300,
             ], stops: [
               0.1,
               0.7,

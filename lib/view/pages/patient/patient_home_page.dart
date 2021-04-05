@@ -315,7 +315,7 @@ class HeaderCard extends StatelessWidget {
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(8.0),
               gradient: LinearGradient(
-                colors: [Color(0xFFC984A1), Color(0xFF4D2294)],
+                colors: [Color(0xFF84b518), Color(0xFFb4e43d)],
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
               ),
@@ -335,6 +335,7 @@ class HeaderCard extends StatelessWidget {
                     style: Theme.of(context).textTheme.subtitle1.copyWith(
                         color: Colors.white,
                         fontStyle: FontStyle.italic,
+                        fontWeight: FontWeight.bold,
                         fontSize: 18.0),
                     overflow: TextOverflow.clip,
                   ),

@@ -365,9 +365,9 @@ class __TaskItemWidgetState extends State<_TaskItemWidget> {
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(8.0),
             gradient: LinearGradient(colors: [
-              Colors.deepPurple,
-              Colors.deepPurple.shade400,
-              Colors.deepPurple.shade300,
+              Colors.orange,
+              Colors.orange.shade400,
+              Colors.orange.shade300,
             ], stops: [
               0.1,
               0.7,

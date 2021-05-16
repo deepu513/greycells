@@ -62,6 +62,7 @@ class PaymentBloc extends Bloc<PaymentEvent, PaymentState> {
         orderCreate.amount = event.payment.totalAmount;
         orderCreate.userId = _settingsRepository.get(SettingKey.KEY_PATIENT_ID);
         orderCreate.type = event.payment.type;
+        orderCreate.discountId = event.payment.discountId ?? 0;
         OrderCreateResponse response =
             await _paymentRepository.createOrder(orderCreate);
         if (response != null && response.result == true) {
@@ -109,6 +110,7 @@ class PaymentBloc extends Bloc<PaymentEvent, PaymentState> {
             if (createAppointmentRequest != null) {
               createAppointmentRequest.paymentId = paymentId;
               createAppointmentRequest.razorPayPaymentId = event.paymentId;
+              createAppointmentRequest.discountId = _paymentDiscountId ?? 0;
               bool result = await _appointmentRepository
                   .createAppointment(createAppointmentRequest);
               if (result == true) {

@@ -17,6 +17,7 @@ CreateAppointmentRequest _$CreateAppointmentRequestFromJson(
     ..paymentId = json['Paymentid'] as int
     ..meetingTypeId = json['MeetingTypeId'] as int
     ..chargeId = json['ChargeId'] as int
+    ..discountId = json['DiscountId'] as int
     ..appointmentDate = json['Appointmentdate'] as String;
 }
 
@@ -31,5 +32,6 @@ Map<String, dynamic> _$CreateAppointmentRequestToJson(
       'Paymentid': instance.paymentId,
       'MeetingTypeId': instance.meetingTypeId,
       'ChargeId': instance.chargeId,
+      'DiscountId': instance.discountId,
       'Appointmentdate': instance.appointmentDate,
     };

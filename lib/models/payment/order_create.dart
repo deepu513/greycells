@@ -14,6 +14,9 @@ class OrderCreate {
   @JsonKey(name: "UserId")
   int userId;
 
+  @JsonKey(name: "DiscountId")
+  int discountId;
+
   OrderCreate();
 
   factory OrderCreate.fromJson(Map<String, dynamic> json) =>

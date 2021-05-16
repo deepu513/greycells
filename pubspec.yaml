@@ -11,7 +11,7 @@ description: GreyCells app
 # In iOS, build-name is used as CFBundleShortVersionString while build-number used as CFBundleVersion.
 # Read more about iOS versioning at
 # https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
-version: 1.0.0+3
+version: 1.0.1+4
 
 environment:
   sdk: ">=2.10.0 <3.0.0"
@@ -35,10 +35,10 @@ dependencies:
   flutter_downloader: ^1.5.2
   flutter_local_notifications: ^3.0.1+4
   flutter_sticky_header: ^0.5.0
-  flutter_svg: ^0.19.0
+  flutter_svg: ^0.22.0
   http: ^0.12.1
   image_picker: ^0.6.7+6
-  intl: ^0.16.1
+  intl: 0.17.0
   intro_slider: ^2.3.3
   jitsi_meet: ^1.0.0
   json_annotation: ^3.0.1

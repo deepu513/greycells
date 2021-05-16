@@ -10,7 +10,8 @@ OrderCreate _$OrderCreateFromJson(Map<String, dynamic> json) {
   return OrderCreate()
     ..amount = json['Amount'] as int
     ..type = _$enumDecodeNullable(_$PaymentTypeEnumMap, json['Type'])
-    ..userId = json['UserId'] as int;
+    ..userId = json['UserId'] as int
+    ..discountId = json['DiscountId'] as int;
 }
 
 Map<String, dynamic> _$OrderCreateToJson(OrderCreate instance) =>
@@ -18,6 +19,7 @@ Map<String, dynamic> _$OrderCreateToJson(OrderCreate instance) =>
       'Amount': instance.amount,
       'Type': _$PaymentTypeEnumMap[instance.type],
       'UserId': instance.userId,
+      'DiscountId': instance.discountId,
     };
 
 T _$enumDecode<T>(

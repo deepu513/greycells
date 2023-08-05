@@ -59,7 +59,7 @@ class PaymentBloc extends Bloc<PaymentEvent, PaymentState> {
       yield PaymentProcessing();
       try {
         OrderCreate orderCreate = OrderCreate();
-        orderCreate.amount = event.payment.totalAmount;
+        orderCreate.amount = event.payment.totalAmount == 0 ? 1 : event.payment.totalAmount;
         orderCreate.userId = _settingsRepository.get(SettingKey.KEY_PATIENT_ID);
         orderCreate.type = event.payment.type;
         orderCreate.discountId = event.payment.discountId ?? 0;
@@ -79,8 +79,66 @@ class PaymentBloc extends Bloc<PaymentEvent, PaymentState> {
           paymentId = response.paymentId;
           mPaymentForProcessing = event.payment;
           _paymentDiscountId = event.payment.discountId;
-          if (mPaymentForProcessing != null && paymentId != null)
-            _razorPay.open(options);
+          if (mPaymentForProcessing != null && paymentId != null) {
+            if(mPaymentForProcessing.totalAmount > 0) {
+              _razorPay.open(options);
+            } else {
+              String tempRazorPayPaymentId = "payment_discounted";
+              if (mPaymentForProcessing.type == PaymentType.APPOINTMENT) {
+                CreateAppointmentRequest createAppointmentRequest =
+                mPaymentForProcessing.extras[Strings.createAppointmentRequest];
+                if (createAppointmentRequest != null) {
+                  createAppointmentRequest.paymentId = paymentId;
+                  createAppointmentRequest.razorPayPaymentId = tempRazorPayPaymentId;
+                  createAppointmentRequest.discountId = _paymentDiscountId ?? 0;
+                  bool result = await _appointmentRepository
+                      .createAppointment(createAppointmentRequest);
+                  if (result == true) {
+                    // Schedule notifications
+                    final localNotifications =
+                    await LocalNotifications.getInstance();
+                    localNotifications.zonedScheduleNotification(
+                        "Appointment reminder",
+                        "Friendly reminder! Your appointment is scheduled for today.",
+                        createAppointmentRequest.appointmentDateTime
+                            .subtract(Duration(hours: 3)));
+
+                    localNotifications.zonedScheduleNotification(
+                        "Appointment reminder",
+                        "Your appointment will start in approximately 30 minutes.",
+                        createAppointmentRequest.appointmentDateTime
+                            .subtract(Duration(minutes: 35)));
+
+                    yield PaymentSuccess(PaymentSuccessArgs(
+                      paymentType: mPaymentForProcessing.type,
+                      paymentId: createAppointmentRequest.razorPayPaymentId,
+                      appointmentDate: createAppointmentRequest.appointmentDateTime
+                          .readableDate(),
+                      appointmentTime: createAppointmentRequest.appointmentDateTime
+                          .readableTime(),
+                    ));
+                    mPaymentForProcessing = null;
+                    paymentId = null;
+                  } else {
+                    yield PaymentStatusUnknown(paymentId.toString());
+                  }
+                }
+              } else if (mPaymentForProcessing.type == PaymentType.ASSESSMENT) {
+                bool result = await _userRepository.markEligibleForTest(
+                    patientId: _settingsRepository.get(SettingKey.KEY_PATIENT_ID));
+
+                if (result != null && result == true) {
+                  yield PaymentSuccess(PaymentSuccessArgs(
+                    paymentType: mPaymentForProcessing.type,
+                    paymentId: paymentId.toString(),
+                    appointmentDate: "",
+                    appointmentTime: "",
+                  ));
+                } else
+                  yield PaymentStatusUnknown(paymentId.toString());
+              }
+            }
+          }
           else
             yield PaymentFailure();
         } else {

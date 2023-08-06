@@ -427,65 +427,78 @@ class _MeetingChargesSectionState extends State<MeetingChargesSection> {
           SizedBox(
             height: 16.0,
           ),
-          ListView.separated(
-            itemCount: widget.meetingCharges.length,
-            shrinkWrap: true,
-            itemBuilder: (context, index) {
-              return GestureDetector(
-                onTap: () {
-                  setState(() {
-                    _selectedIndex = index;
-                  });
-                  widget.onChargeSelected(widget.meetingCharges[index]);
-                },
-                child: AnimatedContainer(
-                  duration: Duration(milliseconds: 200),
-                  padding:
-                      EdgeInsets.symmetric(horizontal: 24.0, vertical: 16.0),
-                  decoration: BoxDecoration(
-                    color:
-                        _selectedIndex == index ? Colors.green : Colors.white,
-                    borderRadius: BorderRadius.circular(16.0),
+          Container(
+            height: 84,
+            child: ListView.separated(
+              itemCount: widget.meetingCharges.length,
+              shrinkWrap: true,
+              scrollDirection: Axis.horizontal,
+              itemBuilder: (context, index) {
+                return GestureDetector(
+                  onTap: () {
+                    setState(() {
+                      _selectedIndex = index;
+                    });
+                    widget.onChargeSelected(widget.meetingCharges[index]);
+                  },
+                  child: AnimatedContainer(
+                    duration: Duration(milliseconds: 200),
+                    padding:
+                        EdgeInsets.symmetric(horizontal: 24.0, vertical: 16.0),
+                    decoration: BoxDecoration(
+                      color:
+                          _selectedIndex == index ? Colors.green : Colors.white,
+                      border: Border.all(
+                        color: Colors.green,
+                        width: 1,
+                      ),
+                      borderRadius: BorderRadius.circular(16.0),
+                    ),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Row(
+                          children: [
+                            Icon(
+                              _selectedIndex == index
+                                  ? Icons.check_circle
+                                  : Icons.radio_button_unchecked,
+                              color: _selectedIndex == index
+                                  ? Colors.white
+                                  : Colors.black38,
+                            ),
+                            SizedBox(
+                              width: 16.0,
+                            ),
+                            Text(
+                              widget.meetingCharges[index].meetingType,
+                              style: Theme.of(context).textTheme.subtitle1.copyWith(
+                                  color: _selectedIndex == index
+                                      ? Colors.white
+                                      : Colors.black87),
+                            ),
+                          ],
+                        ),
+                        Text(
+                          Strings.rupeeSymbol +
+                              "${widget.meetingCharges[index].amount}",
+                          style: Theme.of(context).textTheme.subtitle1.copyWith(
+                              color: _selectedIndex == index
+                                  ? Colors.white
+                                  : Colors.black87,
+                              fontWeight: FontWeight.bold),
+                        ),
+                      ],
+                    ),
                   ),
-                  child: Row(
-                    children: [
-                      Icon(
-                        _selectedIndex == index
-                            ? Icons.check_circle
-                            : Icons.radio_button_unchecked,
-                        color: _selectedIndex == index
-                            ? Colors.white
-                            : Colors.black38,
-                      ),
-                      SizedBox(
-                        width: 16.0,
-                      ),
-                      Text(
-                        widget.meetingCharges[index].meetingType,
-                        style: Theme.of(context).textTheme.subtitle1.copyWith(
-                            color: _selectedIndex == index
-                                ? Colors.white
-                                : Colors.black87),
-                      ),
-                      Spacer(),
-                      Text(
-                        Strings.rupeeSymbol +
-                            "${widget.meetingCharges[index].amount}",
-                        style: Theme.of(context).textTheme.subtitle1.copyWith(
-                            color: _selectedIndex == index
-                                ? Colors.white
-                                : Colors.black87),
-                      ),
-                    ],
-                  ),
-                ),
-              );
-            },
-            separatorBuilder: (context, index) {
-              return SizedBox(
-                height: 16.0,
-              );
-            },
+                );
+              },
+              separatorBuilder: (context, index) {
+                return SizedBox(
+                  width: 16.0,
+                );
+              },
+            ),
           )
         ],
       ),

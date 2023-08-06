@@ -166,7 +166,7 @@ class PatientDetailsEditBloc
           ..guardian = patient.guardian
           ..healthRecord = patient.healthRecord
           ..id = patient.id
-          ..fileId = patient.profilePicId
+          ..fileId = patient.profilePicId ?? 1
           ..user = patient.user;
 
         Patient updatedPatientResult = await _userRepository

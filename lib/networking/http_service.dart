@@ -49,7 +49,7 @@ class HttpService {
   Future<ResponseType> post<RequestType, ResponseType>(
       Request<RequestType> request,
       Serializable<ResponseType> responseSerializable) {
-    debugPrint(request.toJsonString());
+    debugPrint("Sending request: ${request.toJsonString()}");
     return http
         .post(request.url,
             body: request.toJsonString(),

@@ -18,7 +18,7 @@ class CircleAvatarOrInitials extends StatelessWidget {
           ? null
           : CachedNetworkImageProvider(imageUrl),
       backgroundColor: Color(0xFF455a64),
-      child: imageUrl.isNullOrEmpty()
+      child: imageUrl.isNullOrEmpty() || imageUrl.contains("fruits")
           ? Text(
               stringForInitials.initials(),
               style: Theme.of(context).textTheme.headline6.copyWith(
